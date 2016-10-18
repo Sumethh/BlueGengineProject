@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ExtraDependencies">
+      <UniqueIdentifier>{93c8c868-365a-4784-b774-533466033ea4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExtraDependencies\Imgui">
+      <UniqueIdentifier>{51accd62-092e-401f-8ef5-f04f59d886b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlueGengine">
+      <UniqueIdentifier>{2426fa14-fdf7-4495-8192-92bc69782062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BlueGengine\Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="BlueGengine\Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="BlueGengine\Components">
+      <UniqueIdentifier>{ef321f77-dbe8-4cdd-978b-b663b9202ce9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BlueGengine\main.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Shader.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Log.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Imgui\imgui_demo.cpp">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Imgui\imgui_draw.cpp">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Imgui\imgui.cpp">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Input.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\VertexBuffer.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\ModelLoader.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\ElementBuffer.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Texture.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Material.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Light.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\GraphicsDevice.cpp">
+      <Filter>BlueGengine</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\impl\ShaderImpl.cpp">
+      <Filter>BlueGengine</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Temp\VulkanApp.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\GlTemp\OpenGlApp.cpp">
+      <Filter>BlueGengine</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\impl\TextureImpl.cpp">
+      <Filter>BlueGengine</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\ApplicationWindow.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Imgui\imgui_impl_glfw_gl3.cpp">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Imgui\imgui_impl_glfw_vulkan.cpp">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\VertexArray.cpp">
+      <Filter>BlueGengine</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\impl\VertexArrayImpl.cpp">
+      <Filter>BlueGengine</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\World.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Application.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Game.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Mesh.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\impl\VertexBufferImpl.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\impl\ElementBufferImpl.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\ForwardRenderer.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\MeshManager.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\MaterialManager.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Actor.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Components\ActorComponent.cpp">
+      <Filter>BlueGengine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Components\MeshComponent.cpp">
+      <Filter>BlueGengine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Components\TransformComponent.cpp">
+      <Filter>BlueGengine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Components\MaterialComponent.cpp">
+      <Filter>BlueGengine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Components\ComponentFactory.cpp">
+      <Filter>BlueGengine\Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BlueGengine\Shader.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Types.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Defines.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Log.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Imgui\stb_truetype.h">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Imgui\stb_textedit.h">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Imgui\stb_rect_pack.h">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Imgui\imgui_internal.h">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Imgui\imgui.h">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Imgui\imconfig.h">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\NonCopyable.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Input.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\timer.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\VertexBuffer.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Mesh.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\ModelLoader.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\ElementBuffer.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Vertex.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Texture.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Material.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Light.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\GlmTransformationInclude.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\GraphicsDevice.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Rect.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\GraphicsDeviceFactory.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\impl\ShaderImpl.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Temp\VulkanApp.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\GlTemp\OpenGlApp.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\impl\TextureImpl.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\ImageFormat.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\impl\VertexBufferImpl.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\DataDescriptor.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\ApplicationWindow.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Imgui\imgui_impl_glfw_gl3.h">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Imgui\imgui_impl_glfw_vulkan.h">
+      <Filter>ExtraDependencies\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\VertexArray.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\impl\VertexArrayImpl.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\World.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Application.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Game.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\impl\ElementBufferImpl.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\RendererInterface.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\ForwardRenderer.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\MeshManager.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\MaterialManager.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Actor.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Components\ActorComponent.h">
+      <Filter>BlueGengine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Components\ComponentTypes.h">
+      <Filter>BlueGengine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Components\MeshComponent.h">
+      <Filter>BlueGengine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Components\TransformComponent.h">
+      <Filter>BlueGengine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Components\MaterialComponent.h">
+      <Filter>BlueGengine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Components\ComponentFactory.h">
+      <Filter>BlueGengine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Helpers\MathHelpers.h">
+      <Filter>BlueGengine</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,81 @@
+Learning Vulkan:
+    ☐ Do more Research on new "Low level interfaces" and their benefits
+
+
+
+Implementation:
+    ✘ Switch Window to use Pimpl @cancelled (05/10/2016, 18:01:24) // Window already works with opengl/vulkan/d3d11/d3d12 Love GLFW!
+    ✔ Switch Textures to use Pimpl @done (05/10/2016, 18:01:47)
+    ✔ Switch buffer objects to use Pimpl @done (15/10/2016, 14:41:47)
+        ✔ Element buffer @done (15/10/2016, 14:41:48)
+        ✔ Vertex buffer @done (15/10/2016, 14:12:11)
+        ✔ Vertex Array @done (15/10/2016, 13:30:23)
+    ☐ Create Basic OpenGL graphics Device
+
+  
+    ✔ Create a proper implementation for Mesh @done (15/10/2016, 13:28:05)
+        ✔ Able to change mesh data @done (15/10/2016, 13:28:04)
+        ✔ Mesh will know when to reupload data @done (15/10/2016, 13:28:07)
+
+    ☐ Think about how to layout renderers
+
+
+    ☐ Create mesh manager to handle mesh updates
+        ☐ All mesh's will be registered with the manager
+        ☐ Mesh manager will Poll meshes to see if they need to reupload their data
+            ☐ Will happen in the PreRender phase
+        ☐ Where to call MeshManager.Update()?
+    
+    ☐ Add Diagnostics Class
+        ☐ Think of stats that would like diagnostics to keep track of
+
+Basic Graphic Features:
+    ☐Forward Renderer    
+        ☐ Multiple Lights 
+            ☐ Point Lights
+            ☐ Directional Lights
+            ☐ Spot Light
+
+    ☐ Defered Rendering
+        ☐ Do research
+
+    ☐ Implement PBR
+    
+    ☐ Clustered Forward Rendering 
+        ☐ Do research!
+        ☐ Gonna take a while!
+
+
+Basic Architecture:
+    ☐ Write Actor System
+        ☐ Create Base Actor
+            ✔ Create Base Functions @done (12/10/2016, 12:49:43)
+            ✔ Think if you want functions to be virtual to allow different types of Actors @done (15/10/2016, 15:07:11)
+        ☐ Parents
+            ☐ Matrix transforms
+        ☐ Component System
+            ☐ Base Functions
+        ☐ Create Base Engine ActorComponents
+            ☐ Base Component Class
+            ☐ Mesh
+            ☐ Camera
+            ☐ Transform
+        ☐ Create Controller
+            ☐ PlayerControler
+            ☐ (Future) AiController
+        ☐ Create Pawn
+            ☐ Possesed by a controller
+            ☐ Create Character
+                ☐ Possesed by player controller
+    
+    ☐ World
+        ☐ Loading/Saving
+
+
+
+Physics:
+    ☐ Implement Bullet
+
+    ☐ Research how to use Bullet
+
+
