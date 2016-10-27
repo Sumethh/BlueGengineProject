@@ -21,9 +21,11 @@ namespace BlueGengine
 		{
 			Rebuild();
 		}
+
 		Bind();
 		glBufferData(GL_ARRAY_BUFFER, a_dataSize, a_data, GL_DYNAMIC_DRAW);
-		for (int i = 0; i < a_descriptorCount; i++)
+
+		for (uint32 i = 0; i < a_descriptorCount; i++)
 		{
 			DataDescriptor* desc = &a_descriptors[i];
 
@@ -39,6 +41,7 @@ namespace BlueGengine
 			}
 
 		}
+
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	}

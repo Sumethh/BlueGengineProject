@@ -21,15 +21,4 @@ namespace BlueGengine
 		{ 4, 3, sizeof(Vertex), offsetof(Vertex, biTangent), false, false, 0 }
 	};
 	static uint32 s_vertexDescriptorCount = 5;
-
-
-	class Transform
-	{
-		public:
-		glm::vec3 pos;
-		glm::vec3 scale;
-		glm::vec3 rotation;
-		Transform* parent;
-	};
-
 }

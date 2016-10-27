@@ -12,7 +12,7 @@ namespace BlueGengine
 {
 	void LoadMesh(const aiScene& a_scene, Mesh* a_mesh, uint32 a_meshIndex)
 	{
-
+		std::cout << sizeof(Vertex) << std::endl;
 		aiMesh* currentMesh = a_scene.mMeshes[a_meshIndex];
 
 
@@ -21,6 +21,7 @@ namespace BlueGengine
 			//Log.LogError("Got passed a null mesh");
 			return;
 		}
+
 		uint32 vertCount = currentMesh->mNumVertices;
 
 		glm::vec3* verts = new glm::vec3[vertCount];
@@ -37,12 +38,14 @@ namespace BlueGengine
 		if (currentMesh->HasNormals())
 		{
 			normals = new glm::vec3[vertCount];
+
 			for (size_t i = 0; i < currentMesh->mNumVertices; i++)
 			{
 				aiVector3D normal = currentMesh->mNormals[i];
 				normals[i] = glm::vec3(normal.x, normal.y, normal.z);
 			}
 		}
+
 		glm::vec2* uvs = nullptr;
 
 		if (currentMesh->HasTextureCoords(0))
@@ -58,11 +61,13 @@ namespace BlueGengine
 
 		uint32* indices = nullptr;
 		uint32 indiceCount = 0;
+
 		if (currentMesh->HasFaces())
 		{
 			indiceCount = currentMesh->mNumFaces * 3;
 			indices = new uint32[indiceCount];
 			int indc = 0;
+
 			for (size_t i = 0; i < currentMesh->mNumFaces; i++)
 			{
 				for (size_t x = 0; x < currentMesh->mFaces[i].mNumIndices; x++)
@@ -71,7 +76,6 @@ namespace BlueGengine
 					indc++;
 				}
 			}
-			int t = 0;
 		}
 
 		glm::vec3* tangent = nullptr;
@@ -116,6 +120,7 @@ namespace BlueGengine
 			meshVertex[i] = newVert;
 
 		}
+
 		//TODO: clean up the model loader so that there are no unescesary allocs
 		//a_mesh->Init(meshVertex, vertCount, indices, indiceCount);
 		a_mesh->SetIndices(indices, indiceCount);

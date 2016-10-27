@@ -5,6 +5,8 @@
 #include "MeshComponent.h"
 #include "TransformComponent.h"
 #include "MaterialComponent.h"
+#include "CameraComponent.h"
+#include "FirstPersonComponent.h"
 namespace BlueGengine
 {
 	class Actor;
@@ -22,7 +24,9 @@ namespace BlueGengine
 		{
 			{EComponentType::EMeshComponent, std::bind(GenericComponentCreation<MeshComponent>, std::placeholders::_1)},
 			{ EComponentType::ETransformComponent, std::bind(GenericComponentCreation<TransformComponent>, std::placeholders::_1) },
-
+			{ EComponentType::EMaterialComponent, std::bind(GenericComponentCreation<MaterialComponent>, std::placeholders::_1) },
+			{EComponentType::ECameraComponent, std::bind(GenericComponentCreation<CameraComponent>, std::placeholders::_1)},
+			{EComponentType::EFirstPersonComponent, std::bind(GenericComponentCreation<FirstPersonComponent>, std::placeholders::_1)}
 		};
 
 		BlueGengine::ActorComponent* CreateComponent(EComponentType a_type, Actor* a_actor)

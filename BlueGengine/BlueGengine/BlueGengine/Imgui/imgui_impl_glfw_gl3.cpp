@@ -12,6 +12,7 @@
 // GL3W/GLFW
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 #ifdef _WIN32
 	#undef APIENTRY
 	#define GLFW_EXPOSE_NATIVE_WIN32
@@ -156,14 +157,14 @@ void ImGui_ImplGlfwGL3_RenderDrawLists(ImDrawData* draw_data)
 	glScissor(last_scissor_box[0], last_scissor_box[1], (GLsizei)last_scissor_box[2], (GLsizei)last_scissor_box[3]);
 }
 
-static const char* ImGui_ImplGlfwGL3_GetClipboardText()
+static const char* ImGui_ImplGlfwGL3_GetClipboardText(void* user_data)
 {
-	return glfwGetClipboardString(g_Window);
+	return glfwGetClipboardString((GLFWwindow*)user_data);
 }
 
-static void ImGui_ImplGlfwGL3_SetClipboardText(const char* text)
+static void ImGui_ImplGlfwGL3_SetClipboardText(void* user_data, const char* text)
 {
-	glfwSetClipboardString(g_Window, text);
+	glfwSetClipboardString((GLFWwindow*)user_data, text);
 }
 
 void ImGui_ImplGlfwGL3_MouseButtonCallback(GLFWwindow*, int button, int action, int /*mods*/)
@@ -323,15 +324,20 @@ void    ImGui_ImplGlfwGL3_InvalidateDeviceObjects()
 
 	g_VaoHandle = g_VboHandle = g_ElementsHandle = 0;
 
-	glDetachShader(g_ShaderHandle, g_VertHandle);
-	glDeleteShader(g_VertHandle);
+	if (g_ShaderHandle && g_VertHandle) { glDetachShader(g_ShaderHandle, g_VertHandle); }
+
+	if (g_VertHandle) { glDeleteShader(g_VertHandle); }
+
 	g_VertHandle = 0;
 
-	glDetachShader(g_ShaderHandle, g_FragHandle);
-	glDeleteShader(g_FragHandle);
+	if (g_ShaderHandle && g_FragHandle) { glDetachShader(g_ShaderHandle, g_FragHandle); }
+
+	if (g_FragHandle) { glDeleteShader(g_FragHandle); }
+
 	g_FragHandle = 0;
 
-	glDeleteProgram(g_ShaderHandle);
+	if (g_ShaderHandle) { glDeleteProgram(g_ShaderHandle); }
+
 	g_ShaderHandle = 0;
 
 	if (g_FontTexture)
@@ -370,6 +376,7 @@ bool    ImGui_ImplGlfwGL3_Init(GLFWwindow* window, bool install_callbacks)
 	io.RenderDrawListsFn = ImGui_ImplGlfwGL3_RenderDrawLists;       // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
 	io.SetClipboardTextFn = ImGui_ImplGlfwGL3_SetClipboardText;
 	io.GetClipboardTextFn = ImGui_ImplGlfwGL3_GetClipboardText;
+	io.ClipboardUserData = g_Window;
 #ifdef _WIN32
 	io.ImeWindowHandle = glfwGetWin32Window(g_Window);
 #endif

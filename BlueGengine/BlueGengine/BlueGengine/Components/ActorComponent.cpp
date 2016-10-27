@@ -3,8 +3,9 @@ namespace BlueGengine
 {
 
 	ActorComponent::ActorComponent(Actor* a_owner, EComponentType a_compType) :
-	m_owner(a_owner),
-			m_componentType(a_compType)
+	m_enabled(true),
+			  m_owner(a_owner),
+			  m_componentType(a_compType)
 	{
 
 	}

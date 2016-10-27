@@ -65,7 +65,8 @@ namespace BlueGengine
 	{
 		std::memset(m_instance.m_keys, 0, _countof(m_instance.m_keys));
 		std::memset(m_instance.m_mouseButton, 0, _countof(m_instance.m_mouseButton));
-
+		m_instance.m_mouseMoveX = 0;
+		m_instance.m_mouseMoveY = 0;
 	}
 
 	void Input::OnKeyDown(const int a_keyCode)

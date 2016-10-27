@@ -7,7 +7,7 @@
 
 namespace BlueGengine
 {
-	class Transform;
+	struct Transform;
 	class Light;
 	class ForwardRenderer : public IRenderer
 	{
@@ -20,15 +20,13 @@ namespace BlueGengine
 		{
 
 		}
-		void SubmitMesh(Mesh* a_mesh, Material* a_material, Transform* a_transform) override;
-
+		void SubmitMesh(Mesh* a_mesh, Material* a_material, Transform a_transform) override;
+		void SubmitCamera(CameraComponent* a_camera) override;
 		void Flush()override ;
-
-		glm::mat4* projMat;
-		glm::mat4* viewMat;
 		Light* myLight;
 		private:
 		//TODO: DONT LIKE! CHANGE !!!!!!!!!!!!!!!!
-		std::map < uint32, std::map<uint32, std::vector<Transform*>>> m_renderQueue;
+		std::map < uint32, std::map<uint32, std::vector<Transform>>> m_renderQueue;
+		std::vector<CameraComponent*> m_cams;
 	};
 }

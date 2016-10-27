@@ -140,18 +140,8 @@ namespace BlueGengine
 		//rend.SubmitMesh(mesh, mat, new Transform());
 
 
-		rend.projMat = &proj;
-		rend.viewMat = &view;
 		rend.myLight = &myLight;
-		Transform a, b;
-		a.pos = glm::vec3(1.0f, 0.0f, 0.0f);
-		a.scale = glm::vec3(0.5f, 0.5f, 0.5f);
-		a.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 
-		b.parent = &a;
-		b.pos = glm::vec3(2.0f, 0.0f, 0.0f);
-		b.scale = glm::vec3(1.0f, 1.0f, 1.0f);
-		b.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 		while (!myWindow->IsCloseRequest())
 		{
 			float dt = deltaTimeTimer.IntervalS();
@@ -246,20 +236,6 @@ namespace BlueGengine
 
 				}
 
-				if (BlueGengine::Input::GetKeyDown(BlueGengine::Input::Key::Y))
-				{
-					a.rotation.y += glm::radians(20.0f * dt);
-				}
-
-				if (BlueGengine::Input::GetKeyDown(BlueGengine::Input::Key::G))
-				{
-					b.pos.x -= 5.0f * dt;
-				}
-				if (BlueGengine::Input::GetKeyDown(BlueGengine::Input::Key::H))
-				{
-					b.pos.x += 5.0f * dt;
-				}
-
 
 			}
 
@@ -278,25 +254,6 @@ namespace BlueGengine
 			glm::vec3 center = camPos;
 			center.z += 1;
 			view = glm::lookAt(camPos, center, glm::vec3(0.0f, 1.0f, 0.0f));
-
-			rend.SubmitMesh(mesh, mat, &a);
-			rend.SubmitMesh(mesh, mat, &b);
-
-			glm::mat4 aMat;
-			aMat = glm::translate(aMat, a.pos);
-			aMat = glm::scale(aMat, a.scale);
-			glm::quat q(a.rotation);
-			aMat *= glm::mat4_cast(q);
-
-			glm::mat4 bMat;
-			bMat = glm::translate(bMat, b.pos);
-			bMat = glm::scale(bMat, b.scale);
-			glm::quat qb(b.rotation);
-			bMat *= glm::mat4_cast(qb);
-
-
-			glm::mat4 mataa = ConvertToLocalSpace(bMat, aMat);
-
 			rend.Flush();
 			//float radians = glm::radians(r);
 			//model = glm::mat4();

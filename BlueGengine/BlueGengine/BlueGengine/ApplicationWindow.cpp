@@ -7,7 +7,7 @@ namespace BlueGengine
 {
 
 	bool ApplicationWindow::m_apiInit;
-
+	ApplicationWindow* ApplicationWindow::m_currentWindow;
 	void KeyCallBack(GLFWwindow* a_window, int a_key, int a_scancode, int a_action, int a_mods)
 	{
 		if (a_action == GLFW_PRESS)
@@ -26,9 +26,8 @@ namespace BlueGengine
 	{
 		float x, y;
 		Input::GetMousePosition(x, y);
-		Input::SetMousePosition(a_xpos, a_yPos);
-		Input::OnMouseMove(a_xpos - x, a_yPos - y);
-		Input::GetMouseMove(x, y);
+		Input::SetMousePosition((float)a_xpos, (float)a_yPos);
+		Input::OnMouseMove((float)(a_xpos - x), (float)(a_yPos - y));
 	}
 
 	void MouseButtonCallBack(GLFWwindow* a_window, int a_button, int a_action, int a_mods)
@@ -47,7 +46,7 @@ namespace BlueGengine
 
 	void MouseScrollCallBack(GLFWwindow* a_window, double a_xOffset, double a_yOffset)
 	{
-		Input::OnMouseScroll(a_xOffset, a_yOffset);
+		Input::OnMouseScroll((float)a_xOffset, (float)a_yOffset);
 		ImGui_ImplGlfwGL3_ScrollCallback(a_window, a_xOffset, a_yOffset);
 	}
 
@@ -55,6 +54,7 @@ namespace BlueGengine
 	{
 
 		BlueAssert(a_renderingType != EGraphicsDeviceType::UnIdentified);
+		BlueAssert(m_currentWindow == nullptr);
 
 		if (!m_apiInit)
 		{
@@ -75,7 +75,8 @@ namespace BlueGengine
 		}
 
 
-		return new ApplicationWindow(a_title, a_width, a_height, a_renderingType);
+		m_currentWindow = new ApplicationWindow(a_title, a_width, a_height, a_renderingType);
+		return m_currentWindow;
 	}
 
 	ApplicationWindow::ApplicationWindow(char* a_title, float a_width, float a_height, EGraphicsDeviceType a_renderingAPI) :
@@ -141,6 +142,20 @@ namespace BlueGengine
 		glfwSwapBuffers(m_window);
 	}
 
+	void ApplicationWindow::SetMousePosition(float a_x, float a_y)
+	{
+		glfwSetCursorPos(m_currentWindow->m_window, a_x, a_y);
+	}
+
+	uint32 ApplicationWindow::GetWindowHeight()
+	{
+		return m_currentWindow->m_height;
+	}
+
+	uint32 ApplicationWindow::GetWindowWidth()
+	{
+		return m_currentWindow->m_width;
+	}
 
 	void ApplicationWindow::Close()
 	{

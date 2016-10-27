@@ -7,7 +7,9 @@ namespace BlueGengine
 	{
 		ETransformComponent,
 		EMeshComponent,
-
+		EMaterialComponent,
+		ECameraComponent,
+		EFirstPersonComponent,
 		ECount
 	};
 }

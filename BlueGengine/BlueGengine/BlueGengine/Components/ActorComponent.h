@@ -18,9 +18,13 @@ namespace BlueGengine
 		virtual void PostRender();
 		inline Actor* GetOwner()const { return m_owner; }
 
+		inline bool Enabled()const { return m_enabled; }
+		inline bool SetEnabled(bool a_newEnabled) { m_enabled = a_newEnabled; }
+
 		inline EComponentType GetComponentType()const { return m_componentType; }
 		protected:
 		private:
+		bool m_enabled;
 		EComponentType m_componentType;
 		uint64 m_instanceID;
 		Actor* m_owner;

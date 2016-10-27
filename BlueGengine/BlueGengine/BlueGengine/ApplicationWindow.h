@@ -7,7 +7,7 @@ namespace BlueGengine
 {
 	class ApplicationWindow : NonCopyable
 	{
-	public:
+		public:
 		~ApplicationWindow();
 		static ApplicationWindow* Create(char* a_title, float a_width, float a_height, EGraphicsDeviceType a_renderingAPI);
 		void Update();
@@ -16,14 +16,20 @@ namespace BlueGengine
 		void MakeCurrent();
 		void Swap();
 
+		static void SetMousePosition(float a_x, float a_y);
+		static uint32 GetWindowHeight();
+		static uint32 GetWindowWidth();
+
 		bool IsCloseRequest() { return m_closeRequested; }
 		void Close();
 
 		inline GLFWwindow* GetUnderlyingWindow()const { return m_window; }
-	private:
+		private:
 
 		static bool m_apiInit;
 		ApplicationWindow(char* a_title, float a_width, float a_height, EGraphicsDeviceType a_renderingAPI);
+
+		static ApplicationWindow* m_currentWindow;
 
 		uint32 m_width, m_height;
 		EGraphicsDeviceType m_currentRenderingAPI;

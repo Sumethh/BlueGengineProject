@@ -22,6 +22,7 @@ namespace BlueGengine
 	{
 		//TODO load a game config
 		m_world = new World();
+		m_world->BeginPlay();
 	}
 
 	void Game::Update(float a_dt)
@@ -39,9 +40,9 @@ namespace BlueGengine
 		m_world->PreRender();
 	}
 
-	void Game::Render()
+	void Game::Render(IRenderer* a_renderer)
 	{
-		m_world->Render();
+		m_world->Render(a_renderer);
 	}
 
 	void Game::PostRender()

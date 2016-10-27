@@ -2,6 +2,7 @@
 
 #include "Types.h"
 #include "NonCopyable.h"
+#include <string>
 #include <glm/vec4.hpp>
 namespace BlueGengine
 {
@@ -34,6 +35,7 @@ namespace BlueGengine
 		uint32 GetID() const { return m_id; }
 		Shader* m_shader;
 		private:
+		std::string m_name;
 		glm::vec4 m_diffuseColor;
 		glm::vec4 m_ambientColor;
 		float m_specular;

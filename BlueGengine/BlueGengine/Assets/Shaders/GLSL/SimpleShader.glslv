@@ -15,11 +15,10 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform mat4 model;
 void main()
-{
-    
+{    
     gl_Position = projection * view * model *vec4(position, 1.0f);
     uv = uvs;
-    oNormal = normal;
+    oNormal = mat3(transpose(inverse(model))) *normal;
     viewDir = vec3(0,0,0) - (view * model * vec4(position, 1.0f)).xyz;
     oFragPos = vec3(model*vec4(position,1.0f));
 }

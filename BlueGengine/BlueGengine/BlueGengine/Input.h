@@ -3,7 +3,7 @@ namespace BlueGengine
 {
 	class Input
 	{
-	public:
+		public:
 
 		static bool GetKeyDown(const int a_keyCode);
 		static bool GetKeyPressed(const int a_keyCode);
@@ -29,7 +29,18 @@ namespace BlueGengine
 
 		static void SetMouseCapture(const bool a_capture);
 		static void SetKeyboardCapture(const bool a_capture);
-	private:
+
+		static bool SetWindowFocus(bool a_focus)
+		{
+			m_instance.m_windowFocus = a_focus;
+		}
+
+		static bool WindowHasFocus()
+		{
+			return m_instance.m_windowFocus;
+		}
+
+		private:
 		Input();
 		~Input();
 		static Input m_instance;
@@ -44,7 +55,8 @@ namespace BlueGengine
 		float m_mouseX, m_mouseY;
 		float m_scrollX, m_scrollY;
 		bool m_keyboardCapture, m_mouseCapture;
-	public:
+		bool m_windowFocus;
+		public:
 		enum Key
 		{
 

@@ -35,7 +35,9 @@ namespace BlueGengine
 		{
 			MarkVerticesForReUpload();
 		}
+
 		m_verticeCount = a_vertecieCount;
+
 		if (a_cleanUpOldVertecies && m_vertices)
 		{
 			delete m_vertices;
@@ -55,12 +57,14 @@ namespace BlueGengine
 		{
 			MarkIndicesForReUpload();
 		}
+
 		m_indiceCount = a_indiceCount;
 
 		if (a_cleanUpOldIndicies && m_indices)
 		{
 			delete m_indices;
 		}
+
 		m_indices = a_indices;
 	}
 
@@ -90,6 +94,7 @@ namespace BlueGengine
 	void Mesh::ReUploadMeshInfo()
 	{
 		LOGI("ReUploading mesh resources");
+
 		if (NeedToReuploadVertices())
 		{
 			BlueAssert(m_vertices != nullptr && m_vertexBuffer != nullptr && m_verticeCount > 0);
@@ -100,7 +105,7 @@ namespace BlueGengine
 		if (NeedToReuploadIndices())
 		{
 			BlueAssert(m_indices != nullptr && m_elementBuffer != nullptr && m_indiceCount > 0);
-			m_elementBuffer->SetData((void*)m_indiceCount, m_indiceCount);
+			m_elementBuffer->SetData(m_indices, m_indiceCount);
 			ResetFlag(MeshFlags::EReUploadIndices);
 		}
 
@@ -117,7 +122,7 @@ namespace BlueGengine
 		//Rebuild the buffers with the new data
 		m_vertexArray->Build();
 		m_elementBuffer->Build();
-		m_elementBuffer->SetData((void*)m_indices, m_indiceCount * sizeof(m_indiceCount));
+		m_elementBuffer->SetData(m_indices, m_indiceCount * sizeof(m_indiceCount));
 		m_vertexArray->Bind();
 		m_elementBuffer->Bind();
 		m_vertexBuffer->SetData((void*)m_vertices, sizeof(Vertex) * m_verticeCount, s_vertexDescriptors, s_vertexDescriptorCount);

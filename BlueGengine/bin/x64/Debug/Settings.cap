@@ -16,8 +16,8 @@
   </Options>
   <Inject>false</Inject>
   <AutoStart>false</AutoStart>
-  <Executable>W:\Work\Dropbox\VS Projects\BlueGengine\bin\x64\Debug\BlueGengine.exe</Executable>
-  <WorkingDir>W:\Work\Dropbox\VS Projects\BlueGengine\BlueGengine</WorkingDir>
+  <Executable>W:\Work\Dropbox\GitProjects\BlueGengineProject\BlueGengine\bin\x64\Debug\BlueGengine.exe</Executable>
+  <WorkingDir>W:\Work\Dropbox\GitProjects\BlueGengineProject\BlueGengine\BlueGengine</WorkingDir>
   <CmdLine />
   <Environment />
 </CaptureSettings>

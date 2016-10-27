@@ -20,9 +20,9 @@ namespace BlueGengine
 
 			glUniform3f(lightPosLoc, position.x, position.y, position.z);
 			glUniform3f(lightColorLoc, color.r, color.g, color.b);
-			glUniform1f(constantLoc, 1.0f);
-			glUniform1f(linearLoc, 0.09);
-			glUniform1f(quadraticLoc, 0.032);
+			glUniform1f(constantLoc, (GLfloat).0f);
+			glUniform1f(linearLoc, (GLfloat).09);
+			glUniform1f(quadraticLoc, (GLfloat).032);
 
 		}
 	}

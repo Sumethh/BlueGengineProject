@@ -27,15 +27,16 @@ namespace BlueGengine
 		}
 	}
 
-	void OpenlGlElementBufferImpl::SetData(void* a_data, uint32 a_dataSize)
+	void OpenlGlElementBufferImpl::SetData(uint32* a_data, uint32 a_dataSize)
 	{
 		if (!m_ebo)
 		{
 			Build();
 		}
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, a_dataSize, a_data, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, a_dataSize, (void*)a_data, GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 

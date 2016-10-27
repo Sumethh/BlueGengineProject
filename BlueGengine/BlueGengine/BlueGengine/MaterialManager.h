@@ -25,7 +25,7 @@ namespace BlueGengine
 		}
 
 		private:
-		MaterialManager() {};
+		MaterialManager();
 		~MaterialManager();
 		static MaterialManager* m_instance;
 		std::vector<Material*> m_materials;

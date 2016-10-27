@@ -11,6 +11,7 @@ namespace BlueGengine
 		MeshComponent(Actor* a_owner);
 		~MeshComponent();
 
+		virtual void BeginPlay() override;
 		virtual void PreRender() override;
 		virtual void Render(IRenderer* a_renderer) override;
 		private:

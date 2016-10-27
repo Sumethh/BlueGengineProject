@@ -26,7 +26,7 @@ namespace BlueGengine
 
 	}
 
-	void ElementBuffer::SetData(void* a_data, uint32 a_dataSize)
+	void ElementBuffer::SetData(uint32* a_data, uint32 a_dataSize)
 	{
 		m_impl->SetData(a_data, a_dataSize);
 

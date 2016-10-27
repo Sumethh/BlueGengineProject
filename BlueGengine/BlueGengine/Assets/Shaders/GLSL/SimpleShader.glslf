@@ -113,6 +113,7 @@ void main()
 {
     //Ambient
     //Make the ambient power part of the world rather than a constant?
+    ocolor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
     vec3 ambient = 1.0f * vec3(material.Ambient);
     vec3 norm = normalize(oNormal);
     vec3 viewDir = normalize(viewPos - oFragPos);

@@ -6,6 +6,7 @@ namespace BlueGengine
 	class World;
 	class ActorComponent;
 	class IRenderer;
+	class TransformComponent;
 	class Actor
 	{
 		public:
@@ -22,9 +23,16 @@ namespace BlueGengine
 		virtual void Render(IRenderer* a_renderer);
 		virtual void PostRender();
 
+		inline TransformComponent* GetTransformComponent() { return m_transform; }
+
+		ActorComponent* GetComponent(EComponentType a_componentType);
+		ActorComponent* AddComponent(EComponentType a_componentType);
 
 		inline World* GetWorld() { return m_world; }
 		private:
+
+		TransformComponent* m_transform;
+
 		bool m_hasBeginPlayBeenCalled;
 		World* m_world;
 		uint64 m_instanceID;

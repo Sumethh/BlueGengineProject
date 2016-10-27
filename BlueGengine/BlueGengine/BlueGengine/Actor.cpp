@@ -1,6 +1,9 @@
 #include "Actor.h"
 #include "Components/ActorComponent.h"
 #include "Components/ComponentFactory.h"
+#include "Input.h"
+#include <glm/glm.hpp>
+#include "Helpers/MathHelpers.h"
 namespace BlueGengine
 {
 
@@ -8,7 +11,8 @@ namespace BlueGengine
 	m_hasBeginPlayBeenCalled(0),
 							 m_world(a_world)
 	{
-		m_components.push_back(ComponentFactory::CreateComponent(EComponentType::ETransformComponent, this));
+		m_transform = (TransformComponent*)ComponentFactory::CreateComponent(EComponentType::ETransformComponent, this);
+		m_components.push_back((ActorComponent*)m_transform);
 	}
 
 	Actor::Actor(const Actor&)
@@ -44,6 +48,8 @@ namespace BlueGengine
 		{
 			comp->BeginPlay();
 		}
+
+		m_hasBeginPlayBeenCalled = true;
 	}
 
 	void Actor::Update(float a_dt)
@@ -85,15 +91,46 @@ namespace BlueGengine
 			comp->PostRender();
 		}
 
-		for (auto comp : m_componentsToAdd)
+		for (auto comp = m_componentsToAdd.begin(); comp != m_componentsToAdd.end();)
 		{
 			if (m_hasBeginPlayBeenCalled)
 			{
-				comp->BeginPlay();
+				(*comp)->BeginPlay();
 			}
 
+			m_components.push_back(*comp);
+			comp = m_componentsToAdd.erase(comp);
+		}
+	}
+
+	ActorComponent* Actor::GetComponent(EComponentType a_componentType)
+	{
+		for (auto comp : m_components)
+		{
+			if (comp->GetComponentType() == a_componentType)
+			{
+				return comp;
+			}
+		}
+
+		return nullptr;
+	}
+
+	BlueGengine::ActorComponent* Actor::AddComponent(EComponentType a_componentType)
+	{
+		ActorComponent* comp = ComponentFactory::CreateComponent(a_componentType, this);
+
+		if (!m_hasBeginPlayBeenCalled)
+		{
 			m_components.push_back(comp);
 		}
+		else
+		{
+			m_componentsToAdd.push_back(comp);
+		}
+
+		return comp;
+
 	}
 
 }
