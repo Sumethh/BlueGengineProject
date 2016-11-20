@@ -8,24 +8,24 @@ namespace BlueGengine
 {
 	OpenGLTexture::~OpenGLTexture()
 	{
-		if (m_textureHandle)
+		if (mTextureHandle)
 		{
-			glDeleteTextures(1, &m_textureHandle);
+			glDeleteTextures(1, &mTextureHandle);
 		}
 	}
 
 	OpenGLTexture::OpenGLTexture() :
-	m_textureHandle(0)
+	mTextureHandle(0)
 	{
 
 	}
 
-	bool OpenGLTexture::LoadTexture(const char* a_fileName, ImageFormat a_imageFormat, ImageFormat a_formatToStore, uint32 a_mipMapLvl)
+	bool OpenGLTexture::LoadTexture(const char* aFileName, ImageFormat aImageFormat, ImageFormat aFormatToStore, uint32 aMipMapLvl)
 	{
 
 		uint32 imageFormat, storingFormat;
 
-		if (a_imageFormat == ImageFormat::IF_RGB)
+		if (aImageFormat == ImageFormat::IF_RGB)
 		{
 			imageFormat = GL_RGB;
 		}
@@ -34,7 +34,7 @@ namespace BlueGengine
 			imageFormat = GL_RGBA;
 		}
 
-		if (a_formatToStore == ImageFormat::IF_RGB)
+		if (aFormatToStore == ImageFormat::IF_RGB)
 		{
 			storingFormat = GL_RGB;
 		}
@@ -50,11 +50,11 @@ namespace BlueGengine
 		uint32 width(0), height(0);
 		uint32 glTexID;
 
-		fif = FreeImage_GetFileType(a_fileName);
+		fif = FreeImage_GetFileType(aFileName);
 
 		if (fif == FIF_UNKNOWN)
 		{
-			fif = FreeImage_GetFIFFromFilename(a_fileName);
+			fif = FreeImage_GetFIFFromFilename(aFileName);
 		}
 
 		if (fif == FIF_UNKNOWN)
@@ -65,7 +65,7 @@ namespace BlueGengine
 
 		if (FreeImage_FIFSupportsReading(fif))
 		{
-			dib = FreeImage_Load(fif, a_fileName);
+			dib = FreeImage_Load(fif, aFileName);
 		}
 
 		if (!dib)
@@ -87,11 +87,11 @@ namespace BlueGengine
 		glGenTextures(1, &glTexID);
 
 		glBindTexture(GL_TEXTURE_2D, glTexID);
-		glTexImage2D(GL_TEXTURE_2D, a_mipMapLvl, imageFormat, width, height, 0, storingFormat, GL_UNSIGNED_BYTE, bits);
+		glTexImage2D(GL_TEXTURE_2D, aMipMapLvl, imageFormat, width, height, 0, storingFormat, GL_UNSIGNED_BYTE, bits);
 		glGenerateMipmap(GL_TEXTURE_2D);
 		FreeImage_Unload(dib);
 
-		m_textureHandle = glTexID;
+		mTextureHandle = glTexID;
 		/*  SetWidth(width);
 		    SetHeight(height);*/
 		m_width = width;
@@ -102,7 +102,7 @@ namespace BlueGengine
 
 	void OpenGLTexture::Bind()
 	{
-		glBindTexture(GL_TEXTURE_2D, m_textureHandle);
+		glBindTexture(GL_TEXTURE_2D, mTextureHandle);
 	}
 
 	void OpenGLTexture::UnBind()

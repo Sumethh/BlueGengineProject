@@ -5,57 +5,57 @@ namespace BlueGengine
 	{
 		public:
 
-		static bool GetKeyDown(const int a_keyCode);
-		static bool GetKeyPressed(const int a_keyCode);
+		static bool GetKeyDown(const int aKeyCode);
+		static bool GetKeyPressed(const int aKeyCode);
 		static bool IsKeyboardCaptured();
 
-		static bool GetMouseButtonDown(const int a_mouseButton);
-		static bool GetMouseButtonPressed(const int a_mouseButton);
-		static void GetMousePosition(float& a_x, float& a_y);
-		static void GetMouseMove(float& a_x, float& a_y);
+		static bool GetMouseButtonDown(const int aMouseButton);
+		static bool GetMouseButtonPressed(const int aMouseButton);
+		static void GetMousePosition(float& a_x, float& aY);
+		static void GetMouseMove(float& a_x, float& aY);
 
 		static bool isMouseOverUI();
 		static void Reset();
 
-		static void OnKeyDown(const int a_keyCode);
-		static void OnKeyUp(const int a_keyCode);
+		static void OnKeyDown(const int aKeyCode);
+		static void OnKeyUp(const int aKeyCode);
 
-		static void OnMouseButtonDown(const int a_mouseButton);
-		static void OnMouseButtonUp(const int a_mouseButton);
-		static void OnMouseMove(const float a_x, const float a_y);
-		static void OnMouseScroll(const float a_x, const float a_y);
-		static void SetMousePosition(const float a_x, const float a_y);
+		static void OnMouseButtonDown(const int aMouseButton);
+		static void OnMouseButtonUp(const int aMouseButton);
+		static void OnMouseMove(const float a_x, const float aY);
+		static void OnMouseScroll(const float a_x, const float aY);
+		static void SetMousePosition(const float a_x, const float aY);
 
 
-		static void SetMouseCapture(const bool a_capture);
-		static void SetKeyboardCapture(const bool a_capture);
+		static void SetMouseCapture(const bool aCapture);
+		static void SetKeyboardCapture(const bool aCapture);
 
-		static bool SetWindowFocus(bool a_focus)
+		static bool SetWindowFocus(bool aFocus)
 		{
-			m_instance.m_windowFocus = a_focus;
+			mInstance.mWindowFocus = aFocus;
 		}
 
 		static bool WindowHasFocus()
 		{
-			return m_instance.m_windowFocus;
+			return mInstance.mWindowFocus;
 		}
 
 		private:
 		Input();
 		~Input();
-		static Input m_instance;
+		static Input mInstance;
 
-		bool m_keys[512];
-		bool m_heldKeys[512];
+		bool mKeys[512];
+		bool mHeldKeys[512];
 
-		bool m_mouseButton[24];
-		bool m_heldMouseButton[24];
+		bool mMouseButton[24];
+		bool mHeldMouseButton[24];
 
-		float m_mouseMoveX, m_mouseMoveY;
-		float m_mouseX, m_mouseY;
-		float m_scrollX, m_scrollY;
-		bool m_keyboardCapture, m_mouseCapture;
-		bool m_windowFocus;
+		float mMouseMoveX, mMouseMoveY;
+		float mMouseX, mMouseY;
+		float mScrollX, mScrollY;
+		bool mKeyboardCapture, mMouseCapture;
+		bool mWindowFocus;
 		public:
 		enum Key
 		{

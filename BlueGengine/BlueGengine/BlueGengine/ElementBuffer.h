@@ -11,12 +11,12 @@ namespace BlueGengine
 
 		void Build();
 		void Unload();
-		void SetData(uint32* a_data, uint32 a_dataSize);
+		void SetData(uint32* aData, uint32 aDataSize);
 		void Bind();
 		void UnBind();
 
 		private:
-		ElementBufferImpl* m_impl;
+		ElementBufferImpl* mImpl;
 
 	};
 }

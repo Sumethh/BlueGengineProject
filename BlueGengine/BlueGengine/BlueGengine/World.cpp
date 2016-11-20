@@ -2,11 +2,14 @@
 #include "Log.h"
 #include "Actor.h"
 #include "Components/TransformComponent.h"
+#include "Components/CameraComponent.h"
 #include "Helpers/MathHelpers.h"
 #include "Input.h"
+#include "GizmoRenderer.h"
+#include "imgui/imgui.h"
 namespace BlueGengine
 {
-	Actor* cube;
+	Actor* cube = nullptr;
 	World::World()
 	{
 		LOGI("World Constructed");
@@ -22,87 +25,103 @@ namespace BlueGengine
 		Actor* prevActor = nullptr;
 
 		Actor* actor = nullptr;
-		for (int i = 0; i < 50; i++)
+
+		for (int i = 0; i < 200; i++)
 		{
 			actor = new Actor(this);
+
 			if (!cube)
 			{
 				cube = actor;
 			}
+
 			EComponentType comps[2] = { EComponentType::EMaterialComponent, EComponentType::EMeshComponent };
 			actor->OnConstruct(comps, _countof(comps));
 			auto t = actor->GetTransformComponent()->GetTransform();
 			t.position = glm::vec3(2.0f * i, 0.0f, 0.0f);
 			actor->GetTransformComponent()->SetTransform(t);
-			m_actors.push_back(actor);
+			mActors.push_back(actor);
 
 			if (prevActor)
 			{
 				actor->GetTransformComponent()->SetParent(prevActor->GetTransformComponent());
 			}
+
 			prevActor = actor;
 
 		}
+
 		actor = new BlueGengine::Actor(this);
 		EComponentType playerComps[2] = { EComponentType::ECameraComponent, EComponentType::EFirstPersonComponent };
 		actor->OnConstruct(playerComps, _countof(playerComps));
-		m_actors.push_back(actor);
+		mActors.push_back(actor);
 		Transform transform = actor->GetTransformComponent()->GetTransform();
 		transform.position = glm::vec3(0, 0, -10.0f);
 		actor->GetTransformComponent()->SetTransform(transform);
-		for (auto actor : m_actors)
+
+		for (auto actor : mActors)
 		{
 			actor->BeginPlay();
 		}
 	}
-	void World::Update(float a_dt)
+	void World::Update(float aDt)
 	{
 		Transform t = cube->GetTransformComponent()->GetTransform();
 
 		if (Input::GetKeyDown(Input::Key::Y))
 		{
-			t.rotation *= QuatFromEuler(glm::vec3(0, 10.0f * a_dt, 0.0f));
+			t.rotation *= QuatFromEuler(glm::vec3(0, 10.0f * aDt, 0.0f));
 		}
 		else if (Input::GetKeyDown(Input::Key::T))
 		{
-			t.rotation *= QuatFromEuler(glm::vec3(0, -10.0f * a_dt, 0.0));
+			t.rotation *= QuatFromEuler(glm::vec3(0, -10.0f * aDt, 0.0));
 		}
+
+		ImGui::LabelText("rot", "%f %f %f %f", t.rotation.x, t.rotation.y, t.rotation.z, t.rotation.w);
+
 		cube->GetTransformComponent()->SetTransform(t);
 
-		for (auto actor : m_actors)
+		for (auto actor : mActors)
 		{
-			actor->Update(a_dt);
+			actor->Update(aDt);
 		}
 	}
 
-	void World::LateUpdate(float a_dt)
+	void World::LateUpdate(float aDt)
 	{
-		for (auto actor : m_actors)
+		for (auto actor : mActors)
 		{
-			actor->LateUpdate(a_dt);
+			actor->LateUpdate(aDt);
 		}
 	}
 
 	void World::PreRender()
 	{
-		for (auto actor : m_actors)
+		for (auto actor : mActors)
 		{
 			actor->PreRender();
 		}
 	}
 
-	void World::Render(IRenderer* a_renderer)
+	void World::Render(IRenderer* aRenderer)
 	{
-		for (auto actor : m_actors)
+		for (auto actor : mActors)
 		{
-			actor->Render(a_renderer);
+			actor->Render(aRenderer);
 		}
+	}
+
+	void World::GizmoDraw(GizmoRenderer* aRenderer)
+	{
+		aRenderer->Begin(CameraComponent::GetActiveCamera());
+		aRenderer->DrawCube(glm::vec3(0, 0.0f, -2.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::quat(), glm::vec3(0.1f, 0.9f, 0.1f), GizmoRenderer::Solid);
+		aRenderer->Flush();
 	}
 
 	void World::PostRender()
 	{
 
-		for (auto actor : m_actors)
+		for (auto actor : mActors)
 		{
 			actor->PostRender();
 		}

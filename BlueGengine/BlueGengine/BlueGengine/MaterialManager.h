@@ -8,26 +8,33 @@ namespace BlueGengine
 	class MaterialManager : NonCopyable
 	{
 		public:
-
+		enum EDefaultMaterial : uint32
+		{
+			Default = 0,
+			Debug,
+			Count
+		};
 
 		Material* CreateMaterial();
 
 
-		inline Material* GetMaterial(const uint32 a_matIndex) { return m_materials[a_matIndex]; }
+		inline Material* GetMaterial(uint32 aMatIndex) { return mMaterials[aMatIndex]; }
 
 		static inline MaterialManager* GI()
 		{
-			if (!m_instance)
+			if (!mInstance)
 			{
-				m_instance = new MaterialManager();
+				mInstance = new MaterialManager();
 			}
-			return m_instance;
+
+			return mInstance;
 		}
 
 		private:
+		void CreateDefaultMaterials();
 		MaterialManager();
 		~MaterialManager();
-		static MaterialManager* m_instance;
-		std::vector<Material*> m_materials;
+		static MaterialManager* mInstance;
+		std::vector<Material*> mMaterials;
 	};
 };

@@ -7,6 +7,7 @@ namespace BlueGengine
 	class ActorComponent;
 	class IRenderer;
 	class TransformComponent;
+	class GizmoRenderer;
 	class Actor
 	{
 		public:
@@ -15,30 +16,32 @@ namespace BlueGengine
 		Actor(Actor&&);
 		virtual ~Actor();
 
-		virtual void OnConstruct(EComponentType* a_componentsToAdd, uint32 a_componentCount = 0);
+		virtual void OnConstruct(EComponentType* aComponentsToAdd, uint32 aComponentCount = 0);
 		virtual void BeginPlay();
-		virtual void Update(float a_dt);
-		virtual void LateUpdate(float a_dt);
+		virtual void Update(float aDt);
+		virtual void LateUpdate(float aDt);
 		virtual void PreRender();
-		virtual void Render(IRenderer* a_renderer);
+		virtual void Render(IRenderer* aRenderer);
+		virtual void OnDrawGizmo(GizmoRenderer* aRenderer);
 		virtual void PostRender();
 
-		inline TransformComponent* GetTransformComponent() { return m_transform; }
 
-		ActorComponent* GetComponent(EComponentType a_componentType);
-		ActorComponent* AddComponent(EComponentType a_componentType);
+		inline TransformComponent* GetTransformComponent() { return mTransform; }
 
-		inline World* GetWorld() { return m_world; }
+		ActorComponent* GetComponent(EComponentType aComponentType);
+		ActorComponent* AddComponent(EComponentType aComponentType);
+
+		inline World* GetWorld() { return mWorld; }
 		private:
 
-		TransformComponent* m_transform;
+		TransformComponent* mTransform;
 
-		bool m_hasBeginPlayBeenCalled;
-		World* m_world;
-		uint64 m_instanceID;
+		bool mHasBeginPlayBeenCalled;
+		World* mWorld;
+		uint64 mInstanceID;
 
-		std::vector<ActorComponent*> m_components;
-		std::vector<ActorComponent*> m_componentsToAdd;
+		std::vector<ActorComponent*> mComponents;
+		std::vector<ActorComponent*> mComponentsToAdd;
 	};
 
 }

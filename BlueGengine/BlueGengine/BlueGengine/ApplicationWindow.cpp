@@ -8,52 +8,52 @@ namespace BlueGengine
 
 	bool ApplicationWindow::m_apiInit;
 	ApplicationWindow* ApplicationWindow::m_currentWindow;
-	void KeyCallBack(GLFWwindow* a_window, int a_key, int a_scancode, int a_action, int a_mods)
+	void KeyCallBack(GLFWwindow* a_window, int aKey, int aScancode, int aAction, int aMods)
 	{
-		if (a_action == GLFW_PRESS)
+		if (aAction == GLFW_PRESS)
 		{
-			Input::OnKeyDown(a_key);
+			Input::OnKeyDown(aKey);
 		}
-		else if (a_action == GLFW_RELEASE)
+		else if (aAction == GLFW_RELEASE)
 		{
-			Input::OnKeyUp(a_key);
+			Input::OnKeyUp(aKey);
 		}
 
-		ImGui_ImplGlfwGL3_KeyCallback(a_window, a_key, a_scancode, a_action, a_mods);
+		ImGui_ImplGlfwGL3_KeyCallback(a_window, aKey, aScancode, aAction, aMods);
 	}
 
-	void MousePositionCallback(GLFWwindow* a_window, double a_xpos, double a_yPos)
+	void MousePositionCallback(GLFWwindow* a_window, double a_xpos, double aYPos)
 	{
 		float x, y;
 		Input::GetMousePosition(x, y);
-		Input::SetMousePosition((float)a_xpos, (float)a_yPos);
-		Input::OnMouseMove((float)(a_xpos - x), (float)(a_yPos - y));
+		Input::SetMousePosition((float)a_xpos, (float)aYPos);
+		Input::OnMouseMove((float)(a_xpos - x), (float)(aYPos - y));
 	}
 
-	void MouseButtonCallBack(GLFWwindow* a_window, int a_button, int a_action, int a_mods)
+	void MouseButtonCallBack(GLFWwindow* a_window, int aButton, int aAction, int aMods)
 	{
-		if (a_action == GLFW_PRESS)
+		if (aAction == GLFW_PRESS)
 		{
-			Input::OnMouseButtonDown(a_button);
+			Input::OnMouseButtonDown(aButton);
 		}
-		else if (a_action == GLFW_RELEASE)
+		else if (aAction == GLFW_RELEASE)
 		{
-			Input::OnMouseButtonUp(a_button);
+			Input::OnMouseButtonUp(aButton);
 		}
 
-		ImGui_ImplGlfwGL3_MouseButtonCallback(a_window, a_button, a_action, a_mods);
+		ImGui_ImplGlfwGL3_MouseButtonCallback(a_window, aButton, aAction, aMods);
 	}
 
-	void MouseScrollCallBack(GLFWwindow* a_window, double a_xOffset, double a_yOffset)
+	void MouseScrollCallBack(GLFWwindow* a_window, double a_xOffset, double aYOffset)
 	{
-		Input::OnMouseScroll((float)a_xOffset, (float)a_yOffset);
-		ImGui_ImplGlfwGL3_ScrollCallback(a_window, a_xOffset, a_yOffset);
+		Input::OnMouseScroll((float)a_xOffset, (float)aYOffset);
+		ImGui_ImplGlfwGL3_ScrollCallback(a_window, a_xOffset, aYOffset);
 	}
 
-	ApplicationWindow* ApplicationWindow::Create(char* a_title, float a_width, float a_height, EGraphicsDeviceType a_renderingType)
+	ApplicationWindow* ApplicationWindow::Create(char* aTitle, float a_width, float aHeight, EGraphicsDeviceType aRenderingType)
 	{
 
-		BlueAssert(a_renderingType != EGraphicsDeviceType::UnIdentified);
+		BlueAssert(aRenderingType != EGraphicsDeviceType::UnIdentified);
 		BlueAssert(m_currentWindow == nullptr);
 
 		if (!m_apiInit)
@@ -62,104 +62,104 @@ namespace BlueGengine
 			m_apiInit = true;
 		}
 
-		if (a_renderingType == EGraphicsDeviceType::OpenGL)
+		if (aRenderingType == EGraphicsDeviceType::OpenGL)
 		{
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		}
-		else if (a_renderingType == EGraphicsDeviceType::Vulkan)
+		else if (aRenderingType == EGraphicsDeviceType::Vulkan)
 		{
 			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 			glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 		}
 
 
-		m_currentWindow = new ApplicationWindow(a_title, a_width, a_height, a_renderingType);
+		m_currentWindow = new ApplicationWindow(aTitle, a_width, aHeight, aRenderingType);
 		return m_currentWindow;
 	}
 
-	ApplicationWindow::ApplicationWindow(char* a_title, float a_width, float a_height, EGraphicsDeviceType a_renderingAPI) :
-	m_width((uint32)a_width),
-			m_height((uint32)a_height),
-			m_currentRenderingAPI(a_renderingAPI)
+	ApplicationWindow::ApplicationWindow(char* aTitle, float a_width, float aHeight, EGraphicsDeviceType aRenderingAPI) :
+	mWidth((uint32)a_width),
+		   mHeight((uint32)aHeight),
+		   mCurrentRenderingAPI(aRenderingAPI)
 	{
-		if (m_currentRenderingAPI == EGraphicsDeviceType::OpenGL)
+		if (mCurrentRenderingAPI == EGraphicsDeviceType::OpenGL)
 		{
-			m_window = glfwCreateWindow(m_width, m_height, a_title, nullptr, nullptr);
-			glfwMakeContextCurrent(m_window);
+			mWindow = glfwCreateWindow(mWidth, mHeight, aTitle, nullptr, nullptr);
+			glfwMakeContextCurrent(mWindow);
 
 		}
-		else if (m_currentRenderingAPI == EGraphicsDeviceType::Vulkan)
+		else if (mCurrentRenderingAPI == EGraphicsDeviceType::Vulkan)
 		{
-			m_window = glfwCreateWindow(m_width, m_height, a_title, nullptr, nullptr);
+			mWindow = glfwCreateWindow(mWidth, mHeight, aTitle, nullptr, nullptr);
 		}
 
 
-		ImGui_ImplGlfwGL3_Init(m_window, false);
+		ImGui_ImplGlfwGL3_Init(mWindow, false);
 
-		glfwSetKeyCallback(m_window, KeyCallBack);
-		glfwSetCursorPosCallback(m_window, MousePositionCallback);
-		glfwSetMouseButtonCallback(m_window, MouseButtonCallBack);
-		glfwSetScrollCallback(m_window, MouseScrollCallBack);
+		glfwSetKeyCallback(mWindow, KeyCallBack);
+		glfwSetCursorPosCallback(mWindow, MousePositionCallback);
+		glfwSetMouseButtonCallback(mWindow, MouseButtonCallBack);
+		glfwSetScrollCallback(mWindow, MouseScrollCallBack);
 		SetVsync(0);
-		m_closeRequested = false;
+		mCloseRequested = false;
 	}
 
 	ApplicationWindow::~ApplicationWindow()
 	{
-		glfwDestroyWindow(m_window);
+		glfwDestroyWindow(mWindow);
 	}
 	void ApplicationWindow::Update()
 	{
-		if (glfwWindowShouldClose(m_window))
+		if (glfwWindowShouldClose(mWindow))
 		{
-			m_closeRequested = true;
+			mCloseRequested = true;
 			return;
 		}
 
 		glfwPollEvents();
 
-		if (m_currentRenderingAPI == EGraphicsDeviceType::OpenGL)
+		if (mCurrentRenderingAPI == EGraphicsDeviceType::OpenGL)
 		{
 			ImGui_ImplGlfwGL3_NewFrame();
 		}
 
 	}
 
-	void ApplicationWindow::SetVsync(int a_val)
+	void ApplicationWindow::SetVsync(int aVal)
 	{
-		glfwSwapInterval(a_val);
+		glfwSwapInterval(aVal);
 	}
 
 	void ApplicationWindow::MakeCurrent()
 	{
-		glfwMakeContextCurrent(m_window);
+		glfwMakeContextCurrent(mWindow);
 	}
 
 	void ApplicationWindow::Swap()
 	{
-		glfwSwapBuffers(m_window);
+		glfwSwapBuffers(mWindow);
 	}
 
-	void ApplicationWindow::SetMousePosition(float a_x, float a_y)
+	void ApplicationWindow::SetMousePosition(float a_x, float aY)
 	{
-		glfwSetCursorPos(m_currentWindow->m_window, a_x, a_y);
+		glfwSetCursorPos(m_currentWindow->mWindow, a_x, aY);
 	}
 
 	uint32 ApplicationWindow::GetWindowHeight()
 	{
-		return m_currentWindow->m_height;
+		return m_currentWindow->mHeight;
 	}
 
 	uint32 ApplicationWindow::GetWindowWidth()
 	{
-		return m_currentWindow->m_width;
+		return m_currentWindow->mWidth;
 	}
 
 	void ApplicationWindow::Close()
 	{
-		glfwSetWindowShouldClose(m_window, GLFW_TRUE);
+		glfwSetWindowShouldClose(mWindow, GLFW_TRUE);
 	}
 
 }

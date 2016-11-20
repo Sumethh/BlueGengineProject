@@ -3,7 +3,7 @@
 
 namespace BlueGengine
 {
-	OpenGLVertexArrayImpl::OpenGLVertexArrayImpl() : m_vao(0)
+	OpenGLVertexArrayImpl::OpenGLVertexArrayImpl() : mVao(0)
 	{
 		Build();
 	}
@@ -14,12 +14,12 @@ namespace BlueGengine
 
 	void OpenGLVertexArrayImpl::Build()
 	{
-		glGenVertexArrays(1, &m_vao);
+		glGenVertexArrays(1, &mVao);
 	}
 
 	void OpenGLVertexArrayImpl::Bind()
 	{
-		glBindVertexArray(m_vao);
+		glBindVertexArray(mVao);
 	}
 
 	void OpenGLVertexArrayImpl::UnBind()
@@ -30,7 +30,7 @@ namespace BlueGengine
 
 	void OpenGLVertexArrayImpl::Unload()
 	{
-		glDeleteVertexArrays(1, &m_vao);
+		glDeleteVertexArrays(1, &mVao);
 	}
 
 }

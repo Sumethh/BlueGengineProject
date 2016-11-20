@@ -12,7 +12,7 @@ namespace BlueGengine
 		glm::vec3 biTangent;
 	};
 
-	static DataDescriptor s_vertexDescriptors[5] =
+	static DataDescriptor sVertexDescriptors[5] =
 	{
 		{ 0, 3, sizeof(Vertex), 0, false, false, 0 },
 		{ 1, 2, sizeof(Vertex), offsetof(Vertex, uv), false, false, 0 },
@@ -20,5 +20,5 @@ namespace BlueGengine
 		{ 3, 3, sizeof(Vertex), offsetof(Vertex, tangent), false, false, 0 },
 		{ 4, 3, sizeof(Vertex), offsetof(Vertex, biTangent), false, false, 0 }
 	};
-	static uint32 s_vertexDescriptorCount = 5;
+	static uint32 sVertexDescriptorCount = 5;
 }

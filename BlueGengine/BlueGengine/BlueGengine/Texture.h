@@ -11,7 +11,7 @@ namespace BlueGengine
 		Texture();
 		~Texture();
 
-		bool LoadTexture(const char* a_fileName, ImageFormat a_imageFormat, ImageFormat a_formatToStore, uint32 a_mipMapLevel = 0);
+		bool LoadTexture(const char* aFileName, ImageFormat aImageFormat, ImageFormat aFormatToStore, uint32 aMipMapLevel = 0);
 
 		uint32 GetWidth();
 		uint32 GetHeight();
@@ -20,6 +20,6 @@ namespace BlueGengine
 		void UnBind();
 
 		private:
-		TextureImpl* m_impl;
+		TextureImpl* mImpl;
 	};
 }

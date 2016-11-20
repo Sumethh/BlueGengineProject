@@ -2,12 +2,23 @@
 #include "Types.h"
 #include "Defines.h"
 #include "NonCopyable.h"
+#include <vector>
+#include <glm/glm.hpp>
 namespace BlueGengine
 {
 	class ShaderImpl;
 	class Shader : NonCopyable
 	{
-	public:
+		public:
+
+		struct CachedPointlightShaderInfo
+		{
+			int32 pos;
+			int32 color;
+			int32 constant;
+			int32 linear;
+			int32 quadratic;
+		};
 
 		enum ShaderType
 		{
@@ -20,16 +31,28 @@ namespace BlueGengine
 		Shader();
 		~Shader();
 
-		void LoadShader(char* a_vertexShader, char* a_fragmentShader);
+		void LoadShader(char* aVertexShader, char* aFragmentShader);
 		void UnloadShader();
 
 		void Bind();
 		void UnBind();
-
+		int32 GetShaderVariableLocation(const char* aVarName);
 		uint32 GetShaderID();
 
-	private:
+		void SetMatrixShaderVar(uint32 aVarLoc, glm::mat4* aVar);
+		void SetVectorShaderVar(uint32 aVarLoc, glm::vec3* aVar);
+		void SetFloatShaderVar(uint32 aVarLoc, float* aVar);
+
+		inline std::vector<CachedPointlightShaderInfo>& GetPointLightInfo() { return mCachedPointLightInfo; }
+		inline int32 GetPointLightCountLoc() { return mPointLightCountLoc; }
+		static const uint32 MaxLightCount = 32;
+
+		private:
+		void CalcPointLightInfo();
+
 		char* m_shaderPaths[ShaderType::ShaderTypeCount];
-		ShaderImpl* m_impl;
+		int32 mPointLightCountLoc;
+		std::vector<CachedPointlightShaderInfo> mCachedPointLightInfo;
+		ShaderImpl* mImpl;
 	};
 }

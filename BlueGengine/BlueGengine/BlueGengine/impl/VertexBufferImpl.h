@@ -8,9 +8,9 @@ namespace BlueGengine
 		public:
 		VertexBufferImpl() {};
 		virtual ~VertexBufferImpl() {};
-		virtual void SetData(void* a_data, uint32 a_dataSize, DataDescriptor* a_descriptors, uint32 a_descriptorCount, bool a_mapBuffer = false) = 0;
+		virtual void SetData(void* aData, uint32 aDataSize, DataDescriptor* aDescriptors, uint32 aDescriptorCount, bool aMapBuffer = false) = 0;
 
-		virtual void ReUploadData(void* a_data, uint32 a_dataSize) = 0;
+		virtual void ReUploadData(void* aData, uint32 aDataSize) = 0;
 		virtual void Rebuild() = 0;
 
 
@@ -24,13 +24,13 @@ namespace BlueGengine
 		public:
 		OpenlGlVertexBufferImpl();
 		~OpenlGlVertexBufferImpl();
-		virtual void SetData(void* a_data, uint32 a_dataSize, DataDescriptor* a_descriptors, uint32 a_descriptorCount, bool a_mapBuffer = false) override;
-		void ReUploadData(void* a_data, uint32 a_dataSize) override;
+		virtual void SetData(void* aData, uint32 aDataSize, DataDescriptor* aDescriptors, uint32 aDescriptorCount, bool aMapBuffer = false) override;
+		void ReUploadData(void* aData, uint32 aDataSize) override;
 		virtual void Rebuild() override;
 		virtual void Bind() override;
 		virtual void UnBind() override;
 		virtual void Unload() override;
 		private:
-		uint32 m_vbo;
+		uint32 mVbo;
 	};
 }

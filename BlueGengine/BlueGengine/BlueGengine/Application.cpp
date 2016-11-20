@@ -3,17 +3,25 @@
 #include "Input.h"
 #include "timer.h"
 #include "Game.h"
-#include "ForwardRenderer.h"
+#include "Renderers/ForwardRenderer.h"
+#include "GizmoRenderer.h"
 #include "imgui/imgui.h"
-#include "ModelLoader.h"
+#include "MeshLoader.h"
 #include "Light.h"
 #include "Mesh.h"
+#include "Log.h"
+#include "MeshManager.h"
+
+#include "Systems/TaskSystem.h"
+#include "Systems/ASyncLoadingManager.h"
 #include <gl/glew.h>
 #include <string>
+
 namespace BlueGengine
 {
 
-	void DetailedFrameTimings(float a_updateTime, float a_lateUpdateTime, float a_preRenderTime, float a_renderTime, float a_postRenderTime)
+
+	void DetailedFrameTimings(float aUpdateTime, float aLateUpdateTime, float aPreRenderTime, float aRenderTime, float aPostRenderTime)
 	{
 
 		ImGui::Begin("Profiling", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
@@ -22,35 +30,40 @@ namespace BlueGengine
 		{
 			ImGui::Text("Update: ");
 			ImGui::SameLine();
-			ImGui::Text("%f ms", a_updateTime);
+			ImGui::Text("%f ms", aUpdateTime);
 
 
 			ImGui::Text("Late Update: ");
 			ImGui::SameLine();
-			ImGui::Text("%f ms", a_lateUpdateTime);
+			ImGui::Text("%f ms", aLateUpdateTime);
 
 
 			ImGui::Text("Pre Render: ");
 			ImGui::SameLine();
-			ImGui::Text("%f ms", a_preRenderTime);
+			ImGui::Text("%f ms", aPreRenderTime);
 
 
 			ImGui::Text("Render: ");
 			ImGui::SameLine();
-			ImGui::Text("%f ms", a_renderTime);
+			ImGui::Text("%f ms", aRenderTime);
 
 
 			ImGui::Text("Post Render: ");
 			ImGui::SameLine();
-			ImGui::Text("%f ms", a_postRenderTime);
+			ImGui::Text("%f ms", aPostRenderTime);
 		}
 
 		ImGui::End();
 	}
 
+	void UpdateManagers()
+	{
+		AsyncLoadingManager::Update();
+	}
+
 	bool Application::Run()
 	{
-		m_window = ApplicationWindow::Create("BlueGengine", 1280, 720, EGraphicsDeviceType::OpenGL);
+		mWindow = ApplicationWindow::Create("BlueGengine", 1280, 720, EGraphicsDeviceType::OpenGL);
 
 		//TODO: make this a GraphicsDevice->Init()
 		glewInit();
@@ -59,16 +72,10 @@ namespace BlueGengine
 		Timer updateTimer, LateUpdateTimer, preRenderTimer, renderTimer, postRenderTimer;
 
 		//TODO: Move to more general intiation function
-		m_game = new Game();
+		mGame = new Game();
 		glClearColor(0.1f, 0.3f, 1.0f, 1.0f);
-		Mesh* m = ModelLoader::LoadModelFromFile("Assets/Models/Cube.obj");
 
-		if (m->NeedToUpdateGpuResource())
-		{
-			m->UpdateMeshResources();
-		}
-
-		m_game->BeginPlay();
+		mGame->BeginPlay();
 		int fps = 0, displayingFps = 0;
 		fpsUpdateTimer.Reset();
 
@@ -85,11 +92,16 @@ namespace BlueGengine
 		myLight.position = glm::vec3(0, 0.0f, -9.0f);
 		myLight.color = glm::vec3(1.0f, 1.0f, 1.0f);
 
-		m_renderer = new ForwardRenderer();
-		m_renderer->myLight = &myLight;
-		m_window->Update();
+		mRenderer = new ForwardRenderer();
+		mRenderer->myLight = &myLight;
+		mWindow->Update();
+
+		mGizmoRenderer = new GizmoRenderer();
 		Input::Reset();
 		dtTimer.Reset();
+
+		TaskSystem::Init();
+
 		while (true)
 		{
 			fps++;
@@ -98,12 +110,12 @@ namespace BlueGengine
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			dtTimer.Reset();
-			m_window->Update();
+			mWindow->Update();
 
 			//Need to fix this. (Bug) IMGUI crashes when the close is found in window update
-			if (m_window->IsCloseRequest())
+			if (mWindow->IsCloseRequest())
 			{
-				return true;
+				break;
 			}
 
 			//TODO: Add diagnostics Class
@@ -116,45 +128,56 @@ namespace BlueGengine
 				fpsUpdateTimer.Reset();
 			}
 
+			UpdateManagers();
 			ImGui::SetNextWindowPos(ImVec2(5, 5));
 			ImGui::Begin("Frame Info", NULL,  ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove);
 			ImGui::Text("Dt: ");
 			ImGui::SameLine();
 			ImGui::Text("%f %d(fps)", dt, displayingFps);
 			ImGui::End();
+
+
 			//Game Update
 			updateTimer.Reset();
-			m_game->Update(dt);
+			mGame->Update(dt);
 			double updateTime = updateTimer.IntervalMS();
 
 			//Game LateUpdate
 			LateUpdateTimer.Reset();
-			m_game->LateUpdate(dt);
+			mGame->LateUpdate(dt);
 			double lateUpdateTime = LateUpdateTimer.IntervalMS();
+
+			TaskSystem::Sync();
 
 			//Game PreRender
 			preRenderTimer.Reset();
-			m_game->PreRender();
+			mGame->PreRender();
 			double preRenderTime = preRenderTimer.IntervalMS();
 
 			//Game Render
 			renderTimer.Reset();
-			m_game->Render(m_renderer);
+			mGame->Render(mRenderer);
+			mRenderer->Flush();
+
 			double renderTime = renderTimer.IntervalMS();
 
+			//Game Gizmo
+			mGame->GizmoDraw(mGizmoRenderer);
 			//Game PostRender
 			postRenderTimer.Reset();
-			m_game->PostRender();
+			mGame->PostRender();
 			double postRenderTime = postRenderTimer.IntervalMS();
+
+			TaskSystem::Sync();
 
 
 			DetailedFrameTimings((float)updateTime, (float)lateUpdateTime, (float)preRenderTime, (float)renderTime, (float)postRenderTime);
-			m_renderer->Flush();
 			ImGui::Render();
-			m_window->Swap();
+			mWindow->Swap();
 			Input::Reset();
 		}
 
+		TaskSystem::Shutdown();
 		return true;
 	}
 

@@ -3,19 +3,29 @@
 #include "TransformComponent.h"
 #include "../GlmTransformationInclude.h"
 #include "../Defines.h"
-#include "../RendererInterface.h"
+#include "../Renderers/RendererInterface.h"
 #include "../Imgui/imgui.h"
 #include "../Helpers/MathHelpers.h"
 namespace BlueGengine
 {
-	CameraComponent::CameraComponent(Actor* a_owner) : ActorComponent(a_owner, EComponentType::ECameraComponent)
+	CameraComponent* CameraComponent::mCurrentActiveCamera;
+	CameraComponent::CameraComponent(Actor* aOwner) : ActorComponent(aOwner, EComponentType::ECameraComponent)
 	{
-		m_projectionMatrix = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
+		mProjectionMatrix = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
+		SetActive();
 	}
 
 	CameraComponent::~CameraComponent()
 	{
 
+	}
+
+	void CameraComponent::BeginPlay()
+	{
+		ActorComponent::BeginPlay();
+		auto t = GetOwner()->GetTransformComponent()->GetTransform();
+		t.rotation = QuatFromEuler(glm::vec3(0, 0, 0));
+		GetOwner()->GetTransformComponent()->SetTransform(t);
 	}
 
 	void CameraComponent::PreRender()
@@ -31,14 +41,14 @@ namespace BlueGengine
 		ImGui::LabelText("Up", "%f, %f, %f", up.x, up.y, up.z);
 		ImGui::LabelText("Forward", "%f, %f, %f", forward.x, forward.y, forward.z);
 
-		m_viewMatrix = glm::mat4();
-		m_viewMatrix = glm::lookAt(trans.position, trans.position + forward, up);
-		ImGui::LabelText("ViewPos", "%f, %f, %f", m_viewMatrix[3][0]  , m_viewMatrix[3][1], m_viewMatrix[3][2]);
+		mViewMatrix = glm::mat4();
+		mViewMatrix = glm::lookAt(trans.position, trans.position + forward, up);
+		ImGui::LabelText("ViewPos", "%f, %f, %f", mViewMatrix[3][0]  , mViewMatrix[3][1], mViewMatrix[3][2]);
 	}
 
-	void CameraComponent::Render(IRenderer* a_renderer)
+	void CameraComponent::Render(IRenderer* aRenderer)
 	{
-		a_renderer->SubmitCamera(this);
+		aRenderer->SubmitCamera(this);
 	}
 
 }

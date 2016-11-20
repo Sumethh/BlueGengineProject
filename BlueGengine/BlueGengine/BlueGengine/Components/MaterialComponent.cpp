@@ -4,9 +4,9 @@
 #include "ComponentTypes.h"
 namespace BlueGengine
 {
-	MaterialComponent::MaterialComponent(Actor* a_owner) : ActorComponent(a_owner, EComponentType::EMaterialComponent)
+	MaterialComponent::MaterialComponent(Actor* aOwner) : ActorComponent(aOwner, EComponentType::EMaterialComponent)
 	{
-		m_material = MaterialManager::GI()->GetMaterial(0);
+		mMaterial = MaterialManager::GI()->GetMaterial(0);
 	}
 
 	MaterialComponent::~MaterialComponent()

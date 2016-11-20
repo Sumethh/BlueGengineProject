@@ -51,9 +51,6 @@
     <ClCompile Include="BlueGengine\VertexBuffer.cpp">
       <Filter>BlueGengine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BlueGengine\ModelLoader.cpp">
-      <Filter>BlueGengine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BlueGengine\ElementBuffer.cpp">
       <Filter>BlueGengine\Source Files</Filter>
     </ClCompile>
@@ -72,12 +69,6 @@
     <ClCompile Include="BlueGengine\impl\ShaderImpl.cpp">
       <Filter>BlueGengine</Filter>
     </ClCompile>
-    <ClCompile Include="BlueGengine\Temp\VulkanApp.cpp">
-      <Filter>BlueGengine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BlueGengine\GlTemp\OpenGlApp.cpp">
-      <Filter>BlueGengine</Filter>
-    </ClCompile>
     <ClCompile Include="BlueGengine\impl\TextureImpl.cpp">
       <Filter>BlueGengine</Filter>
     </ClCompile>
@@ -85,9 +76,6 @@
       <Filter>BlueGengine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BlueGengine\Imgui\imgui_impl_glfw_gl3.cpp">
-      <Filter>ExtraDependencies\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="BlueGengine\Imgui\imgui_impl_glfw_vulkan.cpp">
       <Filter>ExtraDependencies\Imgui</Filter>
     </ClCompile>
     <ClCompile Include="BlueGengine\VertexArray.cpp">
@@ -105,16 +93,10 @@
     <ClCompile Include="BlueGengine\Game.cpp">
       <Filter>BlueGengine\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BlueGengine\Mesh.cpp">
-      <Filter>BlueGengine\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BlueGengine\impl\VertexBufferImpl.cpp">
       <Filter>BlueGengine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BlueGengine\impl\ElementBufferImpl.cpp">
-      <Filter>BlueGengine\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BlueGengine\ForwardRenderer.cpp">
       <Filter>BlueGengine\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BlueGengine\MeshManager.cpp">
@@ -129,9 +111,6 @@
     <ClCompile Include="BlueGengine\Components\ActorComponent.cpp">
       <Filter>BlueGengine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="BlueGengine\Components\MeshComponent.cpp">
-      <Filter>BlueGengine\Components</Filter>
-    </ClCompile>
     <ClCompile Include="BlueGengine\Components\TransformComponent.cpp">
       <Filter>BlueGengine\Components</Filter>
     </ClCompile>
@@ -140,6 +119,54 @@
     </ClCompile>
     <ClCompile Include="BlueGengine\Components\ComponentFactory.cpp">
       <Filter>BlueGengine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Memory\FixedMemoryManager.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Components\CameraComponent.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Components\FirstPersonComponent.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\GlTemp\OpenGlApp.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\GizmoRenderer.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Systems\TaskSystem.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Components\DynamicMeshComponent.cpp">
+      <Filter>BlueGengine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Mesh.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\MeshLoader.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Systems\AsyncLoadingManager.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Graphics\FrameBuffer.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\impl\FrameBufferImpl.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Renderers\DeferedRenderer.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Renderers\ForwardRenderer.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\Graphics\UniformBuffer.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlueGengine\impl\UniformBufferImpl.cpp">
+      <Filter>BlueGengine\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,12 +212,6 @@
     <ClInclude Include="BlueGengine\VertexBuffer.h">
       <Filter>BlueGengine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BlueGengine\Mesh.h">
-      <Filter>BlueGengine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BlueGengine\ModelLoader.h">
-      <Filter>BlueGengine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BlueGengine\ElementBuffer.h">
       <Filter>BlueGengine\Header Files</Filter>
     </ClInclude>
@@ -221,12 +242,6 @@
     <ClInclude Include="BlueGengine\impl\ShaderImpl.h">
       <Filter>BlueGengine</Filter>
     </ClInclude>
-    <ClInclude Include="BlueGengine\Temp\VulkanApp.h">
-      <Filter>BlueGengine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BlueGengine\GlTemp\OpenGlApp.h">
-      <Filter>BlueGengine</Filter>
-    </ClInclude>
     <ClInclude Include="BlueGengine\impl\TextureImpl.h">
       <Filter>BlueGengine</Filter>
     </ClInclude>
@@ -243,9 +258,6 @@
       <Filter>BlueGengine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BlueGengine\Imgui\imgui_impl_glfw_gl3.h">
-      <Filter>ExtraDependencies\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="BlueGengine\Imgui\imgui_impl_glfw_vulkan.h">
       <Filter>ExtraDependencies\Imgui</Filter>
     </ClInclude>
     <ClInclude Include="BlueGengine\VertexArray.h">
@@ -266,12 +278,6 @@
     <ClInclude Include="BlueGengine\impl\ElementBufferImpl.h">
       <Filter>BlueGengine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BlueGengine\RendererInterface.h">
-      <Filter>BlueGengine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BlueGengine\ForwardRenderer.h">
-      <Filter>BlueGengine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BlueGengine\MeshManager.h">
       <Filter>BlueGengine\Header Files</Filter>
     </ClInclude>
@@ -287,9 +293,6 @@
     <ClInclude Include="BlueGengine\Components\ComponentTypes.h">
       <Filter>BlueGengine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="BlueGengine\Components\MeshComponent.h">
-      <Filter>BlueGengine\Components</Filter>
-    </ClInclude>
     <ClInclude Include="BlueGengine\Components\TransformComponent.h">
       <Filter>BlueGengine\Components</Filter>
     </ClInclude>
@@ -301,6 +304,66 @@
     </ClInclude>
     <ClInclude Include="BlueGengine\Helpers\MathHelpers.h">
       <Filter>BlueGengine</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Memory\FixedMemoryManager.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Components\CameraComponent.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Components\FirstPersonComponent.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\GlTemp\OpenGlApp.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\GizmoRenderer.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Json\json.hpp">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Systems\TaskSystem.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Components\DynamicMeshComponent.h">
+      <Filter>BlueGengine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Mesh.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\MeshLoader.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Systems\ASyncLoadingManager.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\ResourceList.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Managers\AsyncLoadingMeshTracker.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Graphics\FrameBuffer.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\impl\FrameBufferImpl.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Renderers\DeferedRenderer.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Renderers\RendererInterface.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Renderers\ForwardRenderer.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\Graphics\UniformBuffer.h">
+      <Filter>BlueGengine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlueGengine\impl\UniformBufferImpl.h">
+      <Filter>BlueGengine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

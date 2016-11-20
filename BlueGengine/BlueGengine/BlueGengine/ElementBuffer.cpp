@@ -6,38 +6,38 @@ namespace BlueGengine
 	ElementBuffer::ElementBuffer()
 	{
 		//TODO: Make this dependant on the current graphics device we are using!!
-		m_impl = new OpenlGlElementBufferImpl();
+		mImpl = new OpenlGlElementBufferImpl();
 	}
 
 	ElementBuffer::~ElementBuffer()
 	{
 		Unload();
-		delete m_impl;
+		delete mImpl;
 	}
 
 	void ElementBuffer::Build()
 	{
-		m_impl->Build();
+		mImpl->Build();
 	}
 
 	void ElementBuffer::Unload()
 	{
-		m_impl->Unload();
+		mImpl->Unload();
 
 	}
 
-	void ElementBuffer::SetData(uint32* a_data, uint32 a_dataSize)
+	void ElementBuffer::SetData(uint32* aData, uint32 aDataSize)
 	{
-		m_impl->SetData(a_data, a_dataSize);
+		mImpl->SetData(aData, aDataSize);
 
 	}
 	void ElementBuffer::Bind()
 	{
-		m_impl->Bind();
+		mImpl->Bind();
 	}
 
 	void ElementBuffer::UnBind()
 	{
-		m_impl->UnBind();
+		mImpl->UnBind();
 	}
 }

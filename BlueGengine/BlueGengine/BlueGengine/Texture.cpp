@@ -8,38 +8,38 @@ namespace BlueGengine
 {
 	Texture::~Texture()
 	{
-		delete m_impl;
+		delete mImpl;
 	}
 
 	Texture::Texture()
 	{
-		m_impl = new OpenGLTexture();
+		mImpl = new OpenGLTexture();
 	}
 
-	bool Texture::LoadTexture(const char* a_fileName, ImageFormat a_imageFormat, ImageFormat a_formatToStore, uint32 a_mipMapLvl)
+	bool Texture::LoadTexture(const char* aFileName, ImageFormat aImageFormat, ImageFormat aFormatToStore, uint32 aMipMapLvl)
 	{
-		return m_impl->LoadTexture(a_fileName, a_imageFormat, a_formatToStore, a_mipMapLvl);
+		return mImpl->LoadTexture(aFileName, aImageFormat, aFormatToStore, aMipMapLvl);
 	}
 
 
 	uint32 Texture::GetWidth()
 	{
-		return m_impl->GetWidth();
+		return mImpl->GetWidth();
 	}
 
 	uint32 Texture::GetHeight()
 	{
-		return m_impl->GetHeight();
+		return mImpl->GetHeight();
 	}
 
 	void Texture::Bind()
 	{
-		m_impl->Bind();
+		mImpl->Bind();
 	}
 
 	void Texture::UnBind()
 	{
-		m_impl->UnBind();
+		mImpl->UnBind();
 	}
 
 }

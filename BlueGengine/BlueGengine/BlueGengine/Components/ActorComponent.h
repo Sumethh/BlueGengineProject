@@ -4,29 +4,33 @@ namespace BlueGengine
 {
 	class Actor;
 	class IRenderer;
+	class GizmoRenderer;
 	class ActorComponent
 	{
 		public:
-		ActorComponent(Actor* a_owner, EComponentType a_compType);
+		ActorComponent(Actor* aOwner, EComponentType aCompType);
 		virtual ~ActorComponent();
 
 		virtual void BeginPlay();
-		virtual void Update(float a_dt);
-		virtual void LateUpdate(float a_dt);
+		virtual void Update(float aDt);
+		virtual void LateUpdate(float aDt);
 		virtual void PreRender();
-		virtual void Render(IRenderer* a_renderer);
+		virtual void Render(IRenderer* aRenderer);
+		virtual void OnGizmoRender(GizmoRenderer* aRenderer);
 		virtual void PostRender();
-		inline Actor* GetOwner()const { return m_owner; }
 
-		inline bool Enabled()const { return m_enabled; }
-		inline bool SetEnabled(bool a_newEnabled) { m_enabled = a_newEnabled; }
 
-		inline EComponentType GetComponentType()const { return m_componentType; }
+		inline Actor* GetOwner()const { return mOwner; }
+
+		inline bool Enabled()const { return mEnabled; }
+		inline bool SetEnabled(bool aNewEnabled) { mEnabled = aNewEnabled; }
+
+		inline EComponentType GetComponentType()const { return mComponentType; }
 		protected:
 		private:
-		bool m_enabled;
-		EComponentType m_componentType;
-		uint64 m_instanceID;
-		Actor* m_owner;
+		bool mEnabled;
+		EComponentType mComponentType;
+		uint64 mInstanceID;
+		Actor* mOwner;
 	};
 }

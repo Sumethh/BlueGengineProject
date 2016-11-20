@@ -5,29 +5,29 @@
 #include "Log.h"
 namespace BlueGengine
 {
-	Mesh::Mesh(uint32 a_id) : m_meshID(a_id)
+	Mesh::Mesh(uint64 aId) : mMeshID(aId)
 	{
 		InitBuffers();
 	}
 
 	Mesh::~Mesh()
 	{
-		delete m_vertices;
-		delete m_indices;
-		delete m_elementBuffer;
-		delete m_vertexArray;
-		delete m_vertexBuffer;
+		delete mVertices;
+		delete mIndices;
+		delete mElementBuffer;
+		delete mVertexArray;
+		delete mVertexBuffer;
 	}
 
-	void Mesh::Init(Vertex* a_vertexArray, uint32 a_vertexCount, uint32* a_indicies, uint32 a_indiceCount)
+	void Mesh::Init(Vertex* aVertexArray, uint32 aVertexCount, uint32* aIndicies, uint32 aIndiceCount)
 	{
-		SetVertices(a_vertexArray, a_vertexCount, false);
-		SetIndices(a_indicies, a_indiceCount);
+		SetVertices(aVertexArray, aVertexCount, false);
+		SetIndices(aIndicies, aIndiceCount);
 	}
 
-	void Mesh::SetVertices(Vertex* a_verticies, uint32 a_vertecieCount, bool a_cleanUpOldVertecies)
+	void Mesh::SetVertices(Vertex* aVerticies, uint32 aVertecieCount, bool aCleanUpOldVertecies)
 	{
-		if (a_vertecieCount > m_verticeCount)
+		if (aVertecieCount > mVerticeCount)
 		{
 			MarkVerticesForReBuild();
 		}
@@ -36,20 +36,20 @@ namespace BlueGengine
 			MarkVerticesForReUpload();
 		}
 
-		m_verticeCount = a_vertecieCount;
+		mVerticeCount = aVertecieCount;
 
-		if (a_cleanUpOldVertecies && m_vertices)
+		if (aCleanUpOldVertecies && mVertices)
 		{
-			delete m_vertices;
+			delete mVertices;
 		}
 
-		m_vertices = a_verticies;
+		mVertices = aVerticies;
 
 	}
 
-	void Mesh::SetIndices(uint32* a_indices, uint32 a_indiceCount, bool a_cleanUpOldIndicies)
+	void Mesh::SetIndices(uint32* aIndices, uint32 aIndiceCount, bool aCleanUpOldIndicies)
 	{
-		if (a_indiceCount > m_indiceCount)
+		if (aIndiceCount > mIndiceCount)
 		{
 			MarkIndicesForReBuild();
 		}
@@ -58,14 +58,14 @@ namespace BlueGengine
 			MarkIndicesForReUpload();
 		}
 
-		m_indiceCount = a_indiceCount;
+		mIndiceCount = aIndiceCount;
 
-		if (a_cleanUpOldIndicies && m_indices)
+		if (aCleanUpOldIndicies && mIndices)
 		{
-			delete m_indices;
+			delete mIndices;
 		}
 
-		m_indices = a_indices;
+		mIndices = aIndices;
 	}
 
 	void Mesh::UpdateMeshResources()
@@ -82,12 +82,12 @@ namespace BlueGengine
 
 	void Mesh::PrepForDrawing()
 	{
-		m_vertexArray->Bind();
+		mVertexArray->Bind();
 	}
 
 	void Mesh::UnPrepForDrawing()
 	{
-		m_vertexArray->UnBind();
+		mVertexArray->UnBind();
 
 	}
 
@@ -97,15 +97,15 @@ namespace BlueGengine
 
 		if (NeedToReuploadVertices())
 		{
-			BlueAssert(m_vertices != nullptr && m_vertexBuffer != nullptr && m_verticeCount > 0);
-			m_vertexBuffer->ReUploadData(m_vertices, m_verticeCount * sizeof(Vertex));
+			BlueAssert(mVertices != nullptr && mVertexBuffer != nullptr && mVerticeCount > 0);
+			mVertexBuffer->ReUploadData(mVertices, mVerticeCount * sizeof(Vertex));
 			ResetFlag(MeshFlags::EReUploadVertices);
 		}
 
 		if (NeedToReuploadIndices())
 		{
-			BlueAssert(m_indices != nullptr && m_elementBuffer != nullptr && m_indiceCount > 0);
-			m_elementBuffer->SetData(m_indices, m_indiceCount);
+			BlueAssert(mIndices != nullptr && mElementBuffer != nullptr && mIndiceCount > 0);
+			mElementBuffer->SetData(mIndices, mIndiceCount);
 			ResetFlag(MeshFlags::EReUploadIndices);
 		}
 
@@ -115,18 +115,18 @@ namespace BlueGengine
 	{
 		LOGI("Rebuild mesh gpu resources");
 		//Unload my 3 buffers
-		m_vertexBuffer->Unload();
-		m_elementBuffer->Unload();
-		m_vertexArray->Unload();
+		mVertexBuffer->Unload();
+		mElementBuffer->Unload();
+		mVertexArray->Unload();
 
 		//Rebuild the buffers with the new data
-		m_vertexArray->Build();
-		m_elementBuffer->Build();
-		m_elementBuffer->SetData(m_indices, m_indiceCount * sizeof(m_indiceCount));
-		m_vertexArray->Bind();
-		m_elementBuffer->Bind();
-		m_vertexBuffer->SetData((void*)m_vertices, sizeof(Vertex) * m_verticeCount, s_vertexDescriptors, s_vertexDescriptorCount);
-		m_vertexArray->UnBind();
+		mVertexArray->Build();
+		mElementBuffer->Build();
+		mElementBuffer->SetData(mIndices, mIndiceCount * sizeof(mIndiceCount));
+		mVertexArray->Bind();
+		mElementBuffer->Bind();
+		mVertexBuffer->SetData((void*)mVertices, sizeof(Vertex) * mVerticeCount, sVertexDescriptors, sVertexDescriptorCount);
+		mVertexArray->UnBind();
 
 		ResetFlag(MeshFlags::ERebuildVerticesResource);
 		ResetFlag(MeshFlags::ERebuildIndicesResource);
@@ -136,9 +136,9 @@ namespace BlueGengine
 
 	void Mesh::InitBuffers()
 	{
-		m_vertexBuffer = new VertexBuffer();
-		m_elementBuffer = new ElementBuffer();
-		m_vertexArray = new VertexArray();
+		mVertexBuffer = new VertexBuffer();
+		mElementBuffer = new ElementBuffer();
+		mVertexArray = new VertexArray();
 	}
 
 }

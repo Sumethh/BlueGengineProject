@@ -13,17 +13,17 @@ namespace BlueGengine
 		~VertexBuffer();
 
 
-		void SetData(void* a_data, uint32 a_dataSize, DataDescriptor* a_descriptors, uint32 a_descriptorCount, bool a_mapBuffer = false);
+		void SetData(void* aData, uint32 aDataSize, DataDescriptor* aDescriptors, uint32 aDescriptorCount, bool aMapBuffer = false);
 		void BeginMap();
-		void MapData(void* a_data, uint32 a_dataSize);
+		void MapData(void* aData, uint32 aDataSize);
 
 		//This assumes that the data that is being received follows the same rules as specified when SetData was called
-		void ReUploadData(void* a_data, uint32 a_dataSize);
+		void ReUploadData(void* aData, uint32 aDataSize);
 		void Unload();
 		void EndMap();
 		void Bind();
 		void UnBind();
 		private:
-		VertexBufferImpl* m_impl;
+		VertexBufferImpl* mImpl;
 	};
 }

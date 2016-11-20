@@ -7,9 +7,9 @@ namespace BlueGengine
 	class Log
 	{
 		public:
-		static void LogError(char* a_message)
+		static void LogError(char* aMessage)
 		{
-			std::cout << "ERROR: " << a_message << std::endl;
+			std::cout << "ERROR: " << aMessage << std::endl;
 		}
 	};
 }

@@ -8,11 +8,11 @@
 namespace BlueGengine
 {
 
-	void OpenGlShaderImpl::LoadShader(char* a_vertexShaderPath, char* a_fragmentShaderPath)
+	void OpenGlShaderImpl::LoadShader(char* aVertexShaderPath, char* aFragmentShaderPath)
 	{
-		uint32 vertexShader = LoadAndCompileShader(GL_VERTEX_SHADER, a_vertexShaderPath);
+		uint32 vertexShader = LoadAndCompileShader(GL_VERTEX_SHADER, aVertexShaderPath);
 
-		uint32 fragmentShader = LoadAndCompileShader(GL_FRAGMENT_SHADER, a_fragmentShaderPath);
+		uint32 fragmentShader = LoadAndCompileShader(GL_FRAGMENT_SHADER, aFragmentShaderPath);
 
 		if (!vertexShader || !fragmentShader)
 		{
@@ -44,20 +44,20 @@ namespace BlueGengine
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 
-		if (m_programID)
+		if (mProgramID)
 		{
-			glDeleteProgram(m_programID);
+			glDeleteProgram(mProgramID);
 		}
 
-		m_programID = programID;
+		mProgramID = programID;
 	}
 
 	void OpenGlShaderImpl::UnloadShader()
 	{
-		if (m_programID)
+		if (mProgramID)
 		{
-			glDeleteProgram(m_programID);
-			m_programID = 0;
+			glDeleteProgram(mProgramID);
+			mProgramID = 0;
 		}
 	}
 
@@ -68,7 +68,7 @@ namespace BlueGengine
 
 	void OpenGlShaderImpl::Bind()
 	{
-		glUseProgram(m_programID);
+		glUseProgram(mProgramID);
 
 	}
 
@@ -78,23 +78,52 @@ namespace BlueGengine
 
 	}
 
-	uint32 OpenGlShaderImpl::LoadAndCompileShader(int32 a_shaderType, char* a_path)
+	int32 OpenGlShaderImpl::GetShaderVariableLocation(const char* aVarName)
+	{
+		return glGetUniformLocation(mProgramID, aVarName);
+	}
+
+	void OpenGlShaderImpl::SetShaderVariable(uint32 aVarLoc, void* aData, ShaderVarType varType)
+	{
+		float* data;
+
+		switch (varType)
+		{
+			case BlueGengine::SVT_float:
+				glUniform1f(aVarLoc, (*(float*)aData));
+				break;
+
+			case BlueGengine::SVT_vec3:
+				data = (float*)aData;
+				glUniform3f(aVarLoc, *data, *(data + 1), *(data + 2));
+				break;
+
+			case BlueGengine::SVT_mat4:
+				glUniformMatrix4fv(aVarLoc, 1, GL_FALSE, (float*)aData);
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	uint32 OpenGlShaderImpl::LoadAndCompileShader(int32 aShaderType, char* aPath)
 	{
 		std::string shaderSource;
 		std::stringstream stringStream;
 		std::ifstream file;
-		file.open(a_path);
+		file.open(aPath);
 
 		if (!file.is_open())
 		{
-			std::cout << "File failed to open: " << a_path << std::endl;
+			std::cout << "File failed to open: " << aPath << std::endl;
 			return 0;
 		}
 
 		stringStream << file.rdbuf();
 		shaderSource = stringStream.str();
 
-		uint32 shaderID = glCreateShader(a_shaderType);
+		uint32 shaderID = glCreateShader(aShaderType);
 		const char* source = shaderSource.c_str();
 		glShaderSource(shaderID, 1, &source, NULL);
 		glCompileShader(shaderID);

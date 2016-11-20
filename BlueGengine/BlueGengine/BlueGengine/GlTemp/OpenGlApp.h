@@ -4,7 +4,7 @@ namespace BlueGengine
 {
 	class OpenGLApp : public NonCopyable
 	{
-	public:
-		void		Run();
+		public:
+		void		Run() {};
 	};
 }

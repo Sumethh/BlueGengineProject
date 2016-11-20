@@ -15,16 +15,16 @@ namespace BlueGengine
 
 	class GraphicsDevice : public NonCopyable
 	{
-	public:
+		public:
 
 
 
-	protected:
+		protected:
 
-	private:
+		private:
 		friend class GraphicsDeviceFactory;
-		GraphicsDevice(EGraphicsDeviceType a_type);
-		EGraphicsDeviceType m_graphicsType;
+		GraphicsDevice(EGraphicsDeviceType aType);
+		EGraphicsDeviceType mGraphicsType;
 
 	};
 }

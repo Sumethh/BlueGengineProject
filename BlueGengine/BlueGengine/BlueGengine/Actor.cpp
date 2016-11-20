@@ -8,11 +8,11 @@ namespace BlueGengine
 {
 
 	Actor::Actor(World* a_world) :
-	m_hasBeginPlayBeenCalled(0),
-							 m_world(a_world)
+	mHasBeginPlayBeenCalled(0),
+							mWorld(a_world)
 	{
-		m_transform = (TransformComponent*)ComponentFactory::CreateComponent(EComponentType::ETransformComponent, this);
-		m_components.push_back((ActorComponent*)m_transform);
+		mTransform = (TransformComponent*)ComponentFactory::CreateComponent(EComponentType::ETransformComponent, this);
+		mComponents.push_back((ActorComponent*)mTransform);
 	}
 
 	Actor::Actor(const Actor&)
@@ -30,84 +30,89 @@ namespace BlueGengine
 
 	}
 
-	void Actor::OnConstruct(EComponentType* a_componentsToAdd, uint32 a_componentCount)
+	void Actor::OnConstruct(EComponentType* aComponentsToAdd, uint32 aComponentCount)
 	{
-		if (a_componentCount && a_componentsToAdd)
+		if (aComponentCount && aComponentsToAdd)
 		{
-			for (size_t i = 0; i < a_componentCount; i++)
+			for (size_t i = 0; i < aComponentCount; i++)
 			{
-				ActorComponent* newComponent = ComponentFactory::CreateComponent(a_componentsToAdd[i], this);
-				m_components.push_back(newComponent);
+				ActorComponent* newComponent = ComponentFactory::CreateComponent(aComponentsToAdd[i], this);
+				mComponents.push_back(newComponent);
 			}
 		}
 	}
 
 	void Actor::BeginPlay()
 	{
-		for (auto comp : m_components)
+		for (auto comp : mComponents)
 		{
 			comp->BeginPlay();
 		}
 
-		m_hasBeginPlayBeenCalled = true;
+		mHasBeginPlayBeenCalled = true;
 	}
 
-	void Actor::Update(float a_dt)
+	void Actor::Update(float aDt)
 	{
-		for (auto comp : m_components)
+		for (auto comp : mComponents)
 		{
-			comp->Update(a_dt);
+			comp->Update(aDt);
 		}
 	}
 
-	void Actor::LateUpdate(float a_dt)
+	void Actor::LateUpdate(float aDt)
 	{
-		for (auto comp : m_components)
+		for (auto comp : mComponents)
 		{
-			comp->LateUpdate(a_dt);
+			comp->LateUpdate(aDt);
 		}
 	}
 
 	void Actor::PreRender()
 	{
-		for (auto comp : m_components)
+		for (auto comp : mComponents)
 		{
 			comp->PreRender();
 		}
 	}
 
-	void Actor::Render(IRenderer* a_renderer)
+	void Actor::Render(IRenderer* aRenderer)
 	{
-		for (auto comp : m_components)
+		for (auto comp : mComponents)
 		{
-			comp->Render(a_renderer);
+			comp->Render(aRenderer);
 		}
 	}
 
 	void Actor::PostRender()
 	{
-		for (auto comp : m_components)
+		for (auto comp : mComponents)
 		{
 			comp->PostRender();
 		}
 
-		for (auto comp = m_componentsToAdd.begin(); comp != m_componentsToAdd.end();)
+		for (auto comp = mComponentsToAdd.begin(); comp != mComponentsToAdd.end();)
 		{
-			if (m_hasBeginPlayBeenCalled)
+			if (mHasBeginPlayBeenCalled)
 			{
 				(*comp)->BeginPlay();
 			}
 
-			m_components.push_back(*comp);
-			comp = m_componentsToAdd.erase(comp);
+			mComponents.push_back(*comp);
+			comp = mComponentsToAdd.erase(comp);
 		}
 	}
 
-	ActorComponent* Actor::GetComponent(EComponentType a_componentType)
+	void Actor::OnDrawGizmo(GizmoRenderer* aRenderer)
 	{
-		for (auto comp : m_components)
+
+	}
+
+	ActorComponent* Actor::GetComponent(EComponentType aComponentType)
+	{
+		for (auto comp : mComponents)
 		{
-			if (comp->GetComponentType() == a_componentType)
+			if (comp->GetComponentType() == aComponentType)
 			{
 				return comp;
 			}
@@ -116,17 +121,17 @@ namespace BlueGengine
 		return nullptr;
 	}
 
-	BlueGengine::ActorComponent* Actor::AddComponent(EComponentType a_componentType)
+	BlueGengine::ActorComponent* Actor::AddComponent(EComponentType aComponentType)
 	{
-		ActorComponent* comp = ComponentFactory::CreateComponent(a_componentType, this);
+		ActorComponent* comp = ComponentFactory::CreateComponent(aComponentType, this);
 
-		if (!m_hasBeginPlayBeenCalled)
+		if (!mHasBeginPlayBeenCalled)
 		{
-			m_components.push_back(comp);
+			mComponents.push_back(comp);
 		}
 		else
 		{
-			m_componentsToAdd.push_back(comp);
+			mComponentsToAdd.push_back(comp);
 		}
 
 		return comp;

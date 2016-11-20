@@ -5,49 +5,54 @@ namespace BlueGengine
 {
 
 	Game::Game() :
-	m_world(nullptr)
+	mWorld(nullptr)
 	{
 
 	}
 
 	Game::~Game()
 	{
-		if (m_world)
+		if (mWorld)
 		{
-			delete m_world;
+			delete mWorld;
 		}
 	}
 
 	void Game::BeginPlay()
 	{
 		//TODO load a game config
-		m_world = new World();
-		m_world->BeginPlay();
+		mWorld = new World();
+		mWorld->BeginPlay();
 	}
 
-	void Game::Update(float a_dt)
+	void Game::Update(float aDt)
 	{
-		m_world->Update(a_dt);
+		mWorld->Update(aDt);
 	}
 
-	void Game::LateUpdate(float a_dt)
+	void Game::LateUpdate(float aDt)
 	{
-		m_world->LateUpdate(a_dt);
+		mWorld->LateUpdate(aDt);
 	}
 
 	void Game::PreRender()
 	{
-		m_world->PreRender();
+		mWorld->PreRender();
 	}
 
-	void Game::Render(IRenderer* a_renderer)
+	void Game::Render(IRenderer* aRenderer)
 	{
-		m_world->Render(a_renderer);
+		mWorld->Render(aRenderer);
+	}
+
+	void Game::GizmoDraw(GizmoRenderer* aRenderer)
+	{
+		mWorld->GizmoDraw(aRenderer);
 	}
 
 	void Game::PostRender()
 	{
-		m_world->PostRender();
+		mWorld->PostRender();
 	}
 
 }

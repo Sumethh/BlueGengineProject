@@ -1,21 +1,20 @@
 #pragma once
-#define GLFW_INCLUDE_VULKAN
 #include <glfw/glfw3.h>
 #include "../NonCopyable.h"
 namespace BlueGengine
 {
 	class VulkanApp : NonCopyable
 	{
-	public:
+		public:
 
 		void Run();
 
-	private:
+		private:
 		void InitVulkan();
 		class ApplicationWindow* m_window;
-		VkInstance m_instance = nullptr;
-		VkPhysicalDevice m_physicalDevice;
-		VkSurfaceKHR m_surface;
-		VkQueue presentQueue;
+		//VkInstance m_instance = nullptr;
+		//VkPhysicalDevice m_physicalDevice;
+		//VkSurfaceKHR m_surface;
+		//VkQueue presentQueue;
 	};
 }

@@ -3,7 +3,7 @@
 namespace BlueGengine
 {
 
-	OpenlGlElementBufferImpl::OpenlGlElementBufferImpl() : m_ebo(0)
+	OpenlGlElementBufferImpl::OpenlGlElementBufferImpl() : mEbo(0)
 	{
 		Build();
 	}
@@ -15,28 +15,28 @@ namespace BlueGengine
 
 	void OpenlGlElementBufferImpl::Build()
 	{
-		glGenBuffers(1, &m_ebo);
+		glGenBuffers(1, &mEbo);
 
 	}
 
 	void OpenlGlElementBufferImpl::Unload()
 	{
-		if (m_ebo)
+		if (mEbo)
 		{
-			glDeleteBuffers(1, &m_ebo);
+			glDeleteBuffers(1, &mEbo);
 		}
 	}
 
-	void OpenlGlElementBufferImpl::SetData(uint32* a_data, uint32 a_dataSize)
+	void OpenlGlElementBufferImpl::SetData(uint32* aData, uint32 aDataSize)
 	{
-		if (!m_ebo)
+		if (!mEbo)
 		{
 			Build();
 		}
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEbo);
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, a_dataSize, (void*)a_data, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, aDataSize, (void*)aData, GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -44,7 +44,7 @@ namespace BlueGengine
 
 	void OpenlGlElementBufferImpl::Bind()
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEbo);
 
 	}
 

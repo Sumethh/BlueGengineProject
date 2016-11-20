@@ -7,7 +7,7 @@ namespace BlueGengine
 	class Shader;
 	class Light
 	{
-	public:
+		public:
 		enum LightType
 		{
 			Direcitional,
@@ -16,7 +16,7 @@ namespace BlueGengine
 			Count
 		};
 
-		void TmpSetUp(Shader* a_shader);
+		void TmpSetUp(Shader* aShader);
 
 
 		//private:

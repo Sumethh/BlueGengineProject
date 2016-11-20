@@ -1,4 +1,4 @@
-#version 330 core
+#version 440 core
 
 in vec2 uv;
 in vec3 oNormal;
@@ -114,7 +114,7 @@ void main()
     //Ambient
     //Make the ambient power part of the world rather than a constant?
     ocolor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
-    vec3 ambient = 1.0f * vec3(material.Ambient);
+    vec3 ambient = vec3(0.1f,0.1f,0.1f);
     vec3 norm = normalize(oNormal);
     vec3 viewDir = normalize(viewPos - oFragPos);
     vec3 result = CalcPointLight(pl, norm, oFragPos,viewDir);    

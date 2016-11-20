@@ -17,6 +17,6 @@ namespace BlueGengine
 		void UnBind();
 		void Unload();
 		private:
-		VertexArrayImpl* m_impl;
+		VertexArrayImpl* mImpl;
 	};
 }

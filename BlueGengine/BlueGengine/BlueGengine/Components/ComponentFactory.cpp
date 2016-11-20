@@ -2,7 +2,7 @@
 #include <map>
 #include <functional>
 
-#include "MeshComponent.h"
+#include "DynamicMeshComponent.h"
 #include "TransformComponent.h"
 #include "MaterialComponent.h"
 #include "CameraComponent.h"
@@ -14,24 +14,24 @@ namespace BlueGengine
 	{
 
 		template<class T>
-			ActorComponent* GenericComponentCreation(Actor* a_owner)
+			ActorComponent* GenericComponentCreation(Actor* aOwner)
 		{
-			return new T(a_owner);
+			return new T(aOwner);
 		}
 
 
 		std::map < EComponentType, std::function<ActorComponent*(Actor*)>> componentConstructors =
 		{
-			{EComponentType::EMeshComponent, std::bind(GenericComponentCreation<MeshComponent>, std::placeholders::_1)},
+			{EComponentType::EMeshComponent, std::bind(GenericComponentCreation<DynamicMeshComponent>, std::placeholders::_1)},
 			{ EComponentType::ETransformComponent, std::bind(GenericComponentCreation<TransformComponent>, std::placeholders::_1) },
 			{ EComponentType::EMaterialComponent, std::bind(GenericComponentCreation<MaterialComponent>, std::placeholders::_1) },
 			{EComponentType::ECameraComponent, std::bind(GenericComponentCreation<CameraComponent>, std::placeholders::_1)},
 			{EComponentType::EFirstPersonComponent, std::bind(GenericComponentCreation<FirstPersonComponent>, std::placeholders::_1)}
 		};
 
-		BlueGengine::ActorComponent* CreateComponent(EComponentType a_type, Actor* a_actor)
+		BlueGengine::ActorComponent* CreateComponent(EComponentType aType, Actor* aActor)
 		{
-			return componentConstructors[a_type](a_actor);
+			return componentConstructors[aType](aActor);
 		}
 
 	}

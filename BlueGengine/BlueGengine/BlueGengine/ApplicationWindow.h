@@ -9,32 +9,33 @@ namespace BlueGengine
 	{
 		public:
 		~ApplicationWindow();
-		static ApplicationWindow* Create(char* a_title, float a_width, float a_height, EGraphicsDeviceType a_renderingAPI);
+		static ApplicationWindow* Create(char* aTitle, float a_width, float aHeight, EGraphicsDeviceType aRenderingAPI);
 		void Update();
 
-		void SetVsync(int a_val);
+		void SetVsync(int aVal);
 		void MakeCurrent();
 		void Swap();
 
-		static void SetMousePosition(float a_x, float a_y);
+		static void SetMousePosition(float a_x, float aY);
 		static uint32 GetWindowHeight();
 		static uint32 GetWindowWidth();
 
-		bool IsCloseRequest() { return m_closeRequested; }
+		bool IsCloseRequest() { return mCloseRequested; }
 		void Close();
 
-		inline GLFWwindow* GetUnderlyingWindow()const { return m_window; }
+		static ApplicationWindow* GetCurrentWindow() { return m_currentWindow; }
+		inline GLFWwindow* GetUnderlyingWindow()const { return mWindow; }
 		private:
 
 		static bool m_apiInit;
-		ApplicationWindow(char* a_title, float a_width, float a_height, EGraphicsDeviceType a_renderingAPI);
+		ApplicationWindow(char* aTitle, float a_width, float aHeight, EGraphicsDeviceType aRenderingAPI);
 
 		static ApplicationWindow* m_currentWindow;
 
-		uint32 m_width, m_height;
-		EGraphicsDeviceType m_currentRenderingAPI;
-		bool m_closeRequested;
-		GLFWwindow* m_window;
-		void* m_glConext;
+		uint32 mWidth, mHeight;
+		EGraphicsDeviceType mCurrentRenderingAPI;
+		bool mCloseRequested;
+		GLFWwindow* mWindow;
+		void* mGlConext;
 	};
 }

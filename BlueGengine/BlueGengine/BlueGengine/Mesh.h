@@ -9,6 +9,7 @@ namespace BlueGengine
 	class VertexBuffer;
 	class ElementBuffer;
 	class VertexArray;
+
 	class Mesh
 	{
 		private:
@@ -22,63 +23,63 @@ namespace BlueGengine
 		public:
 
 
-		Mesh(uint32 a_id);
-		//Mesh(Vertex* a_vertexArray, uint32 a_vertexCount, uint32* a_indices, uint32 a_indicieCount);
+		Mesh(uint64 aId);
+		//Mesh(Vertex* aVertexArray, uint32 aVertexCount, uint32* aIndices, uint32 aIndicieCount);
 		~Mesh();
 
-		void Init(Vertex* a_vertexArray, uint32 a_vertexCount, uint32* a_indices, uint32 a_indiceCount);
+		void Init(Vertex* aVertexArray, uint32 aVertexCount, uint32* aIndices, uint32 aIndiceCount);
 
-		inline Vertex* GetVertices() const { return m_vertices; }
-		inline uint32 GetVerticeCount() const { return m_verticeCount; }
+		inline Vertex* GetVertices() const { return mVertices; }
+		inline uint32 GetVerticeCount() const { return mVerticeCount; }
 
-		inline uint32 GetIndiceCount()const { return m_indiceCount; }
-		inline uint32* GetIndices() const { return m_indices; }
-		void SetVertices(Vertex* a_vertices, uint32 a_verticeCount, bool a_cleanUpOldVertecies = false);
-		void SetIndices(uint32* a_indices, uint32 a_indiceCount, bool a_cleanUpOldIndicies = false);
+		inline uint32 GetIndiceCount()const { return mIndiceCount; }
+		inline uint32* GetIndices() const { return mIndices; }
+		void SetVertices(Vertex* aVertices, uint32 aVerticeCount, bool aCleanUpOldVertecies = false);
+		void SetIndices(uint32* aIndices, uint32 aIndiceCount, bool aCleanUpOldIndicies = false);
 
-		inline void MarkVerticesForReUpload() { m_meshFlags |= MeshFlags::EReUploadVertices; }
-		inline void MarkIndicesForReUpload() { m_meshFlags |= MeshFlags::EReUploadIndices; }
+		inline void MarkVerticesForReUpload() { mMeshFlags |= MeshFlags::EReUploadVertices; }
+		inline void MarkIndicesForReUpload() { mMeshFlags |= MeshFlags::EReUploadIndices; }
 
-		inline void MarkVerticesForReBuild() { m_meshFlags |= MeshFlags::ERebuildVerticesResource; }
-		inline void MarkIndicesForReBuild() { m_meshFlags |= MeshFlags::ERebuildIndicesResource; }
+		inline void MarkVerticesForReBuild() { mMeshFlags |= MeshFlags::ERebuildVerticesResource; }
+		inline void MarkIndicesForReBuild() { mMeshFlags |= MeshFlags::ERebuildIndicesResource; }
 
-		inline bool NeedToReuploadIndices()const {return (m_meshFlags & MeshFlags::EReUploadIndices) > 0;}
-		inline bool NeedToRebuildIndices()const { return (m_meshFlags & MeshFlags::ERebuildIndicesResource) > 0; }
+		inline bool NeedToReuploadIndices()const {return (mMeshFlags & MeshFlags::EReUploadIndices) > 0;}
+		inline bool NeedToRebuildIndices()const { return (mMeshFlags & MeshFlags::ERebuildIndicesResource) > 0; }
 
-		inline bool NeedToReuploadVertices()const { return (m_meshFlags & MeshFlags::EReUploadVertices) > 0; }
-		inline bool NeedToRebuildVertices()const { return (m_meshFlags & MeshFlags::ERebuildVerticesResource) > 0; }
+		inline bool NeedToReuploadVertices()const { return (mMeshFlags & MeshFlags::EReUploadVertices) > 0; }
+		inline bool NeedToRebuildVertices()const { return (mMeshFlags & MeshFlags::ERebuildVerticesResource) > 0; }
 
-		inline bool NeedToUpdateGpuResource() const { return m_meshFlags > 0; }
+		inline bool NeedToUpdateGpuResource() const { return mMeshFlags > 0; }
 
 		void UpdateMeshResources();
 
 		void PrepForDrawing();
 		void UnPrepForDrawing();
 
-		uint32 GetID() const { return m_meshID; }
+		uint64 GetID() const { return mMeshID; }
 
 		private:
 
-		inline void ResetFlag(MeshFlags a_flag) { m_meshFlags &= ~a_flag; }
+		inline void ResetFlag(MeshFlags aFlag) { mMeshFlags &= ~aFlag; }
 
 		void ReUploadMeshInfo();
 		void RebuildGpuResources();
 
 		void InitBuffers();
 
-		VertexBuffer* m_vertexBuffer;
-		ElementBuffer* m_elementBuffer;
-		VertexArray* m_vertexArray;
+		VertexBuffer* mVertexBuffer;
+		ElementBuffer* mElementBuffer;
+		VertexArray* mVertexArray;
 
-		Vertex* m_vertices;
-		uint32 m_verticeCount;
+		Vertex* mVertices;
+		uint32 mVerticeCount;
 
-		uint32* m_indices;
-		uint32 m_indiceCount;
+		uint32* mIndices;
+		uint32 mIndiceCount;
 
-		uint32 m_meshFlags;
+		uint32 mMeshFlags;
 
-		uint32 m_meshID;
+		uint64 mMeshID;
 	};
 
 }

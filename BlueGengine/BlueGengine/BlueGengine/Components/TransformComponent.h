@@ -10,10 +10,18 @@ namespace BlueGengine
 
 	struct Transform
 	{
-		Transform() :  position(0, 0, 0), scale(1, 1, 1) {}
+		Transform() : position(0, 0, 0), scale(1, 1, 1), rotation(0, 0, 0, 1) {}
 		glm::vec3 position;
 		glm::vec3 scale;
 		glm::quat rotation;
+		glm::mat4 MakeMat4()
+		{
+			glm::mat4 mat;
+			mat = glm::translate(mat, position);
+			mat = glm::scale(mat, scale);
+			mat *= glm::mat4_cast(rotation);
+			return mat;
+		}
 	};
 
 	class TransformComponent : public ActorComponent
@@ -24,18 +32,18 @@ namespace BlueGengine
 			EWorldTransformDirty = BlueBit(1)
 		};
 		public:
-		TransformComponent(Actor* a_owner);
+		TransformComponent(Actor* aOwner);
 		~TransformComponent();
 
 		virtual void PreRender() override;
 
 		Transform GetWorldSpaceTransform();
 		//Returns Local space transform
-		inline Transform GetTransform()const { return m_transform; }
+		inline Transform GetTransform()const { return mTransform; }
 		//Sets local space transform
-		inline void SetTransform(Transform& a_transform)
+		inline void SetTransform(Transform& aTransform)
 		{
-			m_transform = a_transform;
+			mTransform = aTransform;
 			SetLocalTransformDirtyFlag();
 			SetWorldTransformDirtyFlag();
 		}
@@ -47,12 +55,12 @@ namespace BlueGengine
 				CalculateLocalMatrix();
 			}
 
-			return m_localMatrix;
+			return mLocalMatrix;
 		}
 
 		glm::mat4 inline GetWorldMatrix()
 		{
-			if (!m_parent)
+			if (!mParent)
 			{
 				//Local space is world space if there is no parent
 				return GetLocalSpaceMatrix();
@@ -61,36 +69,37 @@ namespace BlueGengine
 			{
 				if (IsWorldMatrixDirty())
 				{
-					return  m_worldMatrix = m_parent->GetWorldMatrix() * GetLocalSpaceMatrix();
+					ResetWorldTransformDirtyFlag();
+					return  mWorldMatrix = mParent->GetWorldMatrix() * GetLocalSpaceMatrix();
 				}
 
-				return m_worldMatrix;
+				return mWorldMatrix;
 			}
 		}
 
-		void SetParent(TransformComponent* a_comp);
+		void SetParent(TransformComponent* aComp);
 
-		inline bool IsLocalTransformDirty() const { return (m_transformFlags & ETransformFlags::ELocalTransformDirty) > 0; }
-		inline bool IsWorldMatrixDirty() const { return (m_transformFlags & ETransformFlags::EWorldTransformDirty) > 0; }
+		inline bool IsLocalTransformDirty() const { return (mTransformFlags & ETransformFlags::ELocalTransformDirty) > 0; }
+		inline bool IsWorldMatrixDirty() const { return (mTransformFlags & ETransformFlags::EWorldTransformDirty) > 0; }
 
-		glm::vec3 GetForwardVector() { return glm::normalize(m_transform.rotation * glm::vec3(0.0f, 0.0f, 1.0f)); }
-		glm::vec3 GetRightVector() {   return glm::normalize(m_transform.rotation * glm::vec3(1.0f, 0.0f, 0.0f));}
-		glm::vec3 GetUpVector() {      return glm::normalize(m_transform.rotation * glm::vec3(0.0f, 1.0f, 0.0f)); }
+		glm::vec3 GetForwardVector() {return glm::normalize(glm::mat3(mTransform.rotation) * glm::vec3(0.0f, 0.0f, 1.0f)); }
+		glm::vec3 GetRightVector() {return glm::normalize(glm::mat3(mTransform.rotation) * glm::vec3(1.0f, 0.0f, 0.0f));}
+		glm::vec3 GetUpVector() {return glm::normalize(glm::mat3(mTransform.rotation) * glm::vec3(0.0f, 1.0f, 0.0f)); }
 
 		private:
 
-		inline void ResetLocalTransformDirtyFlag() { m_transformFlags &= ~ETransformFlags::ELocalTransformDirty; }
-		inline void SetLocalTransformDirtyFlag() { m_transformFlags |= ETransformFlags::ELocalTransformDirty; }
+		inline void ResetLocalTransformDirtyFlag() { mTransformFlags &= ~ETransformFlags::ELocalTransformDirty; }
+		inline void SetLocalTransformDirtyFlag() { mTransformFlags |= ETransformFlags::ELocalTransformDirty; }
 
 		void SetWorldTransformDirtyFlag();
-		inline void ResetWorldTransformDirtyFlag() { m_transformFlags &= ~ETransformFlags::EWorldTransformDirty; }
+		inline void ResetWorldTransformDirtyFlag() { mTransformFlags &= ~ETransformFlags::EWorldTransformDirty; }
 
 		void CalculateLocalMatrix();
-		TransformComponent* m_parent;
-		std::vector<TransformComponent*> m_children;
-		uint32 m_transformFlags;
-		Transform m_transform;
-		glm::mat4 m_localMatrix;
-		glm::mat4 m_worldMatrix;
+		TransformComponent* mParent;
+		std::vector<TransformComponent*> mChildren;
+		uint32 mTransformFlags;
+		Transform mTransform;
+		glm::mat4 mLocalMatrix;
+		glm::mat4 mWorldMatrix;
 	};
 }

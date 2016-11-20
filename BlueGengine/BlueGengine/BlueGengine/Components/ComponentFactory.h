@@ -8,6 +8,6 @@ namespace BlueGengine
 	class Actor;
 	namespace ComponentFactory
 	{
-		ActorComponent* CreateComponent(EComponentType a_type, Actor* a_actor);
+		ActorComponent* CreateComponent(EComponentType aType, Actor* aActor);
 	}
 }

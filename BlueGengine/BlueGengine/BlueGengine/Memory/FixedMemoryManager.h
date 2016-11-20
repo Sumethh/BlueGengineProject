@@ -7,7 +7,7 @@ namespace BlueGengine
 	{
 
 
-		void* Allocate(size_t a_size);
+		void* Allocate(size_t aSize);
 		void* Free(void*);
 
 

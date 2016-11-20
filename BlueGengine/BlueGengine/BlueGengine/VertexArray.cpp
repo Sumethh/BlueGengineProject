@@ -5,31 +5,31 @@ namespace BlueGengine
 	VertexArray::VertexArray()
 	{
 		//if current graphics system is openlgl
-		m_impl = new OpenGLVertexArrayImpl();
+		mImpl = new OpenGLVertexArrayImpl();
 	}
 
 	VertexArray::~VertexArray()
 	{
-		delete m_impl;
+		delete mImpl;
 	}
 
 	void VertexArray::Build()
 	{
-		m_impl->Build();
+		mImpl->Build();
 	}
 
 	void VertexArray::Bind()
 	{
-		m_impl->Bind();
+		mImpl->Bind();
 	}
 	void VertexArray::UnBind()
 	{
-		m_impl->UnBind();
+		mImpl->UnBind();
 	}
 
 	void VertexArray::Unload()
 	{
-		m_impl->Unload();
+		mImpl->Unload();
 	}
 
 }

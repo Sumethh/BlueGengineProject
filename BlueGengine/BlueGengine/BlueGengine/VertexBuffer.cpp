@@ -4,41 +4,41 @@
 namespace BlueGengine
 {
 	VertexBuffer::VertexBuffer() :
-	m_impl(nullptr)
+	mImpl(nullptr)
 	{
 		//TODO: Make this Dependant on the graphics device we are currently using!
-		m_impl = new OpenlGlVertexBufferImpl();
+		mImpl = new OpenlGlVertexBufferImpl();
 	}
 
 	VertexBuffer::~VertexBuffer()
 	{
 		Unload();
-		delete m_impl;
+		delete mImpl;
 	}
 
-	void VertexBuffer::SetData(void* a_data, uint32 a_dataSize, DataDescriptor* a_descriptors, uint32 a_descriptorCount, bool a_mapBuffer)
+	void VertexBuffer::SetData(void* aData, uint32 aDataSize, DataDescriptor* aDescriptors, uint32 aDescriptorCount, bool aMapBuffer)
 	{
-		m_impl->SetData(a_data, a_dataSize, a_descriptors, a_descriptorCount, a_mapBuffer);
+		mImpl->SetData(aData, aDataSize, aDescriptors, aDescriptorCount, aMapBuffer);
 	}
 
-	void VertexBuffer::ReUploadData(void* a_data, uint32 a_dataSize)
+	void VertexBuffer::ReUploadData(void* aData, uint32 aDataSize)
 	{
-		m_impl->ReUploadData(a_data, a_dataSize);
+		mImpl->ReUploadData(aData, aDataSize);
 	}
 
 	void VertexBuffer::Unload()
 	{
-		m_impl->Unload();
+		mImpl->Unload();
 	}
 
 	void VertexBuffer::Bind()
 	{
-		m_impl->Bind();
+		mImpl->Bind();
 	}
 
 	void VertexBuffer::UnBind()
 	{
-		m_impl->UnBind();
+		mImpl->UnBind();
 	}
 
 }

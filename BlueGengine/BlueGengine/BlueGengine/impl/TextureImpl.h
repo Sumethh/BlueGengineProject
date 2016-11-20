@@ -8,7 +8,7 @@ namespace BlueGengine
 		public:
 		TextureImpl() {};
 		virtual ~TextureImpl() {};
-		virtual bool LoadTexture(const char* a_fileName, ImageFormat a_imageFormat, ImageFormat a_formatToStore, uint32 a_mipMapLevel = 0) = 0;
+		virtual bool LoadTexture(const char* aFileName, ImageFormat aImageFormat, ImageFormat aFormatToStore, uint32 aMipMapLevel = 0) = 0;
 
 		virtual void Bind() = 0;
 		virtual void UnBind() = 0;
@@ -27,12 +27,12 @@ namespace BlueGengine
 		public:
 		OpenGLTexture();
 		~OpenGLTexture();
-		virtual bool LoadTexture(const char* a_fileName, ImageFormat a_imageFormat, ImageFormat a_formatToStore, uint32 a_mipMapLevel = 0);
+		virtual bool LoadTexture(const char* aFileName, ImageFormat aImageFormat, ImageFormat aFormatToStore, uint32 aMipMapLevel = 0);
 
 		virtual void Bind();
 		virtual void UnBind();
 		private:
-		uint32 m_textureHandle;
+		uint32 mTextureHandle;
 	};
 
 }

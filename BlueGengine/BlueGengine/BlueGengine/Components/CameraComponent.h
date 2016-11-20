@@ -7,19 +7,25 @@ namespace BlueGengine
 	class CameraComponent : public ActorComponent
 	{
 		public:
-		CameraComponent(Actor* a_owner);
+		CameraComponent(Actor* aOwner);
 		~CameraComponent();
 
+		virtual void BeginPlay();
 
 		virtual void PreRender() override;
-		virtual void Render(IRenderer* a_renderer) override;
+		virtual void Render(IRenderer* aRenderer) override;
 
-		inline void SetProjectionMatrix(glm::mat4 a_newProjectionMatrix) { m_projectionMatrix = a_newProjectionMatrix; }
+		inline void SetProjectionMatrix(glm::mat4 aNewProjectionMatrix) { mProjectionMatrix = aNewProjectionMatrix; }
 
-		glm::mat4 GetProjectionMatrix() const { return m_projectionMatrix; }
-		glm::mat4 GetViewMatrix()const { return m_viewMatrix; }
+		glm::mat4 GetProjectionMatrix() const { return mProjectionMatrix; }
+		glm::mat4 GetViewMatrix()const { return mViewMatrix; }
+
+		inline void SetActive() { mCurrentActiveCamera = this; }
+		static CameraComponent* GetActiveCamera() { return mCurrentActiveCamera; }
 		private:
-		glm::mat4 m_projectionMatrix;
-		glm::mat4 m_viewMatrix;
+		static CameraComponent* mCurrentActiveCamera;
+
+		glm::mat4 mProjectionMatrix;
+		glm::mat4 mViewMatrix;
 	};
 }

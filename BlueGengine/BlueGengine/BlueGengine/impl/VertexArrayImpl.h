@@ -23,6 +23,6 @@ namespace BlueGengine
 		virtual void UnBind() override;
 		virtual void Unload() override;
 		private:
-		uint32 m_vao;
+		uint32 mVao;
 	};
 }

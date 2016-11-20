@@ -8,12 +8,12 @@ namespace BlueGengine
 	class MaterialComponent : public ActorComponent
 	{
 		public:
-		MaterialComponent(Actor* a_owner);
+		MaterialComponent(Actor* aOwner);
 		~MaterialComponent();
 
-		Material* GetMaterial() const { return m_material; }
+		Material* GetMaterial() const { return mMaterial; }
 
 		private:
-		Material* m_material;
+		Material* mMaterial;
 	};
 }

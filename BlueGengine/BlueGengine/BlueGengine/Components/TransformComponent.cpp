@@ -5,9 +5,9 @@
 namespace BlueGengine
 {
 
-	TransformComponent::TransformComponent(Actor* a_owner) :
-	ActorComponent(a_owner, EComponentType::ETransformComponent),
-				   m_transformFlags(0)
+	TransformComponent::TransformComponent(Actor* aOwner) :
+	ActorComponent(aOwner, EComponentType::ETransformComponent),
+				   mTransformFlags(0)
 	{
 	}
 
@@ -31,13 +31,14 @@ namespace BlueGengine
 		return worldTrans;
 	}
 
-	void TransformComponent::SetParent(TransformComponent* a_comp)
+	void TransformComponent::SetParent(TransformComponent* aComp)
 	{
-		if (a_comp)
+		if (aComp)
 		{
 			//Need to calculate new localMatrix
-			m_localMatrix =  ConvertToLocalSpace(GetWorldMatrix(), a_comp->GetWorldMatrix());
-			m_parent = a_comp;
+			mLocalMatrix =  ConvertToLocalSpace(GetWorldMatrix(), aComp->GetWorldMatrix());
+			mParent = aComp;
+			aComp->mChildren.push_back(this);
 		}
 		else
 		{
@@ -46,26 +47,23 @@ namespace BlueGengine
 				GetWorldMatrix();
 			}
 
-			m_parent = nullptr;
+			mParent = nullptr;
 		}
 	}
 
 	void TransformComponent::CalculateLocalMatrix()
 	{
 		glm::mat4 mat;
-		mat = glm::translate(mat, m_transform.position);
-		mat = glm::scale(mat, m_transform.scale);
-		glm::mat4 rotQuat(glm::mat4_cast(m_transform.rotation));
-		mat *= rotQuat;
-		m_localMatrix = mat;
+		mat = mTransform.MakeMat4();
+		mLocalMatrix = mat;
 		ResetLocalTransformDirtyFlag();
 	}
 
 	void TransformComponent::SetWorldTransformDirtyFlag()
 	{
-		m_transformFlags |= ETransformFlags::EWorldTransformDirty;
+		mTransformFlags |= ETransformFlags::EWorldTransformDirty;
 
-		for (auto child : m_children)
+		for (auto child : mChildren)
 		{
 			child->SetWorldTransformDirtyFlag();
 		}

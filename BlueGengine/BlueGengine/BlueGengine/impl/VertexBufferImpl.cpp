@@ -6,28 +6,27 @@
 
 namespace BlueGengine
 {
-	OpenlGlVertexBufferImpl::OpenlGlVertexBufferImpl() : m_vbo(0)
+	OpenlGlVertexBufferImpl::OpenlGlVertexBufferImpl() : mVbo(0)
 	{
-		Rebuild();
 	}
 	OpenlGlVertexBufferImpl::~OpenlGlVertexBufferImpl()
 	{
 		Unload();
 	}
 
-	void OpenlGlVertexBufferImpl::SetData(void* a_data, uint32 a_dataSize, DataDescriptor* a_descriptors, uint32 a_descriptorCount, bool a_mapBuffer)
+	void OpenlGlVertexBufferImpl::SetData(void* aData, uint32 aDataSize, DataDescriptor* aDescriptors, uint32 aDescriptorCount, bool aMapBuffer)
 	{
-		if (!m_vbo)
+		if (!mVbo)
 		{
 			Rebuild();
 		}
 
 		Bind();
-		glBufferData(GL_ARRAY_BUFFER, a_dataSize, a_data, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, aDataSize, aData, GL_DYNAMIC_DRAW);
 
-		for (uint32 i = 0; i < a_descriptorCount; i++)
+		for (uint32 i = 0; i < aDescriptorCount; i++)
 		{
-			DataDescriptor* desc = &a_descriptors[i];
+			DataDescriptor* desc = &aDescriptors[i];
 
 			if (desc != nullptr)
 			{
@@ -46,22 +45,22 @@ namespace BlueGengine
 
 	}
 
-	void OpenlGlVertexBufferImpl::ReUploadData(void* a_data, uint32 a_dataSize)
+	void OpenlGlVertexBufferImpl::ReUploadData(void* aData, uint32 aDataSize)
 	{
-		BlueAssert(m_vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-		glBufferData(GL_ARRAY_BUFFER, a_dataSize, a_data, GL_DYNAMIC_DRAW);
+		BlueAssert(mVbo);
+		glBindBuffer(GL_ARRAY_BUFFER, mVbo);
+		glBufferData(GL_ARRAY_BUFFER, aDataSize, aData, GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	void OpenlGlVertexBufferImpl::Rebuild()
 	{
-		glGenBuffers(1, &m_vbo);
+		glGenBuffers(1, &mVbo);
 	}
 
 	void OpenlGlVertexBufferImpl::Bind()
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, mVbo);
 	}
 
 	void OpenlGlVertexBufferImpl::UnBind()
@@ -72,9 +71,9 @@ namespace BlueGengine
 
 	void OpenlGlVertexBufferImpl::Unload()
 	{
-		if (m_vbo)
+		if (mVbo)
 		{
-			glDeleteVertexArrays(1, &m_vbo);
+			glDeleteVertexArrays(1, &mVbo);
 		}
 	}
 
@@ -89,15 +88,15 @@ namespace BlueGengine
 	    }
 	    }
 
-	    void VertexBuffer::MapData(void* a_data, uint32 a_dataSize)
+	    void VertexBuffer::MapData(void* aData, uint32 aDataSize)
 	    {
 	    if (!m_mapBufferPtr || !m_init)
 	    {
 	    return;
 	    }
 
-	    std::memcpy(m_mapBufferPtr, a_data, a_dataSize);
-	    m_mapBufferPtr = (void*)((char*)m_mapBufferPtr + a_dataSize);
+	    std::memcpy(m_mapBufferPtr, aData, aDataSize);
+	    m_mapBufferPtr = (void*)((char*)m_mapBufferPtr + aDataSize);
 
 
 	    void VertexBuffer::EndMap()

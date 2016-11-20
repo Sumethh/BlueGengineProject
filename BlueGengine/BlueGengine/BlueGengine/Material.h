@@ -4,6 +4,9 @@
 #include "NonCopyable.h"
 #include <string>
 #include <glm/vec4.hpp>
+#include <vector>
+#include "Light.h"
+#define MAX_LIGHTS 32
 namespace BlueGengine
 {
 	class Shader;
@@ -11,35 +14,34 @@ namespace BlueGengine
 	class Material : public NonCopyable
 	{
 		public:
-		enum TextureType
-		{
-			Diffuse,
-			SpecularMap,
-			NormalMap
-		};
 
-
-		Material(uint32 a_materialID);
+		Material(uint32 aMaterialID);
 		~Material();
 
-
-		void PrepareForDrawing();
+		void Bind();
+		void SetDataForDrawing();
 		void Unprep();
-		inline void SetDiffuseColor(glm::vec4 a_color) { m_diffuseColor = a_color; }
-		inline void SetAmbientColor(glm::vec4 a_color) { m_ambientColor = a_color; }
-		inline void SetSpecularPower(float a_spec) { m_specular = a_spec; }
+		inline void SetDiffuseColor(glm::vec4 aColor) { mDiffuseColor = aColor; }
+		inline void SetAmbientColor(glm::vec4 aColor) { mAmbientColor = aColor; }
+		inline void SetSpecularPower(float aSpec) { mSpecular = aSpec; }
+		inline void SetShader(Shader* aShader) { m_shader = aShader; }
+		inline void SetTexture(Texture* aTexture) { mTexture = aTexture; }
 
-		inline void SetShader(Shader* a_shader) { m_shader = a_shader; }
-		inline void SetTexture(Texture* a_texture) { m_texture = a_texture; }
-		//TODO change this so it gets an id from a material manager
-		uint32 GetID() const { return m_id; }
+		uint32 GetID() const { return mId; }
 		Shader* m_shader;
+
+		uint32 GetShaderVariableLoc(const char* aVariable);
+
+		void SetPointLightData(std::vector<Light*>& aLights);
+
 		private:
-		std::string m_name;
-		glm::vec4 m_diffuseColor;
-		glm::vec4 m_ambientColor;
-		float m_specular;
-		uint32 m_id;
-		Texture* m_texture;
+		void CalculateAllLightInformation();
+		std::string mName;
+		glm::vec4 mDiffuseColor;
+		glm::vec4 mAmbientColor;
+		float mSpecular;
+		uint32 mId;
+		Texture* mTexture;
+
 	};
 }

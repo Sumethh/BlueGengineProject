@@ -6,6 +6,7 @@ namespace BlueGengine
 	class ApplicationWindow;
 	class Game;
 	class ForwardRenderer;
+	class GizmoRenderer;
 	class Application : public NonCopyable
 	{
 		public:
@@ -15,9 +16,10 @@ namespace BlueGengine
 
 
 
-		ApplicationWindow* m_window;
-		Game* m_game;
-		ForwardRenderer* m_renderer;
+		ApplicationWindow* mWindow;
+		Game* mGame;
+		ForwardRenderer* mRenderer;
+		GizmoRenderer* mGizmoRenderer;
 	};
 
 }

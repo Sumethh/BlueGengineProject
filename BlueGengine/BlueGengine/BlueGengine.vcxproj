@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugOpt|Win32">
+      <Configuration>DebugOpt</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugOpt|x64">
+      <Configuration>DebugOpt</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -37,6 +45,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -44,6 +59,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
@@ -61,10 +83,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -80,6 +108,12 @@
     <IncludePath>C:\VulkanSDK\1.0.26.0\Include;$(ProjectDir)..\extern\include;..\..\RtFrameWork\RtFrameWork\RtFrameWork;$(IncludePath)</IncludePath>
     <LibraryPath>C:\VulkanSDK\1.0.26.0\Bin32;$(ProjectDir)..\extern\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|Win32'">
+    <OutDir>$(SolutionDir)\bin\Win32\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)\Intermediate\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>C:\VulkanSDK\1.0.26.0\Include;$(ProjectDir)..\extern\include;..\..\RtFrameWork\RtFrameWork\RtFrameWork;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\VulkanSDK\1.0.26.0\Bin32;$(ProjectDir)..\extern\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\VulkanSDK\1.0.26.0\Include;$(ProjectDir)..\extern\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\VulkanSDK\1.0.26.0\Bin;$(ProjectDir)..\extern\lib\x64;$(LibraryPath)</LibraryPath>
@@ -87,6 +121,12 @@
     <IntDir>$(ProjectDir)\Intermediate\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\VulkanSDK\1.0.26.0\Include;$(ProjectDir)..\extern\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\VulkanSDK\1.0.26.0\Bin;$(ProjectDir)..\extern\lib\x64;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)\Intermediate\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">
     <IncludePath>C:\VulkanSDK\1.0.26.0\Include;$(ProjectDir)..\extern\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\VulkanSDK\1.0.26.0\Bin;$(ProjectDir)..\extern\lib\x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
@@ -111,10 +151,42 @@
       <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>assimp.lib;glew32.lib;glfw3.lib;opengl32.lib;FreeImage.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;glew32.lib;glfw3.lib;opengl32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>assimp.lib;glew32.lib;glfw3.lib;opengl32.lib;FreeImage.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MinSpace</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>assimp.lib;glew32.lib;glfw3.lib;opengl32.lib;FreeImage.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Full</Optimization>
@@ -126,13 +198,13 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>assimp.lib;glew32.lib;glfw3.lib;opengl32.lib;FreeImage.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;glew32.lib;glfw3.lib;opengl32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugOpt|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -141,30 +213,35 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>assimp.lib;glew32.lib;glfw3.lib;opengl32.lib;FreeImage.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;glew32.lib;glfw3.lib;opengl32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlueGengine\Application.cpp" />
     <ClCompile Include="BlueGengine\Components\ActorComponent.cpp" />
+    <ClCompile Include="BlueGengine\Components\CameraComponent.cpp" />
     <ClCompile Include="BlueGengine\Components\ComponentFactory.cpp" />
+    <ClCompile Include="BlueGengine\Components\FirstPersonComponent.cpp" />
     <ClCompile Include="BlueGengine\Components\MaterialComponent.cpp" />
-    <ClCompile Include="BlueGengine\Components\MeshComponent.cpp" />
+    <ClCompile Include="BlueGengine\Components\DynamicMeshComponent.cpp" />
     <ClCompile Include="BlueGengine\Components\TransformComponent.cpp" />
     <ClCompile Include="BlueGengine\ElementBuffer.cpp" />
-    <ClCompile Include="BlueGengine\ForwardRenderer.cpp" />
     <ClCompile Include="BlueGengine\Game.cpp" />
     <ClCompile Include="BlueGengine\Actor.cpp" />
+    <ClCompile Include="BlueGengine\GizmoRenderer.cpp" />
     <ClCompile Include="BlueGengine\GlTemp\OpenGlApp.cpp" />
     <ClCompile Include="BlueGengine\GraphicsDevice.cpp" />
+    <ClCompile Include="BlueGengine\Graphics\FrameBuffer.cpp" />
+    <ClCompile Include="BlueGengine\Graphics\UniformBuffer.cpp" />
     <ClCompile Include="BlueGengine\Imgui\imgui.cpp" />
     <ClCompile Include="BlueGengine\Imgui\imgui_demo.cpp" />
     <ClCompile Include="BlueGengine\Imgui\imgui_draw.cpp" />
     <ClCompile Include="BlueGengine\Imgui\imgui_impl_glfw_gl3.cpp" />
-    <ClCompile Include="BlueGengine\Imgui\imgui_impl_glfw_vulkan.cpp" />
     <ClCompile Include="BlueGengine\impl\ElementBufferImpl.cpp" />
+    <ClCompile Include="BlueGengine\impl\FrameBufferImpl.cpp" />
     <ClCompile Include="BlueGengine\impl\ShaderImpl.cpp" />
     <ClCompile Include="BlueGengine\impl\TextureImpl.cpp" />
+    <ClCompile Include="BlueGengine\impl\UniformBufferImpl.cpp" />
     <ClCompile Include="BlueGengine\impl\VertexArrayImpl.cpp" />
     <ClCompile Include="BlueGengine\impl\VertexBufferImpl.cpp" />
     <ClCompile Include="BlueGengine\Input.cpp" />
@@ -173,12 +250,16 @@
     <ClCompile Include="BlueGengine\main.cpp" />
     <ClCompile Include="BlueGengine\Material.cpp" />
     <ClCompile Include="BlueGengine\MaterialManager.cpp" />
+    <ClCompile Include="BlueGengine\Memory\FixedMemoryManager.cpp" />
     <ClCompile Include="BlueGengine\Mesh.cpp" />
     <ClCompile Include="BlueGengine\MeshManager.cpp" />
-    <ClCompile Include="BlueGengine\ModelLoader.cpp" />
+    <ClCompile Include="BlueGengine\MeshLoader.cpp" />
     <ClCompile Include="BlueGengine\ApplicationWindow.cpp" />
+    <ClCompile Include="BlueGengine\Renderers\DeferedRenderer.cpp" />
+    <ClCompile Include="BlueGengine\Renderers\ForwardRenderer.cpp" />
     <ClCompile Include="BlueGengine\Shader.cpp" />
-    <ClCompile Include="BlueGengine\Temp\VulkanApp.cpp" />
+    <ClCompile Include="BlueGengine\Systems\AsyncLoadingManager.cpp" />
+    <ClCompile Include="BlueGengine\Systems\TaskSystem.cpp" />
     <ClCompile Include="BlueGengine\Texture.cpp" />
     <ClCompile Include="BlueGengine\VertexArray.cpp" />
     <ClCompile Include="BlueGengine\VertexBuffer.cpp" />
@@ -187,49 +268,61 @@
   <ItemGroup>
     <ClInclude Include="BlueGengine\Application.h" />
     <ClInclude Include="BlueGengine\Components\ActorComponent.h" />
+    <ClInclude Include="BlueGengine\Components\CameraComponent.h" />
     <ClInclude Include="BlueGengine\Components\ComponentFactory.h" />
     <ClInclude Include="BlueGengine\Components\ComponentTypes.h" />
+    <ClInclude Include="BlueGengine\Components\FirstPersonComponent.h" />
     <ClInclude Include="BlueGengine\Components\MaterialComponent.h" />
-    <ClInclude Include="BlueGengine\Components\MeshComponent.h" />
+    <ClInclude Include="BlueGengine\Components\DynamicMeshComponent.h" />
     <ClInclude Include="BlueGengine\Components\TransformComponent.h" />
     <ClInclude Include="BlueGengine\DataDescriptor.h" />
     <ClInclude Include="BlueGengine\Defines.h" />
     <ClInclude Include="BlueGengine\ElementBuffer.h" />
-    <ClInclude Include="BlueGengine\ForwardRenderer.h" />
     <ClInclude Include="BlueGengine\Game.h" />
     <ClInclude Include="BlueGengine\Actor.h" />
+    <ClInclude Include="BlueGengine\GizmoRenderer.h" />
     <ClInclude Include="BlueGengine\GlmTransformationInclude.h" />
     <ClInclude Include="BlueGengine\GlTemp\OpenGlApp.h" />
     <ClInclude Include="BlueGengine\GraphicsDevice.h" />
     <ClInclude Include="BlueGengine\GraphicsDeviceFactory.h" />
+    <ClInclude Include="BlueGengine\Graphics\FrameBuffer.h" />
+    <ClInclude Include="BlueGengine\Graphics\UniformBuffer.h" />
     <ClInclude Include="BlueGengine\Helpers\MathHelpers.h" />
     <ClInclude Include="BlueGengine\ImageFormat.h" />
     <ClInclude Include="BlueGengine\Imgui\imconfig.h" />
     <ClInclude Include="BlueGengine\Imgui\imgui.h" />
     <ClInclude Include="BlueGengine\Imgui\imgui_impl_glfw_gl3.h" />
-    <ClInclude Include="BlueGengine\Imgui\imgui_impl_glfw_vulkan.h" />
     <ClInclude Include="BlueGengine\Imgui\imgui_internal.h" />
     <ClInclude Include="BlueGengine\Imgui\stb_rect_pack.h" />
     <ClInclude Include="BlueGengine\Imgui\stb_textedit.h" />
     <ClInclude Include="BlueGengine\Imgui\stb_truetype.h" />
     <ClInclude Include="BlueGengine\impl\ElementBufferImpl.h" />
+    <ClInclude Include="BlueGengine\impl\FrameBufferImpl.h" />
     <ClInclude Include="BlueGengine\impl\ShaderImpl.h" />
     <ClInclude Include="BlueGengine\impl\TextureImpl.h" />
+    <ClInclude Include="BlueGengine\impl\UniformBufferImpl.h" />
     <ClInclude Include="BlueGengine\impl\VertexArrayImpl.h" />
     <ClInclude Include="BlueGengine\impl\VertexBufferImpl.h" />
     <ClInclude Include="BlueGengine\Input.h" />
+    <ClInclude Include="BlueGengine\Json\json.hpp" />
     <ClInclude Include="BlueGengine\Light.h" />
     <ClInclude Include="BlueGengine\Log.h" />
+    <ClInclude Include="BlueGengine\Managers\AsyncLoadingMeshTracker.h" />
     <ClInclude Include="BlueGengine\Material.h" />
     <ClInclude Include="BlueGengine\MaterialManager.h" />
+    <ClInclude Include="BlueGengine\Memory\FixedMemoryManager.h" />
     <ClInclude Include="BlueGengine\Mesh.h" />
     <ClInclude Include="BlueGengine\MeshManager.h" />
-    <ClInclude Include="BlueGengine\ModelLoader.h" />
+    <ClInclude Include="BlueGengine\MeshLoader.h" />
     <ClInclude Include="BlueGengine\NonCopyable.h" />
     <ClInclude Include="BlueGengine\Rect.h" />
-    <ClInclude Include="BlueGengine\RendererInterface.h" />
+    <ClInclude Include="BlueGengine\Renderers\DeferedRenderer.h" />
+    <ClInclude Include="BlueGengine\Renderers\ForwardRenderer.h" />
+    <ClInclude Include="BlueGengine\Renderers\RendererInterface.h" />
+    <ClInclude Include="BlueGengine\ResourceList.h" />
     <ClInclude Include="BlueGengine\Shader.h" />
-    <ClInclude Include="BlueGengine\Temp\VulkanApp.h" />
+    <ClInclude Include="BlueGengine\Systems\ASyncLoadingManager.h" />
+    <ClInclude Include="BlueGengine\Systems\TaskSystem.h" />
     <ClInclude Include="BlueGengine\Texture.h" />
     <ClInclude Include="BlueGengine\timer.h" />
     <ClInclude Include="BlueGengine\Types.h" />

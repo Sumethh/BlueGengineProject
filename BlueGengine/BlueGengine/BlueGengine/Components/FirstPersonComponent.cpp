@@ -6,16 +6,22 @@
 #include "../imgui/imgui.h"
 #include <glm/gtc/constants.hpp>
 #include "../ApplicationWindow.h"
-BlueGengine::FirstPersonComponent::FirstPersonComponent(Actor* a_owner) : ActorComponent(a_owner, EComponentType::EFirstPersonComponent)
+BlueGengine::FirstPersonComponent::FirstPersonComponent(Actor* aOwner) : ActorComponent(aOwner, EComponentType::EFirstPersonComponent)
+{
+
+}
+
+void BlueGengine::FirstPersonComponent::BeginPlay()
 {
 }
-void BlueGengine::FirstPersonComponent::Update(float a_dt)
+
+void BlueGengine::FirstPersonComponent::Update(float aDt)
 {
 	Transform trans = GetOwner()->GetTransformComponent()->GetTransform();
 	glm::vec3 forward = GetOwner()->GetTransformComponent()->GetForwardVector();
 	glm::vec3 right = GetOwner()->GetTransformComponent()->GetRightVector();
 	glm::vec3 up = GetOwner()->GetTransformComponent()->GetUpVector();
-	glm::vec3 movement = glm::vec3(m_moveSpeed * a_dt);
+	glm::vec3 movement = glm::vec3(mMoveSpeed * aDt);
 
 	if (Input::GetKeyDown(Input::Key::W))
 	{
@@ -43,5 +49,24 @@ void BlueGengine::FirstPersonComponent::Update(float a_dt)
 	{
 		trans.position -= up * movement;
 	}
+
+	glm::vec3 euler = QuatToEuler(trans.rotation);
+	glm::quat resultingQuat;
+
+	if (Input::GetMouseButtonDown(1))
+	{
+		glm::vec2 mouseMove;
+		Input::GetMouseMove(mouseMove.x, mouseMove.y);
+
+		if (glm::length(mouseMove) < 10.0f && glm::length(mouseMove) > 0.0f)
+		{
+			euler.x += mouseMove.y * mLookSpeed * aDt;
+			euler.y += mouseMove.x * mLookSpeed * aDt;
+		}
+
+	}
+
+	trans.rotation = QuatFromEuler(euler);
+	ImGui::LabelText("Camera Rot", "%f, %f, %f", euler.x, euler.y, euler.z);
 	GetOwner()->GetTransformComponent()->SetTransform(trans);
 }

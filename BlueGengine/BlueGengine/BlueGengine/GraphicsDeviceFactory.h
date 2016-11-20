@@ -10,16 +10,16 @@ namespace BlueGengine
 
 		inline GraphicsDeviceFactory* GetInstance()
 		{
-			if (!s_factoryInstance)
+			if (!sFactoryInstance)
 			{
-				s_factoryInstance = new GraphicsDeviceFactory();
+				sFactoryInstance = new GraphicsDeviceFactory();
 			}
 
-			return s_factoryInstance;
+			return sFactoryInstance;
 		}
 
-		GraphicsDevice* CreateGraphicsDevice(EGraphicsDeviceType a_type);
+		GraphicsDevice* CreateGraphicsDevice(EGraphicsDeviceType aType);
 		private:
-		static GraphicsDeviceFactory* s_factoryInstance;
+		static GraphicsDeviceFactory* sFactoryInstance;
 	};
 }
