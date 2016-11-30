@@ -1,6 +1,6 @@
 #include "MaterialManager.h"
 #include "Material.h"
-#include "Texture.h"
+#include "Texture2D.h"
 #include "Shader.h"
 namespace BlueGengine
 {
@@ -10,8 +10,8 @@ namespace BlueGengine
 		Material* defaultMaterial = CreateMaterial();
 		Shader* shader = new Shader();
 		shader->LoadShader("assets/shaders/glsl/Forward/Forward_Shaded.glslv", "assets/shaders/glsl/Forward/Forward_Shaded.glslf");
-		Texture* tex = new Texture();
-		tex->LoadTexture("Assets/Textures/Default.png", ImageFormat::IF_RGB, ImageFormat::IF_RGB);
+		Texture2D* tex = new Texture2D();
+		tex->LoadTexture("Assets/Textures/Debug.png", ImageFormat::IF_RGB, ImageFormat::IF_RGB);
 		defaultMaterial->SetShader(shader);
 		defaultMaterial->SetTexture(tex);
 		defaultMaterial->SetAmbientColor(glm::vec4(0.1f, 0.1f, 0.1f, 0.1f));
@@ -23,6 +23,11 @@ namespace BlueGengine
 		Shader* debugShader = new Shader();
 		debugShader->LoadShader("assets/shaders/glsl/debug/GizmoShader.glslv", "assets/shaders/glsl/Debug/GizmoShader.glslf");
 		debugMaterial->SetShader(debugShader);
+
+		Material* debugMaterialInstanced = CreateMaterial();
+		Shader* debugShaderInstanced = new Shader();
+		debugShaderInstanced->LoadShader("assets/shaders/glsl/debug/GizmoLineShader.glslv", "assets/shaders/glsl/Debug/GizmoLineShader.glslf");
+		debugMaterialInstanced->SetShader(debugShaderInstanced);
 	}
 
 	MaterialManager::MaterialManager()

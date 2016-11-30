@@ -88,11 +88,11 @@ namespace BlueGengine
 			std::string t = "Intializing task system with ";
 			t += std::to_string(coreCount);
 			t += " task threads";
-			LOGI(t.c_str());
+			Log::LogInfo(t);
 			sThreads.reserve(coreCount);
 			sRunThreads.store(true);
 
-			for (int i = 0; i < coreCount; ++i)
+			for (uint32 i = 0; i < coreCount; ++i)
 			{
 				StaticThreadInformation info;
 				info.threadID = i;
@@ -116,6 +116,18 @@ namespace BlueGengine
 			for (int i = 0; i < sThreads.size(); ++i)
 			{
 				sThreads[i]->join();
+			}
+
+			ITask* remainingTasks = nullptr;
+
+			if (sJobList.try_dequeue(remainingTasks))
+			{
+				while (remainingTasks)
+				{
+					delete remainingTasks;
+					sJobList.try_dequeue(remainingTasks);
+				}
+
 			}
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));

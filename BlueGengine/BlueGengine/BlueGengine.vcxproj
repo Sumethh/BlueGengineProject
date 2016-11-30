@@ -138,6 +138,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>assimp.lib;glew32.lib;glfw3.lib;opengl32.lib;FreeImage.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -148,7 +149,8 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4100;4505;</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>assimp.lib;glew32.lib;glfw3.lib;opengl32.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -163,6 +165,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -179,6 +182,7 @@
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -193,7 +197,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4100;4505;</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -208,7 +213,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4100;4505;</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -225,25 +231,18 @@
     <ClCompile Include="BlueGengine\Components\MaterialComponent.cpp" />
     <ClCompile Include="BlueGengine\Components\DynamicMeshComponent.cpp" />
     <ClCompile Include="BlueGengine\Components\TransformComponent.cpp" />
-    <ClCompile Include="BlueGengine\ElementBuffer.cpp" />
     <ClCompile Include="BlueGengine\Game.cpp" />
     <ClCompile Include="BlueGengine\Actor.cpp" />
     <ClCompile Include="BlueGengine\GizmoRenderer.cpp" />
     <ClCompile Include="BlueGengine\GlTemp\OpenGlApp.cpp" />
-    <ClCompile Include="BlueGengine\GraphicsDevice.cpp" />
-    <ClCompile Include="BlueGengine\Graphics\FrameBuffer.cpp" />
+    <ClCompile Include="BlueGengine\Graphics\GraphicsDeviceFactory.cpp" />
+    <ClCompile Include="BlueGengine\Graphics\IGraphicsDevice.cpp" />
+    <ClCompile Include="BlueGengine\Graphics\OpenGlGraphicsDevice.cpp" />
     <ClCompile Include="BlueGengine\Graphics\UniformBuffer.cpp" />
     <ClCompile Include="BlueGengine\Imgui\imgui.cpp" />
     <ClCompile Include="BlueGengine\Imgui\imgui_demo.cpp" />
     <ClCompile Include="BlueGengine\Imgui\imgui_draw.cpp" />
     <ClCompile Include="BlueGengine\Imgui\imgui_impl_glfw_gl3.cpp" />
-    <ClCompile Include="BlueGengine\impl\ElementBufferImpl.cpp" />
-    <ClCompile Include="BlueGengine\impl\FrameBufferImpl.cpp" />
-    <ClCompile Include="BlueGengine\impl\ShaderImpl.cpp" />
-    <ClCompile Include="BlueGengine\impl\TextureImpl.cpp" />
-    <ClCompile Include="BlueGengine\impl\UniformBufferImpl.cpp" />
-    <ClCompile Include="BlueGengine\impl\VertexArrayImpl.cpp" />
-    <ClCompile Include="BlueGengine\impl\VertexBufferImpl.cpp" />
     <ClCompile Include="BlueGengine\Input.cpp" />
     <ClCompile Include="BlueGengine\Light.cpp" />
     <ClCompile Include="BlueGengine\Log.cpp" />
@@ -259,10 +258,9 @@
     <ClCompile Include="BlueGengine\Renderers\ForwardRenderer.cpp" />
     <ClCompile Include="BlueGengine\Shader.cpp" />
     <ClCompile Include="BlueGengine\Systems\AsyncLoadingManager.cpp" />
+    <ClCompile Include="BlueGengine\Systems\Console.cpp" />
     <ClCompile Include="BlueGengine\Systems\TaskSystem.cpp" />
-    <ClCompile Include="BlueGengine\Texture.cpp" />
-    <ClCompile Include="BlueGengine\VertexArray.cpp" />
-    <ClCompile Include="BlueGengine\VertexBuffer.cpp" />
+    <ClCompile Include="BlueGengine\Texture2D.cpp" />
     <ClCompile Include="BlueGengine\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -277,15 +275,14 @@
     <ClInclude Include="BlueGengine\Components\TransformComponent.h" />
     <ClInclude Include="BlueGengine\DataDescriptor.h" />
     <ClInclude Include="BlueGengine\Defines.h" />
-    <ClInclude Include="BlueGengine\ElementBuffer.h" />
     <ClInclude Include="BlueGengine\Game.h" />
     <ClInclude Include="BlueGengine\Actor.h" />
     <ClInclude Include="BlueGengine\GizmoRenderer.h" />
     <ClInclude Include="BlueGengine\GlmTransformationInclude.h" />
     <ClInclude Include="BlueGengine\GlTemp\OpenGlApp.h" />
-    <ClInclude Include="BlueGengine\GraphicsDevice.h" />
-    <ClInclude Include="BlueGengine\GraphicsDeviceFactory.h" />
-    <ClInclude Include="BlueGengine\Graphics\FrameBuffer.h" />
+    <ClInclude Include="BlueGengine\Graphics\GraphicsDeviceFactory.h" />
+    <ClInclude Include="BlueGengine\Graphics\IGraphicsDevice.h" />
+    <ClInclude Include="BlueGengine\Graphics\OpenGlGraphicsDevice.h" />
     <ClInclude Include="BlueGengine\Graphics\UniformBuffer.h" />
     <ClInclude Include="BlueGengine\Helpers\MathHelpers.h" />
     <ClInclude Include="BlueGengine\ImageFormat.h" />
@@ -296,13 +293,6 @@
     <ClInclude Include="BlueGengine\Imgui\stb_rect_pack.h" />
     <ClInclude Include="BlueGengine\Imgui\stb_textedit.h" />
     <ClInclude Include="BlueGengine\Imgui\stb_truetype.h" />
-    <ClInclude Include="BlueGengine\impl\ElementBufferImpl.h" />
-    <ClInclude Include="BlueGengine\impl\FrameBufferImpl.h" />
-    <ClInclude Include="BlueGengine\impl\ShaderImpl.h" />
-    <ClInclude Include="BlueGengine\impl\TextureImpl.h" />
-    <ClInclude Include="BlueGengine\impl\UniformBufferImpl.h" />
-    <ClInclude Include="BlueGengine\impl\VertexArrayImpl.h" />
-    <ClInclude Include="BlueGengine\impl\VertexBufferImpl.h" />
     <ClInclude Include="BlueGengine\Input.h" />
     <ClInclude Include="BlueGengine\Json\json.hpp" />
     <ClInclude Include="BlueGengine\Light.h" />
@@ -322,14 +312,13 @@
     <ClInclude Include="BlueGengine\ResourceList.h" />
     <ClInclude Include="BlueGengine\Shader.h" />
     <ClInclude Include="BlueGengine\Systems\ASyncLoadingManager.h" />
+    <ClInclude Include="BlueGengine\Systems\Console.h" />
     <ClInclude Include="BlueGengine\Systems\TaskSystem.h" />
-    <ClInclude Include="BlueGengine\Texture.h" />
+    <ClInclude Include="BlueGengine\Texture2D.h" />
     <ClInclude Include="BlueGengine\timer.h" />
     <ClInclude Include="BlueGengine\Types.h" />
     <ClInclude Include="BlueGengine\ApplicationWindow.h" />
     <ClInclude Include="BlueGengine\Vertex.h" />
-    <ClInclude Include="BlueGengine\VertexArray.h" />
-    <ClInclude Include="BlueGengine\VertexBuffer.h" />
     <ClInclude Include="BlueGengine\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

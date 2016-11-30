@@ -8,7 +8,7 @@
 
 #include "imgui.h"
 #include "imgui_impl_glfw_gl3.h"
-
+#include "../Input.h"
 // GL3W/GLFW
 #include <gl/glew.h>// This example is using gl3w to access OpenGL functions (because it is small). You may use glew/glad/glLoadGen/etc. whatever already works for you.
 #include <GLFW/glfw3.h>
@@ -382,9 +382,6 @@ bool    ImGui_ImplGlfwGL3_Init(GLFWwindow* window, bool install_callbacks)
 
 	if (install_callbacks)
 	{
-		glfwSetMouseButtonCallback(window, ImGui_ImplGlfwGL3_MouseButtonCallback);
-		glfwSetScrollCallback(window, ImGui_ImplGlfwGL3_ScrollCallback);
-		glfwSetKeyCallback(window, ImGui_ImplGlfwGL3_KeyCallback);
 		glfwSetCharCallback(window, ImGui_ImplGlfwGL3_CharCallback);
 	}
 
@@ -443,6 +440,8 @@ void ImGui_ImplGlfwGL3_NewFrame()
 
 	// Hide OS mouse cursor if ImGui is drawing it
 	glfwSetInputMode(g_Window, GLFW_CURSOR, io.MouseDrawCursor ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_NORMAL);
+	BlueGengine::Input::SetKeyboardCapture(io.WantCaptureKeyboard);
+	BlueGengine::Input::SetMouseCapture(io.WantCaptureMouse);
 
 	// Start the frame
 	ImGui::NewFrame();

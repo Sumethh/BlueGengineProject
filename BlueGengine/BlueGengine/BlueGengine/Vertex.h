@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "VertexBuffer.h"
+#include "DataDescriptor.h"
 namespace BlueGengine
 {
 	struct Vertex

@@ -12,16 +12,16 @@ namespace BlueGengine
 	Actor* cube = nullptr;
 	World::World()
 	{
-		LOGI("World Constructed");
+		Log::LogInfo("World Constructed");
 	}
 
 	World::~World()
 	{
-		LOGI("World Destructed");
+		Log::LogInfo("World Destructed");
 	}
 	void World::BeginPlay()
 	{
-		LOGI("World BeginPlay");
+		Log::LogInfo("World BeginPlay");
 		Actor* prevActor = nullptr;
 
 		Actor* actor = nullptr;
@@ -115,6 +115,7 @@ namespace BlueGengine
 	{
 		aRenderer->Begin(CameraComponent::GetActiveCamera());
 		aRenderer->DrawCube(glm::vec3(0, 0.0f, -2.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::quat(), glm::vec3(0.1f, 0.9f, 0.1f), GizmoRenderer::Solid);
+		aRenderer->DrawLine(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-10.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		aRenderer->Flush();
 	}
 

@@ -6,19 +6,13 @@
 #include "Defines.h"
 namespace BlueGengine
 {
-	class VertexBuffer;
-	class ElementBuffer;
-	class VertexArray;
-
 	class Mesh
 	{
 		private:
 		enum MeshFlags
 		{
 			EReUploadVertices = BlueBit(0),
-			ERebuildVerticesResource = BlueBit(1),
-			EReUploadIndices = BlueBit(2),
-			ERebuildIndicesResource = BlueBit(3)
+			EReUploadIndices = BlueBit(1)
 		};
 		public:
 
@@ -40,14 +34,8 @@ namespace BlueGengine
 		inline void MarkVerticesForReUpload() { mMeshFlags |= MeshFlags::EReUploadVertices; }
 		inline void MarkIndicesForReUpload() { mMeshFlags |= MeshFlags::EReUploadIndices; }
 
-		inline void MarkVerticesForReBuild() { mMeshFlags |= MeshFlags::ERebuildVerticesResource; }
-		inline void MarkIndicesForReBuild() { mMeshFlags |= MeshFlags::ERebuildIndicesResource; }
-
 		inline bool NeedToReuploadIndices()const {return (mMeshFlags & MeshFlags::EReUploadIndices) > 0;}
-		inline bool NeedToRebuildIndices()const { return (mMeshFlags & MeshFlags::ERebuildIndicesResource) > 0; }
-
 		inline bool NeedToReuploadVertices()const { return (mMeshFlags & MeshFlags::EReUploadVertices) > 0; }
-		inline bool NeedToRebuildVertices()const { return (mMeshFlags & MeshFlags::ERebuildVerticesResource) > 0; }
 
 		inline bool NeedToUpdateGpuResource() const { return mMeshFlags > 0; }
 
@@ -63,13 +51,12 @@ namespace BlueGengine
 		inline void ResetFlag(MeshFlags aFlag) { mMeshFlags &= ~aFlag; }
 
 		void ReUploadMeshInfo();
-		void RebuildGpuResources();
 
 		void InitBuffers();
 
-		VertexBuffer* mVertexBuffer;
-		ElementBuffer* mElementBuffer;
-		VertexArray* mVertexArray;
+		uint32 mVertexBufferId;
+		uint32 mElementBufferId;
+		uint32 mVertexArrayId;
 
 		Vertex* mVertices;
 		uint32 mVerticeCount;

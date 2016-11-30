@@ -31,10 +31,7 @@ namespace BlueGengine
 
 	MeshManager::~MeshManager()
 	{
-		for (auto& info : mMeshList)
-		{
-		}
-
+		//TODO: Look if anything needs cleaning
 	}
 
 	void MeshManager::LoadDefaultMesh()

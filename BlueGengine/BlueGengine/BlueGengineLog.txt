@@ -1,0 +1,27 @@
+[Info] Intializing task system with 8 task threads
+[Info] Opengl Graphics device initialized
+[Info] Creating Resource: Shader
+[Info] Creating Resource: Texture2D
+[Info] Creating Resource: Shader
+[Info] Creating Resource: Vertex Array Buffer
+[Info] Creating Resource: Vertex Buffer
+[Info] Creating Resource: Element Buffer
+[Info] Updating graphics Resource: Vertex Buffer
+[Info] Reconstructing Vertex buffer
+[Info] ReUploading mesh resources
+[Info] Updating graphics Resource: Vertex Buffer
+[Info] Reconstructing Vertex buffer
+[Info] Updating graphics Resource: Element Buffer
+[Info] Updating ElementBuffer
+[Info] Reconstructing element buffer
+[Info] Creating Resource: Vertex Array Buffer
+[Info] Creating Resource: Vertex Buffer
+[Info] Creating Resource: Element Buffer
+[Info] Updating graphics Resource: Vertex Buffer
+[Info] Reconstructing Vertex buffer
+[Info] ReUploading mesh resources
+[Info] Updating graphics Resource: Vertex Buffer
+[Info] Reconstructing Vertex buffer
+[Info] Updating graphics Resource: Element Buffer
+[Info] Updating ElementBuffer
+[Info] Reconstructing element buffer

@@ -13,8 +13,7 @@ namespace BlueGengine
 		virtual void Update(float aDt) override;
 
 		private:
-		float mLookSpeed = 100.0f;
+		float mLookSpeed = 20.0f;
 		float mMoveSpeed = 5.0f;
-		float r = 0.0f;
 	};
 }

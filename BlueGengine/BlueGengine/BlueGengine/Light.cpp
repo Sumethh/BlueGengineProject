@@ -7,7 +7,6 @@ namespace BlueGengine
 
 	void Light::TmpSetUp(Shader* aShader)
 	{
-		uint32 shaderLoc = aShader->GetShaderID();
 	}
 
 }

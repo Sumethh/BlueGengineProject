@@ -1,7 +1,6 @@
 #include "Mesh.h"
 #include "Vertex.h"
-#include "VertexArray.h"
-#include "ElementBuffer.h"
+#include "Graphics/IGraphicsDevice.h"
 #include "Log.h"
 namespace BlueGengine
 {
@@ -14,9 +13,11 @@ namespace BlueGengine
 	{
 		delete mVertices;
 		delete mIndices;
-		delete mElementBuffer;
-		delete mVertexArray;
-		delete mVertexBuffer;
+		IGraphicsDevice* gd = IGraphicsDevice::GetCurrentGraphicsDevice();
+		gd->DeleteGraphicsResource(mVertexArrayId);
+		gd->DeleteGraphicsResource(mVertexBufferId);
+		gd->DeleteGraphicsResource(mElementBufferId);
+
 	}
 
 	void Mesh::Init(Vertex* aVertexArray, uint32 aVertexCount, uint32* aIndicies, uint32 aIndiceCount)
@@ -27,14 +28,7 @@ namespace BlueGengine
 
 	void Mesh::SetVertices(Vertex* aVerticies, uint32 aVertecieCount, bool aCleanUpOldVertecies)
 	{
-		if (aVertecieCount > mVerticeCount)
-		{
-			MarkVerticesForReBuild();
-		}
-		else
-		{
-			MarkVerticesForReUpload();
-		}
+		MarkVerticesForReUpload();
 
 		mVerticeCount = aVertecieCount;
 
@@ -49,14 +43,7 @@ namespace BlueGengine
 
 	void Mesh::SetIndices(uint32* aIndices, uint32 aIndiceCount, bool aCleanUpOldIndicies)
 	{
-		if (aIndiceCount > mIndiceCount)
-		{
-			MarkIndicesForReBuild();
-		}
-		else
-		{
-			MarkIndicesForReUpload();
-		}
+		MarkIndicesForReUpload();
 
 		mIndiceCount = aIndiceCount;
 
@@ -70,75 +57,52 @@ namespace BlueGengine
 
 	void Mesh::UpdateMeshResources()
 	{
-		if (NeedToReuploadVertices() || NeedToReuploadIndices())
-		{
-			ReUploadMeshInfo();
-		}
-		else if (NeedToRebuildVertices() || NeedToRebuildIndices())
-		{
-			RebuildGpuResources();
-		}
+		ReUploadMeshInfo();
 	}
 
 	void Mesh::PrepForDrawing()
 	{
-		mVertexArray->Bind();
+		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mVertexArrayId);
 	}
 
 	void Mesh::UnPrepForDrawing()
 	{
-		mVertexArray->UnBind();
+		IGraphicsDevice::GetCurrentGraphicsDevice()->UnBindGraphicsResource(mVertexArrayId);
 
 	}
 
 	void Mesh::ReUploadMeshInfo()
 	{
-		LOGI("ReUploading mesh resources");
+		static std::string message = ("ReUploading mesh resources");
+		Log::LogInfo(message);
 
 		if (NeedToReuploadVertices())
 		{
-			BlueAssert(mVertices != nullptr && mVertexBuffer != nullptr && mVerticeCount > 0);
-			mVertexBuffer->ReUploadData(mVertices, mVerticeCount * sizeof(Vertex));
+			BlueAssert(mVertices != nullptr && mVertexBufferId  && mVerticeCount > 0);
+			IGraphicsDevice::GetCurrentGraphicsDevice()->UpdateResourceData(mVertexBufferId, 0, (void*)mVertices, sizeof(Vertex) * mVerticeCount);
 			ResetFlag(MeshFlags::EReUploadVertices);
 		}
 
 		if (NeedToReuploadIndices())
 		{
-			BlueAssert(mIndices != nullptr && mElementBuffer != nullptr && mIndiceCount > 0);
-			mElementBuffer->SetData(mIndices, mIndiceCount);
+			BlueAssert(mIndices != nullptr && mElementBufferId && mIndiceCount > 0);
+			IGraphicsDevice::GetCurrentGraphicsDevice()->UpdateResourceData(mElementBufferId, 0, (void*)mIndices, sizeof(uint32) * mIndiceCount);
 			ResetFlag(MeshFlags::EReUploadIndices);
 		}
 
 	}
 
-	void Mesh::RebuildGpuResources()
-	{
-		LOGI("Rebuild mesh gpu resources");
-		//Unload my 3 buffers
-		mVertexBuffer->Unload();
-		mElementBuffer->Unload();
-		mVertexArray->Unload();
-
-		//Rebuild the buffers with the new data
-		mVertexArray->Build();
-		mElementBuffer->Build();
-		mElementBuffer->SetData(mIndices, mIndiceCount * sizeof(mIndiceCount));
-		mVertexArray->Bind();
-		mElementBuffer->Bind();
-		mVertexBuffer->SetData((void*)mVertices, sizeof(Vertex) * mVerticeCount, sVertexDescriptors, sVertexDescriptorCount);
-		mVertexArray->UnBind();
-
-		ResetFlag(MeshFlags::ERebuildVerticesResource);
-		ResetFlag(MeshFlags::ERebuildIndicesResource);
-	}
-
-
-
 	void Mesh::InitBuffers()
 	{
-		mVertexBuffer = new VertexBuffer();
-		mElementBuffer = new ElementBuffer();
-		mVertexArray = new VertexArray();
+		IGraphicsDevice* gd = IGraphicsDevice::GetCurrentGraphicsDevice();
+		mVertexArrayId = gd->CreateGraphicsResource(EGraphicsResourceType::VertexArrayBuffer);
+		mVertexBufferId = gd->CreateGraphicsResource(EGraphicsResourceType::VertexBuffer);
+		mElementBufferId = gd->CreateGraphicsResource(EGraphicsResourceType::ElementBuffer);
+		gd->BindGraphicsResource(mVertexArrayId);
+		gd->BindGraphicsResource(mElementBufferId);
+		gd->UpdateResourceData(mVertexBufferId, 0, nullptr, 0, sVertexDescriptors, sVertexDescriptorCount);
+		gd->UnBindGraphicsResource(mVertexArrayId);
+
 	}
 
 }

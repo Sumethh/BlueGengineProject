@@ -4,6 +4,7 @@
 #include "NonCopyable.h"
 #include <vector>
 #include <glm/glm.hpp>
+#include "Graphics/IGraphicsDevice.h"
 namespace BlueGengine
 {
 	class ShaderImpl;
@@ -37,11 +38,8 @@ namespace BlueGengine
 		void Bind();
 		void UnBind();
 		int32 GetShaderVariableLocation(const char* aVarName);
-		uint32 GetShaderID();
 
-		void SetMatrixShaderVar(uint32 aVarLoc, glm::mat4* aVar);
-		void SetVectorShaderVar(uint32 aVarLoc, glm::vec3* aVar);
-		void SetFloatShaderVar(uint32 aVarLoc, float* aVar);
+		void SetShaderVar(uint32 aVarLoc, void* aVar, EVarType aType);
 
 		inline std::vector<CachedPointlightShaderInfo>& GetPointLightInfo() { return mCachedPointLightInfo; }
 		inline int32 GetPointLightCountLoc() { return mPointLightCountLoc; }
@@ -53,6 +51,6 @@ namespace BlueGengine
 		char* m_shaderPaths[ShaderType::ShaderTypeCount];
 		int32 mPointLightCountLoc;
 		std::vector<CachedPointlightShaderInfo> mCachedPointLightInfo;
-		ShaderImpl* mImpl;
+		uint32 mShaderResourceID;
 	};
 }

@@ -1,5 +1,5 @@
 #include "Material.h"
-#include "Texture.h"
+#include "Texture2D.h"
 #include "Shader.h"
 #include <GL/glew.h>
 namespace BlueGengine
@@ -15,7 +15,7 @@ namespace BlueGengine
 
 	void Material::Bind()
 	{
-		m_shader->Bind();
+		mShader->Bind();
 
 		if (mTexture)
 		{
@@ -25,53 +25,56 @@ namespace BlueGengine
 
 	void Material::SetDataForDrawing()
 	{
-		uint32 shaderID = m_shader->GetShaderID();
-		int32 matDiffuseLoc = glGetUniformLocation(shaderID, "material.Diffuse");
-		int32 matSpecularLoc = glGetUniformLocation(shaderID, "material.Specular");
+		int32 matDiffuseLoc =  mShader->GetShaderVariableLocation("material.Diffuse");
+		int32 matSpecularLoc = mShader->GetShaderVariableLocation("material.Specular");
 
 
-		glUniform4f(matDiffuseLoc, mDiffuseColor.x, mDiffuseColor.y, mDiffuseColor.z, mDiffuseColor.w);
-		glUniform1f(matSpecularLoc, mSpecular);
+		mShader->SetShaderVar(matDiffuseLoc, (void*)&mDiffuseColor, EVarType::Vector4);
+		mShader->SetShaderVar(matSpecularLoc, (void*)&mSpecular, EVarType::Float);
 	}
 
-	void Material::Unprep()
+	void Material::UnBind()
 	{
-		m_shader->UnBind();
-		mTexture->UnBind();
+		mShader->UnBind();
+
+		if (mTexture)
+		{
+			mTexture->UnBind();
+		}
 	}
 
 	uint32 Material::GetShaderVariableLoc(const char* aVariable)
 	{
-		return glGetUniformLocation(m_shader->GetShaderID(), aVariable);
+		return mShader->GetShaderVariableLocation(aVariable);
 	}
 
 	void Material::SetPointLightData(std::vector<Light*>& aLights)
 	{
 		BlueAssert(aLights.size() <= Shader::MaxLightCount);
 
-		if (m_shader->GetPointLightCountLoc() == -1)
+		if (mShader->GetPointLightCountLoc() == -1)
 		{
 			return;
 		}
 
 		float count = (float)aLights.size();
-		m_shader->SetFloatShaderVar(m_shader->GetPointLightCountLoc(), &count);
+		mShader->SetShaderVar(mShader->GetPointLightCountLoc(), (void*)&count, EVarType::Float);
 
-		std::vector<Shader::CachedPointlightShaderInfo>& lightInfo = m_shader->GetPointLightInfo();
+		std::vector<Shader::CachedPointlightShaderInfo>& lightInfo = mShader->GetPointLightInfo();
 		static float constant = 1;
-		static float linear = .14;
+		static float linear = .14f;
 		static float quadratic = .07f;
 
 		for (int i = 0; i < aLights.size(); ++i)
 		{
 			Shader::CachedPointlightShaderInfo& info = lightInfo[i];
 
-			m_shader->SetVectorShaderVar(info.pos, &aLights[i]->position);
-			m_shader->SetVectorShaderVar(info.color, & aLights[i]->color);
+			mShader->SetShaderVar(info.pos, (void*)&aLights[i]->position, EVarType::Vector3);
+			mShader->SetShaderVar(info.color, (void*)&aLights[i]->color, EVarType::Vector3);
 
-			m_shader->SetFloatShaderVar(info.constant, &constant);
-			m_shader->SetFloatShaderVar(info.linear, &linear);
-			m_shader->SetFloatShaderVar(info.quadratic, &quadratic);
+			mShader->SetShaderVar(info.constant, (void*)&constant, EVarType::Float);
+			mShader->SetShaderVar(info.linear, (void*)&linear, EVarType::Float);
+			mShader->SetShaderVar(info.quadratic, (void*)&quadratic, EVarType::Float);
 
 		}
 

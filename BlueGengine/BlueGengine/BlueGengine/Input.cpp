@@ -49,11 +49,10 @@ namespace BlueGengine
 
 	}
 
-	void Input::GetMouseMove(float& a_x, float& aY)
+	void Input::GetMouseMove(float& aX, float& aY)
 	{
-		a_x = mInstance.mMouseMoveX;
+		aX = mInstance.mMouseMoveX;
 		aY = mInstance.mMouseMoveY;
-
 	}
 
 	bool Input::isMouseOverUI()
@@ -65,8 +64,6 @@ namespace BlueGengine
 	{
 		std::memset(mInstance.mKeys, 0, _countof(mInstance.mKeys));
 		std::memset(mInstance.mMouseButton, 0, _countof(mInstance.mMouseButton));
-		mInstance.mMouseMoveX = 0;
-		mInstance.mMouseMoveY = 0;
 	}
 
 	void Input::OnKeyDown(const int aKeyCode)

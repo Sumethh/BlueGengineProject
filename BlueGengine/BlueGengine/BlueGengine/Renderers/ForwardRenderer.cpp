@@ -10,25 +10,12 @@
 #include "../Components/TransformComponent.h"
 #include "../Components/CameraComponent.h"
 #include <glm/gtc/quaternion.hpp>
-#include <gl/glew.h>
 #include <glm/gtc/type_ptr.inl>
 namespace BlueGengine
 {
 
 	ForwardRenderer::ForwardRenderer()
 	{
-		for (int i = 0; i < 32; i++)
-		{
-			Light* l = new Light();
-			l->position.x = i * 3;
-			l->position.y = 0;
-			l->position.z = 0;
-
-			l->color.x = 1.0f;
-			l->color.y = 0;
-			l->color.z = 0;
-			Tlights.push_back(l);
-		}
 
 	}
 
@@ -47,15 +34,9 @@ namespace BlueGengine
 	void ForwardRenderer::Flush()
 	{
 		MaterialManager* matManager = MaterialManager::GI();
-		MeshManager* meshManager = MeshManager::GI();
 		std::vector<Light*> lights;
 		lights.reserve(32);
-
-		//lights.push_back(myLight);
-		for (int i = 0; i < 32; i++)
-		{
-			lights.push_back(Tlights[i]);
-		}
+		IGraphicsDevice* device = IGraphicsDevice::GetCurrentGraphicsDevice();
 
 		for (int i = 0; i < mCams.size(); ++i)
 		{
@@ -69,21 +50,26 @@ namespace BlueGengine
 				Material* material = matManager->GetMaterial(mat);
 				material->Bind();
 				material->SetDataForDrawing();
-				Shader* shader = material->m_shader;
-				int32 proj = glGetUniformLocation(shader->GetShaderID(), "projection");
-				int32 view = glGetUniformLocation(shader->GetShaderID(), "view");
-				glUniformMatrix4fv(proj, 1, false, glm::value_ptr(projectionMatrix));
-				glUniformMatrix4fv(view, 1, false, glm::value_ptr(viewmatrix));
-				int32 loc = glGetUniformLocation(shader->GetShaderID(), "dl.color");
-				glUniform3f(loc, 1.0, 1.0f, 1.0f);
-				loc = glGetUniformLocation(shader->GetShaderID(), "dl.direction");
-				glUniform3f(loc, 0.0f, -1.0f, 0.0f);
+				Shader* shader = material->GetShader();
+				int32 proj = shader->GetShaderVariableLocation("projection");
+				int32 view = shader->GetShaderVariableLocation("view");
+				shader->SetShaderVar(proj, glm::value_ptr(projectionMatrix), EVarType::Matrix4x4);
+				shader->SetShaderVar(view, glm::value_ptr(viewmatrix), EVarType::Matrix4x4);
+				int32 loc = shader->GetShaderVariableLocation("dl.color");
+				glm::vec3 c(1.0);
+				glm::vec3 dr(0, -1.0, 0);
+
+				shader->SetShaderVar(loc , (void*)&c, EVarType::Vector3);
+				loc = shader->GetShaderVariableLocation("dl.direction");
+				shader->SetShaderVar(loc, (void*)&dr, EVarType::Vector3);
+
 
 				for (auto& meshInfo : renderList)
 				{
 					Mesh* mesh = meshInfo.first;
 					std::vector<Transform>& transforms = meshInfo.second;
 					mesh->PrepForDrawing();
+					uint32 indicieCount = mesh->GetIndiceCount();
 
 					for (auto& transform : transforms)
 					{
@@ -92,20 +78,19 @@ namespace BlueGengine
 						modelMat = glm::scale(modelMat, transform.scale);
 						glm::quat q(transform.rotation);
 						//modelMat *= glm::mat4_cast(q);
-						int32 modelLoc = glGetUniformLocation(shader->GetShaderID(), "model");
+						int32 modelLoc = shader->GetShaderVariableLocation("model");
 
 						material->SetPointLightData(lights);
 						modelMat = transform.MakeMat4();
-						glUniformMatrix4fv(modelLoc, 1, false, glm::value_ptr(modelMat));
+						shader->SetShaderVar(modelLoc, (void*)glm::value_ptr(modelMat), EVarType::Matrix4x4);
 
-						glDrawElements(GL_TRIANGLES, mesh->GetIndiceCount(), GL_UNSIGNED_INT, nullptr);
-
+						device->DrawBuffersElements(EDrawMode::Triangles, indicieCount);
 					}
 
 					mesh->UnPrepForDrawing();
 				}
 
-				material->Unprep();
+				material->UnBind();
 			}
 
 		}

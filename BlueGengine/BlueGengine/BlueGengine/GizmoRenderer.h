@@ -3,6 +3,9 @@
 #include "Types.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <vector>
+
+#define MAX_LINE_COUNT 10000
 namespace BlueGengine
 {
 	class Mesh;
@@ -37,13 +40,20 @@ namespace BlueGengine
 		void SetSphereMesh(Mesh* aMesh) { mSphereMesh = aMesh; }
 		void SetPlaneMesh(Mesh* aMesh) { mPlaneMesh = aMesh; }
 		void SetCapsuleMesh(Mesh* aMesh) { mCapsuleMesh = aMesh; }
-
 		struct GeneralRenderInfo
 		{
 			glm::mat4 transform;
 			glm::vec3 color;
 			EGizmoMode mode;
 		};
+
+		struct LineRenderInfo
+		{
+			uint32 lineCount;
+			uint32 vaoID;
+			uint32 vertexBufferID;
+		};
+		void CreateLineRenderGraphicsResources(LineRenderInfo& aInfo);
 
 		const float mAlpha = 0.7f;
 
@@ -52,6 +62,9 @@ namespace BlueGengine
 		Mesh* mPlaneMesh;
 		Mesh* mCapsuleMesh;
 		Material* mDebugMaterial;
+		Material* mDebugMaterialInstanced;
+
+		std::vector<LineRenderInfo> mLineRenderinfo;
 
 		uint32 mColorUniformLoc;
 		uint32 mModelLoc;

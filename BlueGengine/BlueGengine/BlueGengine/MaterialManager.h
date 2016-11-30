@@ -12,6 +12,7 @@ namespace BlueGengine
 		{
 			Default = 0,
 			Debug,
+			DebugInstanced,
 			Count
 		};
 

@@ -6,8 +6,19 @@
 namespace BlueGengine
 {
 
+	void ApplicationWindow::UpdateMousePosition()
+	{
+		double x, y;
+		glfwGetCursorPos(mWindow, &x, &y);
+		float oldx, oldY;
+		Input::GetMousePosition(oldx, oldY);
+		Input::SetMousePosition((float)x, (float)y);
+		Input::OnMouseMove((float)(x - oldx), (float)(y - oldY));
+	}
+
 	bool ApplicationWindow::m_apiInit;
 	ApplicationWindow* ApplicationWindow::m_currentWindow;
+
 	void KeyCallBack(GLFWwindow* a_window, int aKey, int aScancode, int aAction, int aMods)
 	{
 		if (aAction == GLFW_PRESS)
@@ -96,14 +107,15 @@ namespace BlueGengine
 		}
 
 
-		ImGui_ImplGlfwGL3_Init(mWindow, false);
+		ImGui_ImplGlfwGL3_Init(mWindow, true);
 
 		glfwSetKeyCallback(mWindow, KeyCallBack);
-		glfwSetCursorPosCallback(mWindow, MousePositionCallback);
+		//	glfwSetCursorPosCallback(mWindow, MousePositionCallback);
 		glfwSetMouseButtonCallback(mWindow, MouseButtonCallBack);
 		glfwSetScrollCallback(mWindow, MouseScrollCallBack);
 		SetVsync(0);
 		mCloseRequested = false;
+		mMouseInputUpdate.Start();
 	}
 
 	ApplicationWindow::~ApplicationWindow()
@@ -119,6 +131,12 @@ namespace BlueGengine
 		}
 
 		glfwPollEvents();
+
+		if (mMouseInputUpdate.IntervalS() >= 1.0f / 60.0f)
+		{
+			UpdateMousePosition();
+			mMouseInputUpdate.Reset();
+		}
 
 		if (mCurrentRenderingAPI == EGraphicsDeviceType::OpenGL)
 		{

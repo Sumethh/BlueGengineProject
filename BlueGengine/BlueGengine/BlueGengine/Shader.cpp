@@ -1,26 +1,22 @@
 #include "Shader.h"
-#include "impl/ShaderImpl.h"
 #include <string>
 namespace BlueGengine
 {
 	const	uint32 Shader::MaxLightCount;
 	Shader::Shader() : mPointLightCountLoc(-1)
 	{
-		mImpl = new OpenGlShaderImpl();
+		mShaderResourceID = IGraphicsDevice::GetCurrentGraphicsDevice()->CreateGraphicsResource(EGraphicsResourceType::Shader);
 	}
 
 	Shader::~Shader()
 	{
-		if (mImpl)
-		{
-			mImpl->UnloadShader();
-			delete mImpl;
-		}
+		UnloadShader();
 	}
 
 	void Shader::LoadShader(char* aVertexShader, char* aFragmentShader)
 	{
-		mImpl->LoadShader(aVertexShader, aFragmentShader);
+		IGraphicsDevice* gr = IGraphicsDevice::GetCurrentGraphicsDevice();
+		gr->UpdateResourceData(mShaderResourceID, aVertexShader, aFragmentShader);
 		m_shaderPaths[ShaderType::VertexShader] = aVertexShader;
 		m_shaderPaths[ShaderType::FragmentShader] = aFragmentShader;
 		Bind();
@@ -30,44 +26,27 @@ namespace BlueGengine
 
 	void Shader::UnloadShader()
 	{
-		mImpl->UnloadShader();
+		IGraphicsDevice::GetCurrentGraphicsDevice()->DeleteGraphicsResource(mShaderResourceID);
 	}
 
 	void Shader::Bind()
 	{
-		mImpl->Bind();
+		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mShaderResourceID);
 	}
 
 	void Shader::UnBind()
 	{
-		mImpl->UnBind();
+		IGraphicsDevice::GetCurrentGraphicsDevice()->UnBindGraphicsResource(mShaderResourceID);
 	}
 
 	int32 Shader::GetShaderVariableLocation(const char* aVarName)
 	{
-		return mImpl->GetShaderVariableLocation(aVarName);
+		return IGraphicsDevice::GetCurrentGraphicsDevice()->GetShaderVariableLocation(mShaderResourceID, aVarName);
 	}
 
-	uint32 Shader::GetShaderID()
+	void Shader::SetShaderVar(uint32 aVarLoc, void* aVar, EVarType aType)
 	{
-		return mImpl->GetShaderID();
-	}
-
-	void Shader::SetMatrixShaderVar(uint32 aVarLoc, glm::mat4* aVar)
-	{
-		mImpl->SetShaderVariable(aVarLoc, (void*)aVar, SVT_mat4);
-	}
-
-	void Shader::SetVectorShaderVar(uint32 aVarLoc, glm::vec3* aVar)
-	{
-		mImpl->SetShaderVariable(aVarLoc, (void*)aVar, SVT_vec3);
-
-	}
-
-	void Shader::SetFloatShaderVar(uint32 aVarLoc, float* aVar)
-	{
-		mImpl->SetShaderVariable(aVarLoc, (void*)aVar, SVT_float);
-
+		IGraphicsDevice::GetCurrentGraphicsDevice()->SetShaderVariable(aVarLoc, aVar, aType);
 	}
 
 	void Shader::CalcPointLightInfo()

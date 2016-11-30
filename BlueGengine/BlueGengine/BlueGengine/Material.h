@@ -10,7 +10,7 @@
 namespace BlueGengine
 {
 	class Shader;
-	class Texture;
+	class Texture2D;
 	class Material : public NonCopyable
 	{
 		public:
@@ -20,28 +20,27 @@ namespace BlueGengine
 
 		void Bind();
 		void SetDataForDrawing();
-		void Unprep();
+		void UnBind();
 		inline void SetDiffuseColor(glm::vec4 aColor) { mDiffuseColor = aColor; }
 		inline void SetAmbientColor(glm::vec4 aColor) { mAmbientColor = aColor; }
 		inline void SetSpecularPower(float aSpec) { mSpecular = aSpec; }
-		inline void SetShader(Shader* aShader) { m_shader = aShader; }
-		inline void SetTexture(Texture* aTexture) { mTexture = aTexture; }
-
+		inline void SetShader(Shader* aShader) { mShader = aShader; }
+		inline Shader* GetShader() { return mShader; }
+		inline void SetTexture(Texture2D* aTexture) { mTexture = aTexture; }
 		uint32 GetID() const { return mId; }
-		Shader* m_shader;
 
 		uint32 GetShaderVariableLoc(const char* aVariable);
 
 		void SetPointLightData(std::vector<Light*>& aLights);
 
 		private:
-		void CalculateAllLightInformation();
 		std::string mName;
 		glm::vec4 mDiffuseColor;
 		glm::vec4 mAmbientColor;
 		float mSpecular;
 		uint32 mId;
-		Texture* mTexture;
+		Texture2D* mTexture;
+		Shader* mShader;
 
 	};
 }

@@ -127,5 +127,5 @@ void main()
     }
     result += CalcDirLight(dl, norm, viewDir);
     result += ambient;
-    ocolor = vec4(result, 1.0f) * texture(baseTexture, uv);
+    ocolor = vec4(result, 1.0f) * texture(baseTexture, uv);    
 }

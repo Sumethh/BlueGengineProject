@@ -11,9 +11,11 @@
 #include "Mesh.h"
 #include "Log.h"
 #include "MeshManager.h"
+#include "Graphics/GraphicsDeviceFactory.h"
 
 #include "Systems/TaskSystem.h"
 #include "Systems/ASyncLoadingManager.h"
+#include "Systems/Console.h"
 #include <gl/glew.h>
 #include <string>
 
@@ -59,14 +61,18 @@ namespace BlueGengine
 	void UpdateManagers()
 	{
 		AsyncLoadingManager::Update();
+		Console::Update();
 	}
 
 	bool Application::Run()
 	{
+		TaskSystem::Init();
+		Console::Init();
+		Log::Init("BlueGengineLog.txt");
 		mWindow = ApplicationWindow::Create("BlueGengine", 1280, 720, EGraphicsDeviceType::OpenGL);
 
-		//TODO: make this a GraphicsDevice->Init()
-		glewInit();
+		IGraphicsDevice* gd = GraphicsDeviceFactory::GI()->CreateGraphicsDevice(EGraphicsDeviceType::OpenGL);
+		gd->Init();
 
 		Timer dtTimer, fpsUpdateTimer;
 		Timer updateTimer, LateUpdateTimer, preRenderTimer, renderTimer, postRenderTimer;
@@ -88,19 +94,13 @@ namespace BlueGengine
 		glm::mat4 view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
 		view = glm::lookAt(glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, -9.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-		BlueGengine::Light myLight;
-		myLight.position = glm::vec3(0, 0.0f, -9.0f);
-		myLight.color = glm::vec3(1.0f, 1.0f, 1.0f);
-
 		mRenderer = new ForwardRenderer();
-		mRenderer->myLight = &myLight;
 		mWindow->Update();
 
 		mGizmoRenderer = new GizmoRenderer();
 		Input::Reset();
 		dtTimer.Reset();
 
-		TaskSystem::Init();
 
 		while (true)
 		{

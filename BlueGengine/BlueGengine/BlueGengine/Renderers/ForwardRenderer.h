@@ -21,8 +21,6 @@ namespace BlueGengine
 		void SubmitMesh(Mesh* aMesh, Material* aMaterial, Transform aTransform) override;
 		void SubmitCamera(CameraComponent* aCamera) override;
 		void Flush()override ;
-		Light* myLight;
-		std::vector<Light*> Tlights;
 		private:
 		//TODO: DONT LIKE! CHANGE !!!!!!!!!!!!!!!!
 		std::map < uint32, std::map<Mesh*, std::vector<Transform>>> mRenderQueue;

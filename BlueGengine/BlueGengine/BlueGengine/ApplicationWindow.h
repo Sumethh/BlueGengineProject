@@ -1,7 +1,8 @@
 #pragma once
 #include "NonCopyable.h"
-#include "GraphicsDevice.h"
+#include "Graphics/IGraphicsDevice.h"
 #include "Types.h"
+#include "timer.h"
 struct GLFWwindow;
 namespace BlueGengine
 {
@@ -23,9 +24,13 @@ namespace BlueGengine
 		bool IsCloseRequest() { return mCloseRequested; }
 		void Close();
 
+
+
 		static ApplicationWindow* GetCurrentWindow() { return m_currentWindow; }
 		inline GLFWwindow* GetUnderlyingWindow()const { return mWindow; }
 		private:
+
+		void UpdateMousePosition();
 
 		static bool m_apiInit;
 		ApplicationWindow(char* aTitle, float a_width, float aHeight, EGraphicsDeviceType aRenderingAPI);
@@ -37,5 +42,7 @@ namespace BlueGengine
 		bool mCloseRequested;
 		GLFWwindow* mWindow;
 		void* mGlConext;
+
+		Timer mMouseInputUpdate;
 	};
 }
