@@ -1,0 +1,166 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of ActorComponent.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Components\ActorComponent.cpp, Source\Public\Components\ActorComponent.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of CameraComponent.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Components\CameraComponent.cpp, Source\Public\Components\CameraComponent.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of ComponentFactory.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Components\ComponentFactory.cpp, Source\Public\Components\ComponentFactory.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of DynamicMeshComponent.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Components\DynamicMeshComponent.cpp, Source\Public\Components\DynamicMeshComponent.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of FirstPersonComponent.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Components\FirstPersonComponent.cpp, Source\Public\Components\FirstPersonComponent.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of MaterialComponent.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Components\MaterialComponent.cpp, Source\Public\Components\MaterialComponent.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of TransformComponent.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Components\TransformComponent.cpp, Source\Public\Components\TransformComponent.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of GraphicsDeviceFactory.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\GraphicsDevice\GraphicsDeviceFactory.cpp, Source\Public\GraphicsDevice\GraphicsDeviceFactory.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of IGraphicsDevice.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\GraphicsDevice\IGraphicsDevice.cpp, Source\Public\GraphicsDevice\IGraphicsDevice.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of OpenGlGraphicsDevice.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\GraphicsDevice\OpenGlGraphicsDevice.cpp, Source\Public\GraphicsDevice\OpenGlGraphicsDevice.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of DebugManager.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Managers\DebugManager.cpp, Source\Public\Managers\DebugManager.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of FixedMemoryManager.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Memory\FixedMemoryManager.cpp, Source\Public\Memory\FixedMemoryManager.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of DeferedRenderer.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Renderers\DeferedRenderer.cpp, Source\Public\Renderers\DeferedRenderer.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of ForwardRenderer.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Renderers\ForwardRenderer.cpp, Source\Public\Renderers\ForwardRenderer.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of ArchiveObject.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Serialization\ArchiveObject.cpp, Source\Public\Serialization\ArchiveObject.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of ISerializable.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Serialization\ISerializable.cpp, Source\Public\Serialization\ISerializable.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of Stencil.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Serialization\Stencil\Stencil.cpp, Source\Public\Serialization\Stencil\Stencil.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of StencilManager.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Serialization\Stencil\StencilManager.cpp, Source\Public\Serialization\Stencil\StencilManager.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of OctTree.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\SpatialPartitions\OctTree.cpp, Source\Public\SpatialPartitions\OctTree.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of AsyncLoadingManager.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Systems\AsyncLoadingManager.cpp, Source\Public\Systems\AsyncLoadingManager.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of Console.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Systems\Console.cpp, Source\Public\Systems\Console.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of StencilCreator.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Systems\StencilCreator.cpp, Source\Public\Systems\StencilCreator.cpp.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(936,5): warning MSB8027: Two or more files with the name of TaskSystem.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are Source\Private\Systems\TaskSystem.cpp, Source\Public\Systems\TaskSystem.cpp.
+  TaskSystem.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\systems\tasksystem.cpp(2): fatal error C1083: Cannot open include file: '../Defines.h': No such file or directory
+  StencilCreator.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\systems\stencilcreator.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  Console.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\systems\console.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  AsyncLoadingManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\core\updateablemanager.h(3): fatal error C1083: Cannot open include file: '../Defines.h': No such file or directory
+  OctTree.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\spatialpartitions\octtree.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  StencilManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\serialization\iserializable.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  Stencil.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\serialization\iserializable.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  ISerializable.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\serialization\iserializable.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  ArchiveObject.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\serialization\archiveobject.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  ForwardRenderer.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\components\transformcomponent.h(4): fatal error C1083: Cannot open include file: '../GlmTransformationInclude.h': No such file or directory
+  DeferedRenderer.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\components\transformcomponent.h(4): fatal error C1083: Cannot open include file: '../GlmTransformationInclude.h': No such file or directory
+  FixedMemoryManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\memory\fixedmemorymanager.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  DebugManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\core\updateablemanager.h(3): fatal error C1083: Cannot open include file: '../Defines.h': No such file or directory
+  imgui_impl_glfw_vulkan.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\extern\include\glfw\glfw3.h(169): fatal error C1083: Cannot open include file: 'vulkan/vulkan.h': No such file or directory
+  imgui_impl_glfw_gl3.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\imgui\imgui_impl_glfw_gl3.cpp(11): fatal error C1083: Cannot open include file: '../Input.h': No such file or directory
+  imgui_draw.cpp
+  imgui_demo.cpp
+  imgui.cpp
+  OpenGlGraphicsDevice.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\graphicsdevice\igraphicsdevice.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  IGraphicsDevice.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\graphicsdevice\igraphicsdevice.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  Generating Code...
+  Compiling...
+  GraphicsDeviceFactory.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\graphicsdevice\igraphicsdevice.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  TransformComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\components\transformcomponent.h(4): fatal error C1083: Cannot open include file: '../GlmTransformationInclude.h': No such file or directory
+  MaterialComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\components\componenttypes.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  FirstPersonComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\components\firstpersoncomponent.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  DynamicMeshComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\components\componenttypes.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  ComponentFactory.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\components\componenttypes.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  CameraComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\components\componenttypes.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  ActorComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\components\componenttypes.h(2): fatal error C1083: Cannot open include file: '../Types.h': No such file or directory
+  TaskSystem.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\systems\tasksystem.cpp(1): fatal error C1083: Cannot open include file: 'TaskSystem.h': No such file or directory
+  StencilCreator.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\systems\stencilcreator.cpp(1): fatal error C1083: Cannot open include file: 'StencilCreator.h': No such file or directory
+  Console.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\systems\console.cpp(1): fatal error C1083: Cannot open include file: 'Console.h': No such file or directory
+  AsyncLoadingManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\systems\asyncloadingmanager.cpp(1): fatal error C1083: Cannot open include file: 'ASyncLoadingManager.h': No such file or directory
+  OctTree.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\spatialpartitions\octtree.cpp(1): fatal error C1083: Cannot open include file: 'OctTree.h': No such file or directory
+  StencilManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\serialization\stencil\stencilmanager.cpp(1): fatal error C1083: Cannot open include file: 'StencilManager.h': No such file or directory
+  Stencil.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\serialization\stencil\stencil.cpp(1): fatal error C1083: Cannot open include file: 'Stencil.h': No such file or directory
+  ISerializable.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\serialization\iserializable.cpp(1): fatal error C1083: Cannot open include file: 'ISerializable.h': No such file or directory
+  ArchiveObject.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\serialization\archiveobject.cpp(1): fatal error C1083: Cannot open include file: 'ArchiveObject.h': No such file or directory
+  ForwardRenderer.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\renderers\forwardrenderer.cpp(1): fatal error C1083: Cannot open include file: 'ForwardRenderer.h': No such file or directory
+  DeferedRenderer.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\renderers\deferedrenderer.cpp(1): fatal error C1083: Cannot open include file: 'DeferedRenderer.h': No such file or directory
+  FixedMemoryManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\memory\fixedmemorymanager.cpp(1): fatal error C1083: Cannot open include file: 'FixedMemoryManager.h': No such file or directory
+  Generating Code...
+  Compiling...
+  DebugManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\managers\debugmanager.cpp(1): fatal error C1083: Cannot open include file: 'DebugManager.h': No such file or directory
+  Input.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\input\input.cpp(1): fatal error C1083: Cannot open include file: 'Input.h': No such file or directory
+  Texture2D.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\graphics\texture2d.cpp(1): fatal error C1083: Cannot open include file: 'Texture2D.h': No such file or directory
+  Shader.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\graphics\shader.cpp(1): fatal error C1083: Cannot open include file: 'Shader.h': No such file or directory
+  MeshManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\graphics\meshmanager.cpp(1): fatal error C1083: Cannot open include file: 'MeshManager.h': No such file or directory
+  Mesh.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\graphics\mesh.cpp(1): fatal error C1083: Cannot open include file: 'Mesh.h': No such file or directory
+  MaterialManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\graphics\materialmanager.cpp(1): fatal error C1083: Cannot open include file: 'MaterialManager.h': No such file or directory
+  Material.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\graphics\material.cpp(1): fatal error C1083: Cannot open include file: 'Material.h': No such file or directory
+  Light.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\graphics\light.cpp(1): fatal error C1083: Cannot open include file: 'Light.h': No such file or directory
+  UniformBuffer.cpp
+  OpenGlGraphicsDevice.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\graphicsdevice\openglgraphicsdevice.cpp(1): fatal error C1083: Cannot open include file: 'OpenGlGraphicsDevice.h': No such file or directory
+  IGraphicsDevice.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\graphicsdevice\igraphicsdevice.cpp(1): fatal error C1083: Cannot open include file: 'IGraphicsDevice.h': No such file or directory
+  GraphicsDeviceFactory.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\graphicsdevice\graphicsdevicefactory.cpp(1): fatal error C1083: Cannot open include file: 'GraphicsDeviceFactory.h': No such file or directory
+  World.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\core\world.cpp(1): fatal error C1083: Cannot open include file: 'World.h.': No such file or directory
+  UpdateableManager.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\core\updateablemanager.cpp(1): fatal error C1083: Cannot open include file: 'UpdateableManager.h': No such file or directory
+  MeshLoader.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\core\meshloader.cpp(1): fatal error C1083: Cannot open include file: 'MeshLoader.h': No such file or directory
+  main.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\core\main.cpp(1): fatal error C1083: Cannot open include file: 'Temp/VulkanApp.h': No such file or directory
+  Log.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\core\log.cpp : fatal error C1041: cannot open program database 'D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\BlueEngine\BlueCore\Debug\vc140.idb'; if multiple CL.EXE write to the same .PDB file, please use /FS
+  GizmoRenderer.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\core\gizmorenderer.cpp(1): fatal error C1083: Cannot open include file: 'GizmoRenderer.h': No such file or directory
+  Game.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\core\game.cpp(2): fatal error C1083: Cannot open include file: 'Game.h': No such file or directory
+  Generating Code...
+  Compiling...
+  ApplicationWindow.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\core\applicationwindow.cpp : fatal error C1041: cannot open program database 'D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\BlueEngine\BlueCore\Debug\vc140.idb'; if multiple CL.EXE write to the same .PDB file, please use /FS
+  Application.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\core\application.cpp(1): fatal error C1083: Cannot open include file: 'Application.h': No such file or directory
+  TransformComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\components\transformcomponent.cpp(2): fatal error C1083: Cannot open include file: 'TransformComponent.h': No such file or directory
+  MaterialComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\components\materialcomponent.cpp(1): fatal error C1083: Cannot open include file: 'MaterialComponent.h': No such file or directory
+  FirstPersonComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\components\firstpersoncomponent.cpp : fatal error C1041: cannot open program database 'D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\BlueEngine\BlueCore\Debug\vc140.pdb'; if multiple CL.EXE write to the same .PDB file, please use /FS
+  DynamicMeshComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\components\dynamicmeshcomponent.cpp : fatal error C1041: cannot open program database 'D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\BlueEngine\BlueCore\Debug\vc140.idb'; if multiple CL.EXE write to the same .PDB file, please use /FS
+  ComponentFactory.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\components\componentfactory.cpp(1): fatal error C1083: Cannot open include file: 'ComponentFactory.h': No such file or directory
+  CameraComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\components\cameracomponent.cpp(1): fatal error C1083: Cannot open include file: 'CameraComponent.h': No such file or directory
+  ActorComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\components\actorcomponent.cpp(1): fatal error C1083: Cannot open include file: 'ActorComponent.h': No such file or directory
+  Actor.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\private\actors\actor.cpp(1): fatal error C1083: Cannot open include file: 'Actor.h': No such file or directory
+  Generating Code...

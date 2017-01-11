@@ -1,0 +1,49 @@
+﻿  FirstPersonComponent.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\core\timer.h(41): warning C4251: 'BlueCore::Timer::start': class 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>' needs to have dll-interface to be used by clients of class 'BlueCore::Timer'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\chrono(994): note: see declaration of 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>'
+  Actor.cpp
+Source\Private\Core\Actor.cpp(127): warning C4100: 'aArchiveObject': unreferenced formal parameter
+Source\Private\Core\Actor.cpp(132): warning C4100: 'aRenderer': unreferenced formal parameter
+  Application.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\core\timer.h(41): warning C4251: 'BlueCore::Timer::start': class 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>' needs to have dll-interface to be used by clients of class 'BlueCore::Timer'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\chrono(994): note: see declaration of 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>'
+D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\BlueEngine\BlueCore\Source\Public\Renderers/ForwardRenderer.h(26): warning C4251: 'BlueCore::ForwardRenderer::mRenderQueue': class 'std::map<BlueCore::uint32,std::map<BlueCore::Mesh *,std::vector<BlueCore::Transform,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>,std::less<unsigned int>,std::allocator<std::pair<const unsigned int,std::map<_Kty,std::vector<_Ty,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>>>>' needs to have dll-interface to be used by clients of class 'BlueCore::ForwardRenderer'
+          with
+          [
+              _Ty=BlueCore::Transform,
+              _Kty=BlueCore::Mesh *
+          ]
+  D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\BlueEngine\BlueCore\Source\Public\Renderers/ForwardRenderer.h(26): note: see declaration of 'std::map<BlueCore::uint32,std::map<BlueCore::Mesh *,std::vector<BlueCore::Transform,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>,std::less<unsigned int>,std::allocator<std::pair<const unsigned int,std::map<_Kty,std::vector<_Ty,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>>>>'
+          with
+          [
+              _Ty=BlueCore::Transform,
+              _Kty=BlueCore::Mesh *
+          ]
+D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\BlueEngine\BlueCore\Source\Public\Renderers/ForwardRenderer.h(27): warning C4251: 'BlueCore::ForwardRenderer::mCams': class 'std::vector<BlueCore::CameraComponent *,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'BlueCore::ForwardRenderer'
+          with
+          [
+              _Ty=BlueCore::CameraComponent *
+          ]
+  D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\BlueEngine\BlueCore\Source\Public\Renderers/ForwardRenderer.h(27): note: see declaration of 'std::vector<BlueCore::CameraComponent *,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=BlueCore::CameraComponent *
+          ]
+  Game.cpp
+  Input.cpp
+  DebugManager.cpp
+Source\Private\Managers\DebugManager.cpp(11): warning C4189: 't': local variable is initialized but not referenced
+Source\Private\Managers\DebugManager.cpp(80): warning C4267: 'initializing': conversion from 'size_t' to 'BlueCore::uint32', possible loss of data
+  imgui_impl_glfw_gl3.cpp
+  Console.cpp
+Source\Public\Systems\Console.cpp(50): warning C4100: 'argCount': unreferenced formal parameter
+Source\Public\Systems\Console.cpp(50): warning C4100: 'args': unreferenced formal parameter
+  StencilCreator.cpp
+     Creating library D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\BlueEngine\BlueCore\..\..\extern\lib\x64\BlueCore.lib and object D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\BlueEngine\BlueCore\..\..\extern\lib\x64\BlueCore.exp
+  Generating code
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\json\json.hpp(8646): warning C4706: assignment within conditional expression
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\json\json.hpp(8724): warning C4706: assignment within conditional expression
+  All 6255 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  BlueCore.vcxproj -> D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\\bin\x64\Release\BlueCore.dll
+  BlueCore.vcxproj -> D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\\bin\x64\Release\BlueCore.pdb (Full PDB)

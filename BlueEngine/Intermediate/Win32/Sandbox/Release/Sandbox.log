@@ -1,0 +1,13 @@
+﻿  main.cpp
+d:\work\dropbox\gitprojects\bluegengineproject\blueengine\blueengine\bluecore\source\public\core\timer.h(41): warning C4251: 'BlueCore::Timer::start': class 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>' needs to have dll-interface to be used by clients of class 'BlueCore::Timer'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\chrono(994): note: see declaration of 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>'
+Source\Private\main.cpp(38): warning C4100: 'aArgv': unreferenced formal parameter
+Source\Private\main.cpp(38): warning C4100: 'aArgc': unreferenced formal parameter
+Source\Private\main.cpp(45): warning C4189: 't': local variable is initialized but not referenced
+  Generating code
+  0 of 6 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Sandbox.vcxproj -> D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\bin\Win32\Release\Sandbox.exe
+  Sandbox.vcxproj -> D:\Work\Dropbox\GitProjects\BlueGengineProject\BlueEngine\bin\Win32\Release\Sandbox.pdb (Full PDB)
