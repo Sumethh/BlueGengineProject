@@ -2,34 +2,32 @@
 #include "Core/NonCopyable.h"
 #include "Core/Defines.h"
 #include <vector>
-namespace BlueCore
+
+class UpdatableManager : NonCopyable
 {
-	class UpdatableManager : NonCopyable
+	public:
+	UpdatableManager();
+	virtual ~UpdatableManager()
 	{
-		public:
-		UpdatableManager();
-		virtual ~UpdatableManager()
+		auto it = std::find(sUpdateableManagers.begin(), sUpdateableManagers.end(), this);
+
+		if (it == sUpdateableManagers.end())
 		{
-			auto it = std::find(sUpdateableManagers.begin(), sUpdateableManagers.end(), this);
-
-			if (it == sUpdateableManagers.end())
-			{
-				BlueAssert(false);
-			}
-
-			delete *it;
-			sUpdateableManagers.erase(it);
+			BlueAssert(false);
 		}
-		virtual void Update() = 0;
 
-		static void UpdateManagers()
+		delete *it;
+		sUpdateableManagers.erase(it);
+	}
+	virtual void Update() = 0;
+
+	static void UpdateManagers()
+	{
+		for (auto manager : sUpdateableManagers)
 		{
-			for (auto manager : sUpdateableManagers)
-			{
-				manager->Update();
-			}
+			manager->Update();
 		}
-		private:
-		static std::vector<UpdatableManager*> sUpdateableManagers;
-	};
-}
+	}
+	private:
+	static std::vector<UpdatableManager*> sUpdateableManagers;
+};

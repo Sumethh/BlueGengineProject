@@ -1,26 +1,24 @@
 #pragma once
 #include "../Core/NonCopyable.h"
 #include "IGraphicsDevice.h"
-namespace BlueCore
+
+class IGraphicsDevice;
+class GraphicsDeviceFactory : NonCopyable
 {
-	class IGraphicsDevice;
-	class GraphicsDeviceFactory : NonCopyable
+	public:
+	GraphicsDeviceFactory();
+
+	static inline GraphicsDeviceFactory* GI()
 	{
-		public:
-		GraphicsDeviceFactory();
-
-		static inline GraphicsDeviceFactory* GI()
+		if (!sFactoryInstance)
 		{
-			if (!sFactoryInstance)
-			{
-				sFactoryInstance = new GraphicsDeviceFactory();
-			}
-
-			return sFactoryInstance;
+			sFactoryInstance = new GraphicsDeviceFactory();
 		}
 
-		IGraphicsDevice* CreateGraphicsDevice(EGraphicsDeviceType aType);
-		private:
-		static GraphicsDeviceFactory* sFactoryInstance;
-	};
-}
+		return sFactoryInstance;
+	}
+
+	IGraphicsDevice* CreateGraphicsDevice(EGraphicsDeviceType aType);
+	private:
+	static GraphicsDeviceFactory* sFactoryInstance;
+};

@@ -5,85 +5,82 @@
 
 
 #include <glm/gtx/matrix_decompose.hpp>
-namespace BlueCore
+
+
+TransformComponent::TransformComponent(Actor* aOwner) :
+ActorComponent(aOwner),
+			   mTransformFlags(0)
+{
+}
+
+TransformComponent::~TransformComponent()
 {
 
-	TransformComponent::TransformComponent(Actor* aOwner) :
-	ActorComponent(aOwner, EComponentType::ETransformComponent),
-				   mTransformFlags(0)
+}
+
+void TransformComponent::PreRender()
+{
+
+}
+
+void TransformComponent::OnSerialize(ArchiveObject* const aArchiveObject) const
+{
+
+	ActorComponent::OnSerialize(aArchiveObject);
+	aArchiveObject->Archive("Position", mTransform.position);
+	aArchiveObject->Archive("Rotation", mTransform.rotation);
+	aArchiveObject->Archive("Scale", mTransform.scale);
+}
+
+void TransformComponent::OnDeserialize(ArchiveObject* const aArchiveObject)
+{
+
+}
+
+Transform TransformComponent::GetWorldSpaceTransform()
+{
+	glm::mat4 worldMat = GetWorldMatrix();
+	Transform worldTrans;
+	glm::vec3 skew;
+	glm::vec4 persepective;
+	glm::decompose(worldMat, worldTrans.scale, worldTrans.rotation, worldTrans.position, skew, persepective);
+	return worldTrans;
+}
+
+void TransformComponent::SetParent(TransformComponent* aComp)
+{
+	if (aComp)
 	{
+		//Need to calculate new localMatrix
+		mLocalMatrix =  MathHelpers::ConvertToLocalSpace(GetWorldMatrix(), aComp->GetWorldMatrix());
+		mParent = aComp;
+		aComp->mChildren.push_back(this);
 	}
-
-	TransformComponent::~TransformComponent()
+	else
 	{
-
-	}
-
-	void TransformComponent::PreRender()
-	{
-
-	}
-
-	void TransformComponent::OnSerialize(ArchiveObject* const aArchiveObject) const
-	{
-
-		ActorComponent::OnSerialize(aArchiveObject);
-		aArchiveObject->Archive("Position", mTransform.position);
-		aArchiveObject->Archive("Rotation", mTransform.rotation);
-		aArchiveObject->Archive("Scale", mTransform.scale);
-	}
-
-	void TransformComponent::OnDeserialize(ArchiveObject* const aArchiveObject)
-	{
-
-	}
-
-	BlueCore::Transform TransformComponent::GetWorldSpaceTransform()
-	{
-		glm::mat4 worldMat = GetWorldMatrix();
-		Transform worldTrans;
-		glm::vec3 skew;
-		glm::vec4 persepective;
-		glm::decompose(worldMat, worldTrans.scale, worldTrans.rotation, worldTrans.position, skew, persepective);
-		return worldTrans;
-	}
-
-	void TransformComponent::SetParent(TransformComponent* aComp)
-	{
-		if (aComp)
+		if (IsWorldMatrixDirty())
 		{
-			//Need to calculate new localMatrix
-			mLocalMatrix =  MathHelpers::ConvertToLocalSpace(GetWorldMatrix(), aComp->GetWorldMatrix());
-			mParent = aComp;
-			aComp->mChildren.push_back(this);
+			GetWorldMatrix();
 		}
-		else
-		{
-			if (IsWorldMatrixDirty())
-			{
-				GetWorldMatrix();
-			}
 
-			mParent = nullptr;
-		}
+		mParent = nullptr;
 	}
+}
 
-	void TransformComponent::CalculateLocalMatrix()
+void TransformComponent::CalculateLocalMatrix()
+{
+	glm::mat4 mat;
+	mat = mTransform.MakeMat4();
+	mLocalMatrix = mat;
+	ResetLocalTransformDirtyFlag();
+}
+
+void TransformComponent::SetWorldTransformDirtyFlag()
+{
+	mTransformFlags |= ETransformFlags::EWorldTransformDirty;
+
+	for (auto child : mChildren)
 	{
-		glm::mat4 mat;
-		mat = mTransform.MakeMat4();
-		mLocalMatrix = mat;
-		ResetLocalTransformDirtyFlag();
+		child->SetWorldTransformDirtyFlag();
 	}
-
-	void TransformComponent::SetWorldTransformDirtyFlag()
-	{
-		mTransformFlags |= ETransformFlags::EWorldTransformDirty;
-
-		for (auto child : mChildren)
-		{
-			child->SetWorldTransformDirtyFlag();
-		}
-	}
-
 }

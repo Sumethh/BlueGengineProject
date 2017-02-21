@@ -1,12 +1,8 @@
 #pragma once
 #include <glm/vec2.hpp>
 
-
-namespace BlueCore
+struct Rect
 {
-	struct Rect
-	{
-		glm::vec2 topLeft;
-		glm::vec2 extents;
-	};
-}
+	glm::vec2 topLeft;
+	glm::vec2 extents;
+};

@@ -1,7 +1,7 @@
 #pragma once
 #include "Defines.h"
 
-class BLUECORE_API NonCopyable
+class   NonCopyable
 {
 	protected:
 	NonCopyable() {};

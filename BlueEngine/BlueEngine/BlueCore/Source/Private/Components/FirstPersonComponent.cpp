@@ -3,20 +3,20 @@
 #include "Components/TransformComponent.h"
 #include "Input/Input.h"
 #include "Helpers/MathHelpers.h"
-#include "imgui/imgui.h"
+
 #include "Core/ApplicationWindow.h"
 #include "Core/Log.h"
 #include <glm/gtc/constants.hpp>
-BlueCore::FirstPersonComponent::FirstPersonComponent(Actor* aOwner) : ActorComponent(aOwner, EComponentType::EFirstPersonComponent)
+FirstPersonComponent::FirstPersonComponent(Actor* aOwner) : ActorComponent(aOwner)
 {
 
 }
 
-void BlueCore::FirstPersonComponent::BeginPlay()
+void FirstPersonComponent::BeginPlay()
 {
 }
 
-void BlueCore::FirstPersonComponent::Update(float aDt)
+void FirstPersonComponent::Update(float aDt)
 {
 	Transform trans = GetOwner()->GetTransformComponent()->GetTransform();
 	glm::vec3 forward = GetOwner()->GetTransformComponent()->GetForwardVector();

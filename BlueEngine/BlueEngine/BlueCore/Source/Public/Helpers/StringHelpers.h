@@ -1,23 +1,21 @@
 #pragma once
 #include "Core/Types.h"
 #include <string>
-namespace BlueCore
+
+namespace StringHelpers
 {
-	namespace StringHelpers
+	static inline uint32 FindCharacterCount(std::string& aString, char aSearchingChar)
 	{
-		static inline uint32 FindCharacterCount(std::string& aString, char aSearchingChar)
+		uint32 count = 0;
+
+		for (size_t i = 0; i < aString.size(); ++i)
 		{
-			uint32 count = 0;
-
-			for (sizeInt i = 0; i < aString.size(); ++i)
+			if (aString[i] == aSearchingChar)
 			{
-				if (aString[i] == aSearchingChar)
-				{
-					count++;
-				}
+				count++;
 			}
-
-			return count;
 		}
+
+		return count;
 	}
 }

@@ -3,24 +3,21 @@
 #include <string>
 #include <functional>
 
-namespace BlueCore
+namespace Console
 {
-	namespace Console
+	enum ELogType : uint8
 	{
-		enum ELogType : uint8
-		{
-			Info,
-			Error,
-			Verbose
-		};
-		void AddLogString(std::string aString, ELogType aLogType);
+		Info,
+		Error,
+		Verbose
+	};
+	void AddLogString(std::string aString, ELogType aLogType);
 
-		void AddCommand(std::string commandBase, std::function<void(std::string, std::string*, const uint32)> aCallBack);
+	void AddCommand(std::string commandBase, std::function<void(std::string, std::string*, const uint32)> aCallBack);
 
-		void Init();
-		void Update();
+	void Init();
+	void Update();
 
-		bool IsOpen();
+	bool IsOpen();
 
-	}
 }

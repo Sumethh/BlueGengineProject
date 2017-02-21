@@ -1,26 +1,26 @@
 #pragma once
-#include "ActorComponent.h"
-namespace BlueCore
+#include "PrimitiveComponent.h"
+
+class Mesh;
+class TransformComponent;
+class MaterialComponent;
+class DynamicMeshComponent : public PrimitiveComponent
 {
-	class Mesh;
-	class TransformComponent;
-	class MaterialComponent;
-	class DynamicMeshComponent : public ActorComponent
-	{
-		public:
-		DynamicMeshComponent(Actor* aOwner);
-		~DynamicMeshComponent();
+	public:
+	DynamicMeshComponent(Actor* aOwner);
+	~DynamicMeshComponent();
 
-		virtual void BeginPlay() override;
-		virtual void PreRender() override;
-		virtual void Render(IRenderer* aRenderer) override;
+	uint64 ID() override { return CompileHash("Dynamic Mesh Component"); }
 
-		virtual void CalculateComponentBounds() override;
-		private:
-		void SetMesh(Mesh* aMesh) { mMesh = aMesh; }
-		Mesh* mMesh;
-		TransformComponent* mTransformComponent;
-		MaterialComponent* mMaterialComponent;
-	};
+	virtual void BeginPlay() override;
+	virtual void PreRender() override;
+	virtual void Render(IRenderer* aRenderer) override;
 
-}
+	virtual void CalculateComponentBounds() override;
+	private:
+	void SetMesh(Mesh* aMesh) { mMesh = aMesh; }
+	Mesh* mMesh;
+	TransformComponent* mTransformComponent;
+	MaterialComponent* mMaterialComponent;
+};
+

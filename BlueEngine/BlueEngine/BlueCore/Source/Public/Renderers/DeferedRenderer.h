@@ -1,10 +1,8 @@
 #pragma once
 #include "RendererInterface.h"
 
-namespace BlueCore
-{
-	class DeferedRenderer : public IRenderer
-	{
 
-	};
-}
+class DeferedRenderer : public IRenderer
+{
+
+};

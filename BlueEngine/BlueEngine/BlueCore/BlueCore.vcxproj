@@ -38,13 +38,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -86,8 +86,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(ProjectDir)..\..\extern\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)../../extern/lib/x64/;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(ProjectDir)/Source/Private;$(SourcePath)</SourcePath>
-    <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
+    <SourcePath>$(ProjectDir)\Source\Private;$(SourcePath)</SourcePath>
+    <OutDir>$(SolutionDir)\extern\lib\$(Platform)</OutDir>
     <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(ProjectName)\$(Configurtion)</IntDir>
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
@@ -95,7 +95,7 @@
     <IncludePath>$(ProjectDir)..\..\extern\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\..\extern\lib\x64\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)\Source\Private;$(SourcePath)</SourcePath>
-    <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\extern\lib\$(Platform)</OutDir>
     <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(ProjectName)\$(Configurtion)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -114,17 +114,20 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Source\Public\</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251;</DisableSpecificWarnings>
       <PreprocessorDefinitions>BLUECORE_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>assimp.lib;FreeImage.lib;glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(ProjectDir)..\..\extern\lib\$(Platform)\$(TargetName).lib</ImportLibrary>
     </Link>
+    <Lib>
+      <AdditionalDependencies>assimp.lib;FreeImage.lib;glew32.lib;glfw3.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -152,7 +155,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Source\Public\</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4201;</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251;</DisableSpecificWarnings>
       <PreprocessorDefinitions>BLUECORE_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -161,12 +164,16 @@
       <AdditionalDependencies>assimp.lib;FreeImage.lib;glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(ProjectDir)..\..\extern\lib\$(Platform)\$(TargetName).lib</ImportLibrary>
     </Link>
+    <Lib>
+      <AdditionalDependencies>assimp.lib;FreeImage.lib;glew32.lib;glfw3.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\Components\ComponentRegistery.cpp" />
+    <ClCompile Include="Source\Private\Components\PrimitiveComponent.cpp" />
     <ClCompile Include="Source\Private\Core\Actor.cpp" />
     <ClCompile Include="Source\Private\Components\ActorComponent.cpp" />
     <ClCompile Include="Source\Private\Components\CameraComponent.cpp" />
-    <ClCompile Include="Source\Private\Components\ComponentFactory.cpp" />
     <ClCompile Include="Source\Private\Components\DynamicMeshComponent.cpp" />
     <ClCompile Include="Source\Private\Components\FirstPersonComponent.cpp" />
     <ClCompile Include="Source\Private\Components\MaterialComponent.cpp" />
@@ -175,9 +182,12 @@
     <ClCompile Include="Source\Private\Core\ApplicationWindow.cpp" />
     <ClCompile Include="Source\Private\Core\Game.cpp" />
     <ClCompile Include="Source\Private\Core\GizmoRenderer.cpp" />
+    <ClCompile Include="Source\Private\Core\IDelegate.cpp" />
     <ClCompile Include="Source\Private\Core\IGameMode.cpp" />
     <ClCompile Include="Source\Private\Core\Log.cpp" />
     <ClCompile Include="Source\Private\Core\MeshLoader.cpp" />
+    <ClCompile Include="Source\Private\Core\Scene.cpp" />
+    <ClCompile Include="Source\Private\Managers\IMemoryAllocator.cpp" />
     <ClCompile Include="Source\Private\Managers\UpdateableManager.cpp" />
     <ClCompile Include="Source\Private\Core\World.cpp" />
     <ClCompile Include="Source\Private\GraphicsDevice\GraphicsDeviceFactory.cpp" />
@@ -205,12 +215,10 @@
     <ClCompile Include="Source\Public\Systems\Console.cpp" />
     <ClCompile Include="Source\Public\Systems\StencilCreator.cpp" />
     <ClCompile Include="Source\Public\Systems\TaskSystem.cpp" />
-    <ClCompile Include="Source\Public\Imgui\imgui.cpp" />
-    <ClCompile Include="Source\Public\Imgui\imgui_demo.cpp" />
-    <ClCompile Include="Source\Public\Imgui\imgui_draw.cpp" />
-    <ClCompile Include="Source\Public\Imgui\imgui_impl_glfw_gl3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\Components\ComponentRegistery.h" />
+    <ClInclude Include="Source\Public\Components\PrimitiveComponent.h" />
     <ClInclude Include="Source\Public\BlueCore.h" />
     <ClInclude Include="Source\Public\Core\Actor.h" />
     <ClInclude Include="Source\Public\Collision\BoundingVolumes\AABB.h" />
@@ -219,7 +227,6 @@
     <ClInclude Include="Source\Public\Collision\CollisionTests.h" />
     <ClInclude Include="Source\Public\Components\ActorComponent.h" />
     <ClInclude Include="Source\Public\Components\CameraComponent.h" />
-    <ClInclude Include="Source\Public\Components\ComponentFactory.h" />
     <ClInclude Include="Source\Public\Components\ComponentTypes.h" />
     <ClInclude Include="Source\Public\Components\DynamicMeshComponent.h" />
     <ClInclude Include="Source\Public\Components\FirstPersonComponent.h" />
@@ -231,7 +238,13 @@
     <ClInclude Include="Source\Public\Core\Delegate.h" />
     <ClInclude Include="Source\Public\Core\Game.h" />
     <ClInclude Include="Source\Public\Core\GlmTransformationInclude.h" />
+    <ClInclude Include="Source\Public\Core\IDelegate.h" />
     <ClInclude Include="Source\Public\Core\IGameMode.h" />
+    <ClInclude Include="Source\Public\Core\Scene.h" />
+    <ClInclude Include="Source\Public\Graphics\RenderLayer.h" />
+    <ClInclude Include="Source\Public\Graphics\RenderQueue.h" />
+    <ClInclude Include="Source\Public\Graphics\ViewPort.h" />
+    <ClInclude Include="Source\Public\Messaging\IMessage.h" />
     <ClInclude Include="Source\Public\Core\ResourceList.h" />
     <ClInclude Include="Source\Public\Core\Timer.h" />
     <ClInclude Include="Source\Public\Graphics\ImageFormat.h" />
@@ -257,19 +270,12 @@
     <ClInclude Include="Source\Public\Graphics\Texture2D.h" />
     <ClInclude Include="Source\Public\Helpers\MathHelpers.h" />
     <ClInclude Include="Source\Public\Helpers\StringHelpers.h" />
-    <ClInclude Include="Source\Public\Imgui\imconfig.h" />
-    <ClInclude Include="Source\Public\Imgui\imgui.h" />
-    <ClInclude Include="Source\Public\Imgui\imgui_impl_glfw_gl3.h" />
-    <ClInclude Include="Source\Public\Imgui\imgui_internal.h" />
-    <ClInclude Include="Source\Public\Imgui\stb_rect_pack.h" />
-    <ClInclude Include="Source\Public\Imgui\stb_textedit.h" />
-    <ClInclude Include="Source\Public\Imgui\stb_truetype.h" />
     <ClInclude Include="Source\Public\Input\Input.h" />
     <ClInclude Include="Source\Public\Json\json.hpp" />
     <ClInclude Include="Source\Public\Managers\AsyncLoadingMeshTracker.h" />
     <ClInclude Include="Source\Public\Managers\DebugManager.h" />
     <ClInclude Include="Source\Public\Memory\FixedMemoryManager.h" />
-    <ClInclude Include="Source\Public\Memory\IAllocator.h" />
+    <ClInclude Include="Source\Public\Memory\IMemoryAllocator.h" />
     <ClInclude Include="Source\Public\Renderers\DeferedRenderer.h" />
     <ClInclude Include="Source\Public\Renderers\ForwardRenderer.h" />
     <ClInclude Include="Source\Public\Renderers\GizmoRenderer.h" />

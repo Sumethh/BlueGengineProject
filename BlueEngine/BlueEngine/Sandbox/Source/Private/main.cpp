@@ -1,49 +1,63 @@
 #include "Core/Application.h"
 #include "Core/ApplicationWindow.h"
+#include "Core/Log.h"
 #include "Input/Input.h"
-#include "Hashing/CompileTimeHashing.h"
-#include "Core/Timer.h"
+#include "Components/DynamicMeshComponent.h"
+#include "Components/ActorComponent.h"
+#include "Core/World.h"
+#include "Core/Actor.h"
+
 
 #include <iostream>
 #include <glm/glm.hpp>
+#include <string>
 
-class TestApp : public BlueCore::Application
+class TestApp : public Application
 {
 	public:
 	bool Run() override
 	{
-		if (!mWindow)
-		{
-			CreateWindow("SandBox", 1280, 720);
-		}
+		CreateWindow("SandBox", 1280, 720);
 
-		BlueCore::Application::Run();
+		Application::Run();
+		World myWorld;
+		mWindow->SetClearColor(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+
+		Actor* myActor = myWorld.CreateActor();
+
+		myActor->AddComponent<DynamicMeshComponent>();
+		myWorld.BeginPlay();
+		Timer dtTimer;
 
 		while (!mWindow->IsCloseRequested())
 		{
-			if (BlueCore::Input::GetKeyPressed(BlueCore::Input::Key::ESCAPE))
+			float dt = dtTimer.IntervalS();
+			dtTimer.Reset();
+			mWindow->ClearScreen();
+			Application::Update();
+			myWorld.Update(dt);
+			myWorld.LateUpdate(dt);
+
+			if (Input::GetKeyPressed(Input::Key::ESCAPE))
 			{
 				mWindow->Close();
+				continue;
 			}
 
-			BlueCore::Application::Update();
+			mWindow->Swap();
+			Input::Reset();
 		}
 
 		ShutDown();
-		BlueCore::Application::ShutDown();
 		return true;
 	}
 };
 
 int main(int aArgc, char** aArgv)
 {
+
 	TestApp myApp;
-
 	myApp.Run();
-
-	glm::vec3 vec;
-	int t = 0;
-
-
 	return 0;
+
 }

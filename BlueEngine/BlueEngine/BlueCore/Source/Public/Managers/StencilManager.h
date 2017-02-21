@@ -2,20 +2,17 @@
 #include "Serialization/Stencil/Stencil.h"
 
 #include <map>
-namespace BlueCore
+
+class StencilManager
 {
+	public:
 
-	class StencilManager
-	{
-		public:
+	void Init();
 
-		void Init();
+	Stencil* GetStencil(std::string stencilName);
 
-		Stencil* GetStencil(std::string stencilName);
+	private:
+	void CreateStencils(std::vector<std::string>& fileNames);
 
-		private:
-		void CreateStencils(std::vector<std::string>& fileNames);
-
-		std::map<std::string, Stencil*> mStencils;
-	};
-}
+	std::map<std::string, Stencil*> mStencils;
+};

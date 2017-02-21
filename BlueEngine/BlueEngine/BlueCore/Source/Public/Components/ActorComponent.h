@@ -2,46 +2,67 @@
 #include "ComponentTypes.h"
 #include "../Serialization/ISerializable.h"
 #include "../Collision/BoundingVolumes/AABB.h"
-namespace BlueCore
+#include "ComponentRegistery.h"
+
+class Actor;
+class IRenderer;
+class GizmoRenderer;
+class   ActorComponent: public ISerializable
 {
-	class Actor;
-	class IRenderer;
-	class GizmoRenderer;
-	class ActorComponent : public ISerializable
+	public:
+	ActorComponent(Actor* aOwner);
+	virtual ~ActorComponent();
+
+	template <typename T>
+	static T* Construct(Actor* aOwner)
 	{
-		public:
-		ActorComponent(Actor* aOwner, EComponentType aCompType);
-		virtual ~ActorComponent();
+		static_assert(std::is_base_of<ActorComponent, T>(), "Type must inherit from Actor Component");
+		return (T*)ComponentRegistery::GI()->Construct<T>(aOwner);
+	}
+	static ActorComponent* Construct(uint64 aID, Actor* aOwner)
+	{
+		return ComponentRegistery::GI()->Construct(aID, aOwner);
+	}
 
-		virtual void BeginPlay();
-		virtual void Update(float aDt);
-		virtual void LateUpdate(float aDt);
-		virtual void PreRender();
-		virtual void Render(IRenderer* aRenderer);
-		virtual void OnGizmoRender(GizmoRenderer* aRenderer);
-		virtual void PostRender();
+	template <typename T>
+	static const std::vector<uint64>& GetRequiredComponents()
+	{
+		return ComponentRegistery::GI()->GetComponentInfo<T>().requiredComponents;
+	}
 
-		virtual void OnSerialize(ArchiveObject* const aArchiveObject) const override;
-		virtual void OnDeserialize(ArchiveObject* const aArchiveObject) override;
-		inline Actor* GetOwner()const { return mOwner; }
+	static const std::vector<uint64>& GetRequiredComponents(uint64 aID)
+	{
+		return ComponentRegistery::GI()->GetComponentInfo(aID).requiredComponents;
+	}
 
-		inline bool Enabled()const { return mEnabled; }
-		inline bool SetEnabled(bool aNewEnabled) { mEnabled = aNewEnabled; }
+	virtual void BeginPlay();
+	virtual void Update(float aDt);
+	virtual void LateUpdate(float aDt);
+	virtual void PreRender();
+	virtual void Render(IRenderer* aRenderer);
+	virtual void OnGizmoRender(GizmoRenderer* aRenderer);
+	virtual void PostRender();
 
+	virtual void OnSerialize(ArchiveObject* const aArchiveObject) const override;
+	virtual void OnDeserialize(ArchiveObject* const aArchiveObject) override;
+	inline Actor* GetOwner()const { return mOwner; }
 
-		AABB GetComponentBounds() const {return mComponentBounds;};
+	inline bool Enabled()const { return mEnabled; }
+	inline void SetEnabled(bool aNewEnabled) { mEnabled = aNewEnabled; }
 
-		inline EComponentType GetComponentType()const { return mComponentType; }
-		protected:
-		virtual void CalculateComponentBounds();
-		void SetActorBounds(AABB aNewBounds) { mComponentBounds = aNewBounds; }
-		AABB mComponentBounds;
+	AABB GetComponentBounds() const {return mComponentBounds;};
 
-		private:
+	template<typename T>
+	static uint64 ID() { return ComponentRegistery::GI()->GetComponentInfo<T>().componentHash; }
+	virtual uint64 ID() = 0;
+	protected:
+	virtual void CalculateComponentBounds();
+	void SetActorBounds(AABB aNewBounds) { mComponentBounds = aNewBounds; }
+	AABB mComponentBounds;
 
-		bool mEnabled;
-		EComponentType mComponentType;
-		uint64 mInstanceID;
-		Actor* mOwner;
-	};
-}
+	private:
+
+	bool mEnabled;
+	uint64 mInstanceID;
+	Actor* mOwner;
+};

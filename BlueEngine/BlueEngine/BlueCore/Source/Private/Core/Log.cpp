@@ -5,62 +5,68 @@
 #include <iostream>
 #include <fstream>
 #include "Core/Timer.h"
-namespace BlueCore
+
+#define LOG_TO_STANDARD_CONSOLE  1
+
+moodycamel::ConcurrentQueue<std::string> sStringsToWriteToFile;
+
+struct LogFileWritingTask : public TaskSystem::ITask
 {
-
-	moodycamel::ConcurrentQueue<std::string> sStringsToWriteToFile;
-
-	struct LogFileWritingTask : public TaskSystem::ITask
+	LogFileWritingTask(char* aFileName) : TaskSystem::ITask("Log Writing Task", false)
 	{
-		LogFileWritingTask(char* aFileName) : TaskSystem::ITask(false)
+		file.open(aFileName, std::ios::out | std::ios::app | std::ios::trunc);
+	}
+	~LogFileWritingTask() { file.close(); };
+
+	virtual void Run() override
+	{
+		std::string stringToWrite;
+
+		while (sStringsToWriteToFile.try_dequeue(stringToWrite))
 		{
-			file.open(aFileName, std::ios::out | std::ios::app | std::ios::trunc);
+			file << stringToWrite << std::endl;
 		}
-		~LogFileWritingTask() { file.close(); };
-
-		virtual void Run() override
-		{
-			std::string stringToWrite;
-
-			while (sStringsToWriteToFile.try_dequeue(stringToWrite))
-			{
-				file << stringToWrite << std::endl;
-			}
-		}
-
-		virtual bool IsCompleted() { return false; }
-
-		std::ofstream file;
-	};
-
-	void Log::Init(char* aFileName)
-	{
-		Timer t;
-		t.Start();
-		LogFileWritingTask* task = new LogFileWritingTask(aFileName);
-		TaskSystem::SubmitTask(task);
-		auto d = t.IntervalMS();
-		LogInfo(std::to_string(d));
-
 	}
 
-	void Log::LogError(std::string aMessage)
-	{
-		static const std::string errorBase = "[Error] ";
-		std::string message = errorBase + aMessage;
-		sStringsToWriteToFile.enqueue(message);
-		Console::AddLogString(message, Console::ELogType::Error);
-	}
-	void Log::LogInfo(std::string aMessage)
-	{
-		static const std::string infoBase = "[Info] ";
-		std::string message = infoBase + aMessage;
-		sStringsToWriteToFile.enqueue(message);
-		Console::AddLogString(message, Console::ELogType::Info);
+	virtual bool IsCompleted() { return false; }
 
-	}
-	void Log::Flush()
-	{
-		std::cout << std::endl;
-	}
+	std::ofstream file;
+};
+
+void Log::Init(char* aFileName)
+{
+	Timer t;
+	t.Start();
+	LogFileWritingTask* task = new LogFileWritingTask(aFileName);
+	TaskSystem::SubmitTask(task);
+	auto d = t.IntervalMS();
+	LogInfo(std::to_string(d));
+
+}
+
+void Log::LogError(std::string aMessage)
+{
+	static const std::string errorBase = "[Error] ";
+	std::string message = errorBase + aMessage;
+	sStringsToWriteToFile.enqueue(message);
+	Console::AddLogString(message, Console::ELogType::Error);
+
+#if LOG_TO_STANDARD_CONSOLE
+	std::cout << message << "\n";
+#endif
+}
+void Log::LogInfo(std::string aMessage)
+{
+	static const std::string infoBase = "[Info] ";
+	std::string message = infoBase + aMessage;
+	sStringsToWriteToFile.enqueue(message);
+	Console::AddLogString(message, Console::ELogType::Info);
+
+#if LOG_TO_STANDARD_CONSOLE
+	std::cout << message << "\n";
+#endif
+}
+void Log::Flush()
+{
+	std::cout << std::endl;
 }

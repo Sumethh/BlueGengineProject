@@ -12,154 +12,147 @@
 #define Job_Queue_Size 1000
 
 
-namespace BlueCore
+namespace TaskSystem
 {
-	namespace TaskSystem
+	moodycamel::ConcurrentQueue<ITask*> sJobList;
+
+	std::vector<std::unique_ptr<std::thread>> sThreads;
+	std::atomic_bool sRunThreads;
+	std::atomic<int> sNumSyncJobs;
+	struct TrackedJobWrapper : public ITask
 	{
-		moodycamel::ConcurrentQueue<ITask*> sJobList;
+		TrackedJobWrapper(ITask* aJob) : ITask("TrackedJobWrapper"), job(aJob) {};
+		~TrackedJobWrapper() { promise.set_value(true); delete job; }
 
-		std::vector<std::unique_ptr<std::thread>> sThreads;
-		std::atomic_bool sRunThreads;
-		std::atomic<int> sNumSyncJobs;
-		struct TrackedJobWrapper : public ITask
+		virtual void Run() override { job->Run(); }
+		virtual bool IsCompleted() override { return job->IsCompleted(); }
+		ITask* job;
+		std::promise<bool> promise;
+	};
+
+	struct StaticThreadInformation
+	{
+		uint32 threadID;
+	};
+
+	struct ThreadDiagnosticInformation
+	{
+	};
+
+
+	void ThreadMain(StaticThreadInformation aInfo)
+	{
+		while (sRunThreads)
 		{
-			TrackedJobWrapper(ITask* aJob) : ITask("TrackedJobWrapper"), job(aJob) {};
-			~TrackedJobWrapper() { promise.set_value(true); delete job; }
+			ITask* job = nullptr;
 
-			virtual void Run() override { job->Run(); }
-			virtual bool IsCompleted() override { return job->IsCompleted(); }
-			ITask* job;
-			std::promise<bool> promise;
-		};
-
-		struct StaticThreadInformation
-		{
-			uint32 threadID;
-		};
-
-		struct ThreadDiagnosticInformation
-		{
-		};
-
-
-		void ThreadMain(StaticThreadInformation aInfo)
-		{
-			while (sRunThreads)
+			if (sJobList.try_dequeue(job))
 			{
-				ITask* job = nullptr;
+				BlueAssert(job);
 
-				if (sJobList.try_dequeue(job))
+				if (!sRunThreads)
 				{
-					BlueAssert(job);
+					delete job;
+					break;
+				}
 
-					if (!sRunThreads)
+				job->Run();
+
+				if (job->IsCompleted())
+				{
+					if (job->syncedJob)
 					{
-						delete job;
-						break;
+						sNumSyncJobs.fetch_sub(1);
 					}
 
-					job->Run();
-
-					if (job->IsCompleted())
-					{
-						if (job->syncedJob)
-						{
-							sNumSyncJobs.fetch_sub(1);
-						}
-
-						delete job;
-					}
-					else
-					{
-						sJobList.enqueue(job);
-					}
+					delete job;
 				}
 				else
 				{
-					std::this_thread::sleep_for(std::chrono::milliseconds(1));
+					sJobList.enqueue(job);
 				}
 			}
+			else
+			{
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			}
 		}
+	}
 
 
-		void Init()
+	void Init()
+	{
+		uint32 coreCount = std::thread::hardware_concurrency();
+		std::string t = "Intializing task system with ";
+		t += std::to_string(coreCount);
+		t += " task threads";
+		Log::LogInfo(t);
+		sThreads.reserve(coreCount);
+		sRunThreads.store(true);
+
+		for (uint32 i = 0; i < coreCount; ++i)
 		{
-			uint32 coreCount = std::thread::hardware_concurrency();
-			std::string t = "Intializing task system with ";
-			t += std::to_string(coreCount);
-			t += " task threads";
-			Log::LogInfo(t);
-			sThreads.reserve(coreCount);
-			sRunThreads.store(true);
-
-			for (uint32 i = 0; i < coreCount; ++i)
-			{
-				StaticThreadInformation info;
-				info.threadID = i;
-				sThreads.push_back(std::make_unique<std::thread>(ThreadMain, info));
-			}
-
+			StaticThreadInformation info;
+			info.threadID = i;
+			sThreads.push_back(std::make_unique<std::thread>(ThreadMain, info));
 		}
 
-		void Sync()
+	}
+
+	void Sync()
+	{
+		while (sNumSyncJobs.load() > 0)
 		{
-			while (sNumSyncJobs.load() > 0)
-			{
-				std::this_thread::sleep_for(std::chrono::microseconds(10));
-			}
+			std::this_thread::sleep_for(std::chrono::microseconds(10));
 		}
+	}
 
-		void Shutdown()
+	void Shutdown()
+	{
+		sRunThreads.store(false);
+
+		for (size_t i = 0; i < sThreads.size(); ++i)
 		{
-			sRunThreads.store(false);
-
-			for (sizeInt i = 0; i < sThreads.size(); ++i)
-			{
-				sThreads[i]->join();
-			}
-
-			ITask* remainingTasks = nullptr;
-			int c = sJobList.size_approx();
-
-			if (sJobList.try_dequeue(remainingTasks))
-			{
-				while (remainingTasks)
-				{
-
-					delete remainingTasks;
-					sJobList.try_dequeue(remainingTasks);
-				}
-
-			}
-
-			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			sThreads[i]->join();
 		}
 
-		void SubmitTask(ITask* aTask)
+		ITask* remainingTasks = nullptr;
+		size_t c = sJobList.size_approx();
+
+		while (sJobList.try_dequeue(remainingTasks))
 		{
-			BlueAssert(aTask);
-
-			if (aTask->syncedJob)
-			{
-				sNumSyncJobs.fetch_add(1);
-			}
-
-			sJobList.enqueue(aTask);
+			Log::LogInfo(std::string("Dequeuing Task") + std::string(remainingTasks->name));
+			delete remainingTasks;
+			sJobList.try_dequeue(remainingTasks);
 		}
 
-		std::future<bool> SubmitTrackedTask(ITask* aTask)
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+	}
+
+	void SubmitTask(ITask* aTask)
+	{
+		BlueAssert(aTask);
+
+		if (aTask->syncedJob)
 		{
-			BlueAssert(aTask);
-			TrackedJobWrapper* newJob = new TrackedJobWrapper(aTask);
-			std::future<bool> future = newJob->promise.get_future();
-
-			if (aTask->syncedJob)
-			{
-				sNumSyncJobs.fetch_add(1);
-			}
-
-			sJobList.enqueue(newJob);
-			return future;
+			sNumSyncJobs.fetch_add(1);
 		}
+
+		sJobList.enqueue(aTask);
+	}
+
+	std::future<bool> SubmitTrackedTask(ITask* aTask)
+	{
+		BlueAssert(aTask);
+		TrackedJobWrapper* newJob = new TrackedJobWrapper(aTask);
+		std::future<bool> future = newJob->promise.get_future();
+
+		if (aTask->syncedJob)
+		{
+			sNumSyncJobs.fetch_add(1);
+		}
+
+		sJobList.enqueue(newJob);
+		return future;
 	}
 }

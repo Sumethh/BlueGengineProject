@@ -1,20 +1,14 @@
 #pragma once
 #include "Core/Types.h"
+#include "Core/Defines.h"
 
-namespace BlueCore
+class ArchiveObject;
+class   ISerializable
 {
-	class ArchiveObject;
-	class ISerializable
-	{
-		public:
-		ISerializable();
-		virtual ~ISerializable();
+	public:
+	ISerializable();
+	virtual ~ISerializable();
 
-
-		virtual void OnSerialize(ArchiveObject* const  aArchive) const = 0;
-		virtual void OnDeserialize(ArchiveObject* const aArchive) = 0;
-
-		private:
-
-	};
-}
+	virtual void OnSerialize(ArchiveObject* const  aArchive) const = 0;
+	virtual void OnDeserialize(ArchiveObject* const aArchive) = 0;
+};

@@ -4,25 +4,22 @@
 #include "Serialization/Stencil/Stencil.h"
 #include <vector>
 
-namespace BlueCore
+class StencilCreator
 {
-	class StencilCreator
-	{
-		public:
-		void Update();
+	public:
+	void Update();
 
-		static StencilCreator* GI() { if (!mInstance) { mInstance = new StencilCreator(); } return mInstance; }
+	static StencilCreator* GI() { if (!mInstance) { mInstance = new StencilCreator(); } return mInstance; }
 
-		private:
+	private:
 
-		bool mOpened;
-		int mCurrentSelectedComponent;
-		std::vector<const char*> mCurrentAddedComponents;
+	bool mOpened;
+	int mCurrentSelectedComponent;
+	std::vector<const char*> mCurrentAddedComponents;
 
-		Stencil mCurrentStencil;
+	Stencil mCurrentStencil;
 
-		StencilCreator();
-		~StencilCreator();
-		static StencilCreator* mInstance;
-	};
-}
+	StencilCreator();
+	~StencilCreator();
+	static StencilCreator* mInstance;
+};

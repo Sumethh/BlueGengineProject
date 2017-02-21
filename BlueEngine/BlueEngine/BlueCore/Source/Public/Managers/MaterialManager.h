@@ -2,40 +2,38 @@
 #include <vector>
 #include "Core/NonCopyable.h"
 #include "Core/Types.h"
-namespace BlueCore
+
+class Material;
+class MaterialManager : NonCopyable
 {
-	class Material;
-	class MaterialManager : NonCopyable
+	public:
+	enum EDefaultMaterial : uint32
 	{
-		public:
-		enum EDefaultMaterial : uint32
+		Default = 0,
+		Debug,
+		DebugInstanced,
+		Count
+	};
+
+	Material* CreateMaterial();
+
+
+	inline Material* GetMaterial(uint32 aMatIndex) { return mMaterials[aMatIndex]; }
+
+	static inline MaterialManager* GI()
+	{
+		if (!mInstance)
 		{
-			Default = 0,
-			Debug,
-			DebugInstanced,
-			Count
-		};
-
-		Material* CreateMaterial();
-
-
-		inline Material* GetMaterial(uint32 aMatIndex) { return mMaterials[aMatIndex]; }
-
-		static inline MaterialManager* GI()
-		{
-			if (!mInstance)
-			{
-				mInstance = new MaterialManager();
-			}
-
-			return mInstance;
+			mInstance = new MaterialManager();
 		}
 
-		private:
-		void CreateDefaultMaterials();
-		MaterialManager();
-		~MaterialManager();
-		static MaterialManager* mInstance;
-		std::vector<Material*> mMaterials;
-	};
+		return mInstance;
+	}
+
+	private:
+	void CreateDefaultMaterials();
+	MaterialManager();
+	~MaterialManager();
+	static MaterialManager* mInstance;
+	std::vector<Material*> mMaterials;
 };

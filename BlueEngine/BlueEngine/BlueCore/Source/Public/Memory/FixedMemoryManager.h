@@ -1,17 +1,15 @@
 #pragma once
 #include "Core/Types.h"
 
-namespace BlueCore
+
+class FixedMemoryManager
 {
-	class FixedMemoryManager
-	{
 
 
-		void* Allocate(size_t aSize);
-		void* Free(void*);
+	void* Allocate(size_t aSize);
+	void* Free(void*);
 
 
 
 
-	};
-}
+};

@@ -1,167 +1,166 @@
 #include "Core/Actor.h"
+
+#include "Components/TransformComponent.h"
 #include "Components/ActorComponent.h"
-#include "Components/ComponentFactory.h"
+
 #include "Input/Input.h"
-#include <glm/glm.hpp>
 #include "Helpers/MathHelpers.h"
 #include "Serialization/ArchiveObject.h"
-namespace BlueCore
+
+#include <glm/glm.hpp>
+
+Actor::Actor(World* a_world) :
+mHasBeginPlayBeenCalled(0),
+						mWorld(a_world)
+{
+	mTransform = AddComponent<TransformComponent>();
+}
+
+Actor::Actor(const Actor&)
 {
 
-	Actor::Actor(World* a_world) :
-	mHasBeginPlayBeenCalled(0),
-							mWorld(a_world)
-	{
+}
 
+Actor::Actor(Actor&&)
+{
+
+}
+
+Actor::~Actor()
+{
+
+}
+
+void Actor::OnConstruct()
+{
+	if ((mTransform = GetComponent<TransformComponent>()) == nullptr)
+	{
+		mTransform = AddComponent<TransformComponent>();
+	}
+}
+
+void Actor::BeginPlay()
+{
+	for (auto component = mComponentsToAdd.begin(); component != mComponentsToAdd.end();)
+	{
+		mComponents.push_back(*component);
+		component = mComponentsToAdd.erase(component);
 	}
 
-	Actor::Actor(const Actor&)
+	for (auto comp : mComponents)
 	{
-
+		comp->BeginPlay();
 	}
 
-	Actor::Actor(Actor&&)
+	mHasBeginPlayBeenCalled = true;
+}
+
+void Actor::Update(float aDt)
+{
+	for (auto comp = mComponentsToAdd.begin(); comp != mComponentsToAdd.end();)
 	{
-
-	}
-
-	Actor::~Actor()
-	{
-
-	}
-
-	void Actor::OnConstruct(EComponentType* aComponentsToAdd, uint32 aComponentCount)
-	{
-		if (aComponentCount && aComponentsToAdd)
+		if (mHasBeginPlayBeenCalled)
 		{
-			for (size_t i = 0; i < aComponentCount; i++)
-			{
-				ActorComponent* newComponent = ComponentFactory::CreateComponent(aComponentsToAdd[i], this);
-				mComponents.push_back(newComponent);
-			}
+			(*comp)->BeginPlay();
 		}
 
-		if ((mTransform = (TransformComponent*)GetComponent(EComponentType::ETransformComponent)) == nullptr)
-		{
-			mTransform = (TransformComponent*)ComponentFactory::CreateComponent(EComponentType::ETransformComponent, this);
-			mComponents.push_back((ActorComponent*)mTransform);
-		}
-
+		mComponents.push_back(*comp);
+		comp = mComponentsToAdd.erase(comp);
 	}
 
-	void Actor::BeginPlay()
+	for (auto comp : mComponents)
 	{
-		for (auto comp : mComponents)
-		{
-			comp->BeginPlay();
-		}
+		comp->Update(aDt);
+	}
+}
 
-		mHasBeginPlayBeenCalled = true;
+void Actor::LateUpdate(float aDt)
+{
+	for (auto comp : mComponents)
+	{
+		comp->LateUpdate(aDt);
+	}
+}
+
+void Actor::OnSerialize(ArchiveObject* const aArchiveObject) const
+{
+	ArchiveObject components("Components");
+
+	for (uint32 i = 0; i < mComponents.size(); ++i)
+	{
+		ArchiveObject component(std::to_string(i));
+		mComponents[i]->OnSerialize(&component);
+		components.Archive(&component);
 	}
 
-	void Actor::Update(float aDt)
+	aArchiveObject->Archive(&components);
+}
+
+void Actor::OnDeserialize(ArchiveObject* const aArchiveObject)
+{
+
+}
+
+ActorComponent* Actor::GetComponent(uint64 aID)
+{
+	for (ActorComponent* component : mComponents)
 	{
-		for (auto comp : mComponents)
+		if (component->ID() == aID)
 		{
-			comp->Update(aDt);
-		}
-	}
-
-	void Actor::LateUpdate(float aDt)
-	{
-		for (auto comp : mComponents)
-		{
-			comp->LateUpdate(aDt);
-		}
-	}
-
-	void Actor::PreRender()
-	{
-		for (auto comp : mComponents)
-		{
-			comp->PreRender();
-		}
-	}
-
-	void Actor::Render(IRenderer* aRenderer)
-	{
-		for (auto comp : mComponents)
-		{
-			comp->Render(aRenderer);
-		}
-	}
-
-	void Actor::PostRender()
-	{
-		for (auto comp : mComponents)
-		{
-			comp->PostRender();
-		}
-
-		for (auto comp = mComponentsToAdd.begin(); comp != mComponentsToAdd.end();)
-		{
-			if (mHasBeginPlayBeenCalled)
-			{
-				(*comp)->BeginPlay();
-			}
-
-			mComponents.push_back(*comp);
-			comp = mComponentsToAdd.erase(comp);
+			return component;
 		}
 	}
 
-	void Actor::OnSerialize(ArchiveObject* const aArchiveObject) const
+	for (ActorComponent* component : mComponentsToAdd)
 	{
-		ArchiveObject components("Components");
-
-		for (uint32 i = 0; i < mComponents.size(); ++i)
+		if (component->ID() == aID)
 		{
-			ArchiveObject component(std::to_string(i));
-			mComponents[i]->OnSerialize(&component);
-			components.Archive(&component);
+			return component;
 		}
-
-		aArchiveObject->Archive(&components);
 	}
 
-	void Actor::OnDeserialize(ArchiveObject* const aArchiveObject)
+	return nullptr;
+}
+
+std::vector<ActorComponent*> Actor::GetAllComponents(uint64 aID)
+{
+	std::vector<ActorComponent*> components;
+
+	for (ActorComponent* component : mComponents)
 	{
-
-	}
-
-	void Actor::OnDrawGizmo(GizmoRenderer* aRenderer)
-	{
-
-	}
-
-	ActorComponent* Actor::GetComponent(EComponentType aComponentType)
-	{
-		for (auto comp : mComponents)
+		if (component->ID() == aID)
 		{
-			if (comp->GetComponentType() == aComponentType)
-			{
-				return comp;
-			}
+			components.push_back(component);
 		}
-
-		return nullptr;
 	}
 
-	BlueCore::ActorComponent* Actor::AddComponent(EComponentType aComponentType)
+	for (ActorComponent* component : mComponentsToAdd)
 	{
-		ActorComponent* comp = ComponentFactory::CreateComponent(aComponentType, this);
-
-		if (!mHasBeginPlayBeenCalled)
+		if (component->ID() == aID)
 		{
-			mComponents.push_back(comp);
+			components.push_back(component);
 		}
-		else
-		{
-			mComponentsToAdd.push_back(comp);
-		}
-
-		return comp;
-
 	}
 
+	return components;
+}
+
+ActorComponent* Actor::AddComponent(uint64 aID)
+{
+	ActorComponent* component = ActorComponent::Construct(aID, this);
+	mComponentsToAdd.push_back(component);
+	return component;
+}
+
+void Actor::AddRequiredComponents(uint64 aID)
+{
+	const std::vector<uint64>& requiredComps = ActorComponent::GetRequiredComponents(aID);
+
+	for (int i = 0; i < requiredComps.size(); ++i)
+	{
+		if (!GetComponent(aID))
+		{
+			AddComponent(aID);
+		}
+	}
 }
