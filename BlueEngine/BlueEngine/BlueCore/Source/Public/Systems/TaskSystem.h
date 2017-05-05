@@ -6,7 +6,7 @@
 namespace TaskSystem
 {
 
-	struct   ITask
+	struct ITask
 	{
 		ITask(char* aName, bool aSyncedJob = true) : syncedJob(aSyncedJob), name(aName)
 		{
@@ -24,11 +24,11 @@ namespace TaskSystem
 		bool syncedJob;
 	};
 
-	  void Init();
-	  void Sync();
-	  void Shutdown();
+	void Init();
+	void Sync();
+	void Shutdown();
 
-	  void SubmitTask(ITask* aJob);
+	void SubmitTask(ITask* aJob);
 	std::future<bool> SubmitTrackedTask(ITask* aTask);
 }
 

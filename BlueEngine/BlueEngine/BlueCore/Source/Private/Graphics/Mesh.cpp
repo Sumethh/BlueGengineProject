@@ -69,14 +69,13 @@ void Mesh::PrepForDrawing()
 
 void Mesh::UnPrepForDrawing()
 {
-	IGraphicsDevice::GetCurrentGraphicsDevice()->UnBindGraphicsResource(mVertexArrayId);
-
+	IGraphicsDevice::GetCurrentGraphicsDevice()->UnbindGraphicsResource(mVertexArrayId);
 }
 
 void Mesh::ReUploadMeshInfo()
 {
 	static std::string message = ("ReUploading mesh resources");
-	Log::LogInfo(message);
+	Log::Info(message);
 
 	if (NeedToReuploadVertices())
 	{
@@ -103,6 +102,6 @@ void Mesh::InitBuffers()
 	gd->BindGraphicsResource(mVertexArrayId);
 	gd->BindGraphicsResource(mElementBufferId);
 	gd->UpdateResourceData(mVertexBufferId, 0, nullptr, 0, sVertexDescriptors, sVertexDescriptorCount);
-	gd->UnBindGraphicsResource(mVertexArrayId);
+	gd->UnbindGraphicsResource(mVertexArrayId);
 
 }

@@ -34,7 +34,6 @@ void DebugManager::Update()
 	if (Input::GetKeyPressed(Input::Key::F2))
 	{
 		mOpen = !mOpen;
-		Log::LogInfo("Setting Open");
 	}
 
 	if (mOpen)

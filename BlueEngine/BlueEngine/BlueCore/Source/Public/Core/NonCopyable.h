@@ -1,7 +1,7 @@
 #pragma once
 #include "Defines.h"
 
-class   NonCopyable
+class NonCopyable
 {
 	protected:
 	NonCopyable() {};

@@ -120,6 +120,9 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Source\Public\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4251;</DisableSpecificWarnings>
       <PreprocessorDefinitions>BLUECORE_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <AdditionalDependencies>assimp.lib;FreeImage.lib;glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -157,6 +160,8 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Source\Public\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4251;</DisableSpecificWarnings>
       <PreprocessorDefinitions>BLUECORE_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -177,7 +182,7 @@
     <ClCompile Include="Source\Private\Components\DynamicMeshComponent.cpp" />
     <ClCompile Include="Source\Private\Components\FirstPersonComponent.cpp" />
     <ClCompile Include="Source\Private\Components\MaterialComponent.cpp" />
-    <ClCompile Include="Source\Private\Components\TransformComponent.cpp" />
+    <ClCompile Include="Source\Private\Core\Transformable.cpp" />
     <ClCompile Include="Source\Private\Core\Application.cpp" />
     <ClCompile Include="Source\Private\Core\ApplicationWindow.cpp" />
     <ClCompile Include="Source\Private\Core\Game.cpp" />
@@ -187,6 +192,10 @@
     <ClCompile Include="Source\Private\Core\Log.cpp" />
     <ClCompile Include="Source\Private\Core\MeshLoader.cpp" />
     <ClCompile Include="Source\Private\Core\Scene.cpp" />
+    <ClCompile Include="Source\Private\Extern\imgui.cpp" />
+    <ClCompile Include="Source\Private\Extern\imgui_demo.cpp" />
+    <ClCompile Include="Source\Private\Extern\imgui_draw.cpp" />
+    <ClCompile Include="Source\Private\Extern\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="Source\Private\Managers\IMemoryAllocator.cpp" />
     <ClCompile Include="Source\Private\Managers\UpdateableManager.cpp" />
     <ClCompile Include="Source\Private\Core\World.cpp" />
@@ -204,8 +213,9 @@
     <ClCompile Include="Source\Private\Input\Input.cpp" />
     <ClCompile Include="Source\Private\Managers\DebugManager.cpp" />
     <ClCompile Include="Source\Private\Memory\FixedMemoryManager.cpp" />
-    <ClCompile Include="Source\Private\Renderers\DeferedRenderer.cpp" />
+    <ClCompile Include="Source\Private\Renderers\DifferedRenderer.cpp" />
     <ClCompile Include="Source\Private\Renderers\ForwardRenderer.cpp" />
+    <ClCompile Include="Source\Private\Renderers\SceneRenderer.cpp" />
     <ClCompile Include="Source\Private\Serialization\ArchiveObject.cpp" />
     <ClCompile Include="Source\Private\Serialization\ISerializable.cpp" />
     <ClCompile Include="Source\Private\Serialization\Stencil\Stencil.cpp" />
@@ -231,7 +241,7 @@
     <ClInclude Include="Source\Public\Components\DynamicMeshComponent.h" />
     <ClInclude Include="Source\Public\Components\FirstPersonComponent.h" />
     <ClInclude Include="Source\Public\Components\MaterialComponent.h" />
-    <ClInclude Include="Source\Public\Components\TransformComponent.h" />
+    <ClInclude Include="Source\Public\Core\Transformable.h" />
     <ClInclude Include="Source\Public\Core\Application.h" />
     <ClInclude Include="Source\Public\Core\ApplicationWindow.h" />
     <ClInclude Include="Source\Public\Core\Defines.h" />
@@ -247,7 +257,7 @@
     <ClInclude Include="Source\Public\Messaging\IMessage.h" />
     <ClInclude Include="Source\Public\Core\ResourceList.h" />
     <ClInclude Include="Source\Public\Core\Timer.h" />
-    <ClInclude Include="Source\Public\Graphics\ImageFormat.h" />
+    <ClInclude Include="Source\Public\Graphics\EImageFormat.h" />
     <ClInclude Include="Source\Public\Core\Log.h" />
     <ClInclude Include="Source\Public\Graphics\Mesh.h" />
     <ClInclude Include="Source\Public\Core\NonCopyable.h" />
@@ -276,10 +286,12 @@
     <ClInclude Include="Source\Public\Managers\DebugManager.h" />
     <ClInclude Include="Source\Public\Memory\FixedMemoryManager.h" />
     <ClInclude Include="Source\Public\Memory\IMemoryAllocator.h" />
-    <ClInclude Include="Source\Public\Renderers\DeferedRenderer.h" />
+    <ClInclude Include="Source\Public\Messaging\WindowResizeMessage.h" />
+    <ClInclude Include="Source\Public\Renderers\DifferedRenderer.h" />
     <ClInclude Include="Source\Public\Renderers\ForwardRenderer.h" />
     <ClInclude Include="Source\Public\Renderers\GizmoRenderer.h" />
-    <ClInclude Include="Source\Public\Renderers\RendererInterface.h" />
+    <ClInclude Include="Source\Public\Renderers\IRenderer.h" />
+    <ClInclude Include="Source\Public\Renderers\SceneRenderer.h" />
     <ClInclude Include="Source\Public\Serialization\ArchiveObject.h" />
     <ClInclude Include="Source\Public\Serialization\ISerializable.h" />
     <ClInclude Include="Source\Public\Serialization\Stencil\Stencil.h" />

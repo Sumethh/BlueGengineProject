@@ -8,6 +8,13 @@
 #include <fstream>
 #include <sstream>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.inl>
+
+static GLenum bufferBits[] =
+{
+	GL_DEPTH_BUFFER_BIT,
+	GL_COLOR_BUFFER_BIT
+};
 
 
 int GetGlEnumFromBufferBit(BufferBit aBit)
@@ -21,14 +28,11 @@ int GetGlEnumFromBufferBit(BufferBit aBit)
 
 	if (((uint8)aBit & (uint8)BufferBit::DepthBit) != 0)
 	{
-		returningValue |= GL_DEPTH_BITS;
+		returningValue |= GL_DEPTH_BUFFER_BIT;
 	}
 
 	return returningValue;
 }
-
-
-
 
 OpenGlGraphicsDevice::OpenGlGraphicsDevice() : IGraphicsDevice(EGraphicsDeviceType::OpenGL)
 {
@@ -44,13 +48,14 @@ void OpenGlGraphicsDevice::Init()
 {
 	if (GLenum errCode = glewInit() != GLEW_OK)
 	{
-		Log::LogError("Glew failed to initialize");
+		Log::Error("Glew failed to initialize");
 		BlueAssert(false);
 	}
 
-	Log::LogInfo("Opengl Graphics device initialized");
+	Log::Info("Opengl Graphics device initialized");
 	OpenGLResource r = {};
 	mResources.emplace_back(std::move(r));
+	glDepthFunc(GL_LESS);
 }
 
 void OpenGlGraphicsDevice::ShutDown()
@@ -121,7 +126,7 @@ void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, size_t a
 			break;
 
 		default:
-			Log::LogError("Tried updating an invalid resource");
+			Log::Error("Tried updating an invalid resource");
 			BlueAssert(false);
 			break;
 	}
@@ -139,7 +144,7 @@ void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, char* aV
 	CHECK_FOR_GRAPHIC_ERROR();
 }
 
-void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, uint32 aWidth, uint32 aHeight, ImageFormat aImageFormat, ImageFormat aSavingFormat, uint32 aMipMapLevel)
+void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, uint32 aWidth, uint32 aHeight, EImageFormat aImageFormat, EImageFormat aSavingFormat, uint32 aMipMapLevel)
 {
 	BlueAssert(aResourceID);
 	OpenGLResource& updatingResource = mResources[aResourceID];
@@ -147,7 +152,7 @@ void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, ubyte* a
 
 	uint32 imageFormat, storingFormat;
 
-	if (aImageFormat == ImageFormat::RGB)
+	if (aImageFormat == EImageFormat::RGB)
 	{
 		imageFormat = GL_RGB;
 	}
@@ -156,7 +161,7 @@ void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, ubyte* a
 		imageFormat = GL_RGBA;
 	}
 
-	if (aSavingFormat == ImageFormat::RGB)
+	if (aSavingFormat == EImageFormat::RGB)
 	{
 		storingFormat = GL_RGB;
 	}
@@ -216,6 +221,7 @@ void OpenGlGraphicsDevice::DrawBuffersElements(const EDrawMode aMode, const uint
 void OpenGlGraphicsDevice::ClearBuffer(BufferBit aBuffersToClear)
 {
 	glClear(GetGlEnumFromBufferBit(aBuffersToClear));
+	CHECK_FOR_GRAPHIC_ERROR();
 }
 
 void OpenGlGraphicsDevice::SetClearColor(const glm::vec4 aColor)
@@ -235,7 +241,7 @@ void OpenGlGraphicsDevice::BindGraphicsResource(const uint32 aResourceID)
 	CHECK_FOR_GRAPHIC_ERROR();
 }
 
-void OpenGlGraphicsDevice::UnBindGraphicsResource(const uint32 aResourceID)
+void OpenGlGraphicsDevice::UnbindGraphicsResource(const uint32 aResourceID)
 {
 	BlueAssert(aResourceID < mResources.size());
 	BlueAssert(aResourceID);
@@ -285,7 +291,7 @@ void OpenGlGraphicsDevice::SetShaderVariable(uint32 aVarLoc, void* aVar, EVarTyp
 			break;
 
 		case EVarType::Matrix4x4:
-			glUniformMatrix4fv(aVarLoc, 1, GL_FALSE, (float*)aVar);
+			glUniformMatrix4fv(aVarLoc, 1, GL_FALSE, glm::value_ptr(*((glm::mat4*)aVar)));
 			break;
 
 		default:
@@ -463,7 +469,7 @@ uint32 LoadAndCompileShader(int32 aShaderType, char* aPath)
 
 	if (!file.is_open())
 	{
-		Log::LogError(std::string("File failed to open: ") + aPath);
+		Log::Error(std::string("File failed to open: ") + aPath);
 		return 0;
 	}
 
@@ -496,7 +502,7 @@ void OpenGlGraphicsDevice::UpdateShader(OpenGLResource& aResource, char* aVertex
 
 	if (!vertexShader || !fragmentShader)
 	{
-		Log::LogError("A shader failed to load");;
+		Log::Error("A shader failed to load");;
 		return;
 	}
 

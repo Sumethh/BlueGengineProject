@@ -9,7 +9,7 @@ struct GLFWwindow;
 
 class   ApplicationWindow : NonCopyable
 {
-	public:
+public:
 	~ApplicationWindow();
 	static ApplicationWindow* Create(const char* aTitle, const uint32 a_width, const uint32 aHeight, EGraphicsDeviceType aRenderingAPI);
 	void Update();
@@ -31,7 +31,7 @@ class   ApplicationWindow : NonCopyable
 	static ApplicationWindow* GetCurrentWindow() { return m_currentWindow; }
 	inline GLFWwindow* GetUnderlyingWindow()const { return mWindow; }
 
-	private:
+private:
 	void UpdateMousePosition();
 
 	static bool m_apiInit;

@@ -4,24 +4,24 @@
 #include <glm/glm.hpp>
 
 class IRenderer;
+struct WindowResizeMessage;
 class   CameraComponent: public ActorComponent
 {
-	public:
+public:
 	CameraComponent(Actor* aOwner);
 	~CameraComponent();
 
-	virtual void BeginPlay();
+	uint64 ID() { return CompileHash("CameraComponent"); }
 
-	virtual void PreRender() override;
-	virtual void Render(IRenderer* aRenderer) override;
+	virtual void BeginPlay();
 
 	inline void SetProjectionMatrix(glm::mat4 aNewProjectionMatrix) { mProjectionMatrix = aNewProjectionMatrix; }
 
-	glm::mat4 GetProjectionMatrix() const { return mProjectionMatrix; }
-	glm::mat4 GetViewMatrix()const { return mViewMatrix; }
+	glm::mat4 GetProjectionMatrix();
+	glm::mat4 GetViewMatrix();
 
-	private:
-
+private:
+	void OnWindowResize(WindowResizeMessage* aMessage);
 	Viewport mViewport;
 	glm::mat4 mProjectionMatrix;
 	glm::mat4 mViewMatrix;

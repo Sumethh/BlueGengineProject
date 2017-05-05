@@ -1,5 +1,5 @@
 #pragma once
-#include "RendererInterface.h"
+#include "IRenderer.h"
 #include <map>
 #include <vector>
 #include "Core/Types.h"
@@ -8,15 +8,25 @@
 
 struct Transform;
 class Light;
+class Shader;
+class Material;
 class   ForwardRenderer : public IRenderer
 {
 	public:
 	ForwardRenderer();
 	~ForwardRenderer();
 
-	void SubmitMesh(Mesh* aMesh, Material* aMaterial, Transform aTransform) override;
-	void SubmitCamera(CameraComponent* aCamera) override;
-	void Flush()override ;
+	void SubmitGeometry(Mesh* aMesh, glm::mat4 aTransform) override;
+	void SetActiveCamera(CameraComponent* aCamera) override;
+	void SetActiveMaterial(Material* aMaterial) override;
+
+	void End() override;
 	private:
+	glm::mat4 mActiveProjectionMatrix;
+	glm::mat4 mActiveViewMatrix;
+	Material* mActiveMaterial;
+	Shader* mCurrentShader;
+	Mesh* mCurrentMesh;
+	uint32 mModelLocation;
 };
 

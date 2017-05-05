@@ -2,7 +2,7 @@
 #include "Graphics/Texture2D.h"
 #include "Graphics/Shader.h"
 #include <GL/glew.h>
-Material::Material(uint32 aMaterialID) : mId(aMaterialID)
+Material::Material(uint32 aMaterialID) : mId(aMaterialID), mBound(false)
 {
 }
 
@@ -19,6 +19,8 @@ void Material::Bind()
 	{
 		mTexture->Bind();
 	}
+
+	mBound = true;
 }
 
 void Material::SetDataForDrawing()
@@ -39,6 +41,8 @@ void Material::UnBind()
 	{
 		mTexture->UnBind();
 	}
+
+	mBound = false;
 }
 
 uint32 Material::GetShaderVariableLoc(const char* aVariable)
@@ -48,7 +52,7 @@ uint32 Material::GetShaderVariableLoc(const char* aVariable)
 
 bool Material::HasAlpha() const
 {
-	return mTexture->GetImageFormat() == ImageFormat::RGBA;
+	return mTexture->GetImageFormat() == EImageFormat::RGBA;
 }
 
 void Material::SetPointLightData(std::vector<Light*>& aLights)
@@ -81,4 +85,9 @@ void Material::SetPointLightData(std::vector<Light*>& aLights)
 		mShader->SetShaderVar(info.quadratic, (void*)&quadratic, EVarType::Float);
 	    }*/
 
+}
+
+bool Material::IsBound() const
+{
+	return mBound;
 }

@@ -114,6 +114,9 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 
 void main()
 {
+
+     ocolor = texture(baseTexture, uv);
+     return;
     //Ambient
     //Make the ambient power part of the world rather than a constant?
     ocolor = vec4(1.0f, 0.0f, 0.0f, 1.0f);

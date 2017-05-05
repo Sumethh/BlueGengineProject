@@ -82,9 +82,7 @@ class ComponentRegistery
 	template<typename T>
 	RegisteredComponentInfo& GetStaticComponentInfo()
 	{
-		static RegisteredComponentInfo* infoPtr;
 		static RegisteredComponentInfo info;
-		infoPtr = &info;
 		return info;
 	}
 };

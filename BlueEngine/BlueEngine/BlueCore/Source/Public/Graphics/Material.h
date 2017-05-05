@@ -31,6 +31,8 @@ class Material : public NonCopyable
 	bool HasAlpha()const;
 	void SetPointLightData(std::vector<Light*>& aLights);
 
+	bool IsBound()const;
+
 	private:
 	std::string mName;
 	glm::vec4 mDiffuseColor;
@@ -40,4 +42,5 @@ class Material : public NonCopyable
 	Texture2D* mTexture;
 	Shader* mShader;
 
+	bool mBound;
 };

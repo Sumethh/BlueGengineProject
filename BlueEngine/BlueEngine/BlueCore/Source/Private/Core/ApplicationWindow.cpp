@@ -1,8 +1,10 @@
 #include "Core/ApplicationWindow.h"
 #include "Input/input.h"
+#include "Messaging/WindowResizeMessage.h"
 
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <Imgui/imgui_impl_glfw_gl3.h>
 
 void ApplicationWindow::UpdateMousePosition()
 {
@@ -28,6 +30,7 @@ void KeyCallBack(GLFWwindow* a_window, int aKey, int aScancode, int aAction, int
 		Input::OnKeyUp(aKey);
 	}
 
+	ImGui_ImplGlfwGL3_KeyCallback(a_window, aKey, aScancode, aAction, aMods);
 }
 
 void MousePositionCallback(GLFWwindow* a_window, double a_xpos, double aYPos)
@@ -50,9 +53,10 @@ void MouseButtonCallBack(GLFWwindow* a_window, int aButton, int aAction, int aMo
 	}
 }
 
-void MouseScrollCallBack(GLFWwindow* a_window, double a_xOffset, double aYOffset)
+void MouseScrollCallBack(GLFWwindow* a_window, double aXOffset, double aYOffset)
 {
-	Input::OnMouseScroll((float)a_xOffset, (float)aYOffset);
+	Input::OnMouseScroll((float)aXOffset, (float)aYOffset);
+	ImGui_ImplGlfwGL3_ScrollCallback(a_window, aXOffset, aYOffset);
 }
 
 ApplicationWindow* ApplicationWindow::Create(const char* aTitle, const uint32 a_width, const uint32 aHeight, EGraphicsDeviceType aRenderingType)
@@ -85,9 +89,9 @@ ApplicationWindow* ApplicationWindow::Create(const char* aTitle, const uint32 a_
 }
 
 ApplicationWindow::ApplicationWindow(const char* aTitle, const uint32 a_width, const uint32 aHeight, EGraphicsDeviceType aRenderingAPI) :
-mWidth(a_width),
-	   mHeight(aHeight),
-	   mCurrentRenderingAPI(aRenderingAPI)
+	mWidth(a_width),
+	mHeight(aHeight),
+	mCurrentRenderingAPI(aRenderingAPI)
 {
 	if (mCurrentRenderingAPI == EGraphicsDeviceType::OpenGL)
 	{
@@ -100,8 +104,11 @@ mWidth(a_width),
 		mWindow = glfwCreateWindow(mWidth, mHeight, aTitle, nullptr, nullptr);
 	}
 
+
+
+
+	ImGui_ImplGlfwGL3_Init(mWindow, true);
 	glfwSetKeyCallback(mWindow, KeyCallBack);
-	//	glfwSetCursorPosCallback(mWindow, MousePositionCallback);
 	glfwSetMouseButtonCallback(mWindow, MouseButtonCallBack);
 	glfwSetScrollCallback(mWindow, MouseScrollCallBack);
 	SetVsync(0);
@@ -115,6 +122,8 @@ ApplicationWindow::~ApplicationWindow()
 }
 void ApplicationWindow::Update()
 {
+	ImGui_ImplGlfwGL3_NewFrame();
+
 	if (glfwWindowShouldClose(mWindow))
 	{
 		mCloseRequested = true;
@@ -127,6 +136,20 @@ void ApplicationWindow::Update()
 	{
 		UpdateMousePosition();
 		mMouseInputUpdate.Reset();
+	}
+
+	int32 width, height;
+	glfwGetWindowSize(mWindow, &width, &height);
+
+	if (width != mWidth || height != mHeight)
+	{
+		mWidth = width;
+		mHeight = height;
+		glViewport(0, 0, width, height);
+		WindowResizeMessage message;
+		message.windowHeight = mHeight;
+		message.windowWidth = mWidth;
+		Message<WindowResizeMessage>::Send(&message);
 	}
 
 }

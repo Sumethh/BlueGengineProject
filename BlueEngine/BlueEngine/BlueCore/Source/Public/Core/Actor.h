@@ -1,14 +1,23 @@
 #pragma once
 #include "Components/ActorComponent.h"
-#include <vector>
+#include "Core/Transformable.h"
 #include "Serialization/ISerializable.h"
+#include "Collision\BoundingVolumes\AABB.h"
+
+#include <vector>
+
 class World;
 class ActorComponent;
 class IRenderer;
-class TransformComponent;
+class Transformable;
 class GizmoRenderer;
 
-class   Actor : public ISerializable
+enum class EActorFlags : uint32
+{
+	ActorBoundsDirty = BlueBit(0),
+};
+
+class Actor : public Transformable
 {
 	public:
 	Actor(World* a_world);
@@ -23,8 +32,6 @@ class   Actor : public ISerializable
 
 	virtual void OnSerialize(ArchiveObject* const aArchiveObject) const override;
 	virtual void OnDeserialize(ArchiveObject* const aArchiveObject);
-
-	inline TransformComponent* GetTransformComponent() { return mTransform; }
 	inline World* GetWorld() { return mWorld; }
 
 	ActorComponent* GetComponent(uint64 aID);
@@ -43,16 +50,25 @@ class   Actor : public ISerializable
 		return (T*)AddComponent(ActorComponent::ID<T>());
 	}
 
+	AABB GetActorBounds();
+
+	void SetActorFlags(EActorFlags aFlags);
+	void ResetFlags(EActorFlags aFlags);
+	bool IsFlagSet(EActorFlags aFlags);
+
 	private:
 
 	void AddRequiredComponents(uint64 aID);
-
-	TransformComponent* mTransform;
+	void RecalculateActorBounds();
 
 	bool mHasBeginPlayBeenCalled;
 	World* mWorld;
+
 	uint64 mInstanceID;
+	AABB mActorBounds;
 
 	std::vector<ActorComponent*> mComponents;
 	std::vector<ActorComponent*> mComponentsToAdd;
+
+	uint32 mActorFlags;
 };

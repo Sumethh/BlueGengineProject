@@ -15,7 +15,7 @@ Texture2D::~Texture2D()
 }
 
 
-bool Texture2D::LoadTexture(const char* aFileName, ImageFormat aImageFormat, ImageFormat aFormatToStore, uint32 aMipMapLvl)
+bool Texture2D::LoadTexture(const char* aFileName, EImageFormat aImageFormat, EImageFormat aFormatToStore, uint32 aMipMapLvl)
 {
 	IGraphicsDevice* gd = IGraphicsDevice::GetCurrentGraphicsDevice();
 	mImageFormat = aFormatToStore;
@@ -40,7 +40,7 @@ bool Texture2D::LoadTexture(const char* aFileName, ImageFormat aImageFormat, Ima
 
 	if (fif == FIF_UNKNOWN)
 	{
-		Log::LogError("Unkown file type when trying to load texture");
+		Log::Error("Unkown file type when trying to load texture");
 		return false;
 	}
 
@@ -78,5 +78,5 @@ void Texture2D::Bind()
 
 void Texture2D::UnBind()
 {
-	IGraphicsDevice::GetCurrentGraphicsDevice()->UnBindGraphicsResource(mTextureId);
+	IGraphicsDevice::GetCurrentGraphicsDevice()->UnbindGraphicsResource(mTextureId);
 }

@@ -1,6 +1,4 @@
 #include "Core/Actor.h"
-
-#include "Components/TransformComponent.h"
 #include "Components/ActorComponent.h"
 
 #include "Input/Input.h"
@@ -13,7 +11,6 @@ Actor::Actor(World* a_world) :
 mHasBeginPlayBeenCalled(0),
 						mWorld(a_world)
 {
-	mTransform = AddComponent<TransformComponent>();
 }
 
 Actor::Actor(const Actor&)
@@ -33,10 +30,6 @@ Actor::~Actor()
 
 void Actor::OnConstruct()
 {
-	if ((mTransform = GetComponent<TransformComponent>()) == nullptr)
-	{
-		mTransform = AddComponent<TransformComponent>();
-	}
 }
 
 void Actor::BeginPlay()
@@ -79,6 +72,12 @@ void Actor::LateUpdate(float aDt)
 	for (auto comp : mComponents)
 	{
 		comp->LateUpdate(aDt);
+	}
+
+	if (IsFlagSet(EActorFlags::ActorBoundsDirty))
+	{
+		RecalculateActorBounds();
+		ResetFlags(EActorFlags::ActorBoundsDirty);
 	}
 }
 
@@ -147,9 +146,35 @@ std::vector<ActorComponent*> Actor::GetAllComponents(uint64 aID)
 
 ActorComponent* Actor::AddComponent(uint64 aID)
 {
+	AddRequiredComponents(aID);
 	ActorComponent* component = ActorComponent::Construct(aID, this);
 	mComponentsToAdd.push_back(component);
 	return component;
+}
+
+AABB Actor::GetActorBounds()
+{
+	if (IsFlagSet(EActorFlags::ActorBoundsDirty))
+	{
+		RecalculateActorBounds();
+	}
+
+	return mActorBounds;
+}
+
+void Actor::SetActorFlags(EActorFlags aFlag)
+{
+	mActorFlags |= (uint32)aFlag;
+}
+
+void Actor::ResetFlags(EActorFlags aFlags)
+{
+	mActorFlags &= ~(uint32)aFlags;
+}
+
+bool Actor::IsFlagSet(EActorFlags aFlags)
+{
+	return (mActorFlags & (uint32)aFlags) != 0;
 }
 
 void Actor::AddRequiredComponents(uint64 aID)
@@ -158,9 +183,39 @@ void Actor::AddRequiredComponents(uint64 aID)
 
 	for (int i = 0; i < requiredComps.size(); ++i)
 	{
-		if (!GetComponent(aID))
+		if (!GetComponent(requiredComps[i]))
 		{
-			AddComponent(aID);
+			AddComponent(requiredComps[i]);
 		}
 	}
+}
+
+void Actor::RecalculateActorBounds()
+{
+	glm::vec3 maxPositions(std::numeric_limits<float>::min());
+	glm::vec3 minPositions(std::numeric_limits<float>::max());
+
+	for (sizeInt i = 0; i < mComponents.size(); ++i)
+	{
+		AABB componentBox = mComponents[i]->GetComponentBounds();
+
+		if (componentBox.IsZeroSized())
+		{
+			continue;
+		}
+
+		glm::vec3 maxComponentPositions = componentBox.position + componentBox.halfExtents;
+		glm::vec3 minComponentPositions = componentBox.position - componentBox.halfExtents;
+
+		maxPositions.x = glm::max(maxPositions.x, maxComponentPositions.x);
+		maxPositions.y = glm::max(maxPositions.y, maxComponentPositions.y);
+		maxPositions.z = glm::max(maxPositions.z, maxComponentPositions.z);
+
+		minPositions.x = glm::min(minPositions.x, minComponentPositions.x);
+		minPositions.y = glm::min(minPositions.y, minComponentPositions.y);
+		minPositions.z = glm::min(minPositions.z, minComponentPositions.z);
+	}
+
+	mActorBounds.halfExtents = (maxPositions - minPositions) / 2.0f;
+	mActorBounds.position = minPositions + mActorBounds.halfExtents + GetTransform().position;
 }

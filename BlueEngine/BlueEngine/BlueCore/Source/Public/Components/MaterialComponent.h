@@ -9,8 +9,7 @@ class MaterialComponent : public ActorComponent
 	MaterialComponent(Actor* aOwner);
 	~MaterialComponent();
 
-	uint64 ID() override { return CompileHash("Material Component"); }
-
+	uint64 ID() override { return CompileHash("MaterialComponent"); }
 	Material* GetMaterial() const { return mMaterial; }
 
 	private:

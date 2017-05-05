@@ -6,7 +6,7 @@
 
 namespace MathHelpers
 {
-
+	static float Epsilon = 0.0001f;
 	inline glm::vec3 QuatToRadians(glm::quat& aRotation)
 	{
 		return glm::eulerAngles(aRotation);
@@ -49,19 +49,17 @@ namespace MathHelpers
 
 	inline glm::vec3 RoundIfLowerThanEpsilon(glm::vec3 aVec)
 	{
-		static float epsilon = std::numeric_limits<float>::epsilon();
-
-		if (aVec.x < epsilon)
+		if (aVec.x < Epsilon)
 		{
 			aVec.x = 0;
 		}
 
-		if (aVec.y < epsilon)
+		if (aVec.y < Epsilon)
 		{
 			aVec.y = 0;
 		}
 
-		if (aVec.z < epsilon)
+		if (aVec.z < Epsilon)
 		{
 			aVec.z = 0;
 		}

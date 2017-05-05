@@ -1,10 +1,12 @@
 #include "Systems/Console.h"
 
 #include "Input/Input.h"
-#include "COre/Log.h"
+#include "Core/Log.h"
 #include "Helpers/StringHelpers.h"
 #include <vector>
 #include <map>
+
+#include <Imgui/imgui.h>
 
 namespace Console
 {
@@ -61,8 +63,8 @@ namespace Console
 		AddCommand("ListCommands", std::bind(List, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	}
 
-	//static ImColor white(255, 255, 255, 255);
-	//static ImColor red(255, 0, 0, 255);
+	static ImColor white(255, 255, 255, 255);
+	static ImColor red(255, 0, 0, 255);
 
 	void CallCommand(std::string aCommand)
 	{
@@ -72,7 +74,7 @@ namespace Console
 
 		if (commandCallbackMap.find(command) == commandCallbackMap.end())
 		{
-			Log::LogError(std::string("Could not find command: ") + command);
+			Log::Error(std::string("Could not find command: ") + command);
 			return;
 		}
 
@@ -114,7 +116,7 @@ namespace Console
 
 				if (string.size())
 				{
-					Log::LogInfo(string);
+					Log::Info(string);
 					setFocus = true;
 					clearBuffer = true;
 				}
@@ -123,47 +125,47 @@ namespace Console
 				lastInput = string;
 			}
 
-			//ImGui::SetNextWindowSize(ImVec2(800, 600));
-			//ImGui::Begin("Console");
+			ImGui::SetNextWindowSize(ImVec2(800, 600));
+			ImGui::Begin("Console");
 
-			//ImGui::BeginChild("text", ImVec2(//ImGui::GetWindowContentRegionWidth(), 540));
+			ImGui::BeginChild("text", ImVec2(ImGui::GetWindowContentRegionWidth(), 540));
 			{
 				for (size_t i = 0; i < entries.size(); i++)
 				{
-					//ImColor col = entries[i].type == ELogType::Info ? white : red;
-					//ImGui::TextColored(col, entries[i].string.c_str());
+					ImColor col = entries[i].type == ELogType::Info ? white : red;
+					ImGui::TextColored(col, entries[i].string.c_str());
 				}
 
 				if (setFocus)
 				{
-					//ImGui::SetScrollHere();
+					ImGui::SetScrollHere();
 				}
 
 			}
-			//ImGui::EndChild();
-			//ImGuiInputTextFlags flags = ImGuiInputTextFlags_AlwaysInsertMode;
+			ImGui::EndChild();
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags_AlwaysInsertMode;
 
 			if (Input::GetKeyPressed(Input::Key::UP))
 			{
 				std::memset(buffer, 0, sizeof(buffer));
 				const char* data = lastInput.c_str();
 				std::memcpy(buffer, data, lastInput.size());
-				//flags |= ImGuiInputTextFlags_ReadOnly;
+				flags |= ImGuiInputTextFlags_ReadOnly;
 			}
 
-			//ImGui::InputText("Command", buffer, sizeof(buffer), flags);
+			ImGui::InputText("Command", buffer, sizeof(buffer), flags);
 
 			if (clearBuffer)
 			{
 				std::memset(buffer, 0, sizeof(buffer));
 			}
 
-			//if (//ImGui::IsRootWindowOrAnyChildFocused() && !//ImGui::IsAnyItemActive() && setFocus)
+			if (ImGui::IsRootWindowOrAnyChildFocused() && !ImGui::IsAnyItemActive() && setFocus)
 			{
-				//ImGui::SetKeyboardFocusHere(0);
+				ImGui::SetKeyboardFocusHere(0);
 			}
 
-			//ImGui::End();
+			ImGui::End();
 		}
 	}
 

@@ -73,6 +73,6 @@ void StencilManager::CreateStencils(std::vector<std::string>& fileNames)
 		stencil->OnDeserialize(&archive);
 		mStencils[stencil->Name()] = stencil;
 		static std::string loadedMessage = "Loaded Stencil: ";
-		Log::LogInfo(loadedMessage + stencil->Name());
+		Log::Info(loadedMessage + stencil->Name());
 	}
 }

@@ -86,7 +86,7 @@ namespace TaskSystem
 		std::string t = "Intializing task system with ";
 		t += std::to_string(coreCount);
 		t += " task threads";
-		Log::LogInfo(t);
+		Log::Info(t);
 		sThreads.reserve(coreCount);
 		sRunThreads.store(true);
 
@@ -121,7 +121,7 @@ namespace TaskSystem
 
 		while (sJobList.try_dequeue(remainingTasks))
 		{
-			Log::LogInfo(std::string("Dequeuing Task") + std::string(remainingTasks->name));
+			Log::Info(std::string("Dequeuing Task") + std::string(remainingTasks->name));
 			delete remainingTasks;
 			sJobList.try_dequeue(remainingTasks);
 		}

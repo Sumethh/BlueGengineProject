@@ -4,12 +4,14 @@
 #include "Core/Scene.h"
 #include "Components/MaterialComponent.h"
 #include "Graphics/Material.h"
-#include "Graphics/ImageFormat.h"
+#include "Graphics/EImageFormat.h"
+
 PrimitiveComponent::PrimitiveComponent(Actor* aOwner) : ActorComponent(aOwner),
-				   mFullScreenLayer(FullScreenLayer::Game),
-				   mViewportLayer(ViewportLayer::World)
+				   mFullScreenLayer(EFullScreenLayer::Game),
+				   mViewportLayer(EViewportLayer::World)
 {
 	GetOwner()->GetWorld()->RegisterPrimitiveComponent(this);
+	SetParent(aOwner);
 }
 
 PrimitiveComponent::~PrimitiveComponent()
@@ -19,19 +21,34 @@ PrimitiveComponent::~PrimitiveComponent()
 	scene->DeregisterPimitiveComponent(this);
 }
 
-void PrimitiveComponent::SetMaterialComponent(MaterialComponent* aComponent)
+Material* PrimitiveComponent::GetMaterial()
 {
+	if (!mMaterialComponent)
+	{
+		mMaterialComponent = GetOwner()->GetComponent<MaterialComponent>();
 
+		if (!mMaterialComponent)
+		{
+			mMaterialComponent = GetOwner()->AddComponent<MaterialComponent>();
+		}
+	}
+
+	return mMaterialComponent->GetMaterial();
 }
 
-const uint32 PrimitiveComponent::GetMaterialID() const
+bool PrimitiveComponent::IsTranslucent()
 {
-	return 0;
+	return GetMaterial()->HasAlpha();
 }
 
-glm::uint64 PrimitiveComponent::GetRenderID()
+uint64 PrimitiveComponent::GetRenderID(const Transform& aInverseCameraTransform)
 {
 	uint64 mReturningID = 0;
-	TranslucencyType translucencyType = mMaterialComponent->GetMaterial()->HasAlpha() ? TranslucencyType::Translucent : TranslucencyType::Opaque;
+
 	return mReturningID;
+}
+
+glm::mat4 PrimitiveComponent::GetWorldMatrix()
+{
+	return GetOwner()->GetWorldMatrix();
 }

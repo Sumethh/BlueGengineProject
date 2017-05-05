@@ -5,7 +5,7 @@
 
 MaterialComponent::MaterialComponent(Actor* aOwner) : ActorComponent(aOwner)
 {
-
+	mMaterial = MaterialManager::GI()->GetMaterial(0);
 }
 
 MaterialComponent::~MaterialComponent()

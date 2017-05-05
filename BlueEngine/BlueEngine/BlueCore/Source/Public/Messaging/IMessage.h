@@ -3,9 +3,9 @@
 #include <vector>
 #include "Core/IDelegate.h"
 
-class IMessage
+struct IMessage
 {
-	public:
+public:
 };
 
 template<typename T>
@@ -13,7 +13,7 @@ class Message
 {
 	using FunctionPointer = void(*)(T*);
 
-	public:
+public:
 	static void Send(T* aMessage)
 	{
 		std::vector<IDelegate<void, T*>*>& registeredListeners = GetCallbacks();
@@ -40,7 +40,7 @@ class Message
 		GetCallbacks().push_back(new MemberDelegate<CallingClass, void, T*>(aClass, aFunctor));
 	}
 
-	private:
+private:
 	static std::vector<IDelegate<void, T*>*>& GetCallbacks()
 	{
 		static std::vector <IDelegate<void, T*>*> callbacks;

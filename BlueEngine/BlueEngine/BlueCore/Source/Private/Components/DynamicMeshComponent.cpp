@@ -1,8 +1,8 @@
 #include "Components/DynamicMeshComponent.h"
 #include "Core/Actor.h"
 #include "Components/MaterialComponent.h"
-#include "Components/TransformComponent.h"
-#include "Renderers/RendererInterface.h"
+#include "Core/Transformable.h"
+#include "Renderers/IRenderer.h"
 #include "Managers/MeshManager.h"
 #include <limits>
 #include "Core/Vertex.h"
@@ -11,7 +11,7 @@
 
 DynamicMeshComponent::DynamicMeshComponent(Actor* aOwner) : PrimitiveComponent(aOwner)
 {
-	mMesh = MeshManager::GI()->GetMeshAsync("cube", std::bind(&DynamicMeshComponent::SetMesh, this, std::placeholders::_1));
+	SetMesh(MeshManager::GI()->GetMeshAsync("cube", std::bind(&DynamicMeshComponent::SetMesh, this, std::placeholders::_1)));
 }
 
 DynamicMeshComponent::~DynamicMeshComponent()
@@ -21,30 +21,17 @@ DynamicMeshComponent::~DynamicMeshComponent()
 
 void DynamicMeshComponent::BeginPlay()
 {
-	mTransformComponent = GetOwner()->GetTransformComponent();
 	mMaterialComponent = GetOwner()->GetComponent<MaterialComponent>();
 
 	if (!mMaterialComponent)
 	{
-		Actor* owner = GetOwner();
-		mMaterialComponent = owner->AddComponent<MaterialComponent>();
+		BlueAssert(false);
 	}
 
 	if (mMesh)
 	{
 		CalculateComponentBounds();
 	}
-}
-
-void DynamicMeshComponent::PreRender()
-{
-}
-
-void DynamicMeshComponent::Render(IRenderer* aRenderer)
-{
-
-	aRenderer->SubmitMesh(mMesh, mMaterialComponent->GetMaterial(), mTransformComponent->GetWorldSpaceTransform());
-
 }
 
 void DynamicMeshComponent::CalculateComponentBounds()
@@ -78,14 +65,27 @@ void DynamicMeshComponent::CalculateComponentBounds()
 	center.y = maxY + minY;
 	center.z = maxZ + minZ;
 
-	MathHelpers::RoundIfLowerThanEpsilon(center);
+	center = MathHelpers::RoundIfLowerThanEpsilon(center);
 
 	glm::vec3 halfExtents;
 	halfExtents.x = glm::abs(maxX - minX) / 2.0f;
 	halfExtents.y = glm::abs(maxY - minY) / 2.0f;
 	halfExtents.z = glm::abs(maxZ - minZ) / 2.0f;
 
-	MathHelpers::RoundIfLowerThanEpsilon(halfExtents);
+	halfExtents =	MathHelpers::RoundIfLowerThanEpsilon(halfExtents);
 
-	int t = 0;
+	mComponentBounds.halfExtents = halfExtents;
+	mComponentBounds.position = center;
+}
+
+void DynamicMeshComponent::SubmitGeometry(IRenderer* aRenderer)
+{
+	aRenderer->SetActiveMaterial(GetMaterial());
+	aRenderer->SubmitGeometry(mMesh, GetWorldMatrix());
+}
+
+void DynamicMeshComponent::SetMesh(Mesh* aMesh)
+{
+	mMesh = aMesh;
+	SetBoundsFlagDirty();
 }

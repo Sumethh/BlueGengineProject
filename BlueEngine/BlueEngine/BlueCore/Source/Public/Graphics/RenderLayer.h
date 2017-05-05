@@ -1,20 +1,21 @@
 #pragma once
 #include "Core/Defines.h"
 
-enum class FullScreenLayer
+enum class EFullScreenLayer
 {
 	Game = BlueBit(0),
 	HUD = BlueBit(1),
 	Effect = BlueBit(2)
 };
 
-enum class TranslucencyType
+
+enum class ETranslucencyType
 {
 	Opaque = BlueBit(0),
 	Translucent = BlueBit(1)
 };
 
-enum class ViewportLayer
+enum class EViewportLayer
 {
 	Skybox = BlueBit(0),
 	World = BlueBit(1),

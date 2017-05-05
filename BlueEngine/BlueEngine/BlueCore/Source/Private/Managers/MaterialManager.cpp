@@ -10,7 +10,7 @@ void MaterialManager::CreateDefaultMaterials()
 	shader->LoadShader("assets/shaders/glsl/Forward/Forward_Shaded.glslv", "assets/shaders/glsl/Forward/Forward_Shaded.glslf");
 	int t = 0;
 	Texture2D* tex = new Texture2D();
-	tex->LoadTexture("Assets/Textures/Debug.png", ImageFormat::RGB, ImageFormat::RGB);
+	tex->LoadTexture("Assets/Textures/Debug.png", EImageFormat::RGB, EImageFormat::RGB);
 	defaultMaterial->SetShader(shader);
 	defaultMaterial->SetTexture(tex);
 	defaultMaterial->SetAmbientColor(glm::vec4(0.1f, 0.1f, 0.1f, 0.1f));

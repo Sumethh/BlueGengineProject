@@ -1,21 +1,32 @@
 #pragma once
 #include "ActorComponent.h"
 #include "Graphics/RenderLayer.h"
+#include "Core/Transformable.h"
 
 class MaterialComponent;
-class PrimitiveComponent : public ActorComponent
+class Material;
+class IRenderer;
+
+class PrimitiveComponent : public ActorComponent, public Transformable
 {
 	public:
 	PrimitiveComponent(Actor* aOwner);
 	~PrimitiveComponent();
 
-	void SetMaterialComponent(MaterialComponent* aComponent);
-	const uint32 GetMaterialID()const;
 
-	uint64 GetRenderID();
+	Material* GetMaterial();
+
+	bool IsTranslucent();
+
+	uint64 GetRenderID(const Transform& aInverseCameraTransform);
+
+	virtual void SubmitGeometry(IRenderer* aRenderer) = 0;
+
+	glm::mat4 GetWorldMatrix();
 
 	private:
+
 	MaterialComponent* mMaterialComponent;
-	FullScreenLayer mFullScreenLayer;
-	ViewportLayer mViewportLayer;
+	EFullScreenLayer mFullScreenLayer;
+	EViewportLayer mViewportLayer;
 };

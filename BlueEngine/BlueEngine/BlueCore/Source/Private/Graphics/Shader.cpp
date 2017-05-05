@@ -34,7 +34,7 @@ void Shader::Bind()
 
 void Shader::UnBind()
 {
-	IGraphicsDevice::GetCurrentGraphicsDevice()->UnBindGraphicsResource(mShaderResourceID);
+	IGraphicsDevice::GetCurrentGraphicsDevice()->UnbindGraphicsResource(mShaderResourceID);
 }
 
 int32 Shader::GetShaderVariableLocation(const char* aVarName)

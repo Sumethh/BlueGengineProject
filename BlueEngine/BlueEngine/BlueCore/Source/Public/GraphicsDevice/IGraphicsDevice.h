@@ -2,16 +2,16 @@
 #include "Core/Types.h"
 #include "Core/Defines.h"
 #include "Core/NonCopyable.h"
-#include "Graphics/ImageFormat.h"
+#include "Graphics/EImageFormat.h"
 
 #include <glm/vec4.hpp>
 
 #define  ASSERT_NO_GRAPHICS_ERROR 1
 
 #if ASSERT_NO_GRAPHICS_ERROR
-	#define CHECK_FOR_GRAPHIC_ERROR()if(GLenum err = glGetError()){Log::LogError(std::to_string((int)err)); Log::Flush(); BlueAssert(false);}
+	#define CHECK_FOR_GRAPHIC_ERROR()if(GLenum err = glGetError()){Log::Error(std::to_string((int)err)); Log::Flush(); BlueAssert(false);}
 #else
-	#define CHECK_FOR_GRAPHIC_ERROR()if(GLenum err = glGetError()){Log::LogError(std::to_string((int)err)); Log::Flush();}
+	#define CHECK_FOR_GRAPHIC_ERROR()if(GLenum err = glGetError()){Log::Error(std::to_string((int)err)); Log::Flush();}
 #endif
 
 enum class EGraphicsDeviceType : uint8
@@ -28,25 +28,26 @@ enum class EGraphicsResourceType : uint32
 	VertexArrayBuffer = 0,
 	VertexBuffer = 1,
 	ElementBuffer = 2,
-	Texture2D = 3,
-	Shader = 4,
-
+	GraphicsDevice = 4,
+	Texture2D = 5,
+	Shader = 6,
 	Count
 };
 
 enum class EVarType : uint8
 {
-	Float,
+	Float = 0,
 	Vector3,
 	Vector4,
-	Matrix4x4
+	Matrix4x4,
+	Count
 };
 
 enum class EDrawMode : uint8
 {
 	Triangles,
 	Lines,
-
+	Count
 };
 
 enum class BufferBit : uint8
@@ -59,7 +60,7 @@ enum class BufferBit : uint8
 struct DataDescriptor;
 class IGraphicsDevice : public NonCopyable
 {
-	public:
+public:
 	IGraphicsDevice(EGraphicsDeviceType aType);
 
 	virtual void Init() = 0;
@@ -68,7 +69,7 @@ class IGraphicsDevice : public NonCopyable
 	virtual uint32 CreateGraphicsResource(EGraphicsResourceType aType) = 0;
 	virtual void DeleteGraphicsResource(uint32& aResourceID) = 0;
 	virtual void BindGraphicsResource(const uint32 aResourceID) = 0;
-	virtual void UnBindGraphicsResource(const uint32 aResourceID) = 0;
+	virtual void UnbindGraphicsResource(const uint32 aResourceID) = 0;
 
 	virtual int32 GetShaderVariableLocation(uint32 aResourceID, char* aVarName) = 0;
 	virtual int32 GetShaderVariableLocation(uint32 aResourceID, const char* aVarName) = 0;
@@ -76,7 +77,7 @@ class IGraphicsDevice : public NonCopyable
 	virtual void SetShaderVariable(uint32 aVarLoc, void* aVar, EVarType aVarType) = 0;
 
 	virtual void UpdateResourceData(const uint32 aResourceID, size_t aOffset, void* aData, uint64 aDataSize, DataDescriptor* aDescriptors = nullptr, uint32 aDescriptorCount = 0) = 0;
-	virtual void UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, uint32 aWidth, uint32 aHeight, ImageFormat aPixleFormat, ImageFormat aSavingFormat, uint32 aMipMapLevel) = 0;
+	virtual void UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, uint32 aWidth, uint32 aHeight, EImageFormat aPixleFormat, EImageFormat aSavingFormat, uint32 aMipMapLevel) = 0;
 	virtual void UpdateResourceData(const uint32 aResourceID, char* aVertexShaderPath, char* aFragmentShaderPath) = 0;
 
 	virtual void DrawBuffers(const EDrawMode aMode, const uint32 aFirst, const uint32 aCount) = 0;
@@ -89,9 +90,9 @@ class IGraphicsDevice : public NonCopyable
 	virtual void SetClearColor(const glm::vec4 aColor) = 0;
 
 	static IGraphicsDevice* GetCurrentGraphicsDevice() { return mCurrentGraphicsDevice; }
-	protected:
+protected:
 
-	private:
+private:
 	friend class GraphicsDeviceFactory;
 	static IGraphicsDevice* mCurrentGraphicsDevice;
 	EGraphicsDeviceType mGraphicsType;

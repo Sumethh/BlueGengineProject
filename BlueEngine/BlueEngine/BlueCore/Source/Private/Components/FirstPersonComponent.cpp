@@ -1,6 +1,6 @@
 #include "Components/FirstPersonComponent.h"
 #include "Core/Actor.h"
-#include "Components/TransformComponent.h"
+#include "Core/Transformable.h"
 #include "Input/Input.h"
 #include "Helpers/MathHelpers.h"
 
@@ -14,14 +14,17 @@ FirstPersonComponent::FirstPersonComponent(Actor* aOwner) : ActorComponent(aOwne
 
 void FirstPersonComponent::BeginPlay()
 {
+	Transform t = GetOwner()->GetTransform();
+	glm::vec3 forward = GetOwner()->GetForwardVector();
+	GetOwner()->SetTransform(t);
 }
 
 void FirstPersonComponent::Update(float aDt)
 {
-	Transform trans = GetOwner()->GetTransformComponent()->GetTransform();
-	glm::vec3 forward = GetOwner()->GetTransformComponent()->GetForwardVector();
-	glm::vec3 right = GetOwner()->GetTransformComponent()->GetRightVector();
-	glm::vec3 up = GetOwner()->GetTransformComponent()->GetUpVector();
+	Transform trans = GetOwner()->GetTransform();
+	glm::vec3 forward = GetOwner()->GetForwardVector();
+	glm::vec3 right = GetOwner()->GetRightVector();
+	glm::vec3 up = GetOwner()->GetUpVector();
 	glm::vec3 movement = glm::vec3(mMoveSpeed * aDt);
 
 	if (!Input::IsKeyboardCaptured())
@@ -72,9 +75,9 @@ void FirstPersonComponent::Update(float aDt)
 			euler.x += mouseMove.y * (mLookSpeed * aDt);
 			euler.y += mouseMove.x * (mLookSpeed * aDt);
 		}
-
 	}
 
 	trans.rotation = MathHelpers::QuatFromEuler(euler);
-	GetOwner()->GetTransformComponent()->SetTransform(trans);
+
+	GetOwner()->SetTransform(trans);
 }

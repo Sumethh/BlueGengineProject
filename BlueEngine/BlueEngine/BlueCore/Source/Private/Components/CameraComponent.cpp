@@ -1,16 +1,20 @@
 #include "Components/CameraComponent.h"
 #include "Core/Actor.h"
-#include "Components/TransformComponent.h"
+#include "Core/Transformable.h"
+#include "Core/World.h"
 #include "Core/GlmTransformationInclude.h"
 #include "Core/Defines.h"
-#include "Renderers/RendererInterface.h"
+#include "Renderers/IRenderer.h"
 #include "Helpers/MathHelpers.h"
-
+#include "Messaging/WindowResizeMessage.h"
 CameraComponent::CameraComponent(Actor* aOwner) : ActorComponent(aOwner)
 {
 	mProjectionMatrix = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
 	mViewport.SetDimensions(glm::vec2(1, 1));
 	mViewport.SetPosition(glm::vec2(0, 0));
+
+	GetOwner()->GetWorld()->RegisterCamera(this);
+	Message<WindowResizeMessage>::Listen(this, &CameraComponent::OnWindowResize);
 }
 
 CameraComponent::~CameraComponent()
@@ -21,27 +25,22 @@ CameraComponent::~CameraComponent()
 void CameraComponent::BeginPlay()
 {
 	ActorComponent::BeginPlay();
-	auto t = GetOwner()->GetTransformComponent()->GetTransform();
-	t.rotation = MathHelpers::QuatFromEuler(glm::vec3(0, 0, 0));
-	GetOwner()->GetTransformComponent()->SetTransform(t);
+	auto t = GetOwner()->GetTransform();
+	t.rotation = glm::quat(1, 0, 0, 0);
+	GetOwner()->SetTransform(t);
 }
 
-void CameraComponent::PreRender()
+glm::mat4 CameraComponent::GetProjectionMatrix()
 {
-	TransformComponent* transformComp = GetOwner()->GetTransformComponent();
-	Transform trans = transformComp->GetTransform();
-	glm::vec3 rotation = MathHelpers::QuatToRadians(trans.rotation);
-	//ImGui::LabelText("Camera Position", "%f, %f, %f", trans.position.x, trans.position.y, trans.position.z);
-
-
-	glm::vec3 forward = transformComp->GetForwardVector();
-	glm::vec3 up = transformComp->GetUpVector();
-
-	mViewMatrix = glm::mat4();
-	mViewMatrix = glm::lookAt(trans.position, trans.position + forward, up);
+	return mProjectionMatrix;
 }
 
-void CameraComponent::Render(IRenderer* aRenderer)
+glm::mat4 CameraComponent::GetViewMatrix()
 {
-	aRenderer->SubmitCamera(this);
+	return GetOwner()->GetWorldMatrix();
+}
+
+void CameraComponent::OnWindowResize(WindowResizeMessage* aMessage)
+{
+	mProjectionMatrix = glm::perspective(45.0f, (float)aMessage->windowWidth / (float)aMessage->windowHeight, 0.1f, 1000.0f);
 }

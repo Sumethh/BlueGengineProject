@@ -3,7 +3,7 @@
 #include "Managers/MaterialManager.h"
 #include "Graphics/Material.h"
 #include "Components/CameraComponent.h"
-#include "Components/TransformComponent.h"
+#include "Core/Transformable.h"
 #include "Graphics/Mesh.h"
 #include "Graphics/Shader.h"
 #include "GraphicsDevice/DataDescriptor.h"
@@ -29,7 +29,7 @@ void GizmoRenderer::CreateLineRenderGraphicsResources(LineRenderInfo& aInfo)
 
 	gd->BindGraphicsResource(aInfo.vaoID);
 	gd->UpdateResourceData(aInfo.vertexBufferID, 0, nullptr, (sizeof(glm::vec4) + sizeof(glm::vec3)) * MAX_LINE_COUNT, lineDescriptors, lineDescriptorCount);
-	gd->UnBindGraphicsResource(aInfo.vaoID);
+	gd->UnbindGraphicsResource(aInfo.vaoID);
 
 }
 
@@ -210,7 +210,7 @@ void GizmoRenderer::RenderLines()
 
 		gd->DrawBuffers(EDrawMode::Lines, 0, info.lineCount * 2);
 
-		gd->UnBindGraphicsResource(info.vaoID);
+		gd->UnbindGraphicsResource(info.vaoID);
 
 		info.lineCount = 0;
 	}

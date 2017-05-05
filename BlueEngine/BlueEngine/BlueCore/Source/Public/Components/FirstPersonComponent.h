@@ -8,6 +8,8 @@ class FirstPersonComponent : public ActorComponent
 	public:
 	FirstPersonComponent(Actor* aOwner);
 
+	uint64 ID() { return CompileHash("FirstPersonComponent"); }
+
 	virtual void BeginPlay() override;
 	virtual void Update(float aDt) override;
 

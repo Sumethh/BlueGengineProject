@@ -1,7 +1,7 @@
 #include "Core/World.h."
 #include "Core/Log.h"
 #include "Core/Actor.h"
-#include "Components/TransformComponent.h"
+#include "Core/Transformable.h"
 #include "Components/CameraComponent.h"
 #include "Helpers/MathHelpers.h"
 #include "Input/Input.h"
@@ -18,17 +18,17 @@
 
 World::World() : mHasBeginPlayBeenCalled(false)
 {
-	Log::LogInfo("World Constructed");
+	Log::Info("World Constructed");
 	Console::AddCommand("ReloadStencils", std::bind(&World::CommandReloadStencils, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
 World::~World()
 {
-	Log::LogInfo("World Destructed");
+	Log::Info("World Destructed");
 }
 void World::BeginPlay()
 {
-	Log::LogInfo("World BeginPlay");
+	Log::Info("World BeginPlay");
 
 	for (auto actor : mActors)
 	{

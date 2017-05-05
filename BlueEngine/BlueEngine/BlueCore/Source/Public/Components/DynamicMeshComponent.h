@@ -2,7 +2,7 @@
 #include "PrimitiveComponent.h"
 
 class Mesh;
-class TransformComponent;
+class Transformable;
 class MaterialComponent;
 class DynamicMeshComponent : public PrimitiveComponent
 {
@@ -10,17 +10,16 @@ class DynamicMeshComponent : public PrimitiveComponent
 	DynamicMeshComponent(Actor* aOwner);
 	~DynamicMeshComponent();
 
-	uint64 ID() override { return CompileHash("Dynamic Mesh Component"); }
+	uint64 ID() override { return CompileHash("DynamicMeshComponent"); }
 
 	virtual void BeginPlay() override;
-	virtual void PreRender() override;
-	virtual void Render(IRenderer* aRenderer) override;
 
 	virtual void CalculateComponentBounds() override;
+	virtual void SubmitGeometry(IRenderer* aRenderer) override;
 	private:
-	void SetMesh(Mesh* aMesh) { mMesh = aMesh; }
+	void SetMesh(Mesh* aMesh);
 	Mesh* mMesh;
-	TransformComponent* mTransformComponent;
+	Transformable* mTransformComponent;
 	MaterialComponent* mMaterialComponent;
 };
 

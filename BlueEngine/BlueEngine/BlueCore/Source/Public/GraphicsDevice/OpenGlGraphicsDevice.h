@@ -12,7 +12,7 @@ class OpenGlGraphicsDevice : public IGraphicsDevice
 	uint32 CreateGraphicsResource(EGraphicsResourceType aType) override;
 	void DeleteGraphicsResource(uint32& aResourceID) override;
 	void BindGraphicsResource(const uint32 aResourceID) override;
-	void UnBindGraphicsResource(const uint32 aResourceID) override;
+	void UnbindGraphicsResource(const uint32 aResourceID) override;
 
 	int32 GetShaderVariableLocation(uint32 aResourceID, char* aVarName)override;
 	int32 GetShaderVariableLocation(uint32 aResourceID, const char* aVarName) override;
@@ -20,7 +20,7 @@ class OpenGlGraphicsDevice : public IGraphicsDevice
 	void SetShaderVariable(uint32 aVarLoc, void* aVar, EVarType aVarType) override;
 
 	void UpdateResourceData(const uint32 aResourceID, char* aVertexShaderPath, char* aFragmentShaderPath) override;
-	void UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, uint32 aWidth, uint32 aHeight, ImageFormat aImageFormat, ImageFormat aSavingFormat, uint32 aMipMapLevel) override;
+	void UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, uint32 aWidth, uint32 aHeight, EImageFormat aImageFormat, EImageFormat aSavingFormat, uint32 aMipMapLevel) override;
 	void UpdateResourceData(const uint32 aResourceID, size_t aOffset, void* aData, uint64 aDataSize, DataDescriptor* aDescriptors = nullptr, uint32 aDescriptorCount = 0) override;
 
 	void DrawBuffers(const EDrawMode aMode, const uint32 aFirst, const uint32 aCount) override;
@@ -30,7 +30,9 @@ class OpenGlGraphicsDevice : public IGraphicsDevice
 
 	void ClearBuffer(const BufferBit aBufferToClear) override;
 	void SetClearColor(const glm::vec4 aColor) override;
+
 	private:
+
 	friend class GraphicsDeviceFactory;
 	OpenGlGraphicsDevice();
 	~OpenGlGraphicsDevice();

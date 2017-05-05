@@ -9,13 +9,13 @@ class Log
 {
 	public:
 	static   void Init(char* aFileName);
-	static   void LogError(std::string aMessage);
-	static   void LogInfo(std::string aMessage);
+	static   void Error(std::string aMessage);
+	static   void Info(std::string aMessage);
 	static   void Flush();
 };
 
 #if VERBOSE_LOGGING
-	#define Verbose_Log(message) do{ if(true) Log::LogInfo(message);}while(0)
+	#define Verbose_Log(message) do{ if(true) Log::Info(message);}while(0)
 #else
-	#define Verbose_Log(message) do{ if(false) Log::LogInfo(message);}while(0)
+	#define Verbose_Log(message) do{ if(false) Log::Info(message);}while(0)
 #endif

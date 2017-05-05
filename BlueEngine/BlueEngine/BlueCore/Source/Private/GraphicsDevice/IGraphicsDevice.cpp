@@ -7,7 +7,7 @@ mGraphicsType(aType)
 {
 	if (mCurrentGraphicsDevice)
 	{
-		Log::LogError("Already a graphics device present");
+		Log::Error("Already a graphics device present");
 	}
 	else
 	{

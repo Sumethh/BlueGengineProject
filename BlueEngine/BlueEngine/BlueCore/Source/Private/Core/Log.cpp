@@ -6,7 +6,7 @@
 #include <fstream>
 #include "Core/Timer.h"
 
-#define LOG_TO_STANDARD_CONSOLE  1
+#define LOG_TO_STANDARD_CONSOLE  0
 
 moodycamel::ConcurrentQueue<std::string> sStringsToWriteToFile;
 
@@ -35,16 +35,12 @@ struct LogFileWritingTask : public TaskSystem::ITask
 
 void Log::Init(char* aFileName)
 {
-	Timer t;
-	t.Start();
 	LogFileWritingTask* task = new LogFileWritingTask(aFileName);
 	TaskSystem::SubmitTask(task);
-	auto d = t.IntervalMS();
-	LogInfo(std::to_string(d));
 
 }
 
-void Log::LogError(std::string aMessage)
+void Log::Error(std::string aMessage)
 {
 	static const std::string errorBase = "[Error] ";
 	std::string message = errorBase + aMessage;
@@ -55,7 +51,7 @@ void Log::LogError(std::string aMessage)
 	std::cout << message << "\n";
 #endif
 }
-void Log::LogInfo(std::string aMessage)
+void Log::Info(std::string aMessage)
 {
 	static const std::string infoBase = "[Info] ";
 	std::string message = infoBase + aMessage;

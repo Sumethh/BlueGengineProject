@@ -2,7 +2,7 @@
 #include "../ISerializable.h"
 #include "Core/Defines.h"
 #include "Components/ComponentTypes.h"
-#include "Components/TransformComponent.h"
+#include "Core/Transformable.h"
 #include <vector>
 
 

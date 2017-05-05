@@ -43,7 +43,7 @@ void CommandShowDetailedTimings(std::string& aCommand, std::string* aArguments, 
 
 	if (aArgCount == 0)
 	{
-		Log::LogInfo("Detailed timings command requires an int argument");
+		Log::Info("Detailed timings command requires an int argument");
 		return;
 	}
 

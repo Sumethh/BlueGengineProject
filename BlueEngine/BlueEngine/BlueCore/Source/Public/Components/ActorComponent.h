@@ -7,7 +7,13 @@
 class Actor;
 class IRenderer;
 class GizmoRenderer;
-class   ActorComponent: public ISerializable
+
+enum class EActorComponentFlags : uint32
+{
+	ComponentBoundsDirty = BlueBit(0)
+};
+
+class ActorComponent: public ISerializable
 {
 	public:
 	ActorComponent(Actor* aOwner);
@@ -38,10 +44,6 @@ class   ActorComponent: public ISerializable
 	virtual void BeginPlay();
 	virtual void Update(float aDt);
 	virtual void LateUpdate(float aDt);
-	virtual void PreRender();
-	virtual void Render(IRenderer* aRenderer);
-	virtual void OnGizmoRender(GizmoRenderer* aRenderer);
-	virtual void PostRender();
 
 	virtual void OnSerialize(ArchiveObject* const aArchiveObject) const override;
 	virtual void OnDeserialize(ArchiveObject* const aArchiveObject) override;
@@ -50,19 +52,29 @@ class   ActorComponent: public ISerializable
 	inline bool Enabled()const { return mEnabled; }
 	inline void SetEnabled(bool aNewEnabled) { mEnabled = aNewEnabled; }
 
-	AABB GetComponentBounds() const {return mComponentBounds;};
+	//Position is relative to the owning actor
+	AABB GetComponentBounds();
 
 	template<typename T>
 	static uint64 ID() { return ComponentRegistery::GI()->GetComponentInfo<T>().componentHash; }
 	virtual uint64 ID() = 0;
+
 	protected:
+	//Position is relative to the owning actor
 	virtual void CalculateComponentBounds();
-	void SetActorBounds(AABB aNewBounds) { mComponentBounds = aNewBounds; }
+
 	AABB mComponentBounds;
+
+	void SetComponentFlags(EActorComponentFlags aFlags);
+	void ResetFlags(EActorComponentFlags aFlags);
+	bool IsFlagSet(EActorComponentFlags aFlags);
+	protected:
+	void SetBoundsFlagDirty();
 
 	private:
 
 	bool mEnabled;
 	uint64 mInstanceID;
 	Actor* mOwner;
+	uint32 mFlags;
 };

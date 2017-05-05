@@ -3,3 +3,8 @@ BlueGengine/Intermediate/
 BlueGengine.tlog
 *.db
 *.exe
+BlueEngine/\.vs/
+
+*.pdb
+
+*.ilk
