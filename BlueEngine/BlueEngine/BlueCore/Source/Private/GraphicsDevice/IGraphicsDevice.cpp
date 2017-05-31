@@ -3,7 +3,7 @@
 IGraphicsDevice* IGraphicsDevice::mCurrentGraphicsDevice = nullptr;
 
 IGraphicsDevice::IGraphicsDevice(EGraphicsDeviceType aType) :
-mGraphicsType(aType)
+	mGraphicsType(aType)
 {
 	if (mCurrentGraphicsDevice)
 	{

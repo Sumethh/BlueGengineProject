@@ -19,7 +19,7 @@ enum class EActorFlags : uint32
 
 class Actor : public Transformable
 {
-	public:
+public:
 	Actor(World* a_world);
 	Actor(const Actor&);
 	Actor(Actor&&);
@@ -56,7 +56,7 @@ class Actor : public Transformable
 	void ResetFlags(EActorFlags aFlags);
 	bool IsFlagSet(EActorFlags aFlags);
 
-	private:
+private:
 
 	void AddRequiredComponents(uint64 aID);
 	void RecalculateActorBounds();

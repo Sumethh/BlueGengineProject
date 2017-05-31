@@ -1,4 +1,4 @@
-#include "GraphicsDevice/OpenGlGraphicsDevice.h"
+﻿#include "GraphicsDevice/OpenGlGraphicsDevice.h"
 #include "Core/Log.h"
 #include "GraphicsDevice/DataDescriptor.h"
 
@@ -9,6 +9,7 @@
 #include <sstream>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.inl>
+
 
 static GLenum bufferBits[] =
 {
@@ -32,6 +33,203 @@ int GetGlEnumFromBufferBit(BufferBit aBit)
 	}
 
 	return returningValue;
+}
+
+GLenum GetEnumFromPrecision(EPrecisionType aPrecision)
+{
+  switch (aPrecision)
+  {
+  case EPrecisionType::RGB_F_16Bit:
+    return GL_RGB16F;
+    break;
+  case EPrecisionType::RGB_F_32Bit:
+    return GL_RGB32F;
+    break;
+
+  case EPrecisionType::RGB_4Bit:
+    return GL_RGB4;
+  case EPrecisionType::RGB_8Bit:
+    return GL_RGB8;
+  case EPrecisionType::RGB_10Bit:
+    return GL_RGB10; 
+  case EPrecisionType::RGB_12Bit:
+      return GL_RGB12;
+
+
+  case EPrecisionType::RGBA_F_16Bit:
+    return GL_RGBA16F;
+    break;
+  case EPrecisionType::RGBA_F_32Bit:
+    return GL_RGBA32F;
+    break;
+
+  case EPrecisionType::RGBA_2Bit:
+    return GL_RGBA2;
+    break;
+  case EPrecisionType::RGBA_4Bit:
+    return GL_RGBA4;
+  case EPrecisionType::RGBA_8Bit:
+    return GL_RGBA8;
+  case EPrecisionType::RGBA_12Bit:
+    return GL_RGBA12; 
+  case EPrecisionType::RGBA_16Bit:
+      return GL_RGBA16;
+
+    break; 
+    InvalidDefaultCase
+
+  }
+}
+
+
+GLenum GetDataTypeEnumFromPrecision(EPrecisionType aType)
+{
+  switch (aType)
+  {
+  case EPrecisionType::RGB_F_16Bit:
+  case EPrecisionType::RGB_F_32Bit:
+  case EPrecisionType::RGBA_F_16Bit:
+  case EPrecisionType::RGBA_F_32Bit:
+    return GL_FLOAT;
+    break;
+  case EPrecisionType::RGB_4Bit:
+  case EPrecisionType::RGB_8Bit:
+  case EPrecisionType::RGB_10Bit:
+  case EPrecisionType::RGB_12Bit:
+  case EPrecisionType::RGBA_2Bit:
+  case EPrecisionType::RGBA_4Bit:
+  case EPrecisionType::RGBA_8Bit:
+  case EPrecisionType::RGBA_12Bit:
+  case EPrecisionType::RGBA_16Bit:
+    return GL_UNSIGNED_BYTE;
+    break;
+    InvalidDefaultCase
+  }
+
+}
+GLenum GetEnumFromImageFormat(EImageFormat aFormat)
+{
+  switch (aFormat)
+  {
+  case EImageFormat::RGB:
+    return GL_RGB;
+    break;
+  case EImageFormat::RGBA:
+    return GL_RGBA;
+    break;
+  default:
+    break;
+  }
+}
+
+GLenum GetEnumFromTextureParameter(ETextureParameter aParameter)
+{
+  switch (aParameter)
+  {
+  case MinFilter:
+    return GL_TEXTURE_MIN_FILTER;
+    break;
+  case MagFilter:
+    return GL_TEXTURE_MAG_FILTER;
+    break;
+  case Nearest:
+    return GL_NEAREST;
+    break;    
+    InvalidDefaultCase
+
+  }
+}
+
+GLenum GetEnumFromTextureID(ETextureID aID)
+{
+  switch (aID)
+  {
+  case Texture0:
+    return GL_TEXTURE0;
+    break;
+  case Texture1:
+    return GL_TEXTURE1;
+    break;
+  case Texture2:
+    return GL_TEXTURE2;
+    break;
+  case Texture3:
+    return GL_TEXTURE3;
+    break;
+  case Texture4:
+    return GL_TEXTURE4;
+    break;
+  case Texture5:
+    return GL_TEXTURE5;
+    break;
+  case Texture6:
+    return GL_TEXTURE6;
+    break;
+  case Texture7:
+    return GL_TEXTURE7;
+    break;
+  case Texture8:
+    return GL_TEXTURE8;
+    break;
+  case Texture9:
+    return GL_TEXTURE9;
+    break;
+    InvalidDefaultCase
+  }
+}
+
+GLenum GetEnumFromAttachment(EBufferAttachment aAttachment)
+{
+  switch (aAttachment)
+  {
+  case Attachment0:
+    return GL_COLOR_ATTACHMENT0;
+    break;
+  case Attachment1:
+    return GL_COLOR_ATTACHMENT1;
+    break;
+  case Attachment2:
+    return GL_COLOR_ATTACHMENT2;
+    break;
+  case Attachment3:
+    return GL_COLOR_ATTACHMENT3;
+    break;
+  case Attachment4:
+    return GL_COLOR_ATTACHMENT4;
+    break;
+  case Attachment5:
+    return GL_COLOR_ATTACHMENT5;
+    break;
+  case Attachment6:
+    return GL_COLOR_ATTACHMENT6;
+    break;
+  case Attachment7:
+    return GL_COLOR_ATTACHMENT7;
+    break;
+  case Attachment8:
+    return GL_COLOR_ATTACHMENT8;
+    break;
+  case Attachment9:
+    return GL_COLOR_ATTACHMENT9;
+    break;
+  case Attachment10:
+    return GL_COLOR_ATTACHMENT10;
+    break;
+  case Attachment11:
+    return GL_COLOR_ATTACHMENT11;
+    break;
+  case Attachment12:
+    return GL_COLOR_ATTACHMENT12;
+    break;
+  case Attachment13:
+    return GL_COLOR_ATTACHMENT13;
+    break;
+  case Attachment14:
+    return GL_COLOR_ATTACHMENT14;
+    break;
+  default:
+    break;
+  }
 }
 
 OpenGlGraphicsDevice::OpenGlGraphicsDevice() : IGraphicsDevice(EGraphicsDeviceType::OpenGL)
@@ -78,7 +276,7 @@ uint32 OpenGlGraphicsDevice::CreateGraphicsResource(EGraphicsResourceType aType)
 		r->resourceType = aType;
 		CreateResource(*r);
 		BlueAssert(glGetError() == 0);
-		CHECK_FOR_GRAPHIC_ERROR();
+		ASSERT_NO_GRAPHICS_ERROR();
 
 		return r->id;
 	}
@@ -90,7 +288,7 @@ uint32 OpenGlGraphicsDevice::CreateGraphicsResource(EGraphicsResourceType aType)
 		r.id = (uint32)mResources.size();
 		mResources.emplace_back(std::move(r));
 		BlueAssert(glGetError() == 0);
-		CHECK_FOR_GRAPHIC_ERROR();
+		ASSERT_NO_GRAPHICS_ERROR();
 		return r.id;
 	}
 
@@ -98,14 +296,13 @@ uint32 OpenGlGraphicsDevice::CreateGraphicsResource(EGraphicsResourceType aType)
 
 void OpenGlGraphicsDevice::DeleteGraphicsResource(uint32& aResourceID)
 {
-	BlueAssert(aResourceID < mResources.size());
-	BlueAssert(aResourceID);
+	BlueAssert(aResourceID < mResources.size() && aResourceID);
 
 	OpenGLResource* r = &mResources[aResourceID];
 	DeleteResource(*r);
 	mFreeResources.push(r);
 	aResourceID = 0;
-	CHECK_FOR_GRAPHIC_ERROR();
+	ASSERT_NO_GRAPHICS_ERROR();
 }
 
 void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, size_t aOffset, void* aData, uint64 aDataSize, DataDescriptor* aDescriptors, uint32 aDescriptorCount)
@@ -124,14 +321,57 @@ void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, size_t a
 		case EGraphicsResourceType::VertexBuffer:
 			UpdateVertexBuffer(updatingResource, aOffset, aData, aDataSize, aDescriptors, aDescriptorCount);
 			break;
-
-		default:
-			Log::Error("Tried updating an invalid resource");
-			BlueAssert(false);
-			break;
+			InvalidDefaultCaseExtraStep(Log::Error("Tried updating an invalid resource"));
 	}
 
-	CHECK_FOR_GRAPHIC_ERROR();
+	ASSERT_NO_GRAPHICS_ERROR();
+}
+
+void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, uint32 aWidth, uint32 aHeight, EPrecisionType aTexturePrecision, EImageFormat aPixelFormat, uint32 aMipMapLevel)
+{
+	BlueAssert(aResourceID);
+	OpenGLResource& updatingResource = mResources[aResourceID];
+	BlueAssert(updatingResource.resourceType == EGraphicsResourceType::Texture2D && aPixels && aWidth && aHeight);
+
+  GLenum pixelFormat, textureFormat;
+  pixelFormat = GetEnumFromImageFormat(aPixelFormat);
+  textureFormat = GetEnumFromPrecision(aTexturePrecision);
+
+	BindResource(updatingResource);
+	glTexImage2D(GL_TEXTURE_2D, aMipMapLevel, texture
+    0Format, aWidth, aHeight, 0, pixelFormat, GL_UNSIGNED_BYTE, aPixels);
+  ASSERT_NO_GRAPHICS_ERROR();
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+	UnBindResource(updatingResource);
+	ASSERT_NO_GRAPHICS_ERROR();
+}
+
+void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, const uint32 aWidth, const uint32 aHeight, EPrecisionType aType)
+{
+  BlueAssert(aResourceID && aResourceID < mResources.size());
+  BlueAssert(aWidth && aHeight);
+  OpenGLResource& resource = mResources[aResourceID];
+
+  BindResource(resource);
+  glTexImage2D(GL_TEXTURE_2D, 0, GetEnumFromPrecision(aType), aWidth, aHeight, 0, GetEnumFromPrecision(aType), GetDataTypeEnumFromPrecision(aType), 0);
+  UnBindResource(resource);
+  ASSERT_NO_GRAPHICS_ERROR();
+}
+
+void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, const ETextureParameter aParameter, const ETextureParameter aValue)
+{
+  BlueAssert(aResourceID && aResourceID < mResources.size());
+  GLenum parameter, value;
+  parameter = GetEnumFromTextureParameter(aParameter);
+  value = GetEnumFromTextureParameter(aValue);
+  OpenGLResource& resource = mResources[aResourceID];
+
+  BindResource(resource);
+  glTextureParameteri(GL_TEXTURE_2D, parameter, value);
+  UnBindResource(resource);
+  
+  ASSERT_NO_GRAPHICS_ERROR();
 }
 
 void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, char* aVertexShaderPath, char* aFragmentShaderPath)
@@ -141,40 +381,36 @@ void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, char* aV
 	BlueAssert(updatingResource.resourceType == EGraphicsResourceType::Shader);
 
 	UpdateShader(updatingResource, aVertexShaderPath, aFragmentShaderPath);
-	CHECK_FOR_GRAPHIC_ERROR();
+	ASSERT_NO_GRAPHICS_ERROR();
 }
 
-void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, uint32 aWidth, uint32 aHeight, EImageFormat aImageFormat, EImageFormat aSavingFormat, uint32 aMipMapLevel)
+void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, EBufferAttachment aAttachment)
 {
-	BlueAssert(aResourceID);
-	OpenGLResource& updatingResource = mResources[aResourceID];
-	BlueAssert(updatingResource.resourceType == EGraphicsResourceType::Texture2D && aPixels && aWidth && aHeight);
+  BlueAssert(aResourceID && aResourceID < mResources.size());
+  OpenGLResource& resource = mResources[aResourceID];
+  BlueAssert(resource.resourceType == EGraphicsResourceType::Texture2D);
 
-	uint32 imageFormat, storingFormat;
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GetEnumFromAttachment(aAttachment), GL_TEXTURE_2D, resource.lowLevelID, 0);  
 
-	if (aImageFormat == EImageFormat::RGB)
-	{
-		imageFormat = GL_RGB;
-	}
-	else
-	{
-		imageFormat = GL_RGBA;
-	}
+  ASSERT_NO_GRAPHICS_ERROR();
+}
 
-	if (aSavingFormat == EImageFormat::RGB)
-	{
-		storingFormat = GL_RGB;
-	}
-	else
-	{
-		storingFormat = GL_RGBA;
-	}
+void OpenGlGraphicsDevice::UpdateResourceData(const uint32 aResourceID, EBufferAttachment* aAttachments, const uint32 aCount)
+{
+  BlueAssert(aResourceID && aResourceID < mResources.size());
+  OpenGLResource& resource = mResources[aResourceID];
+  BlueAssert(resource.resourceType == EGraphicsResourceType::GBuffer);
 
-	BindResource(updatingResource);
-	glTexImage2D(GL_TEXTURE_2D, aMipMapLevel, imageFormat, aWidth, aHeight, 0, storingFormat, GL_UNSIGNED_BYTE, aPixels);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	UnBindResource(updatingResource);
-	CHECK_FOR_GRAPHIC_ERROR();
+  static GLenum attachments[EBufferAttachment::Count];
+
+  for (uint32 i = 0; i < aCount; ++i)
+  {
+    attachments[i] = GetEnumFromAttachment(aAttachments[i]);
+  }
+
+  glDrawBuffers(aCount, attachments); 
+
+  ASSERT_NO_GRAPHICS_ERROR();
 }
 
 inline GLenum GetGlEnumFromDrawMode(EDrawMode aMode)
@@ -189,39 +425,45 @@ inline GLenum GetGlEnumFromDrawMode(EDrawMode aMode)
 			return GL_LINES;
 			break;
 
-		default:
-			BlueAssert(false);
-			return false;
-
+		case EDrawMode::TriangleFan:
+			return GL_TRIANGLE_FAN;
 			break;
+
+		case EDrawMode::TriangleStrip:
+			return GL_TRIANGLE_STRIP;
+			break;
+
+			InvalidDefaultCase;
 	}
+
+	return false;
 }
 
 void OpenGlGraphicsDevice::DrawBuffers(const EDrawMode aMode, const uint32 aFirst, const uint32 aCount)
 {
 	GLenum drawMode = GetGlEnumFromDrawMode(aMode);
 	glDrawArrays(drawMode, aFirst, aCount);
-	CHECK_FOR_GRAPHIC_ERROR();
+	ASSERT_NO_GRAPHICS_ERROR();
 }
 
 void OpenGlGraphicsDevice::DrawBuffersInstanced(const EDrawMode aMode, const uint32 aFirst, const uint32 aCount)
 {
 	GLenum drawMode = GetGlEnumFromDrawMode(aMode);
 	//glDrawArraysInstanced(drawMode, aFirst, aCount);
-	CHECK_FOR_GRAPHIC_ERROR();
+	ASSERT_NO_GRAPHICS_ERROR();
 }
 
 void OpenGlGraphicsDevice::DrawBuffersElements(const EDrawMode aMode, const uint32 aCount, void* aIndicies)
 {
 	GLenum drawMode = GetGlEnumFromDrawMode(aMode);
 	glDrawElements(drawMode, aCount, GL_UNSIGNED_INT, aIndicies);
-	CHECK_FOR_GRAPHIC_ERROR();
+	ASSERT_NO_GRAPHICS_ERROR();
 }
 
 void OpenGlGraphicsDevice::ClearBuffer(BufferBit aBuffersToClear)
 {
 	glClear(GetGlEnumFromBufferBit(aBuffersToClear));
-	CHECK_FOR_GRAPHIC_ERROR();
+	ASSERT_NO_GRAPHICS_ERROR();
 }
 
 void OpenGlGraphicsDevice::SetClearColor(const glm::vec4 aColor)
@@ -238,18 +480,27 @@ void OpenGlGraphicsDevice::BindGraphicsResource(const uint32 aResourceID)
 
 	BindResource(bindingResource);
 
-	CHECK_FOR_GRAPHIC_ERROR();
+	ASSERT_NO_GRAPHICS_ERROR();
+}
+
+void OpenGlGraphicsDevice::BindGraphicsResource(const uint32 aResourceID, const ETextureID aTextureID)
+{
+  BlueAssert(aResourceID && aResourceID < mResources.size());
+
+  OpenGLResource& resource = mResources[aResourceID];
+
+  glActiveTexture(GetEnumFromTextureID(aTextureID));
+  ASSERT_NO_GRAPHICS_ERROR();
 }
 
 void OpenGlGraphicsDevice::UnbindGraphicsResource(const uint32 aResourceID)
 {
-	BlueAssert(aResourceID < mResources.size());
-	BlueAssert(aResourceID);
+	BlueAssert(aResourceID < mResources.size() && aResourceID);
 	OpenGLResource& unbindingResource = mResources[aResourceID];
 
 	UnBindResource(unbindingResource);
 
-	CHECK_FOR_GRAPHIC_ERROR();
+	ASSERT_NO_GRAPHICS_ERROR();
 }
 
 int32 OpenGlGraphicsDevice::GetShaderVariableLocation(uint32 aResourceID, char* aVarName)
@@ -294,11 +545,10 @@ void OpenGlGraphicsDevice::SetShaderVariable(uint32 aVarLoc, void* aVar, EVarTyp
 			glUniformMatrix4fv(aVarLoc, 1, GL_FALSE, glm::value_ptr(*((glm::mat4*)aVar)));
 			break;
 
-		default:
-			break;
+			InvalidDefaultCase
 	}
 
-	CHECK_FOR_GRAPHIC_ERROR();
+	ASSERT_NO_GRAPHICS_ERROR();
 }
 
 int GetGlEnumFromResourceType(EGraphicsResourceType aType)
@@ -326,16 +576,11 @@ int GetGlEnumFromResourceType(EGraphicsResourceType aType)
 			return 0;
 			break;
 
-		case EGraphicsResourceType::Count:
-			BlueAssert(false);
-			return 0;
 			break;
-
-		default:
-			BlueAssert(false);
-			return 0;
-			break;
+			InvalidDefaultCase
 	}
+
+	return 0;
 }
 
 
@@ -364,9 +609,7 @@ void OpenGlGraphicsDevice::DeleteResource(OpenGLResource& aResource)
 			glDeleteTextures(1, &aResource.lowLevelID);
 			break;
 
-
-		default:
-			break;
+			InvalidDefaultCase
 	}
 
 	aResource.resourceSizeGPU = 0;
@@ -388,6 +631,10 @@ void OpenGlGraphicsDevice::CreateResource(OpenGLResource& aResource)
 			glGenBuffers(1, &aResource.lowLevelID);
 			break;
 
+		case EGraphicsResourceType::GBuffer:
+			glGenFramebuffers(1, &aResource.lowLevelID);
+			break;
+
 		case EGraphicsResourceType::Shader:
 			aResource.lowLevelID = glCreateProgram();
 			break;
@@ -396,8 +643,7 @@ void OpenGlGraphicsDevice::CreateResource(OpenGLResource& aResource)
 			glGenTextures(1, &aResource.lowLevelID);
 			break;
 
-		default:
-			break;
+			InvalidDefaultCase
 	}
 
 }
@@ -426,8 +672,7 @@ void OpenGlGraphicsDevice::BindResource(OpenGLResource& aResource)
 			glBindTexture(GL_TEXTURE_2D, aResource.lowLevelID);
 			break;
 
-		default:
-			break;
+			InvalidDefaultCase
 	}
 }
 
@@ -455,8 +700,7 @@ void OpenGlGraphicsDevice::UnBindResource(OpenGLResource& aResource)
 			glBindTexture(GL_TEXTURE_2D, 0);
 			break;
 
-		default:
-			break;
+			InvalidDefaultCase
 	}
 }
 

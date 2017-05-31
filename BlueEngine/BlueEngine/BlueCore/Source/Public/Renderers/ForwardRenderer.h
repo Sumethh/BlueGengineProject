@@ -10,9 +10,9 @@ struct Transform;
 class Light;
 class Shader;
 class Material;
-class   ForwardRenderer : public IRenderer
+class ForwardRenderer : public IRenderer
 {
-	public:
+public:
 	ForwardRenderer();
 	~ForwardRenderer();
 
@@ -21,7 +21,7 @@ class   ForwardRenderer : public IRenderer
 	void SetActiveMaterial(Material* aMaterial) override;
 
 	void End() override;
-	private:
+private:
 	glm::mat4 mActiveProjectionMatrix;
 	glm::mat4 mActiveViewMatrix;
 	Material* mActiveMaterial;

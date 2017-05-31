@@ -1,7 +1,6 @@
 #include "Graphics/Texture2D.h"
 #include "Core/Log.h"
 #include "Core/Defines.h"
-#include "GraphicsDevice/IGraphicsDevice.h"
 
 #include <FreeImage/FreeImage.h>
 #include <gl/glew.h>
@@ -15,10 +14,10 @@ Texture2D::~Texture2D()
 }
 
 
-bool Texture2D::LoadTexture(const char* aFileName, EImageFormat aImageFormat, EImageFormat aFormatToStore, uint32 aMipMapLvl)
+bool Texture2D::LoadTexture(const char* aFileName, EImageFormat aImageFormat, EPrecisionType aFormatToStore, uint32 aMipMapLvl)
 {
 	IGraphicsDevice* gd = IGraphicsDevice::GetCurrentGraphicsDevice();
-	mImageFormat = aFormatToStore;
+	mImageFormat = aImageFormat;
 
 	if (mTextureId == 0)
 	{
@@ -63,7 +62,7 @@ bool Texture2D::LoadTexture(const char* aFileName, EImageFormat aImageFormat, EI
 	BlueAssert(width != 0);
 	BlueAssert(height != 0);
 
-	gd->UpdateResourceData(mTextureId, bits, width, height, aImageFormat, aFormatToStore, aMipMapLvl);
+	gd->UpdateResourceData(mTextureId, bits, width, height ,aFormatToStore, aImageFormat, aMipMapLvl);
 	FreeImage_Unload(dib);
 
 	mWidth = width;

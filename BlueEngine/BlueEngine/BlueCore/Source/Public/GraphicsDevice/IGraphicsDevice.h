@@ -2,16 +2,17 @@
 #include "Core/Types.h"
 #include "Core/Defines.h"
 #include "Core/NonCopyable.h"
-#include "Graphics/EImageFormat.h"
 
 #include <glm/vec4.hpp>
 
-#define  ASSERT_NO_GRAPHICS_ERROR 1
+#define  ASSERT_GRAPHICS_ERROR 1
 
-#if ASSERT_NO_GRAPHICS_ERROR
-	#define CHECK_FOR_GRAPHIC_ERROR()if(GLenum err = glGetError()){Log::Error(std::to_string((int)err)); Log::Flush(); BlueAssert(false);}
+#if ASSERT_GRAPHICS_ERROR
+#ifndef ASSERT_NO_GRAPHICS_ERROR
+#define ASSERT_NO_GRAPHICS_ERROR()if(GLenum err = glGetError()){Log::Error(std::to_string((int)err)); Log::Flush(); BlueAssert(false);}
+#endif
 #else
-	#define CHECK_FOR_GRAPHIC_ERROR()if(GLenum err = glGetError()){Log::Error(std::to_string((int)err)); Log::Flush();}
+#define ASSERT_NO_GRAPHICS_ERROR()if(GLenum err = glGetError()){Log::Error(std::to_string((int)err)); Log::Flush();}
 #endif
 
 enum class EGraphicsDeviceType : uint8
@@ -28,7 +29,7 @@ enum class EGraphicsResourceType : uint32
 	VertexArrayBuffer = 0,
 	VertexBuffer = 1,
 	ElementBuffer = 2,
-	GraphicsDevice = 4,
+	GBuffer = 4,
 	Texture2D = 5,
 	Shader = 6,
 	Count
@@ -46,6 +47,8 @@ enum class EVarType : uint8
 enum class EDrawMode : uint8
 {
 	Triangles,
+	TriangleStrip,
+	TriangleFan,
 	Lines,
 	Count
 };
@@ -56,6 +59,74 @@ enum class BufferBit : uint8
 	Color = BlueBit(1),
 };
 
+enum class EPrecisionType : uint8
+{
+	RGB_F_16Bit,
+	RGB_F_32Bit,  
+  RGB_4Bit,
+  RGB_8Bit,
+	RGB_10Bit,
+	RGB_12Bit,
+  
+  RGBA_F_16Bit,
+  RGBA_F_32Bit,
+  RGBA_2Bit,
+  RGBA_4Bit,
+  RGBA_8Bit,
+  RGBA_12Bit,
+  RGBA_16Bit,
+
+};
+
+
+
+enum class EImageFormat : uint8
+{
+  RGB = 0,
+  RGBA
+};
+
+
+enum EBufferAttachment : uint8
+{
+	Attachment0,
+	Attachment1,
+	Attachment2,
+	Attachment3,
+	Attachment4,
+	Attachment5,
+	Attachment6,
+	Attachment7,
+	Attachment8,
+	Attachment9,
+	Attachment10,
+	Attachment11,
+	Attachment12,
+	Attachment13,
+	Attachment14,
+  Count
+};
+
+enum ETextureID : uint8
+{
+	Texture0,
+	Texture1,
+	Texture2,
+	Texture3,
+	Texture4,
+	Texture5,
+	Texture6,
+	Texture7,
+	Texture8,
+	Texture9
+};
+
+enum ETextureParameter : uint8
+{
+	MinFilter,
+	MagFilter,
+	Nearest
+};
 
 struct DataDescriptor;
 class IGraphicsDevice : public NonCopyable
@@ -69,6 +140,7 @@ public:
 	virtual uint32 CreateGraphicsResource(EGraphicsResourceType aType) = 0;
 	virtual void DeleteGraphicsResource(uint32& aResourceID) = 0;
 	virtual void BindGraphicsResource(const uint32 aResourceID) = 0;
+	virtual void BindGraphicsResource(const uint32 aResourceID, const ETextureID aTextureID) = 0;
 	virtual void UnbindGraphicsResource(const uint32 aResourceID) = 0;
 
 	virtual int32 GetShaderVariableLocation(uint32 aResourceID, char* aVarName) = 0;
@@ -77,12 +149,16 @@ public:
 	virtual void SetShaderVariable(uint32 aVarLoc, void* aVar, EVarType aVarType) = 0;
 
 	virtual void UpdateResourceData(const uint32 aResourceID, size_t aOffset, void* aData, uint64 aDataSize, DataDescriptor* aDescriptors = nullptr, uint32 aDescriptorCount = 0) = 0;
-	virtual void UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, uint32 aWidth, uint32 aHeight, EImageFormat aPixleFormat, EImageFormat aSavingFormat, uint32 aMipMapLevel) = 0;
+	virtual void UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, const uint32 aWidth, const uint32 aHeight, EPrecisionType aTexturePrecision, EImageFormat aPixelFormat, uint32 aMipMapLevel) = 0;
+	virtual void UpdateResourceData(const uint32 aResourceID, const uint32 aWidth, const uint32 aHeight, EPrecisionType aType) = 0;
+	virtual void UpdateResourceData(const uint32 aResourceID, const ETextureParameter aParameter, const ETextureParameter aValue) = 0;
 	virtual void UpdateResourceData(const uint32 aResourceID, char* aVertexShaderPath, char* aFragmentShaderPath) = 0;
+	virtual void UpdateResourceData(const uint32 aResourceID, EBufferAttachment aAttachments) = 0;
+  virtual void UpdateResourceData(const uint32 aResourceID, EBufferAttachment* aAttachments, const uint32 aCount) = 0;
+
 
 	virtual void DrawBuffers(const EDrawMode aMode, const uint32 aFirst, const uint32 aCount) = 0;
 	virtual void DrawBuffersInstanced(const EDrawMode aMode, const uint32 aFirst, const uint32 aCount) = 0;
-
 	virtual void DrawBuffersElements(const EDrawMode aMode, const uint32 aCount, void* aIndicies = nullptr) = 0;
 
 	virtual void ClearBuffer(const BufferBit aBitToClear) = 0;

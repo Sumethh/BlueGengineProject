@@ -17,9 +17,9 @@
 
 
 ForwardRenderer::ForwardRenderer() : mActiveViewMatrix(),
-				mActiveProjectionMatrix(),
-				mModelLocation(0),
-				mActiveMaterial(nullptr)
+	mActiveProjectionMatrix(),
+	mModelLocation(0),
+	mActiveMaterial(nullptr)
 {
 }
 
