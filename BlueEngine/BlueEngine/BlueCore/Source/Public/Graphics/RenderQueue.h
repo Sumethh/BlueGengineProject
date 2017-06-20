@@ -1,8 +1,11 @@
 #pragma once
 
 
-class RenderQueue
+namespace Blue
 {
-	void SubmitRenderable();
+	class RenderQueue
+	{
+		void SubmitRenderable();
 
-};
+	};
+}

@@ -3,30 +3,33 @@
 #include "Graphics/RenderLayer.h"
 #include "Core/Transformable.h"
 
-class MaterialComponent;
-class Material;
-class IRenderer;
-
-class PrimitiveComponent : public ActorComponent, public Transformable
+namespace Blue
 {
+	class MaterialComponent;
+	class Material;
+	class IRenderer;
+
+	class PrimitiveComponent : public ActorComponent, public Transformable
+	{
 	public:
-	PrimitiveComponent(Actor* aOwner);
-	~PrimitiveComponent();
+		PrimitiveComponent(Actor* aOwner);
+		~PrimitiveComponent();
 
 
-	Material* GetMaterial();
+		Material* GetMaterial();
 
-	bool IsTranslucent();
+		bool IsTranslucent();
 
-	uint64 GetRenderID(const Transform& aInverseCameraTransform);
+		uint64 GetRenderID(const Transform& aInverseCameraTransform);
 
-	virtual void SubmitGeometry(IRenderer* aRenderer) = 0;
+		virtual void SubmitGeometry(IRenderer* aRenderer) = 0;
 
-	glm::mat4 GetWorldMatrix();
+		glm::mat4 GetWorldMatrix();
 
 	private:
 
-	MaterialComponent* mMaterialComponent;
-	EFullScreenLayer mFullScreenLayer;
-	EViewportLayer mViewportLayer;
-};
+		MaterialComponent* mMaterialComponent;
+		EFullScreenLayer mFullScreenLayer;
+		EViewportLayer mViewportLayer;
+	};
+}

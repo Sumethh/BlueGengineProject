@@ -3,54 +3,57 @@
 #include "Core/Types.h"
 
 
-enum class EDebugOptionType : uint8
+namespace Blue
 {
-	CheckBox,
-	Slider,
-	Count
-};
+	enum class EDebugOptionType : uint8
+	{
+		CheckBox,
+		Slider,
+		Count
+	};
 
-struct DebugOptionDefenition
-{
-	char* debugName;
-	EDebugOptionType optionType;
-};
+	struct DebugOptionDefenition
+	{
+		char* debugName;
+		EDebugOptionType optionType;
+	};
 
-struct BoolDebugOptionType : public DebugOptionDefenition
-{
-	bool value;
-};
+	struct BoolDebugOptionType : public DebugOptionDefenition
+	{
+		bool value;
+	};
 
-class DebugManager : public UpdatableManager
-{
+	class DebugManager : public UpdatableManager
+	{
 	public:
 
 
-	void Update() override;
+		void Update() override;
 
-	DebugOptionDefenition* GetDebugOption(char* aName);
-	DebugOptionDefenition* GetDebugOption(uint32 aId);
+		DebugOptionDefenition* GetDebugOption(char* aName);
+		DebugOptionDefenition* GetDebugOption(uint32 aId);
 
-	sizeInt RegisterDebugOption(DebugOptionDefenition* aDefenition);
+		sizeInt RegisterDebugOption(DebugOptionDefenition* aDefenition);
 
-	static DebugManager* GI()
-	{
-		if (mInstance == nullptr)
+		static DebugManager* GI()
 		{
-			mInstance = new DebugManager();
-		}
+			if (mInstance == nullptr)
+			{
+				mInstance = new DebugManager();
+			}
 
-		return mInstance;
-	}
+			return mInstance;
+		}
 	private:
 
-	DebugManager();
-	~DebugManager();
+		DebugManager();
+		~DebugManager();
 
-	bool mOpen;
+		bool mOpen;
 
-	std::vector<DebugOptionDefenition*> mRegisteredOptions;
+		std::vector<DebugOptionDefenition*> mRegisteredOptions;
 
-	static DebugManager* mInstance;
+		static DebugManager* mInstance;
 
-};
+	};
+}

@@ -1,9 +1,9 @@
 #pragma once
 #include "Core/Application.h"
 
-class SandboxApplication : public Application
+class SandboxApplication : public Blue::Application
 {
-	public:
+public:
 
 	SandboxApplication();
 	~SandboxApplication();
@@ -13,6 +13,6 @@ class SandboxApplication : public Application
 	void EndUpdate() override;
 	void ShutDown() override;
 
-	private:
+private:
 
 };

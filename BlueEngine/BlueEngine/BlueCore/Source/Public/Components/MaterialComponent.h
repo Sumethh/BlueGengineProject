@@ -1,17 +1,26 @@
 #pragma once
 #include "ActorComponent.h"
 
-class Material;
-class Actor;
-class MaterialComponent : public ActorComponent
+namespace Blue
 {
+	class Material;
+	class Actor;
+	class MaterialComponent : public ActorComponent
+	{
 	public:
-	MaterialComponent(Actor* aOwner);
-	~MaterialComponent();
+		MaterialComponent(Actor* aOwner);
+		~MaterialComponent();
 
-	uint64 ID() override { return CompileHash("MaterialComponent"); }
-	Material* GetMaterial() const { return mMaterial; }
+		uint64 ID() override
+		{
+			return CompileHash("MaterialComponent");
+		}
+		Material* GetMaterial() const
+		{
+			return mMaterial;
+		}
 
 	private:
-	Material* mMaterial;
-};
+		Material* mMaterial;
+	};
+}

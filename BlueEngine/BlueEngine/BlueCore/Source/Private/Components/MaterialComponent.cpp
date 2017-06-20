@@ -3,13 +3,15 @@
 #include "Managers/MaterialManager.h"
 #include "Components/ComponentTypes.h"
 
-MaterialComponent::MaterialComponent(Actor* aOwner) : ActorComponent(aOwner)
+namespace Blue
 {
-	mMaterial = MaterialManager::GI()->GetMaterial(0);
+	MaterialComponent::MaterialComponent(Actor* aOwner) : ActorComponent(aOwner)
+	{
+		mMaterial = MaterialManager::GI()->GetMaterial(0);
+	}
+
+	MaterialComponent::~MaterialComponent()
+	{
+
+	}
 }
-
-MaterialComponent::~MaterialComponent()
-{
-
-}
-

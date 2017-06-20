@@ -4,22 +4,32 @@
 #include "Serialization/Stencil/Stencil.h"
 #include <vector>
 
-class StencilCreator
+namespace Blue
 {
+	class StencilCreator
+	{
 	public:
-	void Update();
+		void Update();
 
-	static StencilCreator* GI() { if (!mInstance) { mInstance = new StencilCreator(); } return mInstance; }
+		static StencilCreator* GI()
+		{
+			if (!mInstance)
+			{
+				mInstance = new StencilCreator();
+			}
+			return mInstance;
+		}
 
 	private:
 
-	bool mOpened;
-	int mCurrentSelectedComponent;
-	std::vector<const char*> mCurrentAddedComponents;
+		bool mOpened;
+		int mCurrentSelectedComponent;
+		std::vector<const char*> mCurrentAddedComponents;
 
-	Stencil mCurrentStencil;
+		Stencil mCurrentStencil;
 
-	StencilCreator();
-	~StencilCreator();
-	static StencilCreator* mInstance;
-};
+		StencilCreator();
+		~StencilCreator();
+		static StencilCreator* mInstance;
+	};
+}

@@ -140,17 +140,41 @@ void ImGui_ImplGlfwGL3_RenderDrawLists(ImDrawData* draw_data)
 	glBlendEquationSeparate(last_blend_equation_rgb, last_blend_equation_alpha);
 	glBlendFunc(last_blend_src, last_blend_dst);
 
-	if (last_enable_blend) { glEnable(GL_BLEND); }
-	else { glDisable(GL_BLEND); }
+	if (last_enable_blend)
+	{
+		glEnable(GL_BLEND);
+	}
+	else
+	{
+		glDisable(GL_BLEND);
+	}
 
-	if (last_enable_cull_face) { glEnable(GL_CULL_FACE); }
-	else { glDisable(GL_CULL_FACE); }
+	if (last_enable_cull_face)
+	{
+		glEnable(GL_CULL_FACE);
+	}
+	else
+	{
+		glDisable(GL_CULL_FACE);
+	}
 
-	if (last_enable_depth_test) { glEnable(GL_DEPTH_TEST); }
-	else { glDisable(GL_DEPTH_TEST); }
+	if (last_enable_depth_test)
+	{
+		glEnable(GL_DEPTH_TEST);
+	}
+	else
+	{
+		glDisable(GL_DEPTH_TEST);
+	}
 
-	if (last_enable_scissor_test) { glEnable(GL_SCISSOR_TEST); }
-	else { glDisable(GL_SCISSOR_TEST); }
+	if (last_enable_scissor_test)
+	{
+		glEnable(GL_SCISSOR_TEST);
+	}
+	else
+	{
+		glDisable(GL_SCISSOR_TEST);
+	}
 
 	glViewport(last_viewport[0], last_viewport[1], (GLsizei)last_viewport[2], (GLsizei)last_viewport[3]);
 	glScissor(last_scissor_box[0], last_scissor_box[1], (GLsizei)last_scissor_box[2], (GLsizei)last_scissor_box[3]);
@@ -315,27 +339,51 @@ bool ImGui_ImplGlfwGL3_CreateDeviceObjects()
 
 void    ImGui_ImplGlfwGL3_InvalidateDeviceObjects()
 {
-	if (g_VaoHandle) { glDeleteVertexArrays(1, &g_VaoHandle); }
+	if (g_VaoHandle)
+	{
+		glDeleteVertexArrays(1, &g_VaoHandle);
+	}
 
-	if (g_VboHandle) { glDeleteBuffers(1, &g_VboHandle); }
+	if (g_VboHandle)
+	{
+		glDeleteBuffers(1, &g_VboHandle);
+	}
 
-	if (g_ElementsHandle) { glDeleteBuffers(1, &g_ElementsHandle); }
+	if (g_ElementsHandle)
+	{
+		glDeleteBuffers(1, &g_ElementsHandle);
+	}
 
 	g_VaoHandle = g_VboHandle = g_ElementsHandle = 0;
 
-	if (g_ShaderHandle && g_VertHandle) { glDetachShader(g_ShaderHandle, g_VertHandle); }
+	if (g_ShaderHandle && g_VertHandle)
+	{
+		glDetachShader(g_ShaderHandle, g_VertHandle);
+	}
 
-	if (g_VertHandle) { glDeleteShader(g_VertHandle); }
+	if (g_VertHandle)
+	{
+		glDeleteShader(g_VertHandle);
+	}
 
 	g_VertHandle = 0;
 
-	if (g_ShaderHandle && g_FragHandle) { glDetachShader(g_ShaderHandle, g_FragHandle); }
+	if (g_ShaderHandle && g_FragHandle)
+	{
+		glDetachShader(g_ShaderHandle, g_FragHandle);
+	}
 
-	if (g_FragHandle) { glDeleteShader(g_FragHandle); }
+	if (g_FragHandle)
+	{
+		glDeleteShader(g_FragHandle);
+	}
 
 	g_FragHandle = 0;
 
-	if (g_ShaderHandle) { glDeleteProgram(g_ShaderHandle); }
+	if (g_ShaderHandle)
+	{
+		glDeleteProgram(g_ShaderHandle);
+	}
 
 	g_ShaderHandle = 0;
 
@@ -440,8 +488,8 @@ void ImGui_ImplGlfwGL3_NewFrame()
 
 	// Hide OS mouse cursor if ImGui is drawing it
 	glfwSetInputMode(g_Window, GLFW_CURSOR, io.MouseDrawCursor ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_NORMAL);
-	Input::SetKeyboardCapture(io.WantCaptureKeyboard);
-	Input::SetMouseCapture(io.WantCaptureMouse);
+	Blue::Input::SetKeyboardCapture(io.WantCaptureKeyboard);
+	Blue::Input::SetMouseCapture(io.WantCaptureMouse);
 
 	// Start the frame
 	ImGui::NewFrame();

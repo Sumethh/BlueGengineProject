@@ -1,8 +1,11 @@
 #pragma once
 #include <glm/vec2.hpp>
 
-struct Rect
+namespace Blue
 {
-	glm::vec2 topLeft;
-	glm::vec2 extents;
-};
+	struct Rect
+	{
+		glm::vec2 topLeft;
+		glm::vec2 extents;
+	};
+}

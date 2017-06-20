@@ -16,60 +16,63 @@
 #include <GL/glew.h>
 
 
-ForwardRenderer::ForwardRenderer() : mActiveViewMatrix(),
-	mActiveProjectionMatrix(),
-	mModelLocation(0),
-	mActiveMaterial(nullptr)
+namespace Blue
 {
-}
-
-ForwardRenderer::~ForwardRenderer()
-{
-
-}
-
-void ForwardRenderer::SubmitGeometry(Mesh* aMesh, glm::mat4 aTransform)
-{
-	mCurrentShader->SetShaderVar(mModelLocation, (void*)&aTransform, EVarType::Matrix4x4);
-
-	if (mCurrentMesh != aMesh)
+	ForwardRenderer::ForwardRenderer() : mActiveViewMatrix(),
+		mActiveProjectionMatrix(),
+		mModelLocation(0),
+		mActiveMaterial(nullptr)
 	{
-		mCurrentMesh = aMesh;
-		aMesh->PrepForDrawing();
 	}
 
-	IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, mCurrentMesh->GetIndiceCount());
-}
-
-void ForwardRenderer::SetActiveCamera(CameraComponent* aCamera)
-{
-	mActiveViewMatrix = glm::inverse(aCamera->GetViewMatrix());
-	mActiveProjectionMatrix = aCamera->GetProjectionMatrix();
-}
-
-void ForwardRenderer::SetActiveMaterial(Material* aMaterial)
-{
-	if (mActiveMaterial != aMaterial)
+	ForwardRenderer::~ForwardRenderer()
 	{
-		BlueAssert(aMaterial);
-		mActiveMaterial = aMaterial;
-		mActiveMaterial->Bind();
-		mActiveMaterial->SetDataForDrawing();
 
-		mCurrentShader = mActiveMaterial->GetShader();
-
-		uint32 projectionLoc = mCurrentShader->GetShaderVariableLocation("projection");
-		uint32 viewLoc = mCurrentShader->GetShaderVariableLocation("view");
-		mModelLocation = mCurrentShader->GetShaderVariableLocation("model");
-		mCurrentShader->SetShaderVar(projectionLoc, &mActiveProjectionMatrix, EVarType::Matrix4x4);
-		mCurrentShader->SetShaderVar(viewLoc, &mActiveViewMatrix, EVarType::Matrix4x4);
 	}
-}
 
-void ForwardRenderer::End()
-{
-	mActiveProjectionMatrix = glm::mat4();
-	mActiveViewMatrix = glm::mat4();
-	mModelLocation = 0;
-	mActiveMaterial = nullptr;
+	void ForwardRenderer::SubmitGeometry(Mesh* aMesh, glm::mat4 aTransform)
+	{
+		mCurrentShader->SetShaderVar(mModelLocation, (void*)&aTransform, EVarType::Matrix4x4);
+
+		if (mCurrentMesh != aMesh)
+		{
+			mCurrentMesh = aMesh;
+			aMesh->PrepForDrawing();
+		}
+
+		IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, mCurrentMesh->GetIndiceCount());
+	}
+
+	void ForwardRenderer::SetActiveCamera(CameraComponent* aCamera)
+	{
+		mActiveViewMatrix = glm::inverse(aCamera->GetViewMatrix());
+		mActiveProjectionMatrix = aCamera->GetProjectionMatrix();
+	}
+
+	void ForwardRenderer::SetActiveMaterial(Material* aMaterial)
+	{
+		if (mActiveMaterial != aMaterial)
+		{
+			BlueAssert(aMaterial);
+			mActiveMaterial = aMaterial;
+			mActiveMaterial->Bind();
+			mActiveMaterial->SetDataForDrawing();
+
+			mCurrentShader = mActiveMaterial->GetShader();
+
+			uint32 projectionLoc = mCurrentShader->GetShaderVariableLocation("projection");
+			uint32 viewLoc = mCurrentShader->GetShaderVariableLocation("view");
+			mModelLocation = mCurrentShader->GetShaderVariableLocation("model");
+			mCurrentShader->SetShaderVar(projectionLoc, &mActiveProjectionMatrix, EVarType::Matrix4x4);
+			mCurrentShader->SetShaderVar(viewLoc, &mActiveViewMatrix, EVarType::Matrix4x4);
+		}
+	}
+
+	void ForwardRenderer::End()
+	{
+		mActiveProjectionMatrix = glm::mat4();
+		mActiveViewMatrix = glm::mat4();
+		mModelLocation = 0;
+		mActiveMaterial = nullptr;
+	}
 }

@@ -1,12 +1,15 @@
 #pragma once
 #include "Defines.h"
 
-class NonCopyable
+namespace Blue
 {
+	class NonCopyable
+	{
 	protected:
-	NonCopyable() {};
-	~NonCopyable() {};
+		NonCopyable() {};
+		~NonCopyable() {};
 	private:
-	NonCopyable(const NonCopyable&) = delete;
-	const NonCopyable& operator = (const NonCopyable&) = delete;
-};
+		NonCopyable(const NonCopyable&) = delete;
+		const NonCopyable& operator = (const NonCopyable&) = delete;
+	};
+}

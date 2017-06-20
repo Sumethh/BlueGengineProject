@@ -187,7 +187,6 @@
     <ClCompile Include="Source\Private\Core\ApplicationWindow.cpp" />
     <ClCompile Include="Source\Private\Core\Game.cpp" />
     <ClCompile Include="Source\Private\Core\GizmoRenderer.cpp" />
-    <ClCompile Include="Source\Private\Core\IDelegate.cpp" />
     <ClCompile Include="Source\Private\Core\IGameMode.cpp" />
     <ClCompile Include="Source\Private\Core\Log.cpp" />
     <ClCompile Include="Source\Private\Core\MeshLoader.cpp" />
@@ -212,8 +211,9 @@
     <ClCompile Include="Source\Private\Graphics\Texture2D.cpp" />
     <ClCompile Include="Source\Private\Input\Input.cpp" />
     <ClCompile Include="Source\Private\Managers\DebugManager.cpp" />
+    <ClCompile Include="Source\Private\Memory\BlockAllocator.cpp" />
     <ClCompile Include="Source\Private\Memory\FixedMemoryManager.cpp" />
-    <ClCompile Include="Source\Private\Renderers\DifferedRenderer.cpp" />
+    <ClCompile Include="Source\Private\Renderers\DefferedRenderer.cpp" />
     <ClCompile Include="Source\Private\Renderers\ForwardRenderer.cpp" />
     <ClCompile Include="Source\Private\Renderers\SceneRenderer.cpp" />
     <ClCompile Include="Source\Private\Serialization\ArchiveObject.cpp" />
@@ -221,10 +221,10 @@
     <ClCompile Include="Source\Private\Serialization\Stencil\Stencil.cpp" />
     <ClCompile Include="Source\Private\Managers\StencilManager.cpp" />
     <ClCompile Include="Source\Private\SpatialPartitions\OctTree.cpp" />
-    <ClCompile Include="Source\Public\Systems\AsyncLoadingManager.cpp" />
-    <ClCompile Include="Source\Public\Systems\Console.cpp" />
-    <ClCompile Include="Source\Public\Systems\StencilCreator.cpp" />
-    <ClCompile Include="Source\Public\Systems\TaskSystem.cpp" />
+    <ClCompile Include="Source\Private\Systems\AsyncLoadingManager.cpp" />
+    <ClCompile Include="Source\Private\Systems\Console.cpp" />
+    <ClCompile Include="Source\Private\Systems\StencilCreator.cpp" />
+    <ClCompile Include="Source\Private\Systems\TaskSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Public\Components\ComponentRegistery.h" />
@@ -254,10 +254,10 @@
     <ClInclude Include="Source\Public\Graphics\RenderLayer.h" />
     <ClInclude Include="Source\Public\Graphics\RenderQueue.h" />
     <ClInclude Include="Source\Public\Graphics\ViewPort.h" />
+    <ClInclude Include="Source\Public\Memory\BlockAllocator.h" />
     <ClInclude Include="Source\Public\Messaging\IMessage.h" />
     <ClInclude Include="Source\Public\Core\ResourceList.h" />
     <ClInclude Include="Source\Public\Core\Timer.h" />
-    <ClInclude Include="Source\Public\Graphics\EImageFormat.h" />
     <ClInclude Include="Source\Public\Core\Log.h" />
     <ClInclude Include="Source\Public\Graphics\Mesh.h" />
     <ClInclude Include="Source\Public\Core\NonCopyable.h" />
@@ -284,10 +284,9 @@
     <ClInclude Include="Source\Public\Json\json.hpp" />
     <ClInclude Include="Source\Public\Managers\AsyncLoadingMeshTracker.h" />
     <ClInclude Include="Source\Public\Managers\DebugManager.h" />
-    <ClInclude Include="Source\Public\Memory\FixedMemoryManager.h" />
     <ClInclude Include="Source\Public\Memory\IMemoryAllocator.h" />
     <ClInclude Include="Source\Public\Messaging\WindowResizeMessage.h" />
-    <ClInclude Include="Source\Public\Renderers\DifferedRenderer.h" />
+    <ClInclude Include="Source\Public\Renderers\DefferedRenderer.h" />
     <ClInclude Include="Source\Public\Renderers\ForwardRenderer.h" />
     <ClInclude Include="Source\Public\Renderers\GizmoRenderer.h" />
     <ClInclude Include="Source\Public\Renderers\IRenderer.h" />

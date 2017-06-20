@@ -1,21 +1,24 @@
 #pragma once
 #include "Core/Types.h"
 
-enum class EComponentType : uint32
+namespace Blue
 {
-	ETransformComponent,
-	EMeshComponent,
-	EMaterialComponent,
-	ECameraComponent,
-	EFirstPersonComponent,
-	ECount
-};
+	enum class EComponentType : uint32
+	{
+		ETransformComponent,
+		EMeshComponent,
+		EMaterialComponent,
+		ECameraComponent,
+		EFirstPersonComponent,
+		ECount
+	};
 
-static const char* EComponentTypeStrings[] =
-{
-	"Transform Component",
-	"Mesh Component",
-	"Material Component",
-	"Camera Component",
-	"First Person Component"
-};
+	static const char* EComponentTypeStrings[] =
+	{
+		"Transform Component",
+		"Mesh Component",
+		"Material Component",
+		"Camera Component",
+		"First Person Component"
+	};
+}

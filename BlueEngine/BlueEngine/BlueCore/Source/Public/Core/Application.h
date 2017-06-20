@@ -1,27 +1,31 @@
 #pragma once
 #include "Types.h"
 #include "Core/NonCopyable.h"
-class ApplicationWindow;
-class Game;
-class ForwardRenderer;
-class GizmoRenderer;
 
 
-class   Application : public NonCopyable
+namespace Blue
 {
+	class ApplicationWindow;
+	class Game;
+	class ForwardRenderer;
+	class GizmoRenderer;
+
+	class  Application : public NonCopyable
+	{
 	public:
-	Application();
-	virtual ~Application();
-	virtual bool Run();
-	virtual void Update();
-	virtual void EndUpdate();
-	virtual void ShutDown();
+		Application();
+		virtual ~Application();
+		virtual bool Run();
+		virtual void Update();
+		virtual void EndUpdate();
+		virtual void ShutDown();
 
 	protected:
-	void CreateWindow(const char* aTitle, const uint32 aWidth, const uint32 aHeight);
+		void CreateWindow(const char* aTitle, const uint32 aWidth, const uint32 aHeight);
 
-	ApplicationWindow* mWindow;
-	Game* mGame;
-	ForwardRenderer* mRenderer;
-	GizmoRenderer* mGizmoRenderer;
-};
+		ApplicationWindow* mWindow;
+		Game* mGame;
+		ForwardRenderer* mRenderer;
+		GizmoRenderer* mGizmoRenderer;
+	};
+}

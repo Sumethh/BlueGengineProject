@@ -3,39 +3,45 @@
 #include "Graphics/Mesh.h"
 #include <functional>
 
-struct AsyncLoadingMeshTracker : public AsyncLoadingManager::IAsyncLoadingTracker
+namespace Blue
 {
+	struct AsyncLoadingMeshTracker : public AsyncLoadingManager::IAsyncLoadingTracker
+	{
 	public:
-	AsyncLoadingMeshTracker(std::future<bool>&& aFuture, Mesh* aMesh) : IAsyncLoadingTracker(std::move(aFuture)),
-							loadingMesh(aMesh)
-	{
-		callbacks.reserve(10);
-	}
-	void AddCallback(std::function<void(Mesh*)> aNewCallback)
-	{
-		callbacks.push_back(aNewCallback);
-	}
-
-	void SetMeshResources()
-	{
-		loadingMesh->UpdateMeshResources();
-	}
-
-	virtual void Completed() override
-	{
-		SetMeshResources();
-
-		for (auto& func : callbacks)
+		AsyncLoadingMeshTracker(std::future<bool>&& aFuture, Mesh* aMesh) : IAsyncLoadingTracker(std::move(aFuture)),
+			loadingMesh(aMesh)
 		{
-			func(loadingMesh);
+			callbacks.reserve(10);
+		}
+		void AddCallback(std::function<void(Mesh*)> aNewCallback)
+		{
+			callbacks.push_back(aNewCallback);
 		}
 
-		MeshManager::GI()->AsyncLoadComplete(this);
+		void SetMeshResources()
+		{
+			loadingMesh->UpdateMeshResources();
+		}
 
-	}
+		virtual void Completed() override
+		{
+			SetMeshResources();
 
-	const Mesh* GetMesh() { return loadingMesh; }
+			for (auto& func : callbacks)
+			{
+				func(loadingMesh);
+			}
+
+			MeshManager::GI()->AsyncLoadComplete(this);
+
+		}
+
+		const Mesh* GetMesh()
+		{
+			return loadingMesh;
+		}
 	private:
-	std::vector<std::function<void(Mesh*)>> callbacks;
-	Mesh* loadingMesh;
-};
+		std::vector<std::function<void(Mesh*)>> callbacks;
+		Mesh* loadingMesh;
+	};
+}

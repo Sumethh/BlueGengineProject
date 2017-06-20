@@ -4,51 +4,53 @@
 #include "Core/Scene.h"
 #include "Components/MaterialComponent.h"
 #include "Graphics/Material.h"
-#include "Graphics/EImageFormat.h"
 
-PrimitiveComponent::PrimitiveComponent(Actor* aOwner) : ActorComponent(aOwner),
-				   mFullScreenLayer(EFullScreenLayer::Game),
-				   mViewportLayer(EViewportLayer::World)
+namespace Blue
 {
-	GetOwner()->GetWorld()->RegisterPrimitiveComponent(this);
-	SetParent(aOwner);
-}
-
-PrimitiveComponent::~PrimitiveComponent()
-{
-	Actor* owner = GetOwner();
-	Scene* scene = (Scene*)owner->GetWorld();
-	scene->DeregisterPimitiveComponent(this);
-}
-
-Material* PrimitiveComponent::GetMaterial()
-{
-	if (!mMaterialComponent)
+	PrimitiveComponent::PrimitiveComponent(Actor* aOwner) : ActorComponent(aOwner),
+		mFullScreenLayer(EFullScreenLayer::Game),
+		mViewportLayer(EViewportLayer::World)
 	{
-		mMaterialComponent = GetOwner()->GetComponent<MaterialComponent>();
-
-		if (!mMaterialComponent)
-		{
-			mMaterialComponent = GetOwner()->AddComponent<MaterialComponent>();
-		}
+		GetOwner()->GetWorld()->RegisterPrimitiveComponent(this);
+		SetParent(aOwner);
 	}
 
-	return mMaterialComponent->GetMaterial();
-}
+	PrimitiveComponent::~PrimitiveComponent()
+	{
+		Actor* owner = GetOwner();
+		Scene* scene = (Scene*)owner->GetWorld();
+		scene->DeregisterPimitiveComponent(this);
+	}
 
-bool PrimitiveComponent::IsTranslucent()
-{
-	return GetMaterial()->HasAlpha();
-}
+	Material* PrimitiveComponent::GetMaterial()
+	{
+		if (!mMaterialComponent)
+		{
+			mMaterialComponent = GetOwner()->GetComponent<MaterialComponent>();
 
-uint64 PrimitiveComponent::GetRenderID(const Transform& aInverseCameraTransform)
-{
-	uint64 mReturningID = 0;
+			if (!mMaterialComponent)
+			{
+				mMaterialComponent = GetOwner()->AddComponent<MaterialComponent>();
+			}
+		}
 
-	return mReturningID;
-}
+		return mMaterialComponent->GetMaterial();
+	}
 
-glm::mat4 PrimitiveComponent::GetWorldMatrix()
-{
-	return GetOwner()->GetWorldMatrix();
+	bool PrimitiveComponent::IsTranslucent()
+	{
+		return GetMaterial()->HasAlpha();
+	}
+
+	uint64 PrimitiveComponent::GetRenderID(const Transform& aInverseCameraTransform)
+	{
+		uint64 mReturningID = 0;
+
+		return mReturningID;
+	}
+
+	glm::mat4 PrimitiveComponent::GetWorldMatrix()
+	{
+		return GetOwner()->GetWorldMatrix();
+	}
 }

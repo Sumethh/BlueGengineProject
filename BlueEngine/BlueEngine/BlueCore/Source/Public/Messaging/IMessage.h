@@ -3,48 +3,51 @@
 #include <vector>
 #include "Core/IDelegate.h"
 
-struct IMessage
+namespace Blue
 {
-public:
-};
-
-template<typename T>
-class Message
-{
-	using FunctionPointer = void(*)(T*);
-
-public:
-	static void Send(T* aMessage)
+	struct IMessage
 	{
-		std::vector<IDelegate<void, T*>*>& registeredListeners = GetCallbacks();
+	public:
+	};
 
-		if (registeredListeners.size())
+	template<typename T>
+	class Message
+	{
+		using FunctionPointer = void(*)(T*);
+
+	public:
+		static void Send(T* aMessage)
 		{
-			auto current = registeredListeners.begin();
-			auto end = registeredListeners.end();
+			std::vector<IDelegate<void, T*>*>& registeredListeners = GetCallbacks();
 
-			while (current != end)
+			if (registeredListeners.size())
 			{
-				(*(*current))(aMessage);
-				current++;
+				auto current = registeredListeners.begin();
+				auto end = registeredListeners.end();
+
+				while (current != end)
+				{
+					(*(*current))(aMessage);
+					current++;
+				}
 			}
 		}
-	}
-	static void Listen(FunctionPointer aFunctor)
-	{
-		GetCallbacks().push_back(new SimpleDelegate<void, T*>(aFunctor));
-	}
-	template<typename CallingClass>
-	static void Listen(CallingClass* aClass, void(CallingClass::*aFunctor)(T*))
-	{
-		GetCallbacks().push_back(new MemberDelegate<CallingClass, void, T*>(aClass, aFunctor));
-	}
+		static void Listen(FunctionPointer aFunctor)
+		{
+			GetCallbacks().push_back(new SimpleDelegate<void, T*>(aFunctor));
+		}
+		template<typename CallingClass>
+		static void Listen(CallingClass* aClass, void(CallingClass::*aFunctor)(T*))
+		{
+			GetCallbacks().push_back(new MemberDelegate<CallingClass, void, T*>(aClass, aFunctor));
+		}
 
-private:
-	static std::vector<IDelegate<void, T*>*>& GetCallbacks()
-	{
-		static std::vector <IDelegate<void, T*>*> callbacks;
+	private:
+		static std::vector<IDelegate<void, T*>*>& GetCallbacks()
+		{
+			static std::vector <IDelegate<void, T*>*> callbacks;
 
-		return callbacks;
-	}
-};
+			return callbacks;
+		}
+	};
+}

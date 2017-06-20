@@ -2,20 +2,23 @@
 #include "Core/Types.h"
 #include <string>
 
-namespace StringHelpers
+namespace Blue
 {
-	static inline uint32 FindCharacterCount(std::string& aString, char aSearchingChar)
+	namespace StringHelpers
 	{
-		uint32 count = 0;
-
-		for (size_t i = 0; i < aString.size(); ++i)
+		static inline uint32 FindCharacterCount(std::string& aString, char aSearchingChar)
 		{
-			if (aString[i] == aSearchingChar)
-			{
-				count++;
-			}
-		}
+			uint32 count = 0;
 
-		return count;
+			for (size_t i = 0; i < aString.size(); ++i)
+			{
+				if (aString[i] == aSearchingChar)
+				{
+					++count;
+				}
+			}
+
+			return count;
+		}
 	}
 }

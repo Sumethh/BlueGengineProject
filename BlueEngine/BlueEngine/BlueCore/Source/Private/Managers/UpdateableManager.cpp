@@ -1,7 +1,10 @@
 #include "Managers/UpdateableManager.h"
 
-std::vector<UpdatableManager*> UpdatableManager::sUpdateableManagers;
-UpdatableManager::UpdatableManager()
+namespace Blue
 {
-	sUpdateableManagers.push_back(this);
+	std::vector<UpdatableManager*> UpdatableManager::sUpdateableManagers;
+	UpdatableManager::UpdatableManager()
+	{
+		sUpdateableManagers.push_back(this);
+	}
 }

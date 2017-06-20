@@ -1,14 +1,17 @@
 #pragma once
 #include "Core/Types.h"
 
-struct DataDescriptor
+namespace Blue
 {
-	uint32 location;
-	uint32 count;
-	uint32 stride;
-	uint32 offset;
-	bool normalized;
+	struct DataDescriptor
+	{
+		uint32 location;
+		uint32 count;
+		uint32 stride;
+		uint32 offset;
+		bool normalized;
 
-	bool instanced;
-	uint32 instanceCount;
-};
+		bool instanced;
+		uint32 instanceCount;
+	};
+}

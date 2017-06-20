@@ -12,7 +12,7 @@ SandboxApplication::~SandboxApplication()
 
 bool SandboxApplication::Run()
 {
-	Log::Info("Sandbox Application starting up");
+	Blue::Log::Info("Sandbox Application starting up");
 	return true;
 }
 
@@ -28,6 +28,6 @@ void SandboxApplication::EndUpdate()
 
 void SandboxApplication::ShutDown()
 {
-	Log::Info("Sandbox Application shutting down");
+	Blue::Log::Info("Sandbox Application shutting down");
 }
 

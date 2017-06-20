@@ -5,46 +5,49 @@
 
 #include "Serialization/ArchiveObject.h"
 
-Game::Game() :
-mWorld(nullptr)
+namespace Blue
 {
-
-}
-
-Game::~Game()
-{
-	if (mWorld)
+	Game::Game() :
+		mWorld(nullptr)
 	{
-		delete mWorld;
-	}
-}
 
-void Game::BeginPlay()
-{
-	//TODO load a game config
-	mWorld = new World();
-	mWorld->BeginPlay();
-}
-
-void Game::Update(float aDt)
-{
-	mWorld->Update(aDt);
-
-	if (Input::GetKeyDown(Input::Key::Y))
-	{
-		ArchiveObject savingWorld("SavingWorld");
-		mWorld->Save(savingWorld);
-		savingWorld.WriteToFile("Assets/Saves/", "World.save");
 	}
 
-}
+	Game::~Game()
+	{
+		if (mWorld)
+		{
+			delete mWorld;
+		}
+	}
 
-void Game::LateUpdate(float aDt)
-{
-	mWorld->LateUpdate(aDt);
-}
+	void Game::BeginPlay()
+	{
+		//TODO load a game config
+		mWorld = new World();
+		mWorld->BeginPlay();
+	}
 
-void Game::GizmoDraw(GizmoRenderer* aRenderer)
-{
-	mWorld->GizmoDraw(aRenderer);
+	void Game::Update(float aDt)
+	{
+		mWorld->Update(aDt);
+
+		if (Input::GetKeyDown(Input::Key::Y))
+		{
+			ArchiveObject savingWorld("SavingWorld");
+			mWorld->Save(savingWorld);
+			savingWorld.WriteToFile("Assets/Saves/", "World.save");
+		}
+
+	}
+
+	void Game::LateUpdate(float aDt)
+	{
+		mWorld->LateUpdate(aDt);
+	}
+
+	void Game::GizmoDraw(GizmoRenderer* aRenderer)
+	{
+		mWorld->GizmoDraw(aRenderer);
+	}
 }

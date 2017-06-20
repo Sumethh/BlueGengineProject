@@ -2,23 +2,26 @@
 #include "../Core/NonCopyable.h"
 #include "IGraphicsDevice.h"
 
-class IGraphicsDevice;
-class GraphicsDeviceFactory : NonCopyable
+namespace Blue
 {
-	public:
-	GraphicsDeviceFactory();
-
-	static inline GraphicsDeviceFactory* GI()
+	class IGraphicsDevice;
+	class GraphicsDeviceFactory : NonCopyable
 	{
-		if (!sFactoryInstance)
+	public:
+		GraphicsDeviceFactory();
+
+		static inline GraphicsDeviceFactory* GI()
 		{
-			sFactoryInstance = new GraphicsDeviceFactory();
+			if (!sFactoryInstance)
+			{
+				sFactoryInstance = new GraphicsDeviceFactory();
+			}
+
+			return sFactoryInstance;
 		}
 
-		return sFactoryInstance;
-	}
-
-	IGraphicsDevice* CreateGraphicsDevice(EGraphicsDeviceType aType);
+		IGraphicsDevice* CreateGraphicsDevice(EGraphicsDeviceType aType);
 	private:
-	static GraphicsDeviceFactory* sFactoryInstance;
-};
+		static GraphicsDeviceFactory* sFactoryInstance;
+	};
+}

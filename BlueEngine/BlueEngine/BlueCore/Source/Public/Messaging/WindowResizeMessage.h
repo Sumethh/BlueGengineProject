@@ -3,8 +3,11 @@
 #include "IMessage.h"
 
 
-struct WindowResizeMessage : public IMessage
+namespace Blue
 {
-	uint32 windowWidth;
-	uint32 windowHeight;
-};
+	struct WindowResizeMessage : public IMessage
+	{
+		uint32 windowWidth;
+		uint32 windowHeight;
+	};
+}

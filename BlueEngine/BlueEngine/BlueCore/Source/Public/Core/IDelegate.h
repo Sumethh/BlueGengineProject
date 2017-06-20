@@ -1,52 +1,55 @@
 #pragma once
 #include "BlueCore.h"
 
-template < typename ReturnVal, typename... Arguments>
-class IDelegate
+namespace Blue
 {
-	public:
-	IDelegate() = default;
-	IDelegate(const  IDelegate&) = default;
-	IDelegate(IDelegate&&) = default;
-	IDelegate& operator=(const IDelegate&)& = default;
-	IDelegate& operator=(IDelegate&&)& = default;
-	virtual ~IDelegate() = default;
-	virtual ReturnVal operator()(Arguments...) = 0;
-};
-
-template<typename ReturnVal, typename... Arguments>
-class SimpleDelegate : public IDelegate<ReturnVal, Arguments...>
-{
-	using FunctionPointer = ReturnVal(*)(Arguments...);
-	public:
-	SimpleDelegate(FunctionPointer aFunction) : mFunction(aFunction)
+	template < typename ReturnVal, typename... Arguments>
+	class IDelegate
 	{
-	}
+	public:
+		IDelegate() = default;
+		IDelegate(const  IDelegate&) = default;
+		IDelegate(IDelegate&&) = default;
+		IDelegate& operator=(const IDelegate&)& = default;
+		IDelegate& operator=(IDelegate&&)& = default;
+		virtual ~IDelegate() = default;
+		virtual ReturnVal operator()(Arguments...) = 0;
+	};
 
-	ReturnVal operator()(Arguments... args) override
+	template<typename ReturnVal, typename... Arguments>
+	class SimpleDelegate : public IDelegate<ReturnVal, Arguments...>
 	{
-		return (*mFunction)(args...);
-	}
+		using FunctionPointer = ReturnVal(*)(Arguments...);
+	public:
+		SimpleDelegate(FunctionPointer aFunction) : mFunction(aFunction)
+		{
+		}
+
+		ReturnVal operator()(Arguments... args) override
+		{
+			return (*mFunction)(args...);
+		}
 
 	private:
-	FunctionPointer mFunction;
-};
+		FunctionPointer mFunction;
+	};
 
 
-template <typename Owner, typename ReturnVal, typename... Arguments>
-class MemberDelegate : public IDelegate<ReturnVal, Arguments...>
-{
-	using FunctionPointer = ReturnVal(Owner::*)(Arguments...);
-	public:
-	MemberDelegate(Owner* aOwner, FunctionPointer aFunction) : mOwner(aOwner), mFunction(aFunction)
-	{}
-
-	ReturnVal operator()(Arguments... args) override
+	template <typename Owner, typename ReturnVal, typename... Arguments>
+	class MemberDelegate : public IDelegate<ReturnVal, Arguments...>
 	{
-		return (mOwner->*mFunction)(args...);
-	}
+		using FunctionPointer = ReturnVal(Owner::*)(Arguments...);
+	public:
+		MemberDelegate(Owner* aOwner, FunctionPointer aFunction) : mOwner(aOwner), mFunction(aFunction)
+		{}
+
+		ReturnVal operator()(Arguments... args) override
+		{
+			return (mOwner->*mFunction)(args...);
+		}
 
 	private:
-	Owner* mOwner;
-	FunctionPointer mFunction;
-};
+		Owner* mOwner;
+		FunctionPointer mFunction;
+	};
+}

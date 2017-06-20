@@ -6,69 +6,75 @@
 
 #include <vector>
 
-class World;
-class ActorComponent;
-class IRenderer;
-class Transformable;
-class GizmoRenderer;
-
-enum class EActorFlags : uint32
+namespace Blue
 {
-	ActorBoundsDirty = BlueBit(0),
-};
+	class World;
+	class ActorComponent;
+	class IRenderer;
+	class Transformable;
+	class GizmoRenderer;
 
-class Actor : public Transformable
-{
-public:
-	Actor(World* a_world);
-	Actor(const Actor&);
-	Actor(Actor&&);
-	virtual ~Actor();
-
-	virtual void OnConstruct();
-	virtual void BeginPlay();
-	virtual void Update(float aDt);
-	virtual void LateUpdate(float aDt);
-
-	virtual void OnSerialize(ArchiveObject* const aArchiveObject) const override;
-	virtual void OnDeserialize(ArchiveObject* const aArchiveObject);
-	inline World* GetWorld() { return mWorld; }
-
-	ActorComponent* GetComponent(uint64 aID);
-	std::vector<ActorComponent*> GetAllComponents(uint64 aID);
-	ActorComponent* AddComponent(uint64 aID);
-
-	template<typename T>
-	T* GetComponent()
+	enum class EActorFlags : uint32
 	{
-		return (T*)GetComponent(ActorComponent::ID<T>());
-	}
+		ActorBoundsDirty = BlueBit(0),
+	};
 
-	template<typename T>
-	T* AddComponent()
+	class Actor : public Transformable
 	{
-		return (T*)AddComponent(ActorComponent::ID<T>());
-	}
+	public:
+		Actor(World* a_world);
+		Actor(const Actor&);
+		Actor(Actor&&);
+		virtual ~Actor();
 
-	AABB GetActorBounds();
+		virtual void OnConstruct();
+		virtual void BeginPlay();
+		virtual void Update(float aDt);
+		virtual void LateUpdate(float aDt);
 
-	void SetActorFlags(EActorFlags aFlags);
-	void ResetFlags(EActorFlags aFlags);
-	bool IsFlagSet(EActorFlags aFlags);
+		virtual void OnSerialize(ArchiveObject* const aArchiveObject) const override;
+		virtual void OnDeserialize(ArchiveObject* const aArchiveObject);
+		inline World* GetWorld()
+		{
+			return mWorld;
+		}
 
-private:
+		ActorComponent* GetComponent(uint64 aID);
+		std::vector<ActorComponent*> GetAllComponents(uint64 aID);
+		ActorComponent* AddComponent(uint64 aID);
 
-	void AddRequiredComponents(uint64 aID);
-	void RecalculateActorBounds();
+		template<typename T>
+		T* GetComponent()
+		{
+			return (T*)GetComponent(ActorComponent::ID<T>());
+		}
 
-	bool mHasBeginPlayBeenCalled;
-	World* mWorld;
+		template<typename T>
+		T* AddComponent()
+		{
+			return (T*)AddComponent(ActorComponent::ID<T>());
+		}
 
-	uint64 mInstanceID;
-	AABB mActorBounds;
+		AABB GetActorBounds();
 
-	std::vector<ActorComponent*> mComponents;
-	std::vector<ActorComponent*> mComponentsToAdd;
+		void SetActorFlags(EActorFlags aFlags);
+		void ResetFlags(EActorFlags aFlags);
+		bool IsFlagSet(EActorFlags aFlags);
 
-	uint32 mActorFlags;
-};
+	private:
+
+		void AddRequiredComponents(uint64 aID);
+		void RecalculateActorBounds();
+
+		bool mHasBeginPlayBeenCalled;
+		World* mWorld;
+
+		uint64 mInstanceID;
+		AABB mActorBounds;
+
+		std::vector<ActorComponent*> mComponents;
+		std::vector<ActorComponent*> mComponentsToAdd;
+
+		uint32 mActorFlags;
+	};
+}

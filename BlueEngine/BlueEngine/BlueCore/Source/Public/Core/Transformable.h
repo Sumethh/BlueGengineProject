@@ -11,108 +11,144 @@
 #include <vector>
 #include <glm/gtx/matrix_decompose.hpp>
 
-struct Transform
+namespace Blue
 {
-	Transform() : position(0, 0, 0), scale(1, 1, 1) {}
-	glm::vec3 position;
-	glm::vec3 scale;
-	glm::quat rotation;
-	glm::mat4 MakeMat4()
+	struct Transform
 	{
-		glm::mat4 mat;
-		mat = glm::translate(mat, position);
-		mat = glm::scale(mat, scale);
-		mat *= glm::mat4_cast(rotation);
-		return mat;
-	}
-	void FromMatrix(glm::mat4& aMat)
-	{
-		glm::vec3 skew;
-		glm::vec4 persepective;
-		glm::decompose(aMat, scale, rotation, position, skew, persepective);
-	}
-};
-
-class Transformable : ISerializable
-{
-	enum ETransformFlags
-	{
-		ELocalTransformDirty = BlueBit(0),
-		EWorldTransformDirty = BlueBit(1)
+		Transform() : position(0, 0, 0), scale(1, 1, 1) {}
+		glm::vec3 position;
+		glm::vec3 scale;
+		glm::quat rotation;
+		glm::mat4 MakeMat4()
+		{
+			glm::mat4 mat;
+			mat = glm::translate(mat, position);
+			mat = glm::scale(mat, scale);
+			mat *= glm::mat4_cast(rotation);
+			return mat;
+		}
+		void FromMatrix(glm::mat4& aMat)
+		{
+			glm::vec3 skew;
+			glm::vec4 persepective;
+			glm::decompose(aMat, scale, rotation, position, skew, persepective);
+		}
 	};
+
+	class Transformable : ISerializable
+	{
+		enum ETransformFlags
+		{
+			ELocalTransformDirty = BlueBit(0),
+			EWorldTransformDirty = BlueBit(1)
+		};
 	public:
-	Transformable();
-	~Transformable();
+		Transformable();
+		~Transformable();
 
-	virtual void OnSerialize(ArchiveObject* const aArchiveObject) const override;
-	virtual void OnDeserialize(ArchiveObject* const aArchiveObject) override;
+		virtual void OnSerialize(ArchiveObject* const aArchiveObject) const override;
+		virtual void OnDeserialize(ArchiveObject* const aArchiveObject) override;
 
-	Transform GetWorldSpaceTransform();
+		Transform GetWorldSpaceTransform();
 
-	//Returns Local space transform
-	inline Transform GetTransform()const { return mTransform; }
-	//Sets local space transform
-	inline void SetTransform(Transform& aTransform)
-	{
-		mTransform = aTransform;
-		SetLocalTransformDirtyFlag();
-		SetWorldTransformDirtyFlag();
-	}
-
-	inline glm::mat4 GetLocalSpaceMatrix()
-	{
-		if (IsLocalTransformDirty())
+		//Returns Local space transform
+		inline Transform GetTransform()const
 		{
-			CalculateLocalMatrix();
+			return mTransform;
+		}
+		//Sets local space transform
+		inline void SetTransform(Transform& aTransform)
+		{
+			mTransform = aTransform;
+			SetLocalTransformDirtyFlag();
+			SetWorldTransformDirtyFlag();
 		}
 
-		return mLocalMatrix;
-	}
-	inline glm::mat4 GetWorldMatrix()
-	{
-		if (!mParent)
+		inline glm::mat4 GetLocalSpaceMatrix()
 		{
-			//Local space is world space if there is no parent
-			return GetLocalSpaceMatrix();
-		}
-		else
-		{
-			if (IsWorldMatrixDirty())
+			if (IsLocalTransformDirty())
 			{
-				ResetWorldTransformDirtyFlag();
-				return  mWorldMatrix = mParent->GetWorldMatrix() * GetLocalSpaceMatrix();
+				CalculateLocalMatrix();
 			}
 
-			return mWorldMatrix;
+			return mLocalMatrix;
 		}
-	}
+		inline glm::mat4 GetWorldMatrix()
+		{
+			if (!mParent)
+			{
+				//Local space is world space if there is no parent
+				return GetLocalSpaceMatrix();
+			}
+			else
+			{
+				if (IsWorldMatrixDirty())
+				{
+					ResetWorldTransformDirtyFlag();
+					return  mWorldMatrix = mParent->GetWorldMatrix() * GetLocalSpaceMatrix();
+				}
 
-	void SetParent(Transformable* aComp);
-	inline Transformable* GetParent() { return mParent; }
-	inline std::vector<Transformable*>& GetChildren() { return mChildren; }
+				return mWorldMatrix;
+			}
+		}
 
-	inline bool IsLocalTransformDirty() const { return (mTransformFlags & ETransformFlags::ELocalTransformDirty) > 0; }
-	inline bool IsWorldMatrixDirty() const { return (mTransformFlags & ETransformFlags::EWorldTransformDirty) > 0; }
+		void SetParent(Transformable* aComp);
+		inline Transformable* GetParent()
+		{
+			return mParent;
+		}
+		inline std::vector<Transformable*>& GetChildren()
+		{
+			return mChildren;
+		}
 
-	inline glm::vec3 GetForwardVector() {return glm::normalize((mTransform.rotation) * glm::vec3(0.0f, 0.0f, 1.0f)); }
-	inline glm::vec3 GetRightVector()   {return glm::normalize((mTransform.rotation) * glm::vec3(1.0f, 0.0f, 0.0f));}
-	inline glm::vec3 GetUpVector()      {return glm::normalize((mTransform.rotation) * glm::vec3(0.0f, 1.0f, 0.0f)); }
+		inline bool IsLocalTransformDirty() const
+		{
+			return (mTransformFlags & ETransformFlags::ELocalTransformDirty) > 0;
+		}
+		inline bool IsWorldMatrixDirty() const
+		{
+			return (mTransformFlags & ETransformFlags::EWorldTransformDirty) > 0;
+		}
+
+		inline glm::vec3 GetForwardVector()
+		{
+			return glm::normalize((mTransform.rotation) * glm::vec3(0.0f, 0.0f, 1.0f));
+		}
+		inline glm::vec3 GetRightVector()
+		{
+			return glm::normalize((mTransform.rotation) * glm::vec3(1.0f, 0.0f, 0.0f));
+		}
+		inline glm::vec3 GetUpVector()
+		{
+			return glm::normalize((mTransform.rotation) * glm::vec3(0.0f, 1.0f, 0.0f));
+		}
 
 	private:
 
-	inline void ResetWorldTransformDirtyFlag() { mTransformFlags &= ~ETransformFlags::EWorldTransformDirty; }
-	inline void ResetLocalTransformDirtyFlag() { mTransformFlags &= ~ETransformFlags::ELocalTransformDirty; }
-	inline void SetLocalTransformDirtyFlag() { mTransformFlags |= ETransformFlags::ELocalTransformDirty; }
+		inline void ResetWorldTransformDirtyFlag()
+		{
+			mTransformFlags &= ~ETransformFlags::EWorldTransformDirty;
+		}
+		inline void ResetLocalTransformDirtyFlag()
+		{
+			mTransformFlags &= ~ETransformFlags::ELocalTransformDirty;
+		}
+		inline void SetLocalTransformDirtyFlag()
+		{
+			mTransformFlags |= ETransformFlags::ELocalTransformDirty;
+		}
 
-	void SetWorldTransformDirtyFlag();
-	void CalculateLocalMatrix();
+		void SetWorldTransformDirtyFlag();
+		void CalculateLocalMatrix();
 
-	Transformable* mParent;
-	std::vector<Transformable*> mChildren;
-	uint32 mTransformFlags;
+		Transformable* mParent;
+		std::vector<Transformable*> mChildren;
+		uint32 mTransformFlags;
 
-	Transform mTransform;
+		Transform mTransform;
 
-	glm::mat4 mLocalMatrix;
-	glm::mat4 mWorldMatrix;
-};
+		glm::mat4 mLocalMatrix;
+		glm::mat4 mWorldMatrix;
+	};
+}

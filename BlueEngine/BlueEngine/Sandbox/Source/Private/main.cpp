@@ -15,47 +15,47 @@
 #include <string>
 #include <Imgui/imgui.h>
 #include <thread>
-class TestApp : public Application
+class TestApp : public Blue::Application
 {
 public:
 	bool Run() override
 	{
 		CreateWindow("SandBox", 1280, 720);
 
-		Application::Run();
-		World myWorld;
+		Blue::Application::Run();
+		Blue::World myWorld;
 		mWindow->SetClearColor(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 
-		Actor* cube = myWorld.CreateActor();
-		cube->AddComponent<DynamicMeshComponent>();
+		Blue::Actor* cube = myWorld.CreateActor();
+		cube->AddComponent<Blue::DynamicMeshComponent>();
 		auto cubeTransform = cube->GetTransform();
 		cubeTransform.position = glm::vec3(0, 0, 0);
 		cube->SetTransform(cubeTransform);
 
-		Actor* camera = myWorld.CreateActor();
-		camera->AddComponent<CameraComponent>();
-		camera->AddComponent<FirstPersonComponent>();
+		Blue::Actor* camera = myWorld.CreateActor();
+		camera->AddComponent<Blue::CameraComponent>();
+		camera->AddComponent<Blue::FirstPersonComponent>();
 		auto trans = camera->GetTransform();
 		trans.position = glm::vec3(0, 0, -10);
 		camera->SetTransform(trans);
 
-		for (uint32 i = 0; i < 100000; ++i)
+		for (Blue::uint32 i = 0; i < 100000; ++i)
 		{
-			Actor* actor = myWorld.CreateActor();
-			actor->AddComponent<DynamicMeshComponent>();
-			Transform t;
+			Blue::Actor* actor = myWorld.CreateActor();
+			actor->AddComponent<Blue::DynamicMeshComponent>();
+			Blue::Transform t;
 			t.position.x = i % 100;
 			t.position.z = i / 100;
 			actor->SetTransform(t);
 		}
 
 		myWorld.BeginPlay();
-		AABB bounds = cube->GetActorBounds();
-		Timer dtTimer;
-		SceneRenderer sceneRenderer;
-		uint32 fps = 0;
-		uint32 lastFps = 0;
-		Timer fpsTimer;
+		Blue::AABB bounds = cube->GetActorBounds();
+		Blue::Timer dtTimer;
+		Blue::SceneRenderer sceneRenderer;
+		Blue::uint32 fps = 0;
+		Blue::uint32 lastFps = 0;
+		Blue::Timer fpsTimer;
 
 		while (!mWindow->IsCloseRequested())
 		{
@@ -75,19 +75,19 @@ public:
 			ImGui::Begin("Stats");
 			ImGui::Text("FPS: %d", lastFps * 2);
 
-			Timer updateTimer;
+			Blue::Timer updateTimer;
 			updateTimer.Start();
 			myWorld.Update(dt);
 
 			ImGui::Text("World::Update: %f ms", (float)updateTimer.IntervalMS());
 
-			Timer lateUpdateTimer;
+			Blue::Timer lateUpdateTimer;
 			lateUpdateTimer.Start();
 			myWorld.LateUpdate(dt);
 			float a = (float)lateUpdateTimer.IntervalMS();
 			ImGui::Text("World::LateUpdate: %f ms", a);
 
-			Timer scenePassTimer;
+			Blue::Timer scenePassTimer;
 			scenePassTimer.Start();
 			sceneRenderer.ConductScenePass(&myWorld);
 			ImGui::Text("Scene Pass: %f ms", (float)scenePassTimer.IntervalMS());
@@ -95,7 +95,7 @@ public:
 			ImGui::End();
 			ImGui::Render();
 			mWindow->Swap();
-			Input::Reset();
+			Blue::Input::Reset();
 		}
 
 		ShutDown();

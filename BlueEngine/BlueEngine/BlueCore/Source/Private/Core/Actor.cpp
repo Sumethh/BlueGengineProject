@@ -7,215 +7,218 @@
 
 #include <glm/glm.hpp>
 
-Actor::Actor(World* a_world) :
-mHasBeginPlayBeenCalled(0),
-						mWorld(a_world)
+namespace Blue
 {
-}
-
-Actor::Actor(const Actor&)
-{
-
-}
-
-Actor::Actor(Actor&&)
-{
-
-}
-
-Actor::~Actor()
-{
-
-}
-
-void Actor::OnConstruct()
-{
-}
-
-void Actor::BeginPlay()
-{
-	for (auto component = mComponentsToAdd.begin(); component != mComponentsToAdd.end();)
+	Actor::Actor(World* a_world) :
+		mHasBeginPlayBeenCalled(0),
+		mWorld(a_world)
 	{
-		mComponents.push_back(*component);
-		component = mComponentsToAdd.erase(component);
 	}
 
-	for (auto comp : mComponents)
+	Actor::Actor(const Actor&)
 	{
-		comp->BeginPlay();
+
 	}
 
-	mHasBeginPlayBeenCalled = true;
-}
-
-void Actor::Update(float aDt)
-{
-	for (auto comp = mComponentsToAdd.begin(); comp != mComponentsToAdd.end();)
+	Actor::Actor(Actor&&)
 	{
-		if (mHasBeginPlayBeenCalled)
+
+	}
+
+	Actor::~Actor()
+	{
+
+	}
+
+	void Actor::OnConstruct()
+	{
+	}
+
+	void Actor::BeginPlay()
+	{
+		for (auto component = mComponentsToAdd.begin(); component != mComponentsToAdd.end();)
 		{
-			(*comp)->BeginPlay();
+			mComponents.push_back(*component);
+			component = mComponentsToAdd.erase(component);
 		}
 
-		mComponents.push_back(*comp);
-		comp = mComponentsToAdd.erase(comp);
-	}
-
-	for (auto comp : mComponents)
-	{
-		comp->Update(aDt);
-	}
-}
-
-void Actor::LateUpdate(float aDt)
-{
-	for (auto comp : mComponents)
-	{
-		comp->LateUpdate(aDt);
-	}
-
-	if (IsFlagSet(EActorFlags::ActorBoundsDirty))
-	{
-		RecalculateActorBounds();
-		ResetFlags(EActorFlags::ActorBoundsDirty);
-	}
-}
-
-void Actor::OnSerialize(ArchiveObject* const aArchiveObject) const
-{
-	ArchiveObject components("Components");
-
-	for (uint32 i = 0; i < mComponents.size(); ++i)
-	{
-		ArchiveObject component(std::to_string(i));
-		mComponents[i]->OnSerialize(&component);
-		components.Archive(&component);
-	}
-
-	aArchiveObject->Archive(&components);
-}
-
-void Actor::OnDeserialize(ArchiveObject* const aArchiveObject)
-{
-
-}
-
-ActorComponent* Actor::GetComponent(uint64 aID)
-{
-	for (ActorComponent* component : mComponents)
-	{
-		if (component->ID() == aID)
+		for (auto comp : mComponents)
 		{
-			return component;
+			comp->BeginPlay();
+		}
+
+		mHasBeginPlayBeenCalled = true;
+	}
+
+	void Actor::Update(float aDt)
+	{
+		for (auto comp = mComponentsToAdd.begin(); comp != mComponentsToAdd.end();)
+		{
+			if (mHasBeginPlayBeenCalled)
+			{
+				(*comp)->BeginPlay();
+			}
+
+			mComponents.push_back(*comp);
+			comp = mComponentsToAdd.erase(comp);
+		}
+
+		for (auto comp : mComponents)
+		{
+			comp->Update(aDt);
 		}
 	}
 
-	for (ActorComponent* component : mComponentsToAdd)
+	void Actor::LateUpdate(float aDt)
 	{
-		if (component->ID() == aID)
+		for (auto comp : mComponents)
 		{
-			return component;
+			comp->LateUpdate(aDt);
+		}
+
+		if (IsFlagSet(EActorFlags::ActorBoundsDirty))
+		{
+			RecalculateActorBounds();
+			ResetFlags(EActorFlags::ActorBoundsDirty);
 		}
 	}
 
-	return nullptr;
-}
-
-std::vector<ActorComponent*> Actor::GetAllComponents(uint64 aID)
-{
-	std::vector<ActorComponent*> components;
-
-	for (ActorComponent* component : mComponents)
+	void Actor::OnSerialize(ArchiveObject* const aArchiveObject) const
 	{
-		if (component->ID() == aID)
+		ArchiveObject components("Components");
+
+		for (uint32 i = 0; i < mComponents.size(); ++i)
 		{
-			components.push_back(component);
+			ArchiveObject component(std::to_string(i));
+			mComponents[i]->OnSerialize(&component);
+			components.Archive(&component);
+		}
+
+		aArchiveObject->Archive(&components);
+	}
+
+	void Actor::OnDeserialize(ArchiveObject* const aArchiveObject)
+	{
+
+	}
+
+	ActorComponent* Actor::GetComponent(uint64 aID)
+	{
+		for (ActorComponent* component : mComponents)
+		{
+			if (component->ID() == aID)
+			{
+				return component;
+			}
+		}
+
+		for (ActorComponent* component : mComponentsToAdd)
+		{
+			if (component->ID() == aID)
+			{
+				return component;
+			}
+		}
+
+		return nullptr;
+	}
+
+	std::vector<ActorComponent*> Actor::GetAllComponents(uint64 aID)
+	{
+		std::vector<ActorComponent*> components;
+
+		for (ActorComponent* component : mComponents)
+		{
+			if (component->ID() == aID)
+			{
+				components.push_back(component);
+			}
+		}
+
+		for (ActorComponent* component : mComponentsToAdd)
+		{
+			if (component->ID() == aID)
+			{
+				components.push_back(component);
+			}
+		}
+
+		return components;
+	}
+
+	ActorComponent* Actor::AddComponent(uint64 aID)
+	{
+		AddRequiredComponents(aID);
+		ActorComponent* component = ActorComponent::Construct(aID, this);
+		mComponentsToAdd.push_back(component);
+		return component;
+	}
+
+	AABB Actor::GetActorBounds()
+	{
+		if (IsFlagSet(EActorFlags::ActorBoundsDirty))
+		{
+			RecalculateActorBounds();
+		}
+
+		return mActorBounds;
+	}
+
+	void Actor::SetActorFlags(EActorFlags aFlag)
+	{
+		mActorFlags |= (uint32)aFlag;
+	}
+
+	void Actor::ResetFlags(EActorFlags aFlags)
+	{
+		mActorFlags &= ~(uint32)aFlags;
+	}
+
+	bool Actor::IsFlagSet(EActorFlags aFlags)
+	{
+		return (mActorFlags & (uint32)aFlags) != 0;
+	}
+
+	void Actor::AddRequiredComponents(uint64 aID)
+	{
+		const std::vector<uint64>& requiredComps = ActorComponent::GetRequiredComponents(aID);
+
+		for (int i = 0; i < requiredComps.size(); ++i)
+		{
+			if (!GetComponent(requiredComps[i]))
+			{
+				AddComponent(requiredComps[i]);
+			}
 		}
 	}
 
-	for (ActorComponent* component : mComponentsToAdd)
+	void Actor::RecalculateActorBounds()
 	{
-		if (component->ID() == aID)
+		glm::vec3 maxPositions(std::numeric_limits<float>::min());
+		glm::vec3 minPositions(std::numeric_limits<float>::max());
+
+		for (sizeInt i = 0; i < mComponents.size(); ++i)
 		{
-			components.push_back(component);
-		}
-	}
+			AABB componentBox = mComponents[i]->GetComponentBounds();
 
-	return components;
-}
+			if (componentBox.IsZeroSized())
+			{
+				continue;
+			}
 
-ActorComponent* Actor::AddComponent(uint64 aID)
-{
-	AddRequiredComponents(aID);
-	ActorComponent* component = ActorComponent::Construct(aID, this);
-	mComponentsToAdd.push_back(component);
-	return component;
-}
+			glm::vec3 maxComponentPositions = componentBox.position + componentBox.halfExtents;
+			glm::vec3 minComponentPositions = componentBox.position - componentBox.halfExtents;
 
-AABB Actor::GetActorBounds()
-{
-	if (IsFlagSet(EActorFlags::ActorBoundsDirty))
-	{
-		RecalculateActorBounds();
-	}
+			maxPositions.x = glm::max(maxPositions.x, maxComponentPositions.x);
+			maxPositions.y = glm::max(maxPositions.y, maxComponentPositions.y);
+			maxPositions.z = glm::max(maxPositions.z, maxComponentPositions.z);
 
-	return mActorBounds;
-}
-
-void Actor::SetActorFlags(EActorFlags aFlag)
-{
-	mActorFlags |= (uint32)aFlag;
-}
-
-void Actor::ResetFlags(EActorFlags aFlags)
-{
-	mActorFlags &= ~(uint32)aFlags;
-}
-
-bool Actor::IsFlagSet(EActorFlags aFlags)
-{
-	return (mActorFlags & (uint32)aFlags) != 0;
-}
-
-void Actor::AddRequiredComponents(uint64 aID)
-{
-	const std::vector<uint64>& requiredComps = ActorComponent::GetRequiredComponents(aID);
-
-	for (int i = 0; i < requiredComps.size(); ++i)
-	{
-		if (!GetComponent(requiredComps[i]))
-		{
-			AddComponent(requiredComps[i]);
-		}
-	}
-}
-
-void Actor::RecalculateActorBounds()
-{
-	glm::vec3 maxPositions(std::numeric_limits<float>::min());
-	glm::vec3 minPositions(std::numeric_limits<float>::max());
-
-	for (sizeInt i = 0; i < mComponents.size(); ++i)
-	{
-		AABB componentBox = mComponents[i]->GetComponentBounds();
-
-		if (componentBox.IsZeroSized())
-		{
-			continue;
+			minPositions.x = glm::min(minPositions.x, minComponentPositions.x);
+			minPositions.y = glm::min(minPositions.y, minComponentPositions.y);
+			minPositions.z = glm::min(minPositions.z, minComponentPositions.z);
 		}
 
-		glm::vec3 maxComponentPositions = componentBox.position + componentBox.halfExtents;
-		glm::vec3 minComponentPositions = componentBox.position - componentBox.halfExtents;
-
-		maxPositions.x = glm::max(maxPositions.x, maxComponentPositions.x);
-		maxPositions.y = glm::max(maxPositions.y, maxComponentPositions.y);
-		maxPositions.z = glm::max(maxPositions.z, maxComponentPositions.z);
-
-		minPositions.x = glm::min(minPositions.x, minComponentPositions.x);
-		minPositions.y = glm::min(minPositions.y, minComponentPositions.y);
-		minPositions.z = glm::min(minPositions.z, minComponentPositions.z);
+		mActorBounds.halfExtents = (maxPositions - minPositions) / 2.0f;
+		mActorBounds.position = minPositions + mActorBounds.halfExtents + GetTransform().position;
 	}
-
-	mActorBounds.halfExtents = (maxPositions - minPositions) / 2.0f;
-	mActorBounds.position = minPositions + mActorBounds.halfExtents + GetTransform().position;
 }

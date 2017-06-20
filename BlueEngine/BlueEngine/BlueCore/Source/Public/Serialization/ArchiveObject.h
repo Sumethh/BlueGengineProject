@@ -6,38 +6,47 @@
 #include<glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-class ArchiveObject
+namespace Blue
 {
-	public:
-	ArchiveObject(std::string aName);
-	ArchiveObject(const ArchiveObject& aArchive);
-	ArchiveObject(const ArchiveObject&& aArchive);
-
-	void Archive(const char* aValName, const uint32 aValue);
-	void Archive(const char* aValName, const glm::vec3& aValue);
-	void Archive(const char* aValName, const glm::quat& aValue);
-	void Archive(const char* aValName, std::vector<uint32> aArray);
-	void Archive(const char* aValName, std::string aValue);
-	void Archive(ArchiveObject* aArchive);
-
-	template<typename T>
-	T Restore(const std::string aValue)
+	class ArchiveObject
 	{
-		return (T)mArchive[aValue];
-	}
+	public:
+		ArchiveObject(std::string aName);
+		ArchiveObject(const ArchiveObject& aArchive);
+		ArchiveObject(const ArchiveObject&& aArchive);
+
+		void Archive(const char* aValName, const uint32 aValue);
+		void Archive(const char* aValName, const glm::vec3& aValue);
+		void Archive(const char* aValName, const glm::quat& aValue);
+		void Archive(const char* aValName, std::vector<uint32> aArray);
+		void Archive(const char* aValName, std::string aValue);
+		void Archive(ArchiveObject* aArchive);
+
+		template<typename T>
+		T Restore(const std::string aValue)
+		{
+			return (T)mArchive[aValue];
+		}
 
 
-	nlohmann::json GetArc() { return mArchive; }
+		nlohmann::json GetArc()
+		{
+			return mArchive;
+		}
 
-	void WriteToFile(char* aDir, const char* aFileName);
-	void ReadFromFile(const char* aFilePath);
-	std::string str() { return mArchive.dump(0); }
+		void WriteToFile(char* aDir, const char* aFileName);
+		void ReadFromFile(const char* aFilePath);
+		std::string str()
+		{
+			return mArchive.dump(0);
+		}
 	private:
 
-	inline void AssertKeyIsUnique(const char* key) const
-	{
-		BlueAssert(mArchive.find(key) == mArchive.end());
-	}
-	std::string mName;
-	nlohmann::json mArchive;
-};
+		inline void AssertKeyIsUnique(const char* key) const
+		{
+			BlueAssert(mArchive.find(key) == mArchive.end());
+		}
+		std::string mName;
+		nlohmann::json mArchive;
+	};
+}

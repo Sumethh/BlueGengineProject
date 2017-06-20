@@ -4,75 +4,75 @@
 //#include <windows.h>
 #include <vector>
 
-std::vector<std::string> FindFileNamesInDir(char* dir)
+namespace Blue
 {
-	std::vector<std::string> foundFileNames;
-	//Windows::HANDLE hFind;
-	//Windows::WIN32_FIND_DATA data = {};
-	//hFind = FindFirstFile(dir, &data);
-
-	//while (hFind != INVALID_HANDLE_VALUE)
-	//{
-	//	foundFileNames.push_back(data.cFileName);
-
-	//	if (!FindNextFile(hFind, &data))
-	//	{
-	//		break;
-	//	}
-	//}
-
-	return foundFileNames;
-}
-
-
-
-
-void StencilManager::Init()
-{
-	mStencils.clear();
-	std::vector <std::string> fileNames = FindFileNamesInDir("Assets/Stencils/*");
-
-	for (auto t  = fileNames.begin(); t != fileNames.end();)
+	std::vector<std::string> FindFileNamesInDir(char* dir)
 	{
-		if ((*t).find(".stencil") == std::string::npos)
-		{
-			t = fileNames.erase(t);
-		}
-		else
-		{
-			t++;
-		}
+		std::vector<std::string> foundFileNames;
+		//Windows::HANDLE hFind;
+		//Windows::WIN32_FIND_DATA data = {};
+		//hFind = FindFirstFile(dir, &data);
+
+		//while (hFind != INVALID_HANDLE_VALUE)
+		//{
+		//	foundFileNames.push_back(data.cFileName);
+
+		//	if (!FindNextFile(hFind, &data))
+		//	{
+		//		break;
+		//	}
+		//}
+
+		return foundFileNames;
 	}
 
-	CreateStencils(fileNames);
-
-}
-
-Stencil* StencilManager::GetStencil(std::string stencilName)
-{
-	auto it = mStencils.find(stencilName);
-
-	if (it == mStencils.end())
+	void StencilManager::Init()
 	{
-		return nullptr;
+		mStencils.clear();
+		std::vector <std::string> fileNames = FindFileNamesInDir("Assets/Stencils/*");
+
+		for (auto t = fileNames.begin(); t != fileNames.end();)
+		{
+			if ((*t).find(".stencil") == std::string::npos)
+			{
+				t = fileNames.erase(t);
+			}
+			else
+			{
+				t++;
+			}
+		}
+
+		CreateStencils(fileNames);
+
 	}
 
-	return (*it).second;
-}
-
-void StencilManager::CreateStencils(std::vector<std::string>& fileNames)
-{
-	std::string path = "Assets/Stencils/";
-
-	for (auto fileName : fileNames)
+	Stencil* StencilManager::GetStencil(std::string stencilName)
 	{
-		std::string file = path + fileName;
-		ArchiveObject archive("lol");
-		archive.ReadFromFile(file.c_str());
-		Stencil* stencil = new Stencil("");
-		stencil->OnDeserialize(&archive);
-		mStencils[stencil->Name()] = stencil;
-		static std::string loadedMessage = "Loaded Stencil: ";
-		Log::Info(loadedMessage + stencil->Name());
+		auto it = mStencils.find(stencilName);
+
+		if (it == mStencils.end())
+		{
+			return nullptr;
+		}
+
+		return (*it).second;
+	}
+
+	void StencilManager::CreateStencils(std::vector<std::string>& fileNames)
+	{
+		std::string path = "Assets/Stencils/";
+
+		for (auto fileName : fileNames)
+		{
+			std::string file = path + fileName;
+			ArchiveObject archive("lol");
+			archive.ReadFromFile(file.c_str());
+			Stencil* stencil = new Stencil("");
+			stencil->OnDeserialize(&archive);
+			mStencils[stencil->Name()] = stencil;
+			static std::string loadedMessage = "Loaded Stencil: ";
+			Log::Info(loadedMessage + stencil->Name());
+		}
 	}
 }

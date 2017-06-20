@@ -1,7 +1,10 @@
 #pragma once
 #include "Core/Types.h"
 
-class OctTree
+namespace Blue
 {
+	class OctTree
+	{
 
-};
+	};
+}

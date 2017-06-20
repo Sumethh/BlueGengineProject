@@ -1,13 +1,15 @@
 #include "Serialization/ISerializable.h"
 
 
-ISerializable::ISerializable()
+namespace Blue
 {
+	ISerializable::ISerializable()
+	{
 
+	}
+
+	ISerializable::~ISerializable()
+	{
+
+	}
 }
-
-ISerializable::~ISerializable()
-{
-
-}
-

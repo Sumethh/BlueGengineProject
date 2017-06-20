@@ -3,31 +3,34 @@
 #include "Core/Defines.h"
 #include <vector>
 
-class UpdatableManager : NonCopyable
+namespace Blue
 {
+	class UpdatableManager : NonCopyable
+	{
 	public:
-	UpdatableManager();
-	virtual ~UpdatableManager()
-	{
-		auto it = std::find(sUpdateableManagers.begin(), sUpdateableManagers.end(), this);
-
-		if (it == sUpdateableManagers.end())
+		UpdatableManager();
+		virtual ~UpdatableManager()
 		{
-			BlueAssert(false);
+			auto it = std::find(sUpdateableManagers.begin(), sUpdateableManagers.end(), this);
+
+			if (it == sUpdateableManagers.end())
+			{
+				BlueAssert(false);
+			}
+
+			delete *it;
+			sUpdateableManagers.erase(it);
 		}
+		virtual void Update() = 0;
 
-		delete *it;
-		sUpdateableManagers.erase(it);
-	}
-	virtual void Update() = 0;
-
-	static void UpdateManagers()
-	{
-		for (auto manager : sUpdateableManagers)
+		static void UpdateManagers()
 		{
-			manager->Update();
+			for (auto manager : sUpdateableManagers)
+			{
+				manager->Update();
+			}
 		}
-	}
 	private:
-	static std::vector<UpdatableManager*> sUpdateableManagers;
-};
+		static std::vector<UpdatableManager*> sUpdateableManagers;
+	};
+}

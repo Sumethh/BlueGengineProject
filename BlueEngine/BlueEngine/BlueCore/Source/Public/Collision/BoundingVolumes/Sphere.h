@@ -3,8 +3,11 @@
 #include "Core/Defines.h"
 #include <glm/vec3.hpp>
 
-struct Sphere
+namespace Blue
 {
-	glm::vec3 position;
-	float radius;
-};
+	struct Sphere
+	{
+		glm::vec3 position;
+		float radius;
+	};
+}

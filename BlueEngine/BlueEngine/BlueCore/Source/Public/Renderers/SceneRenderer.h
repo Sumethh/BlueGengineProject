@@ -1,18 +1,22 @@
 #pragma once
 #include "ForwardRenderer.h"
-#include "DifferedRenderer.h"
-class Scene;
-class PrimitiveComponent;
-class SceneRenderer
+#include "DefferedRenderer.h"
+
+namespace Blue
 {
-public:
-	void ConductScenePass(Scene* aScene);
+	class Scene;
+	class PrimitiveComponent;
+	class SceneRenderer
+	{
+	public:
+		void ConductScenePass(Scene* aScene);
 
-private:
+	private:
 
-	void OpaquePass(Scene* aScene, std::vector < PrimitiveComponent*>& aOpaquePrimitives);
-	void TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives);
+		void OpaquePass(Scene* aScene, std::vector < PrimitiveComponent*>& aOpaquePrimitives);
+		void TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives);
 
-	ForwardRenderer mForwardRenderer;
-	DifferedRenderer mDeferedRenderer;
-};
+		ForwardRenderer mForwardRenderer;
+		DefferedRenderer mDefferedRenderer;
+	};
+}

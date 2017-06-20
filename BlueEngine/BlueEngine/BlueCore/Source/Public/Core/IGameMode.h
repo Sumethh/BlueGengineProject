@@ -2,7 +2,10 @@
 #include "BlueCore.h"
 
 
-class   IGameMode
+namespace Blue
 {
+	class IGameMode
+	{
 
-};
+	};
+}

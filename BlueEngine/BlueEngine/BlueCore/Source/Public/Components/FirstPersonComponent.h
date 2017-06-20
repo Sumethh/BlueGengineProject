@@ -3,17 +3,23 @@
 #include "ActorComponent.h"
 //Temporary Component;
 
-class FirstPersonComponent : public ActorComponent
+namespace Blue
 {
+	class FirstPersonComponent : public ActorComponent
+	{
 	public:
-	FirstPersonComponent(Actor* aOwner);
+		FirstPersonComponent(Actor* aOwner);
 
-	uint64 ID() { return CompileHash("FirstPersonComponent"); }
+		uint64 ID()
+		{
+			return CompileHash("FirstPersonComponent");
+		}
 
-	virtual void BeginPlay() override;
-	virtual void Update(float aDt) override;
+		virtual void BeginPlay() override;
+		virtual void Update(float aDt) override;
 
 	private:
-	float mLookSpeed = 20.0f;
-	float mMoveSpeed = 5.0f;
-};
+		float mLookSpeed = 20.0f;
+		float mMoveSpeed = 5.0f;
+	};
+}
