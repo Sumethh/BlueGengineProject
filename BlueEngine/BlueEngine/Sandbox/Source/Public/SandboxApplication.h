@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/Application.h"
+#include "BlueCore/Core/Application.h"
 
 class SandboxApplication : public Blue::Application
 {

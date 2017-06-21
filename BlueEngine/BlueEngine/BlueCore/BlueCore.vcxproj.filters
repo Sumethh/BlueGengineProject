@@ -15,378 +15,375 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Private\Components\ActorComponent.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Components\ActorComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Components\CameraComponent.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Components\CameraComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Components\DynamicMeshComponent.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Components\ComponentRegistery.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Components\FirstPersonComponent.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Components\DynamicMeshComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Components\MaterialComponent.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Components\FirstPersonComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\ApplicationWindow.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Components\MaterialComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\Game.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Components\PrimitiveComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\GizmoRenderer.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\Actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\Log.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\MeshLoader.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\ApplicationWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\World.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Graphics\Light.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\GizmoRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Graphics\Material.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\IGameMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Graphics\Mesh.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Graphics\Shader.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\MeshLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Graphics\Texture2D.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\GraphicsDevice\GraphicsDeviceFactory.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\Transformable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\GraphicsDevice\IGraphicsDevice.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Core\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\GraphicsDevice\OpenGlGraphicsDevice.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Extern\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\GraphicsDevice\UniformBuffer.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Extern\imgui_demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Input\Input.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Extern\imgui_draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Managers\DebugManager.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Extern\imgui_impl_glfw_gl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Memory\FixedMemoryManager.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Graphics\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Renderers\ForwardRenderer.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Graphics\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Serialization\Stencil\Stencil.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Graphics\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Serialization\ArchiveObject.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Graphics\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Serialization\ISerializable.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Graphics\Texture2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\SpatialPartitions\OctTree.cpp">
+    <ClCompile Include="Source\Private\BlueCore\GraphicsDevice\GraphicsDeviceFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Managers\StencilManager.cpp">
+    <ClCompile Include="Source\Private\BlueCore\GraphicsDevice\IGraphicsDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Managers\MaterialManager.cpp">
+    <ClCompile Include="Source\Private\BlueCore\GraphicsDevice\OpenGlGraphicsDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Managers\MeshManager.cpp">
+    <ClCompile Include="Source\Private\BlueCore\GraphicsDevice\UniformBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Managers\UpdateableManager.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\Actor.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Managers\DebugManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\Application.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Managers\IMemoryAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\IGameMode.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Managers\MaterialManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Managers\IMemoryAllocator.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Managers\MeshManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Components\ComponentRegistery.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Managers\StencilManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\Scene.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Managers\UpdateableManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Components\PrimitiveComponent.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Memory\BlockAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Renderers\SceneRenderer.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Renderers\DefferedRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Core\Transformable.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Renderers\ForwardRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Extern\imgui_impl_glfw_gl3.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Renderers\SceneRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Extern\imgui.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Serialization\Stencil\Stencil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Extern\imgui_demo.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Serialization\ArchiveObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Extern\imgui_draw.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Serialization\ISerializable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Memory\BlockAllocator.cpp">
+    <ClCompile Include="Source\Private\BlueCore\SpatialPartitions\OctTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Renderers\DefferedRenderer.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Systems\AsyncLoadingManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Systems\AsyncLoadingManager.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Systems\Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Systems\Console.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Systems\StencilCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\Systems\StencilCreator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Private\Systems\TaskSystem.cpp">
+    <ClCompile Include="Source\Private\BlueCore\Systems\TaskSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Public\Collision\BoundingVolumes\AABB.h">
+    <ClInclude Include="Source\Public\BlueCore\Collision\BoundingVolumes\AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Collision\BoundingVolumes\OBB.h">
+    <ClInclude Include="Source\Public\BlueCore\Collision\BoundingVolumes\OBB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Collision\BoundingVolumes\Sphere.h">
+    <ClInclude Include="Source\Public\BlueCore\Collision\BoundingVolumes\Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Collision\CollisionTests.h">
+    <ClInclude Include="Source\Public\BlueCore\Collision\CollisionTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Components\ActorComponent.h">
+    <ClInclude Include="Source\Public\BlueCore\Components\ActorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Components\CameraComponent.h">
+    <ClInclude Include="Source\Public\BlueCore\Components\CameraComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Components\ComponentTypes.h">
+    <ClInclude Include="Source\Public\BlueCore\Components\ComponentRegistery.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Components\DynamicMeshComponent.h">
+    <ClInclude Include="Source\Public\BlueCore\Components\ComponentTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Components\FirstPersonComponent.h">
+    <ClInclude Include="Source\Public\BlueCore\Components\DynamicMeshComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Components\MaterialComponent.h">
+    <ClInclude Include="Source\Public\BlueCore\Components\FirstPersonComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Defines.h">
+    <ClInclude Include="Source\Public\BlueCore\Components\MaterialComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Delegate.h">
+    <ClInclude Include="Source\Public\BlueCore\Components\PrimitiveComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Game.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Actor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\GlmTransformationInclude.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Log.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\ApplicationWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\NonCopyable.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Defines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Rect.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Delegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Types.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Vertex.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\GlmTransformationInclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\World.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\IDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Graphics\Light.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\IGameMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Graphics\Material.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Graphics\MeshLoader.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\NonCopyable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Graphics\Shader.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Rect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Graphics\Texture2D.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\ResourceList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\GraphicsDevice\GraphicsDeviceFactory.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\GraphicsDevice\IGraphicsDevice.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\GraphicsDevice\OpenGlGraphicsDevice.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Transformable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Helpers\MathHelpers.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Helpers\StringHelpers.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Input\Input.h">
+    <ClInclude Include="Source\Public\BlueCore\Core\World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Json\json.hpp">
+    <ClInclude Include="Source\Public\BlueCore\Graphics\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Managers\AsyncLoadingMeshTracker.h">
+    <ClInclude Include="Source\Public\BlueCore\Graphics\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Managers\DebugManager.h">
+    <ClInclude Include="Source\Public\BlueCore\Graphics\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Renderers\ForwardRenderer.h">
+    <ClInclude Include="Source\Public\BlueCore\Graphics\MeshLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Renderers\GizmoRenderer.h">
+    <ClInclude Include="Source\Public\BlueCore\Graphics\RenderLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Serialization\Stencil\Stencil.h">
+    <ClInclude Include="Source\Public\BlueCore\Graphics\RenderQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Serialization\ArchiveObject.h">
+    <ClInclude Include="Source\Public\BlueCore\Graphics\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Serialization\ISerializable.h">
+    <ClInclude Include="Source\Public\BlueCore\Graphics\Texture2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\SpatialPartitions\OctTree.h">
+    <ClInclude Include="Source\Public\BlueCore\Graphics\ViewPort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Systems\Console.h">
+    <ClInclude Include="Source\Public\BlueCore\GraphicsDevice\DataDescriptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Systems\StencilCreator.h">
+    <ClInclude Include="Source\Public\BlueCore\GraphicsDevice\GraphicsDeviceFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Systems\TaskSystem.h">
+    <ClInclude Include="Source\Public\BlueCore\GraphicsDevice\IGraphicsDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Managers\StencilManager.h">
+    <ClInclude Include="Source\Public\BlueCore\GraphicsDevice\OpenGlGraphicsDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Graphics\Mesh.h">
+    <ClInclude Include="Source\Public\BlueCore\Hashing\CompileTimeHashing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Managers\MaterialManager.h">
+    <ClInclude Include="Source\Public\BlueCore\Helpers\MathHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Managers\MeshManager.h">
+    <ClInclude Include="Source\Public\BlueCore\Helpers\StringHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Managers\UpdateableManager.h">
+    <ClInclude Include="Source\Public\BlueCore\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\GraphicsDevice\DataDescriptor.h">
+    <ClInclude Include="Source\Public\BlueCore\Json\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Timer.h">
+    <ClInclude Include="Source\Public\BlueCore\Managers\ASyncLoadingManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\ApplicationWindow.h">
+    <ClInclude Include="Source\Public\BlueCore\Managers\AsyncLoadingMeshTracker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Managers\ASyncLoadingManager.h">
+    <ClInclude Include="Source\Public\BlueCore\Managers\DebugManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\ResourceList.h">
+    <ClInclude Include="Source\Public\BlueCore\Managers\MaterialManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Actor.h">
+    <ClInclude Include="Source\Public\BlueCore\Managers\MeshManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Application.h">
+    <ClInclude Include="Source\Public\BlueCore\Managers\StencilManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\IGameMode.h">
+    <ClInclude Include="Source\Public\BlueCore\Managers\UpdateableManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\BlueCore.h">
+    <ClInclude Include="Source\Public\BlueCore\Memory\BlockAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Hashing\CompileTimeHashing.h">
+    <ClInclude Include="Source\Public\BlueCore\Memory\IMemoryAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Memory\IMemoryAllocator.h">
+    <ClInclude Include="Source\Public\BlueCore\Messaging\IMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Messaging\IMessage.h">
+    <ClInclude Include="Source\Public\BlueCore\Messaging\WindowResizeMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\IDelegate.h">
+    <ClInclude Include="Source\Public\BlueCore\Renderers\DefferedRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Graphics\RenderLayer.h">
+    <ClInclude Include="Source\Public\BlueCore\Renderers\ForwardRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Graphics\RenderQueue.h">
+    <ClInclude Include="Source\Public\BlueCore\Renderers\GizmoRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Scene.h">
+    <ClInclude Include="Source\Public\BlueCore\Renderers\IRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Components\PrimitiveComponent.h">
+    <ClInclude Include="Source\Public\BlueCore\Renderers\SceneRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Components\ComponentRegistery.h">
+    <ClInclude Include="Source\Public\BlueCore\Serialization\Stencil\Stencil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Graphics\ViewPort.h">
+    <ClInclude Include="Source\Public\BlueCore\Serialization\ArchiveObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Renderers\SceneRenderer.h">
+    <ClInclude Include="Source\Public\BlueCore\Serialization\ISerializable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Renderers\IRenderer.h">
+    <ClInclude Include="Source\Public\BlueCore\SpatialPartitions\OctTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Core\Transformable.h">
+    <ClInclude Include="Source\Public\BlueCore\Systems\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Messaging\WindowResizeMessage.h">
+    <ClInclude Include="Source\Public\BlueCore\Systems\StencilCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Memory\BlockAllocator.h">
+    <ClInclude Include="Source\Public\BlueCore\Systems\TaskSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\Renderers\DefferedRenderer.h">
+    <ClInclude Include="Source\Public\BlueCore\BlueCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
