@@ -1,6 +1,7 @@
 #include "BlueCore/Components/ActorComponent.h"
 #include "BlueCore/Serialization/ArchiveObject.h"
 #include "BlueCore/Core/Actor.h"
+#include "BlueCore/Managers/MemoryManager.h"
 
 namespace Blue
 {
@@ -13,7 +14,8 @@ namespace Blue
 
 	ActorComponent::~ActorComponent()
 	{
-
+		BlockAllocator& smallAllocator = MemoryManager::GI()->GetSmallBlockAllocator();
+		smallAllocator.Deallocate(this, mSize);
 	}
 
 	void ActorComponent::BeginPlay()

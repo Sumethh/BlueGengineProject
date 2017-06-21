@@ -2,6 +2,7 @@
 #include "ComponentTypes.h"
 #include "../Serialization/ISerializable.h"
 #include "../Collision/BoundingVolumes/AABB.h"
+
 #include "ComponentRegistery.h"
 
 namespace Blue
@@ -29,12 +30,16 @@ namespace Blue
 		}
 		static ActorComponent* Construct(uint64 aID, Actor* aOwner)
 		{
-			return ComponentRegistery::GI()->Construct(aID, aOwner);
+			ActorComponent* component = ComponentRegistery::GI()->Construct(aID, aOwner);
+			component->mSize = ComponentRegistery::GI()->GetComponentInfo(aID).componentSize;
+			return component;
 		}
 
 		template <typename T>
 		static const std::vector<uint64>& GetRequiredComponents()
 		{
+			ActorComponent* component = ComponentRegistery::GI()->Construct<T>(aOwner);
+			component->mSize = ComponentRegistery::GI()->GetComponentInfo<T>().componentSize;
 			return ComponentRegistery::GI()->GetComponentInfo<T>().requiredComponents;
 		}
 
@@ -71,6 +76,7 @@ namespace Blue
 		{
 			return ComponentRegistery::GI()->GetComponentInfo<T>().componentHash;
 		}
+
 		virtual uint64 ID() = 0;
 
 	protected:
@@ -91,5 +97,6 @@ namespace Blue
 		uint64 mInstanceID;
 		Actor* mOwner;
 		uint32 mFlags;
+		uint16 mSize;
 	};
 }

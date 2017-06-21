@@ -25,15 +25,15 @@ namespace Blue
 		Actor(World* a_world);
 		Actor(const Actor&);
 		Actor(Actor&&);
-		virtual ~Actor();
+		~Actor();
 
-		virtual void OnConstruct();
-		virtual void BeginPlay();
-		virtual void Update(float aDt);
-		virtual void LateUpdate(float aDt);
+		void OnConstruct();
+		void BeginPlay();
+		void Update(float aDt);
+		void LateUpdate(float aDt);
 
-		virtual void OnSerialize(ArchiveObject* const aArchiveObject) const override;
-		virtual void OnDeserialize(ArchiveObject* const aArchiveObject);
+		void OnSerialize(ArchiveObject* const aArchiveObject) const override;
+		void OnDeserialize(ArchiveObject* const aArchiveObject) override;
 		inline World* GetWorld()
 		{
 			return mWorld;
@@ -61,6 +61,10 @@ namespace Blue
 		void ResetFlags(EActorFlags aFlags);
 		bool IsFlagSet(EActorFlags aFlags);
 
+		const uint32 GetAllocationIndex()
+		{
+			return mAllocationIndex;
+		}
 	private:
 
 		void AddRequiredComponents(uint64 aID);
@@ -70,11 +74,18 @@ namespace Blue
 		World* mWorld;
 
 		uint64 mInstanceID;
+		uint32 mAllocationIndex;
 		AABB mActorBounds;
 
 		std::vector<ActorComponent*> mComponents;
 		std::vector<ActorComponent*> mComponentsToAdd;
 
 		uint32 mActorFlags;
+
+		friend class ActorAllocator;
+		void SetAllocationIndex(uint32 aNewIndex)
+		{
+			mAllocationIndex = aNewIndex;
+		}
 	};
 }

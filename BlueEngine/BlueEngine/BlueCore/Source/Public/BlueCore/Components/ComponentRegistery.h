@@ -1,7 +1,8 @@
 #pragma once
 #include "BlueCore/BlueCore.h"
 #include "BlueCore/Hashing/CompileTimeHashing.h"
-
+#include "BlueCore/Core/Log.h"
+#include "BlueCore/Managers/MemoryManager.h"
 #include <map>
 #include <vector>
 
@@ -13,17 +14,15 @@ namespace Blue
 	template<typename T>
 	ActorComponent*  __ConstructComponent(Actor* aOwner)
 	{
-		return new T(aOwner);
+		BlockAllocator& smallAllocator = MemoryManager::GI()->GetSmallBlockAllocator();
+		return new (smallAllocator.Allocate(sizeof(T), 0)) T(aOwner);
 	}
 
 	struct RegisteredComponentInfo
 	{
-		RegisteredComponentInfo& AddRequiredComponent(uint64 aHash)
-		{
-			requiredComponents.push_back(aHash);
-			return *this;
-		}
+		RegisteredComponentInfo& AddRequiredComponent(uint64 aHash);
 		uint64 componentHash;
+		size_t componentSize;
 		ActorComponent* (*Construct)(Actor*);
 		std::vector<uint64> requiredComponents;
 	};
@@ -42,6 +41,8 @@ namespace Blue
 			mRegisteryMap.emplace(aHash, info);
 			info.Construct = &__ConstructComponent<T>;
 			info.componentHash = aHash;
+			info.componentSize = sizeof(T);
+			Blue::Log::Info("Registering Component with ID: " + std::to_string(aHash) + " Size: " + std::to_string(sizeof(T)));
 			return info;
 		}
 

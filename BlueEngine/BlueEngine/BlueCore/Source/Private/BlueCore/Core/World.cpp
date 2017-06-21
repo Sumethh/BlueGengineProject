@@ -22,6 +22,9 @@ namespace Blue
 	{
 		Log::Info("World Constructed");
 		Console::AddCommand("ReloadStencils", std::bind(&World::CommandReloadStencils, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		Log::Info(std::to_string(sizeof(Actor)));
+		Log::Info(std::to_string(sizeof(glm::mat4)));
+		Log::Info(std::to_string(sizeof(std::vector<int*>)));
 	}
 
 	World::~World()
@@ -90,8 +93,25 @@ namespace Blue
 
 	Actor* World::CreateActor()
 	{
-		Actor* actor = new Actor(this);
-		mActors.push_back(actor);
+		Actor* actor = mActorAllocator.AllocateActor(this);
+		int32 index = actor->GetAllocationIndex();
+		if (mActors.size() > index)
+		{
+			int32 replacingIndex = mActors[index]->GetAllocationIndex();
+			assert(replacingIndex != index);
+			if (replacingIndex > index)
+			{
+				std::vector<Actor*>::iterator location = mActors.begin() + index;
+				mActors.insert(location, actor);
+			}
+			else
+			{
+				std::vector<Actor*>::iterator location = mActors.begin() + index + 1;
+				mActors.insert(location, actor);
+			}
+		}
+		else
+			mActors.emplace_back(actor);
 		return actor;
 	}
 

@@ -14,6 +14,7 @@
 
 #define BlueStaticAssert(condition) static_assert(condition, "");
 
+
 #define InvalidDefaultCase default:{assert(false);break;}
 #define InvalidDefaultCaseExtraStep(extraStep) default:{extraStep;assert(false);break;}
 #if 1

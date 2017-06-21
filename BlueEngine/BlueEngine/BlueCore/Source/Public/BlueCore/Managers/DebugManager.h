@@ -20,7 +20,7 @@ namespace Blue
 
 	struct BoolDebugOptionType : public DebugOptionDefenition
 	{
-		bool value;
+		bool* value;
 	};
 
 	class DebugManager : public UpdatableManager

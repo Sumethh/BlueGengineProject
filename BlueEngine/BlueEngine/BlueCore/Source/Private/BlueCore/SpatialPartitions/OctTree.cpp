@@ -1,4 +1,4 @@
-#include "SpatialPartitions/OctTree.h"
+#include "BlueCore/SpatialPartitions/OctTree.h"
 
 namespace Blue
 {

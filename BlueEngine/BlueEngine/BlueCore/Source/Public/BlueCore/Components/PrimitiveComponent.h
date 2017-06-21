@@ -13,7 +13,7 @@ namespace Blue
 	{
 	public:
 		PrimitiveComponent(Actor* aOwner);
-		~PrimitiveComponent();
+		virtual ~PrimitiveComponent();
 
 
 		Material* GetMaterial();

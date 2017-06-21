@@ -148,7 +148,13 @@ namespace Blue
 
 	ActorComponent* Actor::AddComponent(uint64 aID)
 	{
-		AddRequiredComponents(aID);
+		const std::vector<uint64>& requiredComponents = ActorComponent::GetRequiredComponents(aID);
+		ComponentRegistery* componentRegistery = ComponentRegistery::GI();
+
+		for (const uint64& compHash : requiredComponents)
+		{
+			mComponents.emplace_back(componentRegistery->Construct(compHash, this));
+		}
 		ActorComponent* component = ActorComponent::Construct(aID, this);
 		mComponentsToAdd.push_back(component);
 		return component;

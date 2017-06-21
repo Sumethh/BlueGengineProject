@@ -1,8 +1,9 @@
 #pragma once
 #include "Types.h"
-#include <vector>
 #include "BlueCore/Serialization/ArchiveObject.h"
 #include "Scene.h"
+#include "ActorAllocator.h"
+#include <vector>
 
 namespace Blue
 {
@@ -11,7 +12,7 @@ namespace Blue
 	class GizmoRenderer;
 	class Stencil;
 
-	class   World : public Scene
+	class World : public Scene
 	{
 	public:
 
@@ -32,5 +33,6 @@ namespace Blue
 
 		bool mHasBeginPlayBeenCalled;
 		std::vector<Actor*> mActors;
+		ActorAllocator mActorAllocator;
 	};
 }

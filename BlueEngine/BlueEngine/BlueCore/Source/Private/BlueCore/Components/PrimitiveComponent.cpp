@@ -9,7 +9,8 @@ namespace Blue
 {
 	PrimitiveComponent::PrimitiveComponent(Actor* aOwner) : ActorComponent(aOwner),
 		mFullScreenLayer(EFullScreenLayer::Game),
-		mViewportLayer(EViewportLayer::World)
+		mViewportLayer(EViewportLayer::World),
+		mMaterialComponent(nullptr)
 	{
 		GetOwner()->GetWorld()->RegisterPrimitiveComponent(this);
 		SetParent(aOwner);
@@ -20,6 +21,7 @@ namespace Blue
 		Actor* owner = GetOwner();
 		Scene* scene = (Scene*)owner->GetWorld();
 		scene->DeregisterPimitiveComponent(this);
+		mMaterialComponent = nullptr;
 	}
 
 	Material* PrimitiveComponent::GetMaterial()

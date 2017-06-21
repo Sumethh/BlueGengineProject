@@ -12,6 +12,6 @@ namespace Blue
 
 	MaterialComponent::~MaterialComponent()
 	{
-
+		mMaterial = nullptr;
 	}
 }

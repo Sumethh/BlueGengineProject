@@ -182,6 +182,7 @@
     <ClCompile Include="Source\Private\BlueCore\Components\DynamicMeshComponent.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Components\FirstPersonComponent.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Components\MaterialComponent.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Core\ActorAllocator.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Core\Transformable.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Core\Application.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Core\ApplicationWindow.cpp" />
@@ -196,6 +197,7 @@
     <ClCompile Include="Source\Private\BlueCore\Extern\imgui_draw.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Extern\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\IMemoryAllocator.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Managers\MemoryManager.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\UpdateableManager.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Core\World.cpp" />
     <ClCompile Include="Source\Private\BlueCore\GraphicsDevice\GraphicsDeviceFactory.cpp" />
@@ -240,6 +242,7 @@
     <ClInclude Include="Source\Public\BlueCore\Components\DynamicMeshComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\Components\FirstPersonComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\Components\MaterialComponent.h" />
+    <ClInclude Include="Source\Public\BlueCore\Core\ActorAllocator.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Transformable.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Application.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\ApplicationWindow.h" />
@@ -253,7 +256,8 @@
     <ClInclude Include="Source\Public\BlueCore\Graphics\RenderLayer.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\RenderQueue.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\ViewPort.h" />
-    <ClInclude Include="Source\Public\BlueCore\Memory\BlockAllocator.h" />
+    <ClInclude Include="Source\Public\BlueCore\Managers\MemoryManager.h" />
+    <ClInclude Include="Source\Public\BlueCore\Memory\SmallBlockAllocator.h" />
     <ClInclude Include="Source\Public\BlueCore\Messaging\IMessage.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\ResourceList.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Timer.h" />

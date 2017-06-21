@@ -1,6 +1,6 @@
 #include "BlueCore/Managers/DebugManager.h"
 #include "BlueCore/Input/Input.h"
-
+#include <Imgui/imgui.h>
 #include "BlueCore/Core/Log.h"
 #include <cstring>
 
@@ -42,7 +42,7 @@ namespace Blue
 		if (mOpen)
 		{
 
-			//if (//ImGui::Begin("Debug Options", &mOpen, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse))
+			if (ImGui::Begin("Debug Options", &mOpen, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse))
 			{
 
 				for (uint32 i = 0; i < mRegisteredOptions.size(); ++i)
@@ -51,7 +51,7 @@ namespace Blue
 				}
 			}
 
-			//ImGui::End();
+			ImGui::End();
 		}
 
 	}

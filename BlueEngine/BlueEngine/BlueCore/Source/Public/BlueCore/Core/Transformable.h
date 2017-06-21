@@ -44,7 +44,7 @@ namespace Blue
 		};
 	public:
 		Transformable();
-		~Transformable();
+		virtual ~Transformable() override;
 
 		virtual void OnSerialize(ArchiveObject* const aArchiveObject) const override;
 		virtual void OnDeserialize(ArchiveObject* const aArchiveObject) override;

@@ -8,7 +8,7 @@
 
 namespace Blue
 {
-#define LOG_TO_STANDARD_CONSOLE  0
+#define LOG_TO_STANDARD_CONSOLE  1
 
 	moodycamel::ConcurrentQueue<std::string> sStringsToWriteToFile;
 

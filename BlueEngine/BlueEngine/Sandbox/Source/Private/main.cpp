@@ -9,6 +9,8 @@
 #include "BlueCore/Core/World.h"
 #include "BlueCore/Core/Actor.h"
 #include "BlueCore/Renderers/SceneRenderer.h"
+#include "BlueCore/Managers/MemoryManager.h"
+#include "BlueCore/Managers/DebugManager.h"
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -20,7 +22,7 @@ class TestApp : public Blue::Application
 public:
 	bool Run() override
 	{
-		CreateWindow("SandBox", 1280, 720);
+		CreateWindow("SandBox", 1920, 1080);
 
 		Blue::Application::Run();
 		Blue::World myWorld;
@@ -39,16 +41,20 @@ public:
 		trans.position = glm::vec3(0, 0, -10);
 		camera->SetTransform(trans);
 
-		for (Blue::uint32 i = 0; i < 100000; ++i)
+		Blue::Timer allocTimer;
+		allocTimer.Start();
+		for (Blue::uint32 i = 0; i < 1000; ++i)
 		{
+			break;
 			Blue::Actor* actor = myWorld.CreateActor();
 			actor->AddComponent<Blue::DynamicMeshComponent>();
 			Blue::Transform t;
-			t.position.x = i % 100;
-			t.position.z = i / 100;
+			t.position.x = (i % 100) * 2  ;
+			t.position.z = (i / 100) * 2  ;
 			actor->SetTransform(t);
 		}
-
+		double ms = allocTimer.IntervalMS();
+		Blue::Log::Info("allocation took: " + std::to_string(ms) + "ms");
 		myWorld.BeginPlay();
 		Blue::AABB bounds = cube->GetActorBounds();
 		Blue::Timer dtTimer;
@@ -56,7 +62,7 @@ public:
 		Blue::uint32 fps = 0;
 		Blue::uint32 lastFps = 0;
 		Blue::Timer fpsTimer;
-
+		Blue::DebugManager::GI();
 		while (!mWindow->IsCloseRequested())
 		{
 			fps++;
@@ -91,6 +97,13 @@ public:
 			scenePassTimer.Start();
 			sceneRenderer.ConductScenePass(&myWorld);
 			ImGui::Text("Scene Pass: %f ms", (float)scenePassTimer.IntervalMS());
+
+			Blue::BlockAllocator& largeAllocator = Blue::MemoryManager::GI()->GetLargeBlockAllocator();
+			Blue::BlockAllocator& smallAllocator = Blue::MemoryManager::GI()->GetSmallBlockAllocator();
+
+			ImGui::Text("Large Block Memory Used: %d, Num Allocations %d", largeAllocator.UsedMemory(), largeAllocator.NumAllocations());
+			ImGui::Text("Small Block Memory Used: %d, Num Allocations %d", smallAllocator.UsedMemory(), smallAllocator.NumAllocations());
+
 
 			ImGui::End();
 			ImGui::Render();

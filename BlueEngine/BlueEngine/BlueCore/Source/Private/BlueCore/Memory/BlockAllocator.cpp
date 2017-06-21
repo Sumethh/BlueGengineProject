@@ -3,6 +3,7 @@
 #include "BlueCore/Memory/BlockAllocator.h"
 #include <new>
 
+
 #define DEBUG_FREED_MEMORY 0xfdfd
 #define DEBUG_ALLOCATED_MEMORY 0xacac
 #define DEBUG_USED_MEMORY 0x0000
@@ -10,33 +11,7 @@ namespace Blue
 {
 
 
-	const int32 BlockAllocator::BlockSizesCount;
-	const int32 BlockAllocator::PageSize;
-
-
-	const int32 BlockAllocator::BlockSizes[BlockSizesCount] =
-	{
-		32,  // 0
-		64,  // 1
-		96,  // 2
-		128, // 3
-		160, // 4
-		192, // 5,
-		224, // 6
-		256, // 7
-		320, // 8
-		384, // 9
-		448, // 10
-		512, // 11
-		576, // 12
-		640, // 13
-		704, // 14
-		768, // 15
-		832, // 16
-		896, // 17
-		960, // 18
-		1024,// 19
-	};
+	const int32 BlockAllocator::MaxBlockSizesCount;
 
 	struct Page
 	{
@@ -51,8 +26,13 @@ namespace Blue
 		Block* next;
 	};
 
-	BlockAllocator::BlockAllocator() : IMemoryAllocator(), mFirstPage(nullptr)
+	BlockAllocator::BlockAllocator(const int32 aPageSize, const int32* aBlockSizes, const int32 aBlockSizesCount) : IMemoryAllocator(), mFirstPage(nullptr), mPageSize(aPageSize), mBlockSizesCount(aBlockSizesCount)
 	{
+		BlueAssert(aBlockSizesCount <= MaxBlockSizesCount);
+		for (int32 i = 0; i < mBlockSizesCount; ++i)
+		{
+			mBlockSizes[i] = aBlockSizes[i];
+		}
 		AllocateNewPage();
 	}
 
@@ -68,21 +48,24 @@ namespace Blue
 		if (aSize == 0)
 			return nullptr;
 
-		uint32 index = BlockSizesCount;
+		uint32 index = mBlockSizesCount;
 		uint32 blockSize = 0;
-		for (uint32 i = 0; i < BlockSizesCount; ++i)
+		for (uint32 i = 0; i < mBlockSizesCount; ++i)
 		{
-			if (BlockSizes[i] > aSize + sizeof(Block))
+			if (mBlockSizes[i] > aSize + sizeof(Block))
 			{
-				blockSize = BlockSizes[i];
+				blockSize = mBlockSizes[i];
 				index = i;
+				break;
 			}
 		}
-		if (index == BlockSizesCount)
+
+		if (index == mBlockSizesCount)
 		{
 			Log::Error("Could not allocate size as there is no valid block size. Tried to allocate Size: " + std::to_string(aSize));
 			return nullptr;
 		}
+
 		++mNumAllocations;
 		mUsedMemory += blockSize;
 
@@ -105,7 +88,12 @@ namespace Blue
 			{
 				break;
 			}
-			currentPage = currentPage->next;
+			if (currentPage->next)
+				currentPage = currentPage->next;
+			else
+			{
+				currentPage->next = AllocateNewPage();
+			}
 		}
 
 		ubyte* memory = static_cast<ubyte*>(currentPage->start) + currentPage->bytesUsed;
@@ -130,21 +118,22 @@ namespace Blue
 
 		--mNumAllocations;
 
-		uint32 index = BlockSizesCount;
+		uint32 index = mBlockSizesCount;
 		uint32 blockSize = 0;
 
-		for (uint32 i = 0; i < BlockSizesCount; ++i)
+		for (uint32 i = 0; i < mBlockSizesCount; ++i)
 		{
-			if (BlockSizes[i] > aSize + sizeof(Block))
+			if (mBlockSizes[i] > aSize + sizeof(Block))
 			{
-				blockSize = BlockSizes[i];
+				blockSize = mBlockSizes[i];
 				index = i;
+				break;
 			}
 		}
 
 		mUsedMemory -= blockSize;
 
-		if (index == BlockSizesCount)
+		if (index == mBlockSizesCount)
 		{
 			Log::Error("Could not deallocate size as there is no valid block size. Tried to allocate Size: " + std::to_string(aSize));
 			return;
@@ -154,6 +143,7 @@ namespace Blue
 		Block* block = reinterpret_cast<Block*>(memory - sizeof(Block));
 
 #ifdef _DEBUG
+		Log::Info("Dealllocating" + std::to_string(aSize) + " block");
 		memset(memory + sizeof(Block), DEBUG_FREED_MEMORY, blockSize);
 #endif
 
@@ -186,11 +176,11 @@ namespace Blue
 
 	Page* BlockAllocator::AllocateNewPage()
 	{
-		ubyte* memory = static_cast<ubyte*>(malloc(PageSize));
+		ubyte* memory = static_cast<ubyte*>(malloc(mPageSize));
 		Page* newPage = reinterpret_cast<Page*>(memory);
 
-		newPage->pageSize = PageSize;
-		newPage->bytesFree = PageSize - sizeof(Page);
+		newPage->pageSize = mPageSize;
+		newPage->bytesFree = mPageSize - sizeof(Page);
 		newPage->bytesUsed = sizeof(Page);
 		newPage->next = nullptr;
 		newPage->start = memory + sizeof(Page);
@@ -199,15 +189,9 @@ namespace Blue
 		{
 			mFirstPage = newPage;
 		}
-		else
-		{
-			mLastPage->next = newPage;
-			mLastPage = newPage;
-		}
 #ifdef _DEBUG
-		memset(newPage->start, DEBUG_ALLOCATED_MEMORY, PageSize - sizeof(Page));
+		memset(newPage->start, DEBUG_ALLOCATED_MEMORY, mPageSize - sizeof(Page));
 #endif
 		return newPage;
 	}
-
 }

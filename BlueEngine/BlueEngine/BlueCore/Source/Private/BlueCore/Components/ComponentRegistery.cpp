@@ -9,6 +9,17 @@
 
 namespace Blue
 {
+	RegisteredComponentInfo& RegisteredComponentInfo::AddRequiredComponent(uint64 aHash)
+	{
+		requiredComponents.push_back(aHash);
+		const std::vector<uint64>& componentReq = ComponentRegistery::GI()->GetComponentInfo(aHash).requiredComponents;
+
+		for (const uint64& newHash : componentReq)
+			AddRequiredComponent(newHash);
+
+		return *this;
+	}
+
 	ComponentRegistery::ComponentRegistery()
 	{
 	}
@@ -20,6 +31,10 @@ namespace Blue
 
 	void ComponentRegistery::Init()
 	{
+		size_t size = sizeof(MaterialComponent);
+		size = sizeof(DynamicMeshComponent);
+		size = sizeof(CameraComponent);
+		size = sizeof(FirstPersonComponent);
 		RegisterComponentTypeInternal(MaterialComponent);
 		RegisterComponentTypeInternal(DynamicMeshComponent).
 		AddRequiredComponent(ActorComponent::ID<MaterialComponent>());
