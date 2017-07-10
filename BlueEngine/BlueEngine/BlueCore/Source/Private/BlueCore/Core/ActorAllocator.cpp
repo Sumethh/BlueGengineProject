@@ -28,6 +28,7 @@ namespace Blue
 		{
 			ActorPool* next = pool->next;
 			largeAllocator.Deallocate(pool, sizeof(ActorPool));
+			pool = next;
 		}
 		mFreeActors.clear();
 	}

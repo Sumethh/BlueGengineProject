@@ -27,7 +27,10 @@ namespace Blue
 
 	Actor::~Actor()
 	{
-
+		for (ActorComponent* comp : mComponents)
+		{
+			comp->~ActorComponent();
+		}
 	}
 
 	void Actor::OnConstruct()

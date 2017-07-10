@@ -12,3 +12,5 @@ BlueEngine/\.vs/
 *.ipdb
 
 *.iobj
+
+BlueEngine/extern/lib/x64/BlueCoreD\.lib

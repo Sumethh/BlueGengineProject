@@ -4,7 +4,6 @@
 #include "BlueCore/Input/Input.h"
 
 #include "BlueCore/Serialization/ArchiveObject.h"
-
 namespace Blue
 {
 	Game::Game() :
@@ -20,7 +19,6 @@ namespace Blue
 			delete mWorld;
 		}
 	}
-
 	void Game::BeginPlay()
 	{
 		//TODO load a game config
