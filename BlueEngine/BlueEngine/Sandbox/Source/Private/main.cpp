@@ -92,7 +92,7 @@ public:
 			myWorld.LateUpdate(dt);
 			float a = (float)lateUpdateTimer.IntervalMS();
 			ImGui::Text("World::LateUpdate: %f ms", a);
-
+			//ImGui::ShowTestWindow();
 			Blue::Timer scenePassTimer;
 			scenePassTimer.Start();
 			sceneRenderer.ConductScenePass(&myWorld);

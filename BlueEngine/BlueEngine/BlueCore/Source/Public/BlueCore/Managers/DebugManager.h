@@ -21,9 +21,11 @@ namespace Blue
 		Int64,
 		UInt64,
 		Float,
+		Double,
 		Vector2,
 		Vector3,
-		Vector4
+		Vector4,
+		Space
 	};
 	class DebugManager : public UpdatableManager
 	{
@@ -49,7 +51,10 @@ namespace Blue
 		void Update() override;
 
 		template<typename T>
-		void RegisterDebugVariable(T* aVariable, char* aGroupName, char* aName, bool aTweakable);
+		void RegisterDebugVariable(T* aVariable, char* aName, bool aTweakable);
+
+		void BeginDebugGroup(char* aGroupName);
+		void EndDebugGroup();
 
 		static DebugManager* GI()
 		{
@@ -69,29 +74,38 @@ namespace Blue
 		template <typename T>
 		EDebugOptionType GetDebugTypeFromType();
 
-		DebugVariableGroup* GetGroupFromName(char* aName);
-		void DrawGroup(DebugVariableGroup& aGroup);
+		DebugVariableGroup* GetGroupFromName(char* aName, bool& aWasNewlyCreated);
+		void DrawGroup(DebugVariableGroup& aGroup, std::string& aSearchString);
 		void DrawDebugVariable(DebugOptionDefenition& aDef);
 		bool mOpen;
 		std::map<uint64, EDebugOptionType> mHashTypeTable;
+
+		DebugVariableGroup* mCurrentGroup;
 
 		DebugVariableGroup mRoot;
 		static DebugManager* mInstance;
 		void BuildTypeHashReference();
 	};
 
-	template <typename T>
-	void DebugManager::RegisterDebugVariable(T* aVariable, char* aGroupName, char* aName, bool aTwekable)
+	template < typename T>
+	void DebugManager::RegisterDebugVariable(T* aVariable, char* aName, bool aTweakable)
 	{
-		DebugVariableGroup* group = GetGroupFromName(aGroupName);
+		BlueAssert(mCurrentGroup);
 		DebugOptionDefenition variableDef;
 		variableDef.debugName = aName;
 		variableDef.optionType = GetDebugTypeFromType<T>();
-		variableDef.tweakable = aTwekable;
-		variableDef.variable = static_cast<void*>(aVariable);
-		group->definitions.emplace_back(std::move(variableDef));
+		//TODO: when constexpr if is supported change this
+		//if constexpr(!std::is_const<T>::value)
+		//{
+		variableDef.tweakable = aTweakable;
+		//	variableDef.variable = static_cast<void*>(aVariable);
+		//}
+		//else
+		{
+			variableDef.variable = (void*)(aVariable);
+		}
+		mCurrentGroup->definitions.emplace_back(std::move(variableDef));
 	}
-
 	template <typename T>
 	EDebugOptionType DebugManager::GetDebugTypeFromType()
 	{
@@ -103,7 +117,8 @@ namespace Blue
 
 
 
+#define BEGIN_DEBUG_GROUP(GroupName) Blue::DebugManager::GI()->BeginDebugGroup(GroupName)
+#define END_DEBUG_GROUP() Blue::DebugManager::GI()->EndDebugGroup()
 
-
-#define ADD_DEBUG_WATCHABLE(Variable, GroupName) Blue::DebugManager::GI()->RegisterDebugVariable(&Variable, GroupName, #Variable, false)
-#define ADD_DEBUG_TWEAKABLE(Variable, GroupName) Blue::DebugManager::GI()->RegisterDebugVariable(&Variable, GroupName, #Variable, true)
+#define ADD_DEBUG_WATCHABLE(Variable) Blue::DebugManager::GI()->RegisterDebugVariable(&Variable, #Variable, false)
+#define ADD_DEBUG_TWEAKABLE(Variable) Blue::DebugManager::GI()->RegisterDebugVariable(&Variable, #Variable, true)

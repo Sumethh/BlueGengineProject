@@ -303,6 +303,7 @@
     <ClInclude Include="Source\Public\BlueCore\Systems\Console.h" />
     <ClInclude Include="Source\Public\BlueCore\Systems\StencilCreator.h" />
     <ClInclude Include="Source\Public\BlueCore\Systems\TaskSystem.h" />
+    <ClInclude Include="Source\Public\BlueCore\Utility\Limits.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

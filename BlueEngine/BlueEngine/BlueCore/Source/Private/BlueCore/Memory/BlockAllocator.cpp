@@ -1,6 +1,7 @@
 #include "BlueCore/Core/Defines.h"
 #include "BlueCore/Core/Log.h"
 #include "BlueCore/Memory/BlockAllocator.h"
+#include "BlueCore/Managers/DebugManager.h"
 #include <new>
 
 
@@ -26,7 +27,7 @@ namespace Blue
 		Block* next;
 	};
 
-	BlockAllocator::BlockAllocator(const int32 aPageSize, const int32* aBlockSizes, const int32 aBlockSizesCount) : IMemoryAllocator(), mFirstPage(nullptr), mPageSize(aPageSize), mBlockSizesCount(aBlockSizesCount)
+	BlockAllocator::BlockAllocator(const int32 aPageSize, const int32* aBlockSizes, const int32 aBlockSizesCount) : IMemoryAllocator(), mFirstPage(nullptr), mPageSize(aPageSize), mBlockSizesCount(aBlockSizesCount), mMbUsed(0), mMbAllocated(0), mFreeBlockCount(0)
 	{
 		BlueAssert(aBlockSizesCount <= MaxBlockSizesCount);
 		for (int32 i = 0; i < mBlockSizesCount; ++i)
@@ -34,6 +35,14 @@ namespace Blue
 			mBlockSizes[i] = aBlockSizes[i];
 		}
 		AllocateNewPage();
+		BEGIN_DEBUG_GROUP("Memory/BlockAllocator");
+		ADD_DEBUG_WATCHABLE(mPageSize);
+		ADD_DEBUG_WATCHABLE(mMbAllocated);
+		ADD_DEBUG_WATCHABLE(mMbUsed);
+		ADD_DEBUG_WATCHABLE(mFreeBlockCount);
+		ADD_DEBUG_WATCHABLE(mNumAllocations);
+		ADD_DEBUG_WATCHABLE(mUsedMemory);
+		END_DEBUG_GROUP();
 	}
 
 	BlockAllocator::~BlockAllocator()
@@ -68,7 +77,7 @@ namespace Blue
 
 		++mNumAllocations;
 		mUsedMemory += blockSize;
-
+		mMbUsed += static_cast<float>(blockSize) / static_cast<float>(1000 * 1000);
 		if (mFreeBlocks[index])
 		{
 			Block* returningBlock = mFreeBlocks[index];
@@ -78,6 +87,7 @@ namespace Blue
 			ubyte* memory = reinterpret_cast<ubyte*>(returningBlock);
 			memset(memory + sizeof(Block), DEBUG_USED_MEMORY, blockSize);
 #endif
+			--mFreeBlockCount;
 			return returningBlock;
 		}
 
@@ -115,9 +125,8 @@ namespace Blue
 		{
 			return;
 		}
-
+		++mFreeBlockCount;
 		--mNumAllocations;
-
 		uint32 index = mBlockSizesCount;
 		uint32 blockSize = 0;
 
@@ -130,7 +139,7 @@ namespace Blue
 				break;
 			}
 		}
-
+		mMbUsed -= blockSize;
 		mUsedMemory -= blockSize;
 
 		if (index == mBlockSizesCount)
@@ -178,6 +187,7 @@ namespace Blue
 	{
 		ubyte* memory = static_cast<ubyte*>(malloc(mPageSize));
 		Page* newPage = reinterpret_cast<Page*>(memory);
+		mMbAllocated += mPageSize / (1000 * 1000);
 
 		newPage->pageSize = mPageSize;
 		newPage->bytesFree = mPageSize - sizeof(Page);

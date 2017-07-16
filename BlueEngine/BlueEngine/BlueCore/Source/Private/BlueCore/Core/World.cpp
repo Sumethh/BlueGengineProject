@@ -17,7 +17,6 @@
 #include "BlueCore/Managers/DebugManager.h"
 #include "BlueCore/Managers/DebugManager.h";
 
-bool heyo = false;
 
 namespace Blue
 {
@@ -28,9 +27,6 @@ namespace Blue
 		Log::Info(std::to_string(sizeof(Actor)));
 		Log::Info(std::to_string(sizeof(glm::mat4)));
 		Log::Info(std::to_string(sizeof(std::vector<int*>)));
-		ADD_DEBUG_WATCHABLE(heyo, "Testing/This/Is/A/Test");
-		ADD_DEBUG_TWEAKABLE(heyo, "Testing/This/Is/A/Test");
-
 	}
 
 	World::~World()

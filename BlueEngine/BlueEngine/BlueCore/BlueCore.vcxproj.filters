@@ -398,5 +398,8 @@
     <ClInclude Include="Source\Public\BlueCore\Core\ActorAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Utility\Limits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

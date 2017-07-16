@@ -9,7 +9,7 @@ namespace Blue
 	struct Block;
 	struct Page;
 
-	class BlockAllocator : public IMemoryAllocator, public NonCopyable
+	class BlockAllocator : public  IMemoryAllocator, public NonCopyable
 	{
 	public:
 		BlockAllocator(const int32 aPageSize, const int32* aBlockSizes, const int32 aBlockSizesCount);
@@ -18,6 +18,10 @@ namespace Blue
 		void* Allocate(size_t aSize, uint8 aAllignment) override;
 		void Deallocate(void* aData, size_t aSize) override;
 	private:
+
+		float mMbUsed;
+		float mMbAllocated;
+		uint32 mFreeBlockCount;
 
 		void Clear();
 		Page* AllocateNewPage();
