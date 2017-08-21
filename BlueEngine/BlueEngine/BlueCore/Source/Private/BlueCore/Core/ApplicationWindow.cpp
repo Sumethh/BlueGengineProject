@@ -199,6 +199,6 @@ namespace Blue
 
 	void ApplicationWindow::ClearScreen()
 	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->ClearBuffer(BufferBit::Color);
+		IGraphicsDevice::GetCurrentGraphicsDevice()->ClearBuffer(EBufferBit::Color);
 	}
 }

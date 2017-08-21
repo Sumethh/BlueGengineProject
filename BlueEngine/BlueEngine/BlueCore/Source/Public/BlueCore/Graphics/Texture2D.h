@@ -29,7 +29,7 @@ namespace Blue
 			return mImageFormat;
 		}
 	private:
-		uint32 mTextureId;
+		GraphicsDeviceResourceID mTextureId;
 		uint32 mWidth;
 		uint32 mHeight;
 		EImageFormat mImageFormat;

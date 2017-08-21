@@ -23,6 +23,7 @@ public:
 	bool Run() override
 	{
 		CreateWindow("SandBox", 1920, 1080);
+		mWindow->Swap();
 
 		Blue::Application::Run();
 		Blue::World myWorld;
@@ -49,8 +50,8 @@ public:
 			Blue::Actor* actor = myWorld.CreateActor();
 			actor->AddComponent<Blue::DynamicMeshComponent>();
 			Blue::Transform t;
-			t.position.x = (i % 100) * 2  ;
-			t.position.z = (i / 100) * 2  ;
+			t.position.x = static_cast<float>((i % 100) * 2);
+			t.position.z = static_cast<float>((i / 100) * 2);
 			actor->SetTransform(t);
 		}
 		double ms = allocTimer.IntervalMS();
@@ -74,7 +75,7 @@ public:
 				fpsTimer.Reset();
 			}
 
-			float dt = dtTimer.IntervalS();
+			float dt = static_cast<float>(dtTimer.IntervalS());
 			dtTimer.Reset();
 			mWindow->ClearScreen();
 			Application::Update();
@@ -118,7 +119,8 @@ public:
 
 int main(int aArgc, char** aArgv)
 {
-
+	(void)aArgv;
+	(void)aArgc;
 	TestApp myApp;
 	myApp.Run();
 	return 0;

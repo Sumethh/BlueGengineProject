@@ -4,7 +4,7 @@
 #include "BlueCore/Core/Vertex.h"
 #include "BlueCore/Core/Types.h"
 #include "BlueCore/Core/Defines.h"
-
+#include "BlueCore/GraphicsDevice/IGraphicsDevice.h"
 namespace Blue
 {
 	class Mesh
@@ -88,9 +88,9 @@ namespace Blue
 
 		void InitBuffers();
 
-		uint32 mVertexBufferId;
-		uint32 mElementBufferId;
-		uint32 mVertexArrayId;
+		GraphicsDeviceResourceID mVertexBufferId;
+		GraphicsDeviceResourceID mElementBufferId;
+		GraphicsDeviceResourceID mVertexArrayId;
 
 		Vertex* mVertices;
 		uint32 mVerticeCount;

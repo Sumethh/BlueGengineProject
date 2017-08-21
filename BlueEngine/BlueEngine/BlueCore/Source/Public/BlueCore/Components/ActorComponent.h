@@ -97,6 +97,6 @@ namespace Blue
 		uint64 mInstanceID;
 		Actor* mOwner;
 		uint32 mFlags;
-		uint16 mSize;
+		uint64 mSize;
 	};
 }

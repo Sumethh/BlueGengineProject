@@ -87,7 +87,7 @@
     <IncludePath>$(ProjectDir)..\..\extern\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)../../extern/lib/x64/;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)\Source\Private;$(SourcePath)</SourcePath>
-    <OutDir>$(SolutionDir)\extern\lib\$(Platform)</OutDir>
+    <OutDir>$(SolutionDir)\extern\lib\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(ProjectName)\$(Configurtion)</IntDir>
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
@@ -95,7 +95,7 @@
     <IncludePath>$(ProjectDir)..\..\extern\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\..\extern\lib\x64\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)\Source\Private;$(SourcePath)</SourcePath>
-    <OutDir>$(SolutionDir)\extern\lib\$(Platform)</OutDir>
+    <OutDir>$(SolutionDir)\extern\lib\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(ProjectName)\$(Configurtion)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -123,6 +123,7 @@
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>assimp.lib;FreeImage.lib;glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -162,6 +163,7 @@
       <PreprocessorDefinitions>BLUECORE_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -214,7 +216,7 @@
     <ClCompile Include="Source\Private\BlueCore\Input\Input.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\DebugManager.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Memory\BlockAllocator.cpp" />
-    <ClCompile Include="Source\Private\BlueCore\Renderers\DefferedRenderer.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Renderers\DeferedRenderer.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Renderers\ForwardRenderer.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Renderers\SceneRenderer.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Serialization\ArchiveObject.cpp" />
@@ -289,7 +291,7 @@
     <ClInclude Include="Source\Public\BlueCore\Managers\DebugManager.h" />
     <ClInclude Include="Source\Public\BlueCore\Memory\IMemoryAllocator.h" />
     <ClInclude Include="Source\Public\BlueCore\Messaging\WindowResizeMessage.h" />
-    <ClInclude Include="Source\Public\BlueCore\Renderers\DefferedRenderer.h" />
+    <ClInclude Include="Source\Public\BlueCore\Renderers\DeferedRenderer.h" />
     <ClInclude Include="Source\Public\BlueCore\Renderers\ForwardRenderer.h" />
     <ClInclude Include="Source\Public\BlueCore\Renderers\GizmoRenderer.h" />
     <ClInclude Include="Source\Public\BlueCore\Renderers\IRenderer.h" />

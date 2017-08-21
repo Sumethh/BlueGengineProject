@@ -8,4 +8,11 @@ namespace Blue
 		glm::vec2 topLeft;
 		glm::vec2 extents;
 	};
+	struct IntRect
+	{
+		IntRect(const Rect& aRect) : topLeft(aRect.topLeft), extents(aRect.extents)
+		{}
+		glm::ivec2 topLeft;
+		glm::ivec2 extents;
+	};
 }

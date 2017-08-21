@@ -17,6 +17,7 @@
 
 #define InvalidDefaultCase default:{assert(false);break;}
 #define InvalidDefaultCaseExtraStep(extraStep) default:{extraStep;assert(false);break;}
+
 #if 1
 	#ifdef BLUECORE_EXPORT
 		#define BLUECORE_API __declspec(dllexport)

@@ -129,9 +129,6 @@
     <ClCompile Include="Source\Private\BlueCore\Managers\UpdateableManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\BlueCore\Renderers\DefferedRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Private\BlueCore\Renderers\ForwardRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -169,6 +166,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Private\BlueCore\Core\ActorAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\BlueCore\Renderers\DeferedRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -350,9 +350,6 @@
     <ClInclude Include="Source\Public\BlueCore\Messaging\WindowResizeMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\BlueCore\Renderers\DefferedRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Public\BlueCore\Renderers\ForwardRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -399,6 +396,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\BlueCore\Utility\Limits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Renderers\DeferedRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

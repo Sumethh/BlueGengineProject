@@ -59,7 +59,7 @@ namespace Blue
 
 		uint32 index = mBlockSizesCount;
 		uint32 blockSize = 0;
-		for (uint32 i = 0; i < mBlockSizesCount; ++i)
+		for (int32 i = 0; i < mBlockSizesCount; ++i)
 		{
 			if (mBlockSizes[i] > aSize + sizeof(Block))
 			{
@@ -130,7 +130,7 @@ namespace Blue
 		uint32 index = mBlockSizesCount;
 		uint32 blockSize = 0;
 
-		for (uint32 i = 0; i < mBlockSizesCount; ++i)
+		for (int32 i = 0; i < mBlockSizesCount; ++i)
 		{
 			if (mBlockSizes[i] > aSize + sizeof(Block))
 			{

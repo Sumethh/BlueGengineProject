@@ -7,9 +7,16 @@
 
 namespace Blue
 {
+
+	SceneRenderer::SceneRenderer()
+	{
+		mForwardRenderer.Init();
+		mDefferedRenderer.Init();
+	}
+
 	void SceneRenderer::ConductScenePass(Scene* aScene)
 	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->ClearBuffer(BufferBit::DepthBit);
+		IGraphicsDevice::GetCurrentGraphicsDevice()->ClearBuffer(EBufferBit::DepthBit);
 
 		const std::vector<PrimitiveComponent*>& primitives = aScene->GetAllPrimitives();
 		Timer initTimer;

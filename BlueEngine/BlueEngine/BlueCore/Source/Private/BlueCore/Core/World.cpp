@@ -15,7 +15,6 @@
 #include "BlueCore/Serialization/Stencil/Stencil.h"
 #include "BlueCore/Systems/Console.h"
 #include "BlueCore/Managers/DebugManager.h"
-#include "BlueCore/Managers/DebugManager.h";
 
 
 namespace Blue

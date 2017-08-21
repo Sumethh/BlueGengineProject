@@ -1,6 +1,6 @@
 #pragma once
 #include "ForwardRenderer.h"
-#include "DefferedRenderer.h"
+#include "DeferedRenderer.h"
 
 namespace Blue
 {
@@ -9,6 +9,7 @@ namespace Blue
 	class SceneRenderer
 	{
 	public:
+		SceneRenderer();
 		void ConductScenePass(Scene* aScene);
 
 	private:
@@ -17,6 +18,6 @@ namespace Blue
 		void TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives);
 
 		ForwardRenderer mForwardRenderer;
-		DefferedRenderer mDefferedRenderer;
+		DeferedRenderer mDefferedRenderer;
 	};
 }

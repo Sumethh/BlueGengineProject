@@ -27,7 +27,7 @@ namespace Blue
 	void Stencil::OnSerialize(ArchiveObject* const aArchive) const
 	{
 		BlueAssert(aArchive);
-		aArchive->Archive("Stencil Name", mName);
+		//aArchive->Archive("Stencil Name", mName);
 		std::vector<uint32> serializingArray;
 		serializingArray.reserve(mAddedComponents.size());
 		glm::quat r;
@@ -47,8 +47,8 @@ namespace Blue
 
 	void Stencil::OnDeserialize(ArchiveObject* const aArchive)
 	{
-		auto archive = aArchive->GetArc();
-		mName = archive["Stencil Name"];
+		nlohmann::json archive = aArchive->GetArc();
+		//mName = archive["Stencil Name"];
 		std::vector<int> comps = archive["Components"];
 
 

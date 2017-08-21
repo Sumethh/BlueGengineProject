@@ -64,7 +64,7 @@ namespace Blue
 		BlueAssert(width != 0);
 		BlueAssert(height != 0);
 
-		gd->UpdateResourceData(mTextureId, bits, width, height, aFormatToStore, aImageFormat, aMipMapLvl);
+		gd->UpdateResourceData(mTextureId, bits, width, height, aFormatToStore, aImageFormat, EDataType::UnsignedByte, aMipMapLvl);
 		FreeImage_Unload(dib);
 
 		mWidth = width;

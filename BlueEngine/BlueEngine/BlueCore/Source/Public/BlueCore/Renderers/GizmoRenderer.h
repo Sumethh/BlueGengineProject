@@ -1,5 +1,7 @@
 #pragma once
 #include "BlueCore/Core/Types.h"
+#include "BlueCore/GraphicsDevice/IGraphicsDevice.h"
+
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -59,8 +61,8 @@ namespace Blue
 		struct LineRenderInfo
 		{
 			uint32 lineCount;
-			uint32 vaoID;
-			uint32 vertexBufferID;
+			GraphicsDeviceResourceID vaoID;
+			GraphicsDeviceResourceID vertexBufferID;
 		};
 		void CreateLineRenderGraphicsResources(LineRenderInfo& aInfo);
 

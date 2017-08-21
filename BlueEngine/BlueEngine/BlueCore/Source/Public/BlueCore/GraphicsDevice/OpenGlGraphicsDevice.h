@@ -11,31 +11,33 @@ namespace Blue
 		void Init() override;
 		void ShutDown() override;
 
-		uint32 CreateGraphicsResource(EGraphicsResourceType aType) override;
-		void DeleteGraphicsResource(uint32& aResourceID) override;
-		void BindGraphicsResource(const uint32 aResourceID) override;
-		void BindGraphicsResource(const uint32 aResourceID, const ETextureID aTextureID) override;
-		void UnbindGraphicsResource(const uint32 aResourceID) override;
+		GraphicsDeviceResourceID CreateGraphicsResource(EGraphicsResourceType aType) override;
+		void DeleteGraphicsResource(GraphicsDeviceResourceID& aResourceID) override;
+		void BindGraphicsResource(const GraphicsDeviceResourceID aResourceID) override;
+		void BindGraphicsResource(const GraphicsDeviceResourceID aResourceID, const ETextureID aTextureID) override;
+		void UnbindGraphicsResource(const GraphicsDeviceResourceID aResourceID) override;
 
 		int32 GetShaderVariableLocation(uint32 aResourceID, char* aVarName)override;
 		int32 GetShaderVariableLocation(uint32 aResourceID, const char* aVarName) override;
 
 		void SetShaderVariable(uint32 aVarLoc, void* aVar, EVarType aVarType) override;
 
-		void UpdateResourceData(const uint32 aResourceID, size_t aOffset, void* aData, uint64 aDataSize, DataDescriptor* aDescriptors = nullptr, uint32 aDescriptorCount = 0) override;
-		void UpdateResourceData(const uint32 aResourceID, ubyte* aPixels, const uint32 aWidth, const uint32 aHeight, EPrecisionType aTexturePrecision, EImageFormat aPixelFormat, uint32 aMipMapLevel) override;
-		void UpdateResourceData(const uint32 aResourceID, const uint32 aWidth, const uint32 aHeight, EPrecisionType aType) override;
-		void UpdateResourceData(const uint32 aResourceID, const ETextureParameter aParameter, const ETextureParameter aValue) override;
-		void UpdateResourceData(const uint32 aResourceID, char* aVertexShaderPath, char* aFragmentShaderPath) override;
-		void UpdateResourceData(const uint32 aResourceID, EBufferAttachment aAttachments) override;
-		void UpdateResourceData(const uint32 aResourceID, EBufferAttachment* aAttachments, const uint32 aCount) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, size_t aOffset, void* aData, uint64 aDataSize, DataDescriptor* aDescriptors = nullptr, uint32 aDescriptorCount = 0) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, ubyte* aPixels, const uint32 aWidth, const uint32 aHeight, EPrecisionType aTexturePrecision, EImageFormat aPixelFormat, EDataType aTextureDataType, uint32 aMipMapLevel) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const uint32 aWidth, const uint32 aHeight, EPrecisionType aType) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const ETextureParameter aParameter, const ETextureParameter aValue) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, char* aVertexShaderPath, char* aFragmentShaderPath) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, EBufferAttachment aAttachment) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, EBufferAttachment* aAttachments, const uint32 aCount) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, ERenderBufferType aType, EBufferAttachment aAttachment, const uint32 aWidth, const uint32 aHeight);
 
+		void BlitFramebuffers(const GraphicsDeviceResourceID aReadResourceID, const GraphicsDeviceResourceID aWritingResourceID, IntRect aReadResourceRect, IntRect aWriteResourceRect, EBufferBit aDataToCopy);
 
 		void DrawBuffers(const EDrawMode aMode, const uint32 aFirst, const uint32 aCount) override;
 		void DrawBuffersInstanced(const EDrawMode aMode, const uint32 aFirst, const uint32 aCount) override;
 		void DrawBuffersElements(const EDrawMode aMode, const uint32 aCount, void* aIndicies = nullptr) override;
 
-		void ClearBuffer(const BufferBit aBufferToClear) override;
+		void ClearBuffer(const EBufferBit aBufferToClear) override;
 
 		void SetClearColor(const glm::vec4 aColor) override;
 

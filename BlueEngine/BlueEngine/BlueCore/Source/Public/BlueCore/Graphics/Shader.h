@@ -57,6 +57,6 @@ namespace Blue
 		char* m_shaderPaths[ShaderType::ShaderTypeCount];
 		int32 mPointLightCountLoc;
 		std::vector<CachedPointlightShaderInfo> mCachedPointLightInfo;
-		uint32 mShaderResourceID;
+		GraphicsDeviceResourceID mShaderResourceID;
 	};
 }
