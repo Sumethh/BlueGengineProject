@@ -12,8 +12,8 @@ namespace Blue
 		static uint64 C = 461;
 	}
 
-	static inline constexpr uint64 CompileHash(char* aInput)
+	static inline constexpr uint64 StaticHash(char* aInput)
 	{
-		return *aInput ? ((static_cast<uint64>(*aInput) + 7) ^ 149) * CompileHash(aInput + 1) : 547;
+		return *aInput ? ((static_cast<uint64>(*aInput) + 7) ^ 149) * StaticHash(aInput + 1) : 547;
 	}
 }

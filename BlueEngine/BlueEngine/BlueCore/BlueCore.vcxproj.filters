@@ -171,6 +171,9 @@
     <ClCompile Include="Source\Private\BlueCore\Renderers\DeferedRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Private\BlueCore\Components\PointLightComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Public\BlueCore\Collision\BoundingVolumes\AABB.h">
@@ -399,6 +402,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\BlueCore\Renderers\DeferedRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Components\PointLightComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

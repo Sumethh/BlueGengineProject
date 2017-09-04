@@ -15,7 +15,7 @@ namespace Blue
 
 		uint64 ID()
 		{
-			return CompileHash("CameraComponent");
+			return StaticHash("CameraComponent");
 		}
 
 		virtual void BeginPlay();

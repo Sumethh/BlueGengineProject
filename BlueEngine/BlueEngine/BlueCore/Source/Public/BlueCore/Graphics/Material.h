@@ -19,9 +19,9 @@ namespace Blue
 		Material(uint32 aMaterialID);
 		~Material();
 
-		void Bind();
-		void SetDataForDrawing();
-		void UnBind();
+		void Bind(bool aBindShader = true);
+		void SetDataForDrawing(Shader* aShader = nullptr);
+		void UnBind(bool aUnbindShader = true);
 		inline void SetDiffuseColor(glm::vec4 aColor)
 		{
 			mDiffuseColor = aColor;

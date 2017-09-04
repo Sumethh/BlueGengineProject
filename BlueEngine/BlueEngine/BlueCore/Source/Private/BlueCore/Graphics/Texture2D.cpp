@@ -72,9 +72,9 @@ namespace Blue
 		return true;
 	}
 
-	void Texture2D::Bind()
+	void Texture2D::Bind(ETextureID aId)
 	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mTextureId);
+		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mTextureId, aId);
 	}
 
 	void Texture2D::UnBind()

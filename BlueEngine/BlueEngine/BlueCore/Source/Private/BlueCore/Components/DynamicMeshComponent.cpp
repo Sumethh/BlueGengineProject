@@ -13,7 +13,7 @@ namespace Blue
 {
 	DynamicMeshComponent::DynamicMeshComponent(Actor* aOwner) : PrimitiveComponent(aOwner)
 	{
-		SetMesh(MeshManager::GI()->GetMeshAsync("cube", std::bind(&DynamicMeshComponent::SetMesh, this, std::placeholders::_1)));
+		SetMesh(MeshManager::GI()->GetMeshAsync("sphere", std::bind(&DynamicMeshComponent::SetMesh, this, std::placeholders::_1)));
 	}
 
 	DynamicMeshComponent::~DynamicMeshComponent()

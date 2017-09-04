@@ -6,6 +6,7 @@
 #include "BlueCore/Components/ActorComponent.h"
 #include "BlueCore/Components/CameraComponent.h"
 #include "BlueCore/Components/FirstPersonComponent.h"
+#include "BlueCore/Components/LightComponent.h"
 #include "BlueCore/Core/World.h"
 #include "BlueCore/Core/Actor.h"
 #include "BlueCore/Renderers/SceneRenderer.h"
@@ -29,12 +30,6 @@ public:
 		Blue::World myWorld;
 		mWindow->SetClearColor(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 
-		Blue::Actor* cube = myWorld.CreateActor();
-		cube->AddComponent<Blue::DynamicMeshComponent>();
-		auto cubeTransform = cube->GetTransform();
-		cubeTransform.position = glm::vec3(0, 0, 0);
-		cube->SetTransform(cubeTransform);
-
 		Blue::Actor* camera = myWorld.CreateActor();
 		camera->AddComponent<Blue::CameraComponent>();
 		camera->AddComponent<Blue::FirstPersonComponent>();
@@ -44,9 +39,8 @@ public:
 
 		Blue::Timer allocTimer;
 		allocTimer.Start();
-		for (Blue::uint32 i = 0; i < 1000; ++i)
+		for (Blue::uint32 i = 0; i < 1; ++i)
 		{
-			break;
 			Blue::Actor* actor = myWorld.CreateActor();
 			actor->AddComponent<Blue::DynamicMeshComponent>();
 			Blue::Transform t;
@@ -57,13 +51,14 @@ public:
 		double ms = allocTimer.IntervalMS();
 		Blue::Log::Info("allocation took: " + std::to_string(ms) + "ms");
 		myWorld.BeginPlay();
-		Blue::AABB bounds = cube->GetActorBounds();
 		Blue::Timer dtTimer;
 		Blue::SceneRenderer sceneRenderer;
 		Blue::uint32 fps = 0;
 		Blue::uint32 lastFps = 0;
 		Blue::Timer fpsTimer;
 		Blue::DebugManager::GI();
+		glm::vec3 position;
+		glm::vec3 color;
 		while (!mWindow->IsCloseRequested())
 		{
 			fps++;
@@ -99,11 +94,20 @@ public:
 			sceneRenderer.ConductScenePass(&myWorld);
 			ImGui::Text("Scene Pass: %f ms", (float)scenePassTimer.IntervalMS());
 
-			Blue::BlockAllocator& largeAllocator = Blue::MemoryManager::GI()->GetLargeBlockAllocator();
-			Blue::BlockAllocator& smallAllocator = Blue::MemoryManager::GI()->GetSmallBlockAllocator();
+			ImGui::Begin("Create Objects");
 
-			ImGui::Text("Large Block Memory Used: %d, Num Allocations %d", largeAllocator.UsedMemory(), largeAllocator.NumAllocations());
-			ImGui::Text("Small Block Memory Used: %d, Num Allocations %d", smallAllocator.UsedMemory(), smallAllocator.NumAllocations());
+			ImGui::InputFloat3("Position", &position.x);
+			ImGui::InputFloat3("Color", &color.x);
+
+			if (ImGui::Button("Create Lights"))
+			{
+				Blue::Actor* actor = myWorld.CreateActor();
+				actor->AddComponent<LightComponent>();
+
+				Blue::Transform trans;
+				trans.position = position;
+				actor->SetTransform()
+			}
 
 
 			ImGui::End();

@@ -12,7 +12,7 @@ namespace Blue
 
 		uint64 ID()
 		{
-			return CompileHash("FirstPersonComponent");
+			return StaticHash("FirstPersonComponent");
 		}
 
 		virtual void BeginPlay() override;

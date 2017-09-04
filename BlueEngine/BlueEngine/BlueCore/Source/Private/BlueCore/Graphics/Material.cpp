@@ -14,38 +14,44 @@ namespace Blue
 
 	}
 
-	void Material::Bind()
+	void Material::Bind(bool aBindShader)
 	{
-		mShader->Bind();
+		if (aBindShader)
+		{
+			mShader->Bind();
+			mBound = true;
+		}
 
 		if (mTexture)
 		{
 			mTexture->Bind();
 		}
-
-		mBound = true;
 	}
 
-	void Material::SetDataForDrawing()
+	void Material::SetDataForDrawing(Shader* aShader)
 	{
-		int32 matDiffuseLoc = mShader->GetShaderVariableLocation("material.Diffuse");
-		int32 matSpecularLoc = mShader->GetShaderVariableLocation("material.Specular");
+		Shader* shader = aShader ? aShader : mShader;
 
-
-		mShader->SetShaderVar(matDiffuseLoc, (void*)&mDiffuseColor, EVarType::Vector4);
-		mShader->SetShaderVar(matSpecularLoc, (void*)&mSpecular, EVarType::Float);
+		if (!aShader)
+		{
+			int32 matDiffuseLoc = shader->GetShaderVariableLocation("material.Diffuse");
+			int32 matSpecularLoc = shader->GetShaderVariableLocation("material.Specular");
+			shader->SetShaderVar(matDiffuseLoc, (void*)&mDiffuseColor, EVarType::Vector4);
+			shader->SetShaderVar(matSpecularLoc, (void*)&mSpecular, EVarType::Float);
+		}
 	}
 
-	void Material::UnBind()
+	void Material::UnBind(bool aUnbindShader)
 	{
-		mShader->UnBind();
-
+		if (aUnbindShader)
+		{
+			mShader->UnBind();
+			mBound = false;
+		}
 		if (mTexture)
 		{
 			mTexture->UnBind();
 		}
-
-		mBound = false;
 	}
 
 	uint32 Material::GetShaderVariableLoc(const char* aVariable)

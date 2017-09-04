@@ -13,7 +13,7 @@ namespace Blue
 
 		uint64 ID() override
 		{
-			return CompileHash("MaterialComponent");
+			return StaticHash("MaterialComponent");
 		}
 		Material* GetMaterial() const
 		{

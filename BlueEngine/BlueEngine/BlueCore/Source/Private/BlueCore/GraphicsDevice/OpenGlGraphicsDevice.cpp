@@ -125,6 +125,7 @@ namespace Blue
 		return -1;
 
 	}
+
 	GLenum GetEnumFromImageFormat(EImageFormat aFormat)
 	{
 		switch (aFormat)
@@ -254,6 +255,7 @@ namespace Blue
 		}
 		return -1;
 	}
+
 	GLenum GetEnumFromRenderBufferType(ERenderBufferType aType)
 	{
 		switch (aType)
@@ -263,6 +265,7 @@ namespace Blue
 				break;
 				InvalidDefaultCase
 		}
+		return -1;
 	}
 
 	OpenGlGraphicsDevice::OpenGlGraphicsDevice() : IGraphicsDevice(EGraphicsDeviceType::OpenGL)
@@ -290,8 +293,11 @@ namespace Blue
 		r.lowLevelID = 0;
 
 		mResources.emplace_back(std::move(r));
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_CULL_FACE);
 		glDepthFunc(GL_LESS);
 
+		ASSERT_NO_GRAPHICS_ERROR();
 	}
 
 	void OpenGlGraphicsDevice::ShutDown()
@@ -541,6 +547,7 @@ namespace Blue
 		OpenGLResource& resource = mResources[aResourceID];
 
 		glActiveTexture(GetEnumFromTextureID(aTextureID));
+		BindResource(resource);
 		ASSERT_NO_GRAPHICS_ERROR();
 	}
 
@@ -580,6 +587,10 @@ namespace Blue
 		{
 			case EVarType::Float:
 				glUniform1f(aVarLoc, (*(float*)aVar));
+				break;
+
+			case EVarType::Int:
+				glUniform1i(aVarLoc, (*(GLint*)aVar));
 				break;
 
 			case EVarType::Vector3:
@@ -900,19 +911,28 @@ namespace Blue
 		OpenGLResource& readResource = mResources[aReadResourceID];
 		OpenGLResource& writeResource = mResources[aWritingResourceID];
 
-		GLint lastFrambufferID;
-		glGetIntegerv(GL_FRAMEBUFFER, &lastFrambufferID);
+		//GLint lastFrambufferID;
+		//glGetIntegerv(GL_FRAMEBUFFER, &lastFrambufferID);
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, readResource.lowLevelID);
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, readResource.lowLevelID);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, writeResource.lowLevelID);
 
 		GLenum dataEnum = GetGlEnumFromBufferBit(aDataToCopy);
 
-		glBlitFramebuffer(aReadResourceRect.topLeft.x, aReadResourceRect.topLeft.y, aReadResourceRect.extents.x, aReadResourceRect.extents.y, aWriteResourceRect.topLeft.x, aWriteResourceRect.topLeft.y, aWriteResourceRect.extents.x, aWriteResourceRect.extents.y, dataEnum, GL_NEAREST);
+		glBlitFramebuffer(aReadResourceRect.topLeft.x, aReadResourceRect.topLeft.y, aReadResourceRect.extents.x, aReadResourceRect.extents.y, aWriteResourceRect.topLeft.x, aWriteResourceRect.topLeft.y, aWriteResourceRect.extents.x, aWriteResourceRect.extents.y, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 
 		ASSERT_NO_GRAPHICS_ERROR();
 	}
 
+	void OpenGlGraphicsDevice::Disable()
+	{
+
+	}
+
+	void OpenGlGraphicsDevice::Enable()
+	{
+
+	}
 
 }

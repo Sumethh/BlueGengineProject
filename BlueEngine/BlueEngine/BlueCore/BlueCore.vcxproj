@@ -177,6 +177,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Private\BlueCore\Components\ComponentRegistery.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Components\PointLightComponent.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Components\PrimitiveComponent.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Core\Actor.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Components\ActorComponent.cpp" />
@@ -230,6 +231,7 @@
     <ClCompile Include="Source\Private\BlueCore\Systems\TaskSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\BlueCore\Components\PointLightComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\Components\ComponentRegistery.h" />
     <ClInclude Include="Source\Public\BlueCore\Components\PrimitiveComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\BlueCore.h" />

@@ -83,7 +83,7 @@ vec3 CalcDirLight(DirectionalLight light, vec3 normal, vec3 viewDir)
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     // Combine results
     vec3 diffuse = light.color * diff * vec3(material.Diffuse);
-     vec3 specular = vec3(1.0f, 1.0f, 1.0f) * spec * material.Specular * light.color;
+    vec3 specular = vec3(1.0f, 1.0f, 1.0f) * spec * material.Specular * light.color;
     return (diffuse + specular);
 }
 

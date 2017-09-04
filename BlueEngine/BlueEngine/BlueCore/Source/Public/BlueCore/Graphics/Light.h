@@ -7,19 +7,10 @@ namespace Blue
 {
 	//TODO: Make sure that your provide the transposed inverse matrix for the to assure that non uniform scale lighting is correct
 	class Shader;
-	class Light
+	struct PointLight
 	{
-	public:
-		enum LightType
-		{
-			Direcitional,
-			Point,
-			Spotlight,
-			Count
-		};
-
-
-	private:
+		float radius;
+		glm::vec3 position;
 		glm::vec3 color;
 	};
 }

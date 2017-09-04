@@ -94,13 +94,13 @@ namespace Blue
 		DebugOptionDefenition variableDef;
 		variableDef.debugName = aName;
 		variableDef.optionType = GetDebugTypeFromType<T>();
-		//TODO: when constexpr if is supported change this
-		//if constexpr(!std::is_const<T>::value)
-		//{
-		variableDef.tweakable = aTweakable;
-		//	variableDef.variable = static_cast<void*>(aVariable);
-		//}
-		//else
+
+		if constexpr(!std::is_const<T>::value)
+		{
+			variableDef.tweakable = aTweakable;
+			variableDef.variable = static_cast<void*>(aVariable);
+		}
+		else
 		{
 			variableDef.variable = (void*)(aVariable);
 		}

@@ -1,12 +1,11 @@
 #pragma once
-#include <unordered_map>
-#include "BlueCore/Core/Transformable.h"
-
+#include <glm/mat4x4.hpp>
 namespace Blue
 {
 	class Mesh;
 	class Material;
 	class CameraComponent;
+
 	class IRenderer
 	{
 	public:

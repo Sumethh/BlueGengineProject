@@ -14,7 +14,7 @@ namespace Blue
 
 		uint64 ID() override
 		{
-			return CompileHash("DynamicMeshComponent");
+			return StaticHash("DynamicMeshComponent");
 		}
 
 		virtual void BeginPlay() override;

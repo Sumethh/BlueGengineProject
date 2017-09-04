@@ -42,6 +42,7 @@ namespace Blue
 	enum class EVarType : uint8
 	{
 		Float = 0,
+		Int,
 		Vector3,
 		Vector4,
 		Matrix4x4,
@@ -185,6 +186,9 @@ namespace Blue
 		virtual void ClearBuffer(const EBufferBit aBitToClear) = 0;
 
 		virtual void SetClearColor(const glm::vec4 aColor) = 0;
+
+		virtual void Disable() = 0;
+		virtual void Enable() = 0;
 
 		static IGraphicsDevice* GetCurrentGraphicsDevice()
 		{

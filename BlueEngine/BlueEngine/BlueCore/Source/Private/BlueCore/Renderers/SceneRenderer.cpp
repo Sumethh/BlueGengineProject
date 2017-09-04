@@ -22,24 +22,20 @@ namespace Blue
 		Timer initTimer;
 		initTimer.Start();
 		sizeInt primitiveCount = primitives.size();
-		std::vector<PrimitiveComponent*> translucentPrimitives;
-		translucentPrimitives.reserve(primitiveCount);
-		std::vector<PrimitiveComponent*> opaquePrimitives;
-		opaquePrimitives.reserve(primitiveCount);
 		ImGui::Text("Init Timer: %f ms", initTimer.IntervalMS());
 		Timer sortingTimer;
 		sortingTimer.Start();
 
 		for (PrimitiveComponent* primitive : primitives)
 		{
-			//if (primitive->IsTranslucent())
-			//{
-			translucentPrimitives.push_back(primitive);
-			//}
-			//else
-			//{
-			//	opaquePrimitives.push_back(primitive);
-			//}
+			if (primitive->IsTranslucent())
+			{
+				mTranslucentPrimitives.push_back(primitive);
+			}
+			else
+			{
+				mOpaquePrimitives.push_back(primitive);
+			}
 		}
 
 		ImGui::Text("Sorting Timer: %f ms", sortingTimer.IntervalMS());
@@ -54,27 +50,34 @@ namespace Blue
 
 		for (CameraComponent* camera : cameras)
 		{
-			mForwardRenderer.SetActiveCamera(camera);
-
-			OpaquePass(aScene, opaquePrimitives);
-			TranslucentPass(aScene, translucentPrimitives);
+			OpaquePass(aScene, mOpaquePrimitives, camera);
+			TranslucentPass(aScene, mOpaquePrimitives, camera);
 		}
-
-		mForwardRenderer.End();
+		mOpaquePrimitives.clear();
+		mTranslucentPrimitives.clear();
 		ImGui::Text("Render Timer: %f ms", renderTimer.IntervalMS());
 	}
 
-	void SceneRenderer::OpaquePass(Scene* aScene, std::vector<PrimitiveComponent*>& aOpaquePrimitives)
+	void SceneRenderer::OpaquePass(Scene* aScene, std::vector<PrimitiveComponent*>& aOpaquePrimitives, CameraComponent* aActiveCamera)
 	{
-		//uses differed rendering
+		mDefferedRenderer.Begin();
+		mDefferedRenderer.SetActiveCamera(aActiveCamera);
+		for (PrimitiveComponent* primitive : aOpaquePrimitives)
+		{
+			primitive->SubmitGeometry(&mDefferedRenderer);
+		}
+		mDefferedRenderer.End();
 	}
 
-	void SceneRenderer::TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives)
+	void SceneRenderer::TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives, CameraComponent* aActiveCamera)
 	{
+		return;
+		mForwardRenderer.SetActiveCamera(aActiveCamera);
 		//uses forward rendering
 		for (PrimitiveComponent* primitive : aTranslucentPrimitives)
 		{
 			primitive->SubmitGeometry(&mForwardRenderer);
 		}
+		mForwardRenderer.End();
 	}
 }

@@ -41,6 +41,10 @@ namespace Blue
 
 		void SetClearColor(const glm::vec4 aColor) override;
 
+		void Disable()override;
+		void Enable() override;
+
+
 	private:
 
 		friend class GraphicsDeviceFactory;

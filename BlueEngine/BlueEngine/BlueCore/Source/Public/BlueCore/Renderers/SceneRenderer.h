@@ -6,6 +6,13 @@ namespace Blue
 {
 	class Scene;
 	class PrimitiveComponent;
+	class LightComponent;
+
+	struct LightingInfo
+	{
+
+	};
+
 	class SceneRenderer
 	{
 	public:
@@ -14,10 +21,13 @@ namespace Blue
 
 	private:
 
-		void OpaquePass(Scene* aScene, std::vector < PrimitiveComponent*>& aOpaquePrimitives);
-		void TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives);
+		void OpaquePass(Scene* aScene, std::vector<PrimitiveComponent*>& aOpaquePrimitives, CameraComponent* aActiveCamera);
+		void TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives, CameraComponent* aActiveCamera);
 
 		ForwardRenderer mForwardRenderer;
 		DeferedRenderer mDefferedRenderer;
+		std::vector<PrimitiveComponent*> mTranslucentPrimitives;
+		std::vector<PrimitiveComponent*> mOpaquePrimitives;
+		LightingInfo mLightingInfo;
 	};
 }

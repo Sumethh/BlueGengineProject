@@ -10,6 +10,7 @@ namespace Blue
 	};
 	struct IntRect
 	{
+		IntRect() = default;
 		IntRect(const Rect& aRect) : topLeft(aRect.topLeft), extents(aRect.extents)
 		{}
 		glm::ivec2 topLeft;

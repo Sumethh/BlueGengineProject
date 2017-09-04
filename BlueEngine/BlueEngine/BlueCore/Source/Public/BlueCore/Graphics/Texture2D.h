@@ -22,7 +22,7 @@ namespace Blue
 			return mHeight;
 		}
 
-		void Bind();
+		void Bind(ETextureID aId = ETextureID::Texture0);
 		void UnBind();
 		EImageFormat GetImageFormat()const
 		{

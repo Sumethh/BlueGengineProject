@@ -9,6 +9,14 @@ in vec2 TexCoords;
 in vec3 FragPos;
 in vec3 Normal;
 
+struct Material
+{
+    vec4 Diffuse;
+    vec4 Ambient;
+    float Specular;
+};
+uniform Material material;
+
 uniform sampler2D textureDiffuse;
 uniform float spec;
 void main()
@@ -18,4 +26,3 @@ void main()
     gColorSpec.rgb = texture(textureDiffuse, TexCoords).rgb;
     gColorSpec.a = spec;
 }
-
