@@ -177,6 +177,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Private\BlueCore\Components\ComponentRegistery.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Components\ILightComponent.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Components\PointLightComponent.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Components\PrimitiveComponent.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Core\Actor.cpp" />
@@ -201,6 +202,7 @@
     <ClCompile Include="Source\Private\BlueCore\Extern\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\IMemoryAllocator.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\MemoryManager.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Managers\ShaderManager.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\UpdateableManager.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Core\World.cpp" />
     <ClCompile Include="Source\Private\BlueCore\GraphicsDevice\GraphicsDeviceFactory.cpp" />
@@ -229,8 +231,11 @@
     <ClCompile Include="Source\Private\BlueCore\Systems\Console.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Systems\StencilCreator.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Systems\TaskSystem.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Utility\Directory.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Utility\File.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\BlueCore\Components\ILightComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\Components\PointLightComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\Components\ComponentRegistery.h" />
     <ClInclude Include="Source\Public\BlueCore\Components\PrimitiveComponent.h" />
@@ -261,6 +266,7 @@
     <ClInclude Include="Source\Public\BlueCore\Graphics\RenderQueue.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\ViewPort.h" />
     <ClInclude Include="Source\Public\BlueCore\Managers\MemoryManager.h" />
+    <ClInclude Include="Source\Public\BlueCore\Managers\ShaderManager.h" />
     <ClInclude Include="Source\Public\BlueCore\Memory\SmallBlockAllocator.h" />
     <ClInclude Include="Source\Public\BlueCore\Messaging\IMessage.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\ResourceList.h" />
@@ -307,7 +313,10 @@
     <ClInclude Include="Source\Public\BlueCore\Systems\Console.h" />
     <ClInclude Include="Source\Public\BlueCore\Systems\StencilCreator.h" />
     <ClInclude Include="Source\Public\BlueCore\Systems\TaskSystem.h" />
+    <ClInclude Include="Source\Public\BlueCore\Utility\Directory.h" />
+    <ClInclude Include="Source\Public\BlueCore\Utility\File.h" />
     <ClInclude Include="Source\Public\BlueCore\Utility\Limits.h" />
+    <ClInclude Include="Source\Public\BlueCore\Utility\TPool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

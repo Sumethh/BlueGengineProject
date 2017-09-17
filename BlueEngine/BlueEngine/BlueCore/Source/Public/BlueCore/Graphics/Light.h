@@ -5,6 +5,12 @@
 
 namespace Blue
 {
+	enum class ELightType : uint8
+	{
+		PointLight,
+		SpotLight,
+		DirectionalLight
+	};
 	//TODO: Make sure that your provide the transposed inverse matrix for the to assure that non uniform scale lighting is correct
 	class Shader;
 	struct PointLight

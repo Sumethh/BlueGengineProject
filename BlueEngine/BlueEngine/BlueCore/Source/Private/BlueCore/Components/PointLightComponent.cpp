@@ -6,14 +6,14 @@
 namespace Blue
 {
 
-	PointLightComponent::PointLightComponent(Actor* aOwningActor) : ActorComponent(aOwningActor)
+	PointLightComponent::PointLightComponent(Actor* aOwningActor) : ILightComponent(aOwningActor)
 	{
 
 	}
 
 	void PointLightComponent::LateUpdate(float aDt)
 	{
-		mPointLight.position = GetOwner()->GetTransform().position;
+		mPosition = GetOwner()->GetTransform().position;
 	}
 
 	void PointLightComponent::RegisterPointLight()

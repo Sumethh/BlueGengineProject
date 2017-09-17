@@ -1,13 +1,15 @@
 #include "BlueCore/Managers/MaterialManager.h"
+#include "BlueCore/Managers/ShaderManager.h"
 #include "BlueCore/Graphics/Material.h"
 #include "BlueCore/Graphics/Texture2D.h"
 #include "BlueCore/Graphics/Shader.h"
-
+#include "BlueCore/Utility/Directory.h"
 namespace Blue
 {
 	void MaterialManager::CreateDefaultMaterials()
 	{
 		Material* defaultMaterial = CreateMaterial();
+		std::string directory = Directory::GetWorkingDirectory();
 		Shader* shader = new Shader();
 		shader->LoadShader("assets/shaders/glsl/Forward/Forward_Shaded.glslv", "assets/shaders/glsl/Forward/Forward_Shaded.glslf");
 		int t = 0;

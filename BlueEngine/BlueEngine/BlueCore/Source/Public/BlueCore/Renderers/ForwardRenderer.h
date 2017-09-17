@@ -8,6 +8,7 @@
 namespace Blue
 {
 	struct Transform;
+	struct SceneLighting;
 	class Light;
 	class Shader;
 	class Material;
@@ -19,6 +20,7 @@ namespace Blue
 
 		void SubmitGeometry(Mesh* aMesh, glm::mat4 aTransform) override;
 		void SetActiveCamera(CameraComponent* aCamera) override;
+		void SetActiveLighting(SceneLighting* aLighting) override;
 		void SetActiveMaterial(Material* aMaterial) override;
 
 		void End() override;

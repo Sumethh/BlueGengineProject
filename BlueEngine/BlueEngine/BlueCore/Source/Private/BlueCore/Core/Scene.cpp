@@ -17,9 +17,9 @@ namespace Blue
 		mPrimitives.push_back(aComponent);
 	}
 
-	void Scene::RegisterLight(LightComponent* aLight)
+	void Scene::RegisterLight(ILightComponent* aLight)
 	{
-		mLights.push_back(aLight);
+		mLights.emplace_back(aLight);
 	}
 
 	void Scene::RegisterCamera(CameraComponent* aCamera)
@@ -37,14 +37,9 @@ namespace Blue
 		}
 	}
 
-	void Scene::DeregisterLight(LightComponent* aLight)
+	void Scene::DeregisterLight(ILightComponent* aLight)
 	{
-		std::vector<LightComponent*>::iterator foundLight = std::find(mLights.begin(), mLights.end(), aLight);
-
-		if (foundLight != mLights.end())
-		{
-			mLights.erase(foundLight);
-		}
+		mLights.erase(std::find(mLights.begin(), mLights.end(), aLight));
 	}
 
 	void Scene::DeregisterCamera(CameraComponent* aCamera)

@@ -49,6 +49,11 @@ namespace Blue
 		mActiveProjectionMatrix = aCamera->GetProjectionMatrix();
 	}
 
+	void ForwardRenderer::SetActiveLighting(SceneLighting* aLighting)
+	{
+
+	}
+
 	void ForwardRenderer::SetActiveMaterial(Material* aMaterial)
 	{
 		if (mActiveMaterial != aMaterial)

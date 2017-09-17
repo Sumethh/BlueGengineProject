@@ -6,14 +6,14 @@ layout(binding = 0) uniform sampler2D gPosition;
 layout(binding = 1) uniform sampler2D gNormal;
 layout(binding = 2) uniform sampler2D gColorSpec;
 
-const int MAX_LIGHTS = 32; 
+const int MAX_LIGHTS = 64; 
 
 out vec4 outColor;
 uniform vec3 viewPos;
 
- float constant = 1;
-    float linear = 0.7;
-    float quadratic = 1.8;
+float constant = 1;
+float linear = 0.7;
+float quadratic = 1.8;
 struct PointLight
 {
     vec3 position;
@@ -118,9 +118,9 @@ void main()
     vec3 color = texture(gColorSpec, texCoords).rgb;
     float spec = texture(gColorSpec, texCoords).a;
 
-    vec3 lighting = color * 0.1f; //hardcoded ambient
+    vec3 lighting = color * 0.15f; //hardcoded ambient
     vec3 viewDir = normalize(viewPos - fragPos);
-    
+
     for(int i=0; i < directionalLightCount; ++i)
     {
         vec3 lightDir = normalize(-directionalLights[i].direction);

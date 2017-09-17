@@ -8,10 +8,12 @@
 
 namespace Blue
 {
+
 	class Actor;
 	class PrimitiveComponent;
-	class PointLight;
 	class CameraComponent;
+	class ILightComponent;
+
 	class Scene : public NonCopyable
 	{
 	public:
@@ -19,31 +21,32 @@ namespace Blue
 		~Scene();
 
 		void RegisterPrimitiveComponent(PrimitiveComponent* aComponent);
-		void RegisterPointLight(PointLight* aLight);
+		void RegisterLight(ILightComponent* aLight);
 		void RegisterCamera(CameraComponent* aCamera);
 
 		void DeregisterPimitiveComponent(PrimitiveComponent* aComponent);
-		void DeregisterLight(uint32 aLightIndex);
+		void DeregisterLight(ILightComponent* aLight);
 		void DeregisterCamera(CameraComponent* aCamera);
 
 		const std::vector<PrimitiveComponent*>& GetAllPrimitives()const
 		{
 			return mPrimitives;
 		}
-		const std::vector<LightComponent*>& GetAllLights()const
-		{
-			return mLights;
-		}
+
 		const std::vector<CameraComponent*>& GetAllCameras()const
 		{
 			return mCameras;
 		}
 
+		const std::vector<ILightComponent*>& GetAllLights()const
+		{
+			return mLights;
+		}
+
 	private:
 
 		std::vector<PrimitiveComponent*> mPrimitives;
-		std::vector<LightComponent*> mLights;
+		std::vector<ILightComponent*> mLights;
 		std::vector<CameraComponent*> mCameras;
-
 	};
 }

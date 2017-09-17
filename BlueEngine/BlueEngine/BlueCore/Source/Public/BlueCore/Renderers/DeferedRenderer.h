@@ -5,6 +5,7 @@
 namespace Blue
 {
 	class Shader;
+	struct SceneLighting;
 	class DeferedRenderer : public IRenderer
 	{
 	public:
@@ -13,10 +14,11 @@ namespace Blue
 		void Init() override;
 
 		void Begin();
-		void End();
+		void End() override;
 
 		void SubmitGeometry(Mesh* aMesh, glm::mat4 aTransform) override;
 		void SetActiveCamera(CameraComponent* aCamera) override;
+		void SetActiveLighting(SceneLighting* aLighting) override;
 		void SetActiveMaterial(Material* aMaterial) override;
 
 	private:
@@ -43,5 +45,6 @@ namespace Blue
 		Mesh* mCurrentMesh;
 		Shader* mDeferedShader;
 		Shader* mLightingPassShader;
+		SceneLighting* mLighting;
 	};
 }

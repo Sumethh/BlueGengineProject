@@ -6,11 +6,11 @@ namespace Blue
 {
 	class Scene;
 	class PrimitiveComponent;
-	class LightComponent;
+	class ILightComponent;
 
-	struct LightingInfo
+	struct SceneLighting
 	{
-
+		std::vector<ILightComponent*> lights;
 	};
 
 	class SceneRenderer
@@ -28,6 +28,6 @@ namespace Blue
 		DeferedRenderer mDefferedRenderer;
 		std::vector<PrimitiveComponent*> mTranslucentPrimitives;
 		std::vector<PrimitiveComponent*> mOpaquePrimitives;
-		LightingInfo mLightingInfo;
+		SceneLighting mLightingInfo;
 	};
 }

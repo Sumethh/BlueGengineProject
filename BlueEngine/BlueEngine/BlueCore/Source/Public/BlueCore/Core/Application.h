@@ -22,7 +22,7 @@ namespace Blue
 
 	protected:
 		void CreateWindow(const char* aTitle, const uint32 aWidth, const uint32 aHeight);
-
+		static Application* sCurrentApplication;
 		ApplicationWindow* mWindow;
 		Game* mGame;
 		ForwardRenderer* mRenderer;

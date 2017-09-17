@@ -6,7 +6,7 @@
 #include "BlueCore/Components/ActorComponent.h"
 #include "BlueCore/Components/CameraComponent.h"
 #include "BlueCore/Components/FirstPersonComponent.h"
-#include "BlueCore/Components/LightComponent.h"
+#include "BlueCore/Components/PointLightComponent.h"
 #include "BlueCore/Core/World.h"
 #include "BlueCore/Core/Actor.h"
 #include "BlueCore/Renderers/SceneRenderer.h"
@@ -93,24 +93,22 @@ public:
 			scenePassTimer.Start();
 			sceneRenderer.ConductScenePass(&myWorld);
 			ImGui::Text("Scene Pass: %f ms", (float)scenePassTimer.IntervalMS());
-
+			ImGui::End();
 			ImGui::Begin("Create Objects");
 
 			ImGui::InputFloat3("Position", &position.x);
 			ImGui::InputFloat3("Color", &color.x);
-
-			if (ImGui::Button("Create Lights"))
+			if (ImGui::Button("Create Light"))
 			{
 				Blue::Actor* actor = myWorld.CreateActor();
-				actor->AddComponent<LightComponent>();
-
+				Blue::PointLightComponent* light = actor->AddComponent<Blue::PointLightComponent>();
+				light->SetColor(color);
 				Blue::Transform trans;
 				trans.position = position;
-				actor->SetTransform()
+				actor->SetTransform(trans);
 			}
-
-
 			ImGui::End();
+
 			ImGui::Render();
 			mWindow->Swap();
 			Blue::Input::Reset();

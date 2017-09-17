@@ -64,38 +64,6 @@ namespace Blue
 		return mTexture->GetImageFormat() == EImageFormat::RGBA;
 	}
 
-	void Material::SetPointLightData(std::vector<Light*>& aLights)
-	{
-		/*
-		    BlueAssert(aLights.size() <= Shader::MaxLightCount);
-
-		    if (mShader->GetPointLightCountLoc() == -1)
-		    {
-		    return;
-		    }
-
-		    float count = (float)aLights.size();
-		    mShader->SetShaderVar(mShader->GetPointLightCountLoc(), (void*)&count, EVarType::Float);
-
-		    std::vector<Shader::CachedPointlightShaderInfo>& lightInfo = mShader->GetPointLightInfo();
-		    static float constant = 1;
-		    static float linear = .14f;
-		    static float quadratic = .07f;
-
-		    for (int i = 0; i < aLights.size(); ++i)
-		    {
-		    Shader::CachedPointlightShaderInfo& info = lightInfo[i];
-
-		    mShader->SetShaderVar(info.pos, (void*)&aLights[i]->position, EVarType::Vector3);
-		    mShader->SetShaderVar(info.color, (void*)&aLights[i]->color, EVarType::Vector3);
-
-		    mShader->SetShaderVar(info.constant, (void*)&constant, EVarType::Float);
-		    mShader->SetShaderVar(info.linear, (void*)&linear, EVarType::Float);
-		    mShader->SetShaderVar(info.quadratic, (void*)&quadratic, EVarType::Float);
-		    }*/
-
-	}
-
 	bool Material::IsBound() const
 	{
 		return mBound;

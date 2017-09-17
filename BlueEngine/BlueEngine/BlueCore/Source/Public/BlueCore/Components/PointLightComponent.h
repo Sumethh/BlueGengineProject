@@ -1,11 +1,11 @@
 #pragma once
-#include "ActorComponent.h"
+#include "ILightComponent.h"
 
 #include "BlueCore/Graphics/Light.h"
 
 namespace Blue
 {
-	class PointLightComponent : public ActorComponent
+	class PointLightComponent : public ILightComponent
 	{
 	public:
 		PointLightComponent(Actor* aOwningActor);
@@ -15,9 +15,18 @@ namespace Blue
 			return StaticHash("PointLightComponent");
 		}
 
-		inline PointLight GetPointLight()
+		inline glm::vec3 GetColor()
 		{
-			return mPointLight;
+			return mColor;
+		}
+		inline glm::vec3 GetLightPosition()
+		{
+			return mPosition;
+		}
+
+		inline void SetColor(glm::vec3 aColor)
+		{
+			mColor = aColor;
 		}
 
 		void LateUpdate(float aDt) override;
@@ -26,7 +35,8 @@ namespace Blue
 		void RegisterPointLight();
 		void DeregisterPointLight();
 
-		PointLight mPointLight;
+		glm::vec3 mColor;
+		glm::vec3 mPosition;
 		uint32 mLightIndex;
 	};
 }

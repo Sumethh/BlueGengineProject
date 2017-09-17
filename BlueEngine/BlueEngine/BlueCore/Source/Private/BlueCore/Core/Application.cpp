@@ -25,10 +25,13 @@
 
 namespace Blue
 {
+	Application* Application::sCurrentApplication;
+
 	Application::Application() :
 		mWindow(nullptr)
 	{
-
+		assert(!sCurrentApplication);
+		sCurrentApplication = this;
 	}
 
 	Application::~Application()

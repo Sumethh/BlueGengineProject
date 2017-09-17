@@ -46,8 +46,12 @@ namespace Blue
 		//Run this over for each active camera? Should maybe also check for their viewport size
 		Timer renderTimer;
 		renderTimer.Start();
+		mLightingInfo.lights.clear();
 
-
+		for (ILightComponent* light : aScene->GetAllLights())
+		{
+			mLightingInfo.lights.emplace_back(light);
+		}
 		for (CameraComponent* camera : cameras)
 		{
 			OpaquePass(aScene, mOpaquePrimitives, camera);
@@ -62,6 +66,7 @@ namespace Blue
 	{
 		mDefferedRenderer.Begin();
 		mDefferedRenderer.SetActiveCamera(aActiveCamera);
+		mDefferedRenderer.SetActiveLighting(&mLightingInfo);
 		for (PrimitiveComponent* primitive : aOpaquePrimitives)
 		{
 			primitive->SubmitGeometry(&mDefferedRenderer);

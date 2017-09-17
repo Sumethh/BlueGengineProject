@@ -71,15 +71,7 @@ namespace Blue
 				varName += "color";
 				info.color = GetShaderVariableLocation(varName.c_str());
 				varName = base;
-				varName += "constant";
-				info.constant = GetShaderVariableLocation(varName.c_str());
-				varName = base;
-				varName += "linear";
-				info.linear = GetShaderVariableLocation(varName.c_str());
-				varName = base;
-				varName += "quadratic";
-				info.quadratic = GetShaderVariableLocation(varName.c_str());
-				mCachedPointLightInfo.push_back(info);
+				mCachedPointLightInfo.emplace_back(std::move(info));
 			}
 		}
 	}

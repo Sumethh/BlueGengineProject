@@ -16,9 +16,6 @@ namespace Blue
 		{
 			int32 pos;
 			int32 color;
-			int32 constant;
-			int32 linear;
-			int32 quadratic;
 		};
 
 		enum ShaderType
@@ -49,7 +46,7 @@ namespace Blue
 		{
 			return mPointLightCountLoc;
 		}
-		static const uint32 MaxLightCount = 32;
+		static const uint32 MaxLightCount = 64;
 
 	private:
 		void CalcPointLightInfo();

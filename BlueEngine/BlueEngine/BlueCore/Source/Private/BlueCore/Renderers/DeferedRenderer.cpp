@@ -1,5 +1,7 @@
 #include "BlueCore/GraphicsDevice/IGraphicsDevice.h"
+
 #include "BlueCore/Renderers/DeferedRenderer.h"
+#include "BlueCore/Renderers/SceneRenderer.h"
 
 #include "BlueCore/Graphics/Mesh.h"
 #include "BlueCore/Graphics/Shader.h"
@@ -11,6 +13,8 @@
 #include "BlueCore/Core/Rect.h"
 
 #include "BlueCore/Components/CameraComponent.h"
+#include "BlueCore/Components/ILightComponent.h"
+#include "BlueCore/Components/PointLightComponent.h"
 #include "BlueCore/Core/Transformable.h"
 #include <gl/glew.h>
 #include <Imgui/imgui.h>
@@ -107,7 +111,6 @@ namespace Blue
 		device->BindGraphicsResource(mFramebufferID);
 		device->ClearBuffer((EBufferBit)((uint8)EBufferBit::Color | (uint8)EBufferBit::DepthBit));
 		mDeferedShader->Bind();
-
 	}
 
 	void DeferedRenderer::End()
@@ -121,17 +124,11 @@ namespace Blue
 		Transformable* transformable = reinterpret_cast<Transformable*>(mCurrentCamera->GetOwner());
 		Transform trans = transformable->GetTransform();
 
-		int32 lightCount = 0;
 		mLightingPassShader->SetShaderVar(mLightPassViewPosition, static_cast<void*>(&trans.position), EVarType::Vector3);
-		mLightingPassShader->SetShaderVar(mPointLightCountPosition, &lightCount, EVarType::Int);
-		mLightingPassShader->SetShaderVar(mDirLightCountPosition, &lightCount, EVarType::Int);
 
-		glActiveTexture(GL_TEXTURE0);
-		device->BindGraphicsResource(mPositionTextureID);
-		glActiveTexture(GL_TEXTURE1);
-		device->BindGraphicsResource(mNormalTextureID);
-		glActiveTexture(GL_TEXTURE2);
-		device->BindGraphicsResource(mColorSpecTextureID);
+		device->BindGraphicsResource(mPositionTextureID, ETextureID::Texture0);
+		device->BindGraphicsResource(mNormalTextureID, ETextureID::Texture1);
+		device->BindGraphicsResource(mColorSpecTextureID, ETextureID::Texture2);
 
 		int32 dirLightDirLoc = mLightingPassShader->GetShaderVariableLocation("directionalLights[0].direction");
 		int32 dirLightColorLoc = mLightingPassShader->GetShaderVariableLocation("directionalLights[0].color");
@@ -141,6 +138,28 @@ namespace Blue
 		mLightingPassShader->SetShaderVar(dirLightColorLoc, static_cast<void*>(&color), EVarType::Vector3);
 
 		mLightingPassShader->SetShaderVar(mDirLightCountPosition, &count, EVarType::Int);
+
+
+		uint32 counter = 0;
+		std::vector<Shader::CachedPointlightShaderInfo>& lightsLoc = mLightingPassShader->GetPointLightInfo();
+		int32 lightCount = lightsLoc.size();
+		mLightingPassShader->SetShaderVar(mLightingPassShader->GetPointLightCountLoc(), static_cast<void*>(&lightCount), EVarType::Int);
+		for (ILightComponent* light : mLighting->lights)
+		{
+			switch (light->GetLightType())
+			{
+				case ELightType::PointLight:
+					{
+						glm::vec3 pos = static_cast<PointLightComponent*>(light)->GetLightPosition();
+						glm::vec3 color = static_cast<PointLightComponent*>(light)->GetColor();
+						mLightingPassShader->SetShaderVar(lightsLoc[counter].pos, static_cast<void*>(&pos), EVarType::Vector3);
+						mLightingPassShader->SetShaderVar(lightsLoc[counter].color, static_cast<void*>(&color), EVarType::Vector3);
+						break;
+					}
+					InvalidDefaultCase;
+			}
+			++counter;
+		}
 
 		device->BindGraphicsResource(mQuadVao);
 		device->DrawBuffers(EDrawMode::TriangleStrip, 0, 4);
@@ -174,6 +193,11 @@ namespace Blue
 		glm::mat4 view = glm::inverse(aCamera->GetViewMatrix());
 		mDeferedShader->SetShaderVar(mViewLocation, static_cast<void*>(&view), EVarType::Matrix4x4);
 		mCurrentCamera = aCamera;
+	}
+
+	void DeferedRenderer::SetActiveLighting(SceneLighting* aLighting)
+	{
+		mLighting = aLighting;
 	}
 
 	void DeferedRenderer::SetActiveMaterial(Material* aMaterial)

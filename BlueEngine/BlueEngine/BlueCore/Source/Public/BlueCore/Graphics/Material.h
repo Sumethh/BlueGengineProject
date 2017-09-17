@@ -52,7 +52,6 @@ namespace Blue
 		}
 		uint32 GetShaderVariableLoc(const char* aVariable);
 		bool HasAlpha()const;
-		void SetPointLightData(std::vector<Light*>& aLights);
 
 		bool IsBound()const;
 

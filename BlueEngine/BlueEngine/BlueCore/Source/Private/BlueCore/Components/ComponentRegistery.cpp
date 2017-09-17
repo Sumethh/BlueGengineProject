@@ -4,8 +4,10 @@
 #include "BlueCore/Components/DynamicMeshComponent.h"
 #include "BlueCore/Components/FirstPersonComponent.h"
 #include "BlueCore/Components/CameraComponent.h"
+#include "BlueCore/Components/PointLightComponent.h"
 #include "BlueCore/Core/Timer.h"
-#define RegisterComponentTypeInternal(type) Blue::ComponentRegistery::GI()->RegisterComponent<##type>(CompileHash(#type))
+
+#define RegisterComponentTypeInternal(type) Blue::ComponentRegistery::GI()->RegisterComponent<##type>(StaticHash(#type))
 
 namespace Blue
 {
@@ -41,6 +43,7 @@ namespace Blue
 
 		RegisterComponentTypeInternal(CameraComponent);
 		RegisterComponentTypeInternal(FirstPersonComponent);
+		RegisterComponentTypeInternal(PointLightComponent);
 	}
 
 	ComponentRegistery* ComponentRegistery::mInstance = nullptr;
