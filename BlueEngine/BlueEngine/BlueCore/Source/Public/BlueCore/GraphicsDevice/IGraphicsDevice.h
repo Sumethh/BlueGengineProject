@@ -190,9 +190,13 @@ namespace Blue
 		virtual void Disable() = 0;
 		virtual void Enable() = 0;
 
-		static IGraphicsDevice* GetCurrentGraphicsDevice()
+		inline static IGraphicsDevice* GetCurrentGraphicsDevice()
 		{
 			return mCurrentGraphicsDevice;
+		}
+		inline EGraphicsDeviceType GetGraphicsDeviceType()
+		{
+			return mGraphicsType;
 		}
 	protected:
 

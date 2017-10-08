@@ -5,6 +5,7 @@
 
 namespace Blue
 {
+
 	ActorComponent::ActorComponent(Actor* aOwner) :
 		mEnabled(true),
 		mOwner(aOwner)
@@ -14,8 +15,16 @@ namespace Blue
 
 	ActorComponent::~ActorComponent()
 	{
-		BlockAllocator& smallAllocator = MemoryManager::GI()->GetSmallBlockAllocator();
-		smallAllocator.Deallocate(this, mSize);
+	}
+
+	void ActorComponent::PostConstruction()
+	{
+
+	}
+
+	void ActorComponent::PreDestruction()
+	{
+
 	}
 
 	void ActorComponent::BeginPlay()
@@ -39,7 +48,7 @@ namespace Blue
 
 	void ActorComponent::OnDeserialize(ArchiveObject* const aArchiveObject)
 	{
-		EComponentType savedComponentType = (EComponentType)(aArchiveObject->Restore<uint32>("ComponentID"));
+
 	}
 
 	AABB ActorComponent::GetComponentBounds()

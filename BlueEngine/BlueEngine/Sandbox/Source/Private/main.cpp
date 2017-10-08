@@ -1,14 +1,14 @@
 #include "BlueCore/Core/Application.h"
 #include "BlueCore/Core/ApplicationWindow.h"
 #include "BlueCore/Core/Log.h"
+#include "BlueCore/Core/World.h"
 #include "BlueCore/Input/Input.h"
+#include "BlueCore/Core/Actor.h"
 #include "BlueCore/Components/DynamicMeshComponent.h"
 #include "BlueCore/Components/ActorComponent.h"
 #include "BlueCore/Components/CameraComponent.h"
 #include "BlueCore/Components/FirstPersonComponent.h"
 #include "BlueCore/Components/PointLightComponent.h"
-#include "BlueCore/Core/World.h"
-#include "BlueCore/Core/Actor.h"
 #include "BlueCore/Renderers/SceneRenderer.h"
 #include "BlueCore/Managers/MemoryManager.h"
 #include "BlueCore/Managers/DebugManager.h"
@@ -17,12 +17,12 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <Imgui/imgui.h>
-#include <thread>
 class TestApp : public Blue::Application
 {
 public:
 	bool Run() override
 	{
+
 		CreateWindow("SandBox", 1920, 1080);
 		mWindow->Swap();
 
@@ -119,10 +119,31 @@ public:
 	}
 };
 
+struct Test1
+{
+	virtual Blue::int32 Hey()
+	{
+		return 1;
+	}
+	virtual Blue::int32 Huh()
+	{
+		return Hey();
+	}
+};
+
+struct Test2 : public Test1
+{
+	virtual Blue::int32 Hey() override
+	{
+		return 2;
+	};
+};
 int main(int aArgc, char** aArgv)
 {
 	(void)aArgv;
 	(void)aArgc;
+	Test1* t = new Test2;
+	auto z = t->Hey();
 	TestApp myApp;
 	myApp.Run();
 	return 0;

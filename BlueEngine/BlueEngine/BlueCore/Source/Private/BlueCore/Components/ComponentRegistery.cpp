@@ -1,3 +1,4 @@
+#include "BlueCore/Components/ActorComponent.h"
 #include "BlueCore/Components/ComponentRegistery.h"
 #include "BlueCore/Core/Transformable.h"
 #include "BlueCore/Components/MaterialComponent.h"
@@ -7,7 +8,7 @@
 #include "BlueCore/Components/PointLightComponent.h"
 #include "BlueCore/Core/Timer.h"
 
-#define RegisterComponentTypeInternal(type) Blue::ComponentRegistery::GI()->RegisterComponent<##type>(StaticHash(#type))
+#define RegisterComponentTypeInternal(type) Blue::ComponentRegistery::GI()->RegisterComponent<##type>()
 
 namespace Blue
 {
@@ -33,10 +34,6 @@ namespace Blue
 
 	void ComponentRegistery::Init()
 	{
-		size_t size = sizeof(MaterialComponent);
-		size = sizeof(DynamicMeshComponent);
-		size = sizeof(CameraComponent);
-		size = sizeof(FirstPersonComponent);
 		RegisterComponentTypeInternal(MaterialComponent);
 		RegisterComponentTypeInternal(DynamicMeshComponent).
 		AddRequiredComponent(ActorComponent::ID<MaterialComponent>());

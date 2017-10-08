@@ -3,7 +3,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
+#include <algorithm>
 namespace Blue
 {
 
@@ -24,19 +24,21 @@ namespace Blue
 		return outFlags;
 	}
 
-	bool FindFilesInDirectory(std::string aDirectory, std::vector<std::string>& aOutFileNames, EFileFlags aFlags)
+	bool FindFilesInDirectory(std::string aDirectory, std::vector<FileInfo>& aOutFileNames, EFileFlags aFlags)
 	{
 		WIN32_FIND_DATA findData;
 		LARGE_INTEGER fileSize;
 		HANDLE foundResult = INVALID_HANDLE_VALUE;
 		DWORD error = 0;
-		if (aDirectory.size() > MAX_PATH - 3)
+		std::string searchingDir(aDirectory + "\\*");
+		std::replace(searchingDir.begin(), searchingDir.end(), '/', '\\');
+		if (searchingDir.size() > MAX_PATH - 3)
 		{
-			Log::Error("Directory is too long: " + aDirectory);
+			Log::Error("Directory is too long: " + searchingDir);
 			return false;
 		}
 
-		foundResult = FindFirstFile(aDirectory.c_str(), &findData);
+		foundResult = FindFirstFile(searchingDir.c_str(), &findData);
 
 		if (foundResult == INVALID_HANDLE_VALUE)
 		{
@@ -45,8 +47,18 @@ namespace Blue
 			return false;
 		}
 		uint8 fileFlags = ConvertToEFileFlags(findData.dwFileAttributes);
+
+		FileInfo currentFileInfo{};
+
 		if (fileFlags & static_cast<uint8>(aFlags))
-			aOutFileNames.emplace_back(findData.cFileName);
+		{
+			std::string fullFileName(findData.cFileName);
+			sizeInt extensionLocation = fullFileName.find_first_of('.');
+			currentFileInfo.path = aDirectory + fullFileName;
+			currentFileInfo.fileName = fullFileName.substr(0, extensionLocation);
+			currentFileInfo.extension = fullFileName.substr(extensionLocation + 1, fullFileName.size() - extensionLocation - 1);
+			aOutFileNames.emplace_back(currentFileInfo);
+		}
 
 		DWORD t = FILE_ATTRIBUTE_DIRECTORY;
 		DWORD A = FILE_ATTRIBUTE_ARCHIVE;
@@ -54,20 +66,33 @@ namespace Blue
 		{
 			fileFlags = ConvertToEFileFlags(findData.dwFileAttributes);
 			if (fileFlags & static_cast<uint8>(aFlags))
-				aOutFileNames.emplace_back(findData.cFileName);
+			{
+				currentFileInfo = {};
+				std::string fullFileName(findData.cFileName);
+				sizeInt extensionLocation = fullFileName.find_first_of('.');
+				currentFileInfo.path = aDirectory + fullFileName;
+				currentFileInfo.fileName = fullFileName.substr(0, extensionLocation);
+				currentFileInfo.extension = fullFileName.substr(extensionLocation + 1, fullFileName.size() - extensionLocation - 1);
+				aOutFileNames.emplace_back(currentFileInfo);
+			}
 		}
 		FindClose(foundResult);
 		return aOutFileNames.size() > 0;
 	}
 
-	bool Directory::FindAllFilesInDirectory(std::string aDirectory, std::vector<std::string>& aOutFileNames)
+	bool Directory::FindAllFilesInDirectory(std::string aDirectory, std::vector<FileInfo>& aOutFileNames)
 	{
 		return FindFilesInDirectory(aDirectory, aOutFileNames, EFileFlags::File);
 	}
 
-	bool Directory::FindAllFoldersInDirecory(std::string aDirectory, std::vector<std::string>& aOutFileNames)
+	bool Directory::FindAllFoldersInDirecory(std::string aDirectory, std::vector<FileInfo>& aOutFileNames)
 	{
 		return FindFilesInDirectory(aDirectory, aOutFileNames, EFileFlags::Directory);
+	}
+
+	bool Directory::DoesDirectoryExist(std::string aDirectory)
+	{
+		return false;
 	}
 
 	std::string Directory::GetWorkingDirectory()
@@ -76,6 +101,7 @@ namespace Blue
 		char path[MAX_PATH];
 		GetCurrentDirectory(MAX_PATH, path);
 		returningString = path;
+		std::replace(returningString.begin(), returningString.end(), '\\', '/');
 		return returningString;
 	}
 }

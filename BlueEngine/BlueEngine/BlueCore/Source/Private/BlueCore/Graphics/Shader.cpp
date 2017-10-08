@@ -18,8 +18,8 @@ namespace Blue
 	{
 		IGraphicsDevice* gr = IGraphicsDevice::GetCurrentGraphicsDevice();
 		gr->UpdateResourceData(mShaderResourceID, aVertexShader, aFragmentShader);
-		m_shaderPaths[ShaderType::VertexShader] = aVertexShader;
-		m_shaderPaths[ShaderType::FragmentShader] = aFragmentShader;
+		m_shaderPaths[EShaderType::VertexShader] = aVertexShader;
+		m_shaderPaths[EShaderType::FragmentShader] = aFragmentShader;
 		Bind();
 		CalcPointLightInfo();
 		UnBind();

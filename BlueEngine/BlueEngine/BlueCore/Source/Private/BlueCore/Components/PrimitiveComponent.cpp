@@ -12,11 +12,20 @@ namespace Blue
 		mViewportLayer(EViewportLayer::World),
 		mMaterialComponent(nullptr)
 	{
-		GetOwner()->GetWorld()->RegisterPrimitiveComponent(this);
-		SetParent(aOwner);
 	}
 
 	PrimitiveComponent::~PrimitiveComponent()
+	{
+
+	}
+
+	void PrimitiveComponent::PostConstruction()
+	{
+		GetOwner()->GetWorld()->RegisterPrimitiveComponent(this);
+		SetParent(GetOwner());
+	}
+
+	void PrimitiveComponent::PreDestruction()
 	{
 		Actor* owner = GetOwner();
 		Scene* scene = (Scene*)owner->GetWorld();

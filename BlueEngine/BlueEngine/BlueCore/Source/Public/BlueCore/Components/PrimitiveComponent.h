@@ -15,6 +15,8 @@ namespace Blue
 		PrimitiveComponent(Actor* aOwner);
 		virtual ~PrimitiveComponent();
 
+		virtual void PostConstruction() override;
+		virtual void PreDestruction() override;
 
 		Material* GetMaterial();
 

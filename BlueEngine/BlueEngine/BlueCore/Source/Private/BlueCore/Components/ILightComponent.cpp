@@ -7,10 +7,18 @@ namespace Blue
 
 	ILightComponent::ILightComponent(Actor* aGO) : ActorComponent(aGO)
 	{
-		static_cast<Scene*>(GetOwner()->GetWorld())->RegisterLight(this);
 	}
 
 	ILightComponent::~ILightComponent()
+	{
+	}
+
+	void ILightComponent::PostConstruction()
+	{
+		static_cast<Scene*>(GetOwner()->GetWorld())->RegisterLight(this);
+	}
+
+	void ILightComponent::PreDestruction()
 	{
 		static_cast<Scene*>(GetOwner()->GetWorld())->DeregisterLight(this);
 	}

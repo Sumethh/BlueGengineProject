@@ -12,11 +12,9 @@ namespace Blue
 		DynamicMeshComponent(Actor* aOwner);
 		~DynamicMeshComponent();
 
-		uint64 ID() override
-		{
-			return StaticHash("DynamicMeshComponent");
-		}
+		DEFINE_ACTOR_COMPONENT_BASE_FUNCTIONALITY();
 
+		virtual void PostConstruction() override;
 		virtual void BeginPlay() override;
 
 		virtual void CalculateComponentBounds() override;

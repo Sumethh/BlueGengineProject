@@ -8,12 +8,9 @@ namespace Blue
 	class FirstPersonComponent : public ActorComponent
 	{
 	public:
-		FirstPersonComponent(Actor* aOwner);
+		DEFINE_ACTOR_COMPONENT_BASE_FUNCTIONALITY();
 
-		uint64 ID()
-		{
-			return StaticHash("FirstPersonComponent");
-		}
+		FirstPersonComponent(Actor* aOwner);
 
 		virtual void BeginPlay() override;
 		virtual void Update(float aDt) override;

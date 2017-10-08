@@ -10,7 +10,19 @@
 
 namespace Blue
 {
+	IMPLEMENT_ACTOR_COMPONENT_BASE_FUNCTIONALITY(CameraComponent);
+
 	CameraComponent::CameraComponent(Actor* aOwner) : ActorComponent(aOwner)
+	{
+
+	}
+
+	CameraComponent::~CameraComponent()
+	{
+
+	}
+
+	void CameraComponent::PostConstruction()
 	{
 		mProjectionMatrix = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
 		mViewport.SetDimensions(glm::vec2(1, 1));
@@ -18,11 +30,6 @@ namespace Blue
 
 		GetOwner()->GetWorld()->RegisterCamera(this);
 		Message<WindowResizeMessage>::Listen(this, &CameraComponent::OnWindowResize);
-	}
-
-	CameraComponent::~CameraComponent()
-	{
-
 	}
 
 	void CameraComponent::BeginPlay()

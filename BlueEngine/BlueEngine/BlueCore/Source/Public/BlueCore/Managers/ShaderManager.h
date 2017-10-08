@@ -1,4 +1,7 @@
 #pragma once
+#include "BlueCore/Utility/Directory.h"
+
+
 #include <string>
 #include <map>
 
@@ -22,7 +25,15 @@ namespace Blue
 		}
 
 	private:
+
 		static ShaderManager* sInstance;
+
+		void LoadAllShadersInDirectory(const std::string& aPath);
+		void LoadShaders(const std::vector<FileInfo>& aFileNames);
+
+		std::map<std::string, Shader*> mShaders;
+
 		std::string mShaderPath;
+
 	};
 }

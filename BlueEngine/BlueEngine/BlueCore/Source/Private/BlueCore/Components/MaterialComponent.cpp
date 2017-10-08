@@ -5,13 +5,20 @@
 
 namespace Blue
 {
+	IMPLEMENT_ACTOR_COMPONENT_BASE_FUNCTIONALITY(MaterialComponent);
+
 	MaterialComponent::MaterialComponent(Actor* aOwner) : ActorComponent(aOwner)
 	{
-		mMaterial = MaterialManager::GI()->GetMaterial(0);
 	}
 
 	MaterialComponent::~MaterialComponent()
 	{
 		mMaterial = nullptr;
 	}
+
+	void MaterialComponent::PostConstruction()
+	{
+		mMaterial = MaterialManager::GI()->GetMaterial(0);
+	}
+
 }

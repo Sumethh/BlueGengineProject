@@ -10,14 +10,12 @@ namespace Blue
 	class   CameraComponent : public ActorComponent
 	{
 	public:
+		DEFINE_ACTOR_COMPONENT_BASE_FUNCTIONALITY();
+
 		CameraComponent(Actor* aOwner);
 		~CameraComponent();
 
-		uint64 ID()
-		{
-			return StaticHash("CameraComponent");
-		}
-
+		virtual void PostConstruction() override;
 		virtual void BeginPlay();
 
 		inline void SetProjectionMatrix(glm::mat4 aNewProjectionMatrix)

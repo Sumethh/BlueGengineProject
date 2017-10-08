@@ -88,7 +88,7 @@ namespace Blue
 			memset(memory + sizeof(Block), DEBUG_USED_MEMORY, blockSize);
 #endif
 			--mFreeBlockCount;
-			return returningBlock;
+			return ++returningBlock;
 		}
 
 		Page* currentPage = mFirstPage;
@@ -115,7 +115,7 @@ namespace Blue
 #ifdef _DEBUG
 		memset(memory + sizeof(Block), DEBUG_USED_MEMORY, blockSize);
 #endif
-		return returningBlock;
+		return ++returningBlock;
 	}
 
 	void BlockAllocator::Deallocate(void* aData, size_t aSize)
@@ -139,7 +139,7 @@ namespace Blue
 				break;
 			}
 		}
-		mMbUsed -= blockSize;
+		mMbUsed -= static_cast<float>(blockSize) / static_cast<float>(1000 * 1000);;
 		mUsedMemory -= blockSize;
 
 		if (index == mBlockSizesCount)

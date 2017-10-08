@@ -8,13 +8,13 @@ namespace Blue
 	class MaterialComponent : public ActorComponent
 	{
 	public:
+		DEFINE_ACTOR_COMPONENT_BASE_FUNCTIONALITY();
+
 		MaterialComponent(Actor* aOwner);
 		~MaterialComponent();
 
-		uint64 ID() override
-		{
-			return StaticHash("MaterialComponent");
-		}
+		virtual void PostConstruction() override;
+
 		Material* GetMaterial() const
 		{
 			return mMaterial;

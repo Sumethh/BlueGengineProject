@@ -5,6 +5,7 @@
 
 namespace Blue
 {
+	IMPLEMENT_ACTOR_COMPONENT_BASE_FUNCTIONALITY(PointLightComponent);
 
 	PointLightComponent::PointLightComponent(Actor* aOwningActor) : ILightComponent(aOwningActor)
 	{

@@ -9,6 +9,7 @@
 
 namespace Blue
 {
+
 	Actor::Actor(World* a_world) :
 		mHasBeginPlayBeenCalled(0),
 		mWorld(a_world)

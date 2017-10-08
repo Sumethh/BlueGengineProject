@@ -5,7 +5,7 @@
 #pragma warning (disable : 4231)
 
 #include <assert.h>
-
+#include <string.h>
 
 
 #define BlueBit(n) 1 << n
@@ -35,3 +35,5 @@
 		#define EXP_TEMPLATE extern
 	#endif
 #endif
+
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)

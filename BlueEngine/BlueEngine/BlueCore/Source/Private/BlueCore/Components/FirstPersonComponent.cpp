@@ -10,6 +10,8 @@
 
 namespace Blue
 {
+	IMPLEMENT_ACTOR_COMPONENT_BASE_FUNCTIONALITY(FirstPersonComponent);
+
 	FirstPersonComponent::FirstPersonComponent(Actor* aOwner) : ActorComponent(aOwner)
 	{
 

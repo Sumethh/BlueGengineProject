@@ -11,14 +11,21 @@
 
 namespace Blue
 {
+	IMPLEMENT_ACTOR_COMPONENT_BASE_FUNCTIONALITY(DynamicMeshComponent);
+
 	DynamicMeshComponent::DynamicMeshComponent(Actor* aOwner) : PrimitiveComponent(aOwner)
 	{
-		SetMesh(MeshManager::GI()->GetMeshAsync("sphere", std::bind(&DynamicMeshComponent::SetMesh, this, std::placeholders::_1)));
 	}
 
 	DynamicMeshComponent::~DynamicMeshComponent()
 	{
 
+	}
+
+	void DynamicMeshComponent::PostConstruction()
+	{
+		PrimitiveComponent::PostConstruction();
+		SetMesh(MeshManager::GI()->GetMeshAsync("sphere", std::bind(&DynamicMeshComponent::SetMesh, this, std::placeholders::_1)));
 	}
 
 	void DynamicMeshComponent::BeginPlay()

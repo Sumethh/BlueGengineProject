@@ -18,7 +18,7 @@ namespace Blue
 			int32 color;
 		};
 
-		enum ShaderType
+		enum EShaderType
 		{
 			VertexShader = 0,
 			FragmentShader = 1,
@@ -51,7 +51,7 @@ namespace Blue
 	private:
 		void CalcPointLightInfo();
 
-		char* m_shaderPaths[ShaderType::ShaderTypeCount];
+		char* m_shaderPaths[EShaderType::ShaderTypeCount];
 		int32 mPointLightCountLoc;
 		std::vector<CachedPointlightShaderInfo> mCachedPointLightInfo;
 		GraphicsDeviceResourceID mShaderResourceID;

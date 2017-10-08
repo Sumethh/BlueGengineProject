@@ -13,6 +13,9 @@ namespace Blue
 		ILightComponent(Actor* aGO);
 		~ILightComponent();
 
+		virtual void PostConstruction() override;
+		virtual void PreDestruction() override;
+
 		inline ELightType GetLightType()
 		{
 			return mLightType;

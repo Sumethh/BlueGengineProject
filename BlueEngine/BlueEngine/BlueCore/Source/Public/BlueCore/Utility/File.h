@@ -3,11 +3,24 @@
 
 namespace Blue
 {
-	class File
+	struct FileInfo
 	{
-	public:
-
-	private:
-
+		std::string path;
+		std::string fileName;
+		std::string extension;
 	};
+
+	/*  class File
+	    {
+	    public:
+
+		static File LoadFile(std::string aPath);
+
+		std::string GetName();
+		std::string GetExtension();
+
+	    private:
+		std::string mFileName;
+		std::string mExtension;
+	    };*/
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "BlueCore/BlueCore.h"
-#include "BlueCore/Hashing/CompileTimeHashing.h"
 #include "BlueCore/Core/Log.h"
+#include "BlueCore/Hashing/CompileTimeHashing.h"
 #include "BlueCore/Managers/MemoryManager.h"
 #include <map>
 #include <vector>
@@ -27,6 +27,7 @@ namespace Blue
 		std::vector<uint64> requiredComponents;
 	};
 
+
 	class ComponentRegistery
 	{
 	public:
@@ -35,14 +36,23 @@ namespace Blue
 		void Init();
 
 		template<typename T>
-		RegisteredComponentInfo& RegisterComponent(uint64 aHash)
+		__forceinline RegisteredComponentInfo& RegisterComponent()
 		{
 			RegisteredComponentInfo& info = GetStaticComponentInfo<T>();
-			mRegisteryMap.emplace(aHash, info);
 			info.Construct = &__ConstructComponent<T>;
-			info.componentHash = aHash;
+			T* component = static_cast<T*>(info.Construct(nullptr));
+
+			mRegisteryMap.emplace(component->ID(), info);
+			info.componentHash = component->ID();
 			info.componentSize = sizeof(T);
-			Blue::Log::Info("Registering Component with ID: " + std::to_string(aHash) + " Size: " + std::to_string(sizeof(T)));
+			T::__ComponentSize = info.componentSize;
+			Blue::Log::Info("Registering Component with ID: " + std::to_string(info.componentHash) + " Size: " + std::to_string(sizeof(T)));
+
+			uint64 size(component->ComponentSize());
+			BlockAllocator& smallBlockAllocator = MemoryManager::GI()->GetSmallBlockAllocator();
+
+			component->~T();
+			smallBlockAllocator.Deallocate((void*)component, size);
 			return info;
 		}
 
@@ -91,4 +101,4 @@ namespace Blue
 	};
 }
 
-#define RegisterComponentType(type) Blue::ComponentRegistery::GI()->RegisterComponent<type>(CompileHash(#type))
+#define RegisterComponentType(type) Blue::ComponentRegistery::GI()->RegisterComponent<type>()

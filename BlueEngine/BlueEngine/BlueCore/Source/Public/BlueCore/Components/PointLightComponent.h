@@ -8,12 +8,9 @@ namespace Blue
 	class PointLightComponent : public ILightComponent
 	{
 	public:
-		PointLightComponent(Actor* aOwningActor);
+		DEFINE_ACTOR_COMPONENT_BASE_FUNCTIONALITY();
 
-		uint64 ID()override
-		{
-			return StaticHash("PointLightComponent");
-		}
+		PointLightComponent(Actor* aOwningActor);
 
 		inline glm::vec3 GetColor()
 		{

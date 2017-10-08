@@ -265,6 +265,7 @@
     <ClInclude Include="Source\Public\BlueCore\Graphics\RenderLayer.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\RenderQueue.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\ViewPort.h" />
+    <ClInclude Include="Source\Public\BlueCore\Managers\AssetManager.h" />
     <ClInclude Include="Source\Public\BlueCore\Managers\MemoryManager.h" />
     <ClInclude Include="Source\Public\BlueCore\Managers\ShaderManager.h" />
     <ClInclude Include="Source\Public\BlueCore\Memory\SmallBlockAllocator.h" />
