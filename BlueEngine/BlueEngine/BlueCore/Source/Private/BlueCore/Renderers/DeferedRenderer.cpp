@@ -16,6 +16,9 @@
 #include "BlueCore/Components/ILightComponent.h"
 #include "BlueCore/Components/PointLightComponent.h"
 #include "BlueCore/Core/Transformable.h"
+
+#include "BlueCore/Managers/ShaderManager.h"
+
 #include <gl/glew.h>
 #include <Imgui/imgui.h>
 namespace Blue
@@ -37,12 +40,10 @@ namespace Blue
 		ADD_DEBUG_TWEAKABLE(color);
 		ADD_DEBUG_TWEAKABLE(direction);
 		END_DEBUG_GROUP();
+		ShaderManager* shaderManager = ShaderManager::GI();
 
-		mDeferedShader = new Shader();
-		mDeferedShader->LoadShader("Assets/Shaders/GLSL/Defered/GBuffer.glslv", "Assets/Shaders/GLSL/Defered/GBuffer.glslf");
-
-		mLightingPassShader = new Shader();
-		mLightingPassShader->LoadShader("Assets/Shaders/GlSL/Defered/LightPass.glslv", "Assets/Shaders/GlSL/Defered/LightPass.glslf");
+		mDeferedShader = shaderManager->GetShader("gBuffer");
+		mLightingPassShader = shaderManager->GetShader("LightPass");
 
 		mModelLocation = mDeferedShader->GetShaderVariableLocation("model");
 		mProjectionLocation = mDeferedShader->GetShaderVariableLocation("projection");

@@ -29,7 +29,7 @@ namespace Blue
 		Shader();
 		~Shader();
 
-		void LoadShader(char* aVertexShader, char* aFragmentShader);
+		void LoadShader(const std::string& aVertexShader, const std::string& aFragmentShader);
 		void UnloadShader();
 
 		void Bind();
@@ -51,7 +51,7 @@ namespace Blue
 	private:
 		void CalcPointLightInfo();
 
-		char* m_shaderPaths[EShaderType::ShaderTypeCount];
+		std::string m_shaderPaths[EShaderType::ShaderTypeCount];
 		int32 mPointLightCountLoc;
 		std::vector<CachedPointlightShaderInfo> mCachedPointLightInfo;
 		GraphicsDeviceResourceID mShaderResourceID;

@@ -10,9 +10,10 @@ namespace Blue
 	{
 	public:
 
-		static bool FindAllFilesInDirectory(std::string aDirectory, std::vector<FileInfo>& aOutFileInfo);
-		static bool FindAllFoldersInDirecory(std::string aDirectory, std::vector<FileInfo>& aOutFileInfo);
-		static bool DoesDirectoryExist(std::string aDirectory);
+		static bool FindAllFilesInDirectory(const std::string& aDirectory, std::vector<FileInfo>& aOutFileInfo);
+		static bool FindAllFilesInDirectoryAndSubDirectories(const std::string& aDirectory, std::vector<FileInfo>& aOutFileInfo);
+		static bool FindAllFoldersInDirectory(const std::string& aDirectory, std::vector<FileInfo>& aOutFileInfo);
+		static bool DoesDirectoryExist(const std::string& aDirectory);
 		static std::string GetWorkingDirectory();
 	private:
 

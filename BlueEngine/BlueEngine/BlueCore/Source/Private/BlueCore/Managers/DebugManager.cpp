@@ -144,6 +144,7 @@ namespace Blue
 				DrawGroup(group, aSearchString);
 			}
 			ImGui::Spacing();
+			ImGui::Unindent();
 		}
 		else
 			ImGui::Unindent();
@@ -181,21 +182,21 @@ namespace Blue
 				value *= -1;
 			}
 			auto t = std::numeric_limits<T>::digits;
-			if constexpr(std::numeric_limits<T>::digits <= 32)
+			if (std::numeric_limits<T>::digits <= 32)
 			{
 				if (std::numeric_limits<T>::is_signed)
 					ImGui::Text("%d", value);
 				else
 					ImGui::Text("%u", value);
 			}
-			else if constexpr(std::numeric_limits<T>::digits == 64 || std::numeric_limits<T>::digits == 63)
+			else if (std::numeric_limits<T>::digits == 64 || std::numeric_limits<T>::digits == 63)
 			{
 				if (std::numeric_limits<T>::is_signed)
 					ImGui::Text("%lld", value);
 				else
 					ImGui::Text("%llu", value);
 			}
-			else constexpr
+			else
 				BlueAssert(false);
 		}
 	}
@@ -210,7 +211,6 @@ namespace Blue
 			ImGui::PushID(uniqueID);
 			ImGui::InputFloat("", aVariable);
 			ImGui::PopID();
-
 		}
 		else
 		{

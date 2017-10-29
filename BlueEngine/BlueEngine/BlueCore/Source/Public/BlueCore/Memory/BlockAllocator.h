@@ -1,9 +1,8 @@
 #pragma once
 #include "BlueCore/Core/NonCopyable.h"
 #include "BlueCore/Core/Types.h"
-
-
 #include "IMemoryAllocator.h"
+
 namespace Blue
 {
 	struct Block;

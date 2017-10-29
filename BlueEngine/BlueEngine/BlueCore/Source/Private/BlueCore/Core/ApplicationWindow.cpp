@@ -147,7 +147,7 @@ namespace Blue
 		{
 			mWidth = width;
 			mHeight = height;
-			glViewport(0, 0, width, height);
+
 			WindowResizeMessage message;
 			message.windowHeight = mHeight;
 			message.windowWidth = mWidth;

@@ -26,7 +26,7 @@ namespace Blue
 		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, ubyte* aPixels, const uint32 aWidth, const uint32 aHeight, EPrecisionType aTexturePrecision, EImageFormat aPixelFormat, EDataType aTextureDataType, uint32 aMipMapLevel) override;
 		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const uint32 aWidth, const uint32 aHeight, EPrecisionType aType) override;
 		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const ETextureParameter aParameter, const ETextureParameter aValue) override;
-		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, char* aVertexShaderPath, char* aFragmentShaderPath) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const std::string& aVertexShaderPath, const std::string& aFragmentShaderPath) override;
 		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, EBufferAttachment aAttachment) override;
 		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, EBufferAttachment* aAttachments, const uint32 aCount) override;
 		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, ERenderBufferType aType, EBufferAttachment aAttachment, const uint32 aWidth, const uint32 aHeight);
@@ -43,7 +43,7 @@ namespace Blue
 
 		void Disable()override;
 		void Enable() override;
-
+		void OnWindowResize(struct WindowResizeMessage* aMessage);
 
 	private:
 
@@ -64,7 +64,7 @@ namespace Blue
 		void BindResource(OpenGLResource& aResource);
 		void UnBindResource(OpenGLResource& aResource);
 
-		void UpdateShader(OpenGLResource& aResource, char* aVertexPath, char* aFragmentPath);
+		void UpdateShader(OpenGLResource& aResource, const std::string& aVertexPath, const std::string& aFragmentPath);
 
 		void UpdateElementBuffer(OpenGLResource& aResource, void* aData, uint64 aDataSize);
 		void UpdateVertexBuffer(OpenGLResource& aResource, size_t aOffset, void* aData, uint64 aDataSize, DataDescriptor* aDescriptors = nullptr, uint32 aDescriptorCount = 0);

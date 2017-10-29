@@ -36,6 +36,10 @@ namespace Blue
 
 	void Actor::OnConstruct()
 	{
+		for (ActorComponent* component : mComponentsToAdd)
+		{
+			mComponents.emplace_back(component);
+		}
 	}
 
 	void Actor::BeginPlay()
@@ -157,9 +161,11 @@ namespace Blue
 
 		for (const uint64& compHash : requiredComponents)
 		{
-			mComponents.emplace_back(componentRegistery->Construct(compHash, this));
+			AddComponent(compHash);
 		}
+
 		ActorComponent* component = ActorComponent::Construct(aID, this);
+		component->PostConstruction();
 		mComponentsToAdd.push_back(component);
 		return component;
 	}

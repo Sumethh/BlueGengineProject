@@ -1,6 +1,6 @@
 #pragma once
 #include "BlueCore/Utility/Directory.h"
-
+#include "BlueCore/Graphics/Shader.h"
 
 #include <string>
 #include <map>
@@ -25,11 +25,17 @@ namespace Blue
 		}
 
 	private:
+		struct ShaderPair
+		{
+			std::string shaders[Shader::EShaderType::ShaderTypeCount];
+			uint32 shaderCount;
+		};
 
 		static ShaderManager* sInstance;
 
 		void LoadAllShadersInDirectory(const std::string& aPath);
-		void LoadShaders(const std::vector<FileInfo>& aFileNames);
+		void LoadShaders(const std::vector<FileInfo>& aFileNames, std::map<std::string, ShaderPair>& aOutShaderPairs);
+		void CompileShaders(const std::map<std::string, ShaderPair>& aShaders);
 
 		std::map<std::string, Shader*> mShaders;
 

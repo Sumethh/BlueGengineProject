@@ -30,7 +30,6 @@ namespace Blue
 		void OnWindowResize(WindowResizeMessage* aMessage);
 		Viewport mViewport;
 		glm::mat4 mProjectionMatrix;
-		glm::mat4 mViewMatrix;
 
 	};
 }

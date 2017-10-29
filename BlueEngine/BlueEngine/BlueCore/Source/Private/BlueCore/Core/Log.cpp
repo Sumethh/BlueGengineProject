@@ -45,7 +45,6 @@ namespace Blue
 	{
 		LogFileWritingTask* task = new LogFileWritingTask(aFileName);
 		TaskSystem::SubmitTask(task);
-
 	}
 
 	void Log::Error(std::string aMessage)
@@ -59,6 +58,15 @@ namespace Blue
 		std::cout << message << "\n";
 #endif
 	}
+
+	void Log::Warning(std::string aMessage)
+	{
+		static const std::string errorBase = "[Error] ";
+		std::string message = errorBase + aMessage;
+		sStringsToWriteToFile.enqueue(message);
+		Console::AddLogString(message, Console::ELogType::Error);
+	}
+
 	void Log::Info(std::string aMessage)
 	{
 		static const std::string infoBase = "[Info] ";

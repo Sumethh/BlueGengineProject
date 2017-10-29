@@ -14,7 +14,7 @@ namespace Blue
 		UnloadShader();
 	}
 
-	void Shader::LoadShader(char* aVertexShader, char* aFragmentShader)
+	void Shader::LoadShader(const std::string& aVertexShader, const std::string& aFragmentShader)
 	{
 		IGraphicsDevice* gr = IGraphicsDevice::GetCurrentGraphicsDevice();
 		gr->UpdateResourceData(mShaderResourceID, aVertexShader, aFragmentShader);

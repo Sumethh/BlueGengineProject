@@ -152,7 +152,7 @@ namespace Blue
 		Block* block = reinterpret_cast<Block*>(memory - sizeof(Block));
 
 #ifdef _DEBUG
-		Log::Info("Dealllocating" + std::to_string(aSize) + " block");
+		//Log::Info("Deallocating" + std::to_string(aSize) + " block");
 		memset(memory + sizeof(Block), DEBUG_FREED_MEMORY, blockSize);
 #endif
 

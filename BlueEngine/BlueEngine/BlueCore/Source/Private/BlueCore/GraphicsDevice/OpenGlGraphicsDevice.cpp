@@ -1,6 +1,7 @@
 ﻿#include "BlueCore/GraphicsDevice/OpenGlGraphicsDevice.h"
-#include "BlueCore/Core/Log.h"
 #include "BlueCore/GraphicsDevice/DataDescriptor.h"
+#include "BlueCore/Messaging/WindowResizeMessage.h"
+#include "BlueCore/Core/Log.h"
 
 #include <gl/glew.h>
 #include <stdlib.h>
@@ -296,7 +297,7 @@ namespace Blue
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_CULL_FACE);
 		glDepthFunc(GL_LESS);
-
+		Message<WindowResizeMessage>::Listen<OpenGlGraphicsDevice>(this, &OpenGlGraphicsDevice::OnWindowResize);
 		ASSERT_NO_GRAPHICS_ERROR();
 	}
 
@@ -418,7 +419,7 @@ namespace Blue
 		ASSERT_NO_GRAPHICS_ERROR();
 	}
 
-	void OpenGlGraphicsDevice::UpdateResourceData(const GraphicsDeviceResourceID aResourceID, char* aVertexShaderPath, char* aFragmentShaderPath)
+	void OpenGlGraphicsDevice::UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const std::string& aVertexShaderPath, const std::string& aFragmentShaderPath)
 	{
 		BlueAssert(aResourceID);
 		OpenGLResource& updatingResource = mResources[aResourceID];
@@ -776,7 +777,7 @@ namespace Blue
 		}
 	}
 
-	uint32 LoadAndCompileShader(int32 aShaderType, char* aPath)
+	uint32 LoadAndCompileShader(int32 aShaderType, const std::string& aPath)
 	{
 		std::string shaderSource;
 		std::stringstream stringStream;
@@ -810,7 +811,7 @@ namespace Blue
 		return shaderID;
 	}
 
-	void OpenGlGraphicsDevice::UpdateShader(OpenGLResource& aResource, char* aVertexPath, char* aFragmentPath)
+	void OpenGlGraphicsDevice::UpdateShader(OpenGLResource& aResource, const std::string& aVertexPath, const std::string& aFragmentPath)
 	{
 		uint32 vertexShader = LoadAndCompileShader(GL_VERTEX_SHADER, aVertexPath);
 
@@ -933,6 +934,11 @@ namespace Blue
 	void OpenGlGraphicsDevice::Enable()
 	{
 
+	}
+
+	void OpenGlGraphicsDevice::OnWindowResize(struct WindowResizeMessage* aMessage)
+	{
+		//glViewport(0, 0, aMessage->windowWidth, aMessage->windowHeight);
 	}
 
 }

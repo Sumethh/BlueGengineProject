@@ -10,10 +10,11 @@ namespace Blue
 	class Log
 	{
 	public:
-		static   void Init(char* aFileName);
-		static   void Error(std::string aMessage);
-		static   void Info(std::string aMessage);
-		static   void Flush();
+		static void Init(char* aFileName);
+		static void Error(std::string aMessage);
+		static void Warning(std::string aMessage);
+		static void Info(std::string aMessage);
+		static void Flush();
 	};
 }
 #if VERBOSE_LOGGING

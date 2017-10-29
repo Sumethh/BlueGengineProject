@@ -119,33 +119,12 @@ public:
 	}
 };
 
-struct Test1
-{
-	virtual Blue::int32 Hey()
-	{
-		return 1;
-	}
-	virtual Blue::int32 Huh()
-	{
-		return Hey();
-	}
-};
 
-struct Test2 : public Test1
-{
-	virtual Blue::int32 Hey() override
-	{
-		return 2;
-	};
-};
 int main(int aArgc, char** aArgv)
 {
 	(void)aArgv;
 	(void)aArgc;
-	Test1* t = new Test2;
-	auto z = t->Hey();
 	TestApp myApp;
 	myApp.Run();
 	return 0;
-
 }

@@ -5,7 +5,7 @@
 #include "BlueCore/Core/Rect.h"
 
 #include <glm/vec4.hpp>
-
+#include <string>
 #define  ASSERT_GRAPHICS_ERROR 1
 
 #if ASSERT_GRAPHICS_ERROR
@@ -172,7 +172,7 @@ namespace Blue
 		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, ubyte* aPixels, const uint32 aWidth, const uint32 aHeight, EPrecisionType aTexturePrecision, EImageFormat aPixelFormat, EDataType aTextureDataType, uint32 aMipMapLevel) = 0;
 		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const uint32 aWidth, const uint32 aHeight, EPrecisionType aType) = 0;
 		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const ETextureParameter aParameter, const ETextureParameter aValue) = 0;
-		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, char* aVertexShaderPath, char* aFragmentShaderPath) = 0;
+		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const std::string& aVertexShaderPath, const std::string& aFragmentShaderPath) = 0;
 		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, EBufferAttachment aAttachments) = 0;
 		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, EBufferAttachment* aAttachments, const uint32 aCount) = 0;
 		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, ERenderBufferType aType, EBufferAttachment aAttachment, const uint32 aWidth, const uint32 aHeight) = 0;

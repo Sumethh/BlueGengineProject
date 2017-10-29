@@ -67,7 +67,7 @@ namespace Blue
 
 		static ImColor white(255, 255, 255, 255);
 		static ImColor red(255, 0, 0, 255);
-
+		static ImColor yellow(255, 255, 0);
 		void CallCommand(std::string aCommand)
 		{
 			uint32 spaceCount = StringHelpers::FindCharacterCount(aCommand, ' ');
@@ -134,7 +134,17 @@ namespace Blue
 				{
 					for (size_t i = 0; i < entries.size(); i++)
 					{
-						ImColor col = entries[i].type == ELogType::Info ? white : red;
+						ImColor col =  white;
+
+						if (entries[i].type == ELogType::Warning)
+						{
+							col = yellow;
+						}
+						else if (entries[i].type == ELogType::Error)
+						{
+							col = red;
+						}
+
 						ImGui::TextColored(col, entries[i].string.c_str());
 					}
 

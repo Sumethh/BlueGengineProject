@@ -7,6 +7,7 @@
 #include "BlueCore/Renderers/IRenderer.h"
 #include "BlueCore/Helpers/MathHelpers.h"
 #include "BlueCore/Messaging/WindowResizeMessage.h"
+#include "BlueCore/Core/ApplicationWindow.h"
 
 namespace Blue
 {
@@ -24,7 +25,8 @@ namespace Blue
 
 	void CameraComponent::PostConstruction()
 	{
-		mProjectionMatrix = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
+		ApplicationWindow* window = ApplicationWindow::GetCurrentWindow();
+		mProjectionMatrix = glm::perspective(45.0f, static_cast<float>(window->GetWindowWidth()) / static_cast<float>(window->GetWindowHeight()), 0.1f, 1000.0f);
 		mViewport.SetDimensions(glm::vec2(1, 1));
 		mViewport.SetPosition(glm::vec2(0, 0));
 
@@ -52,6 +54,6 @@ namespace Blue
 
 	void CameraComponent::OnWindowResize(WindowResizeMessage* aMessage)
 	{
-		mProjectionMatrix = glm::perspective(45.0f, (float)aMessage->windowWidth / (float)aMessage->windowHeight, 0.1f, 1000.0f);
+		mProjectionMatrix = glm::perspective(90.0f, static_cast<float>(aMessage->windowWidth) / static_cast<float>(aMessage->windowHeight), 0.1f, 1000.0f);
 	}
 }

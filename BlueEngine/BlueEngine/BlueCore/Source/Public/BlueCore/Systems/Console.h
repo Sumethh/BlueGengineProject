@@ -10,6 +10,7 @@ namespace Blue
 		enum ELogType : uint8
 		{
 			Info,
+			Warning,
 			Error,
 			Verbose
 		};
