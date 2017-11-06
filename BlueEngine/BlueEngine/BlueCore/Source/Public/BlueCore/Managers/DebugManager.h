@@ -52,6 +52,8 @@ namespace Blue
 
 		template<typename T>
 		void RegisterDebugVariable(T* aVariable, char* aName, bool aTweakable);
+		template<typename T>
+		void DeregisterDebugVariable(T* aVariable);
 
 		void BeginDebugGroup(char* aGroupName);
 		void EndDebugGroup();
@@ -70,13 +72,14 @@ namespace Blue
 		DebugManager();
 		~DebugManager();
 
-
 		template <typename T>
 		EDebugOptionType GetDebugTypeFromType();
-
 		DebugVariableGroup* GetGroupFromName(char* aName, bool& aWasNewlyCreated);
 		void DrawGroup(DebugVariableGroup& aGroup, std::string& aSearchString);
 		void DrawDebugVariable(DebugOptionDefenition& aDef);
+		void BuildTypeHashReference();
+		DebugVariableGroup* FindGroupWithVariable(void* aVariable, DebugVariableGroup* aGroup);
+
 		bool mOpen;
 		std::map<uint64, EDebugOptionType> mHashTypeTable;
 
@@ -84,7 +87,6 @@ namespace Blue
 
 		DebugVariableGroup mRoot;
 		static DebugManager* mInstance;
-		void BuildTypeHashReference();
 	};
 
 	template < typename T>
@@ -106,6 +108,26 @@ namespace Blue
 		}
 		mCurrentGroup->definitions.emplace_back(std::move(variableDef));
 	}
+
+	template <typename T>
+	void DebugManager::DeregisterDebugVariable(T* aVariable)
+	{
+		DebugVariableGroup* group = FindGroupWithVariable((void*)aVariable, &mRoot);
+		if (group)
+		{
+			for (auto i = group->definitions.begin(); i != group->definitions.end(); ++i)
+			{
+				if (i->variable == (void*)aVariable)
+				{
+					group->definitions.erase(i);
+					return;
+				}
+			}
+		}
+		else
+			BlueAssert(false);
+	}
+
 	template <typename T>
 	EDebugOptionType DebugManager::GetDebugTypeFromType()
 	{
@@ -113,6 +135,7 @@ namespace Blue
 		BlueAssert(mHashTypeTable.find(hashCode) != mHashTypeTable.end());
 		return mHashTypeTable[hashCode];
 	}
+
 }
 
 
@@ -122,3 +145,5 @@ namespace Blue
 
 #define ADD_DEBUG_WATCHABLE(Variable) Blue::DebugManager::GI()->RegisterDebugVariable(&Variable, #Variable, false)
 #define ADD_DEBUG_TWEAKABLE(Variable) Blue::DebugManager::GI()->RegisterDebugVariable(&Variable, #Variable, true)
+
+#define REMOVE_DEBUG_VARIABLE(Variable) Blue::DebugManager::GI()->DeregisterDebugVariable(&Variable);

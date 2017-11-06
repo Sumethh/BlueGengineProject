@@ -437,5 +437,8 @@
     <ClInclude Include="Source\Public\BlueCore\Managers\AssetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Core\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

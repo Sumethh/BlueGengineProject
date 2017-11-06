@@ -455,4 +455,24 @@ namespace Blue
 		mHashTypeTable.emplace(typeid(glm::vec3).hash_code(), EDebugOptionType::Vector3);
 		mHashTypeTable.emplace(typeid(glm::vec4).hash_code(), EDebugOptionType::Vector4);
 	}
+
+	DebugManager::DebugVariableGroup* DebugManager::FindGroupWithVariable(void* aVariable, DebugVariableGroup* aGroup)
+	{
+		for (sizeInt i = 0; i < aGroup->definitions.size(); ++i)
+		{
+			if (aGroup->definitions[i].variable == aVariable)
+			{
+				return aGroup;
+			}
+		}
+
+		for (sizeInt i = 0; i < aGroup->children.size(); ++i)
+		{
+			DebugVariableGroup* returnedVal = FindGroupWithVariable(aVariable, &(aGroup->children[i]));
+			if (returnedVal)
+				return returnedVal;
+		}
+		return nullptr;
+	}
+
 }

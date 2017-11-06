@@ -47,10 +47,10 @@ namespace Blue
 		TaskSystem::SubmitTask(task);
 	}
 
-	void Log::Error(std::string aMessage)
+	void Log::Error(Logger aMessage)
 	{
 		static const std::string errorBase = "[Error] ";
-		std::string message = errorBase + aMessage;
+		std::string message = errorBase + aMessage.GetLoggedString();
 		sStringsToWriteToFile.enqueue(message);
 		Console::AddLogString(message, Console::ELogType::Error);
 
@@ -59,18 +59,18 @@ namespace Blue
 #endif
 	}
 
-	void Log::Warning(std::string aMessage)
+	void Log::Warning(Logger aMessage)
 	{
 		static const std::string errorBase = "[Error] ";
-		std::string message = errorBase + aMessage;
+		std::string message = errorBase + aMessage.GetLoggedString();
 		sStringsToWriteToFile.enqueue(message);
 		Console::AddLogString(message, Console::ELogType::Error);
 	}
 
-	void Log::Info(std::string aMessage)
+	void Log::Info(Logger aMessage)
 	{
 		static const std::string infoBase = "[Info] ";
-		std::string message = infoBase + aMessage;
+		std::string message = infoBase + aMessage.GetLoggedString();
 		sStringsToWriteToFile.enqueue(message);
 		Console::AddLogString(message, Console::ELogType::Info);
 

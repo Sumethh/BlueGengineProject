@@ -47,6 +47,12 @@ namespace Blue
 
 	BlockAllocator::~BlockAllocator()
 	{
+		REMOVE_DEBUG_VARIABLE(mPageSize);
+		REMOVE_DEBUG_VARIABLE(mMbAllocated);
+		REMOVE_DEBUG_VARIABLE(mMbUsed);
+		REMOVE_DEBUG_VARIABLE(mFreeBlockCount);
+		REMOVE_DEBUG_VARIABLE(mNumAllocations);
+		REMOVE_DEBUG_VARIABLE(mUsedMemory);
 		Clear();
 	}
 
@@ -175,11 +181,6 @@ namespace Blue
 			Page* next = currentPage->next;
 			delete currentPage;
 			currentPage = next;
-		}
-
-		for (Block* block : mFreeBlocks)
-		{
-			block->next = nullptr;
 		}
 	}
 

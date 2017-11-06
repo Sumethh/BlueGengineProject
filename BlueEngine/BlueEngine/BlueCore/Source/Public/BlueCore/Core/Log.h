@@ -1,6 +1,7 @@
 #pragma once
 #include "BlueCore/BlueCore.h"
 #include <string>
+#include "Logger.h"
 #define LOGGING
 #define VERBOSE_LOGGING 1
 
@@ -11,9 +12,9 @@ namespace Blue
 	{
 	public:
 		static void Init(char* aFileName);
-		static void Error(std::string aMessage);
-		static void Warning(std::string aMessage);
-		static void Info(std::string aMessage);
+		static void Error(Logger aMessage);
+		static void Warning(Logger aMessage);
+		static void Info(Logger aMessage);
 		static void Flush();
 	};
 }

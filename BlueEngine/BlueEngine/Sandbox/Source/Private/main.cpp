@@ -12,6 +12,7 @@
 #include "BlueCore/Renderers/SceneRenderer.h"
 #include "BlueCore/Managers/MemoryManager.h"
 #include "BlueCore/Managers/DebugManager.h"
+#include "BlueCore/Input/Input.h"
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -81,6 +82,9 @@ public:
 			updateTimer.Start();
 			myWorld.Update(dt);
 
+			if (Blue::Input::GetKeyDown(Blue::Input::Key::ESCAPE))
+				mWindow->Close();
+
 			ImGui::Text("World::Update: %f ms", (float)updateTimer.IntervalMS());
 
 			Blue::Timer lateUpdateTimer;
@@ -124,6 +128,7 @@ int main(int aArgc, char** aArgv)
 {
 	(void)aArgv;
 	(void)aArgc;
+	Blue::Log::Info(Blue::Logger("Application Starting Up.") << aArgc << "Arguments passed");
 	TestApp myApp;
 	myApp.Run();
 	return 0;

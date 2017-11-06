@@ -938,7 +938,7 @@ namespace Blue
 
 	void OpenGlGraphicsDevice::OnWindowResize(struct WindowResizeMessage* aMessage)
 	{
-		//glViewport(0, 0, aMessage->windowWidth, aMessage->windowHeight);
+		glViewport(0, 0, aMessage->windowWidth, aMessage->windowHeight);
 	}
 
 }

@@ -252,6 +252,7 @@
     <ClInclude Include="Source\Public\BlueCore\Components\FirstPersonComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\Components\MaterialComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\ActorAllocator.h" />
+    <ClInclude Include="Source\Public\BlueCore\Core\Logger.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Transformable.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Application.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\ApplicationWindow.h" />

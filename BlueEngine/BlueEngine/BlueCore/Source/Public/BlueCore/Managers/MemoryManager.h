@@ -20,6 +20,12 @@ namespace Blue
 			return sInstance;
 		}
 
+		static void DeleteInstance()
+		{
+			if (sInstance)
+				delete sInstance;
+		}
+
 		BlockAllocator& GetSmallBlockAllocator()
 		{
 			return mSmallBlockAllocator;

@@ -19,6 +19,7 @@
 
 #include "BlueCore/Systems/TaskSystem.h"
 #include "BlueCore/Managers/ASyncLoadingManager.h"
+#include "BlueCore/Managers/MemoryManager.h"
 #include "BlueCore/Systems/Console.h"
 #include <gl/glew.h>
 #include <string>
@@ -37,6 +38,7 @@ namespace Blue
 	Application::~Application()
 	{
 		delete mWindow;
+		MemoryManager::DeleteInstance();
 	}
 
 	bool showDetailedTimings = false;
@@ -113,6 +115,7 @@ namespace Blue
 
 	void Application::ShutDown()
 	{
+
 		TaskSystem::Shutdown();
 	}
 
