@@ -13,10 +13,6 @@ namespace Blue
 		void BeginPlay();
 		void Update(float aDt);
 		void LateUpdate(float aDt);
-		void PreRender();
-		void Render(IRenderer* aRenderer);
-		void GizmoDraw(GizmoRenderer* aRenderer);
-		void PostRender();
 	private:
 		World* mWorld;
 

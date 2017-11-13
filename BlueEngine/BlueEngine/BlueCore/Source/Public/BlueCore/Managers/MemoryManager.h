@@ -1,7 +1,7 @@
 #pragma once
 #include "UpdateableManager.h"
 
-#include "BlueCore/Memory/BlockAllocator.h"
+#include "BlueCore/Memory/FixedBlockAllocator.h"
 
 namespace Blue
 {
@@ -26,18 +26,18 @@ namespace Blue
 				delete sInstance;
 		}
 
-		BlockAllocator& GetSmallBlockAllocator()
+		FixedBlockAllocator& GetSmallBlockAllocator()
 		{
 			return mSmallBlockAllocator;
 		}
-		BlockAllocator& GetLargeBlockAllocator()
+		FixedBlockAllocator& GetLargeBlockAllocator()
 		{
 			return mLargeBlockAllocator;
 		}
 
 	private:
 		static MemoryManager* sInstance;
-		BlockAllocator mSmallBlockAllocator;
-		BlockAllocator mLargeBlockAllocator;
+		FixedBlockAllocator mSmallBlockAllocator;
+		FixedBlockAllocator mLargeBlockAllocator;
 	};
 }

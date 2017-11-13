@@ -39,6 +39,7 @@ namespace Blue
 
 	Shader* ShaderManager::GetShader(std::string aName)
 	{
+
 		std::map<std::string, Shader*>::iterator foundShader = mShaders.find(aName);
 
 		if (foundShader == mShaders.end())

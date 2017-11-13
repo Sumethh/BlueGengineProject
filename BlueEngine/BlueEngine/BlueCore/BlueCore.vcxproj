@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F8F92045-D9DC-476C-AA6E-C886AD03D2F9}</ProjectGuid>
     <RootNamespace>BlueCore</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -219,6 +219,7 @@
     <ClCompile Include="Source\Private\BlueCore\Input\Input.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\DebugManager.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Memory\BlockAllocator.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Memory\FixedBlockAllocator.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Renderers\DeferedRenderer.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Renderers\ForwardRenderer.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Renderers\SceneRenderer.cpp" />
@@ -269,6 +270,8 @@
     <ClInclude Include="Source\Public\BlueCore\Managers\AssetManager.h" />
     <ClInclude Include="Source\Public\BlueCore\Managers\MemoryManager.h" />
     <ClInclude Include="Source\Public\BlueCore\Managers\ShaderManager.h" />
+    <ClInclude Include="Source\Public\BlueCore\Memory\BlockAllocator.h" />
+    <ClInclude Include="Source\Public\BlueCore\Memory\FixedBlockAllocator.h" />
     <ClInclude Include="Source\Public\BlueCore\Memory\SmallBlockAllocator.h" />
     <ClInclude Include="Source\Public\BlueCore\Messaging\IMessage.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\ResourceList.h" />

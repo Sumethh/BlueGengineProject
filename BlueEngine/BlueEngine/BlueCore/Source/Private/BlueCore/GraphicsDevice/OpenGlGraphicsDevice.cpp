@@ -508,7 +508,7 @@ namespace Blue
 	void OpenGlGraphicsDevice::DrawBuffersInstanced(const EDrawMode aMode, const uint32 aFirst, const uint32 aCount)
 	{
 		GLenum drawMode = GetGlEnumFromDrawMode(aMode);
-		//glDrawArraysInstanced(drawMode, aFirst, aCount);
+		//glDrawArraysInstanced(;
 		ASSERT_NO_GRAPHICS_ERROR();
 	}
 

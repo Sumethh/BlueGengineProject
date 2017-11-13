@@ -6,7 +6,7 @@
 
 #include <glm/vec4.hpp>
 #include <string>
-#define  ASSERT_GRAPHICS_ERROR 1
+#define  ASSERT_GRAPHICS_ERROR 0
 
 #if ASSERT_GRAPHICS_ERROR
 	#ifndef ASSERT_NO_GRAPHICS_ERROR

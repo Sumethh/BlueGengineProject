@@ -43,7 +43,7 @@ namespace Blue
 			return mLights;
 		}
 
-	private:
+	protected:
 
 		std::vector<PrimitiveComponent*> mPrimitives;
 		std::vector<ILightComponent*> mLights;

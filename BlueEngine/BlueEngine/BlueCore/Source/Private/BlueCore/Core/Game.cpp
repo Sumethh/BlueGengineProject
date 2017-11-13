@@ -43,9 +43,4 @@ namespace Blue
 	{
 		mWorld->LateUpdate(aDt);
 	}
-
-	void Game::GizmoDraw(GizmoRenderer* aRenderer)
-	{
-		mWorld->GizmoDraw(aRenderer);
-	}
 }

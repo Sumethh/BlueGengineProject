@@ -1,39 +1,46 @@
 #pragma once
-#include "BlueCore/Core/NonCopyable.h"
-#include "BlueCore/Core/Types.h"
 #include "IMemoryAllocator.h"
+#include <mutex>
 
 namespace Blue
 {
-	struct Block;
-	struct Page;
-
-	class BlockAllocator : public  IMemoryAllocator, public NonCopyable
+	class BlockAllocator : IMemoryAllocator
 	{
+		struct Page
+		{
+			uint32 bytesUsed;
+			uint32 bytesFree;
+			Page* next;
+			byte* start;
+		};
+		struct Block
+		{
+			uint32 size;
+			Block* next;
+		};
+
 	public:
-		BlockAllocator(const int32 aPageSize, const int32* aBlockSizes, const int32 aBlockSizesCount);
-		~BlockAllocator() override;
+
+		BlockAllocator();
+		~BlockAllocator();
 
 		void* Allocate(size_t aSize, uint8 aAllignment) override;
 		void Deallocate(void* aData, size_t aSize) override;
+
+		void Defragment();
+
 	private:
 
-		float mMbUsed;
-		float mMbAllocated;
-		uint32 mFreeBlockCount;
+		Page* AllocatePage();
+		Page* FindPageWithSpace(sizeInt aSize);
+		Block* FindAndRemoveFreeBlock(sizeInt aSize);
+		Page* mPages;
+		Block* mFreeBlocks;
 
-		void Clear();
-		Page* AllocateNewPage();
+		std::mutex mMutex;
 
-		static const int32 MaxBlockSizesCount = 25;
-
-		const int32 mPageSize;
-		const int32 mBlockSizesCount;
-		int32 mBlockSizes[MaxBlockSizesCount];
-
-		Page* mFirstPage;
-		Page* mLastPage;
-
-		Block* mFreeBlocks[MaxBlockSizesCount];
+		static const sizeInt sPageSize = 20000000;
+		static const sizeInt sMinBlockSize = 32;
+		static const sizeInt sMinSizeDifferenceForSplit = 32;
 	};
 }

@@ -7,7 +7,7 @@
 #include "BlueCore/Graphics/Mesh.h"
 #include "BlueCore/Graphics/Shader.h"
 #include "BlueCore/GraphicsDevice/DataDescriptor.h"
-
+#include "BlueCore/Managers/ShaderManager.h"
 
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.inl>
@@ -30,7 +30,6 @@ namespace Blue
 		gd->BindGraphicsResource(aInfo.vaoID);
 		gd->UpdateResourceData(aInfo.vertexBufferID, 0, nullptr, (sizeof(glm::vec4) + sizeof(glm::vec3)) * MAX_LINE_COUNT, lineDescriptors, lineDescriptorCount);
 		gd->UnbindGraphicsResource(aInfo.vaoID);
-
 	}
 
 	GizmoRenderer::GizmoRenderer()
@@ -83,8 +82,8 @@ namespace Blue
 		trans.rotation = aRotation;
 		glm::mat4 modelMat = trans.MakeMat4();
 		Shader* shader = mDebugMaterial->GetShader();
-		glm::vec4 col(aColor, mAlpha);
-		shader->SetShaderVar(mColorUniformLoc, glm::value_ptr(col), EVarType::Vector4);
+		glm::vec4 color(aColor, mAlpha);
+		shader->SetShaderVar(mColorUniformLoc, glm::value_ptr(color), EVarType::Vector4);
 		shader->SetShaderVar(mModelLoc, glm::value_ptr(modelMat), EVarType::Matrix4x4);
 		mCubeMesh->PrepForDrawing();
 		IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, mCubeMesh->GetIndiceCount());
@@ -173,7 +172,7 @@ namespace Blue
 		view = aActiveCamera->GetViewMatrix();
 		proj = aActiveCamera->GetProjectionMatrix();
 		Shader* shader = mDebugMaterial->GetShader();
-		shader->SetShaderVar(mViewLoc, (void*)glm::value_ptr(view), EVarType::Matrix4x4);
+		shader->SetShaderVar(mViewLoc, (void*)glm::value_ptr(glm::inverse(view)), EVarType::Matrix4x4);
 		shader->SetShaderVar(mProjectionLoc, (void*)glm::value_ptr(proj), EVarType::Matrix4x4);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -182,8 +181,8 @@ namespace Blue
 	void GizmoRenderer::Flush()
 	{
 		glDisable(GL_BLEND);
-
 		RenderLines();
+		glDepthFunc(GL_LESS);
 	}
 
 
@@ -191,10 +190,10 @@ namespace Blue
 	{
 		IGraphicsDevice* gd = IGraphicsDevice::GetCurrentGraphicsDevice();
 		mDebugMaterialInstanced->Bind();
-		Shader* shader = mDebugMaterialInstanced->GetShader();
+		Shader* shader = ShaderManager::GI()->GetShader("GizmoLineShader");
 		uint32 viewLoc = shader->GetShaderVariableLocation("view");
 		uint32 projLoc = shader->GetShaderVariableLocation("projection");
-		shader->SetShaderVar(viewLoc, (void*)glm::value_ptr(view), EVarType::Matrix4x4);
+		shader->SetShaderVar(viewLoc, (void*)glm::value_ptr(glm::inverse(view)), EVarType::Matrix4x4);
 		shader->SetShaderVar(projLoc, (void*)glm::value_ptr(proj), EVarType::Matrix4x4);
 
 		for (int i = 0; i < mLineRenderinfo.size(); ++i)

@@ -60,6 +60,7 @@ namespace Blue
 		if (!mBuffersInit)
 		{
 			InitBuffers();
+			mBuffersInit = true;
 		}
 
 		ReUploadMeshInfo();

@@ -22,7 +22,7 @@ namespace Blue
 
 	ActorAllocator::~ActorAllocator()
 	{
-		BlockAllocator& largeAllocator = MemoryManager::GI()->GetLargeBlockAllocator();
+		FixedBlockAllocator& largeAllocator = MemoryManager::GI()->GetLargeBlockAllocator();
 		ActorPool* pool = mActorPools;
 		while (pool)
 		{
@@ -77,7 +77,7 @@ namespace Blue
 
 	Blue::ActorPool* ActorAllocator::AllocateNewPool()
 	{
-		BlockAllocator& largeAllocator = MemoryManager::GI()->GetLargeBlockAllocator();
+		FixedBlockAllocator& largeAllocator = MemoryManager::GI()->GetLargeBlockAllocator();
 		ActorPool* newPool = nullptr;
 
 		void* memory = largeAllocator.Allocate(sizeof(ActorPool), 0);

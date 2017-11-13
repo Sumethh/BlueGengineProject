@@ -54,7 +54,7 @@ namespace Blue
 		}
 		for (CameraComponent* camera : cameras)
 		{
-			OpaquePass(aScene, mOpaquePrimitives, camera);
+			//OpaquePass(aScene, mOpaquePrimitives, camera);
 			TranslucentPass(aScene, mOpaquePrimitives, camera);
 		}
 		mOpaquePrimitives.clear();
@@ -76,7 +76,6 @@ namespace Blue
 
 	void SceneRenderer::TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives, CameraComponent* aActiveCamera)
 	{
-		return;
 		mForwardRenderer.SetActiveCamera(aActiveCamera);
 		//uses forward rendering
 		for (PrimitiveComponent* primitive : aTranslucentPrimitives)

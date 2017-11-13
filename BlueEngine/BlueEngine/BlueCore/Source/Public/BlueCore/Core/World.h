@@ -22,17 +22,19 @@ namespace Blue
 		void BeginPlay();
 		void Update(float aDt);
 		void LateUpdate(float aDt);
-		void GizmoDraw(GizmoRenderer* aRenderer);
 
 		Actor* CreateActor();
 		Actor* CreateActor(Stencil* aStencil);
 
 		void Save(ArchiveObject& aArchiveObject);
+
+		GizmoRenderer* GetGizmoRenderer();
 	private:
 		void CommandReloadStencils(std::string aCommand, std::string* aArg, uint32 aArgCount);
 
 		bool mHasBeginPlayBeenCalled;
 		std::vector<Actor*> mActors;
 		ActorAllocator mActorAllocator;
+		GizmoRenderer* mGizmoRenderer;
 	};
 }

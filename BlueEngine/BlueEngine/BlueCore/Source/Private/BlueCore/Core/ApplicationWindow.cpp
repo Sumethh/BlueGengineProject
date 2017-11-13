@@ -199,6 +199,7 @@ namespace Blue
 
 	void ApplicationWindow::ClearScreen()
 	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->ClearBuffer(EBufferBit::Color);
+		uint8 bufferBit = static_cast<uint8>(EBufferBit::Color) | static_cast<uint8>(EBufferBit::DepthBit);
+		IGraphicsDevice::GetCurrentGraphicsDevice()->ClearBuffer(static_cast<EBufferBit>(bufferBit));
 	}
 }

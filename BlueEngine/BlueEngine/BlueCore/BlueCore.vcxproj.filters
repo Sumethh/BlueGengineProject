@@ -162,9 +162,6 @@
     <ClCompile Include="Source\Private\BlueCore\Managers\MemoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\BlueCore\Memory\BlockAllocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Private\BlueCore\Core\ActorAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -184,6 +181,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Private\BlueCore\Utility\Directory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\BlueCore\Memory\FixedBlockAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\BlueCore\Memory\BlockAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -438,6 +441,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\BlueCore\Core\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Memory\FixedBlockAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Memory\BlockAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
