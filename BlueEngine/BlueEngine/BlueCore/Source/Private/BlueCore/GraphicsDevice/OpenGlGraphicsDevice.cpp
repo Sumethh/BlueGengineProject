@@ -294,8 +294,10 @@ namespace Blue
 		r.lowLevelID = 0;
 
 		mResources.emplace_back(std::move(r));
-		glDisable(GL_DEPTH_TEST);
-		glDisable(GL_CULL_FACE);
+
+		glFrontFace(GL_CW);
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 		Message<WindowResizeMessage>::Listen<OpenGlGraphicsDevice>(this, &OpenGlGraphicsDevice::OnWindowResize);
 		ASSERT_NO_GRAPHICS_ERROR();

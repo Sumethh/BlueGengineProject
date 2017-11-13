@@ -13,7 +13,7 @@
 #include "BlueCore/Managers/MemoryManager.h"
 #include "BlueCore/Managers/DebugManager.h"
 #include "BlueCore/Input/Input.h"
-
+#include "BlueCore/Helpers/MathHelpers.h"
 #include <iostream>
 #include <glm/glm.hpp>
 #include <string>
@@ -29,13 +29,14 @@ public:
 
 		Blue::Application::Run();
 		Blue::World myWorld;
-		mWindow->SetClearColor(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+		mWindow->SetClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
 		Blue::Actor* camera = myWorld.CreateActor();
 		camera->AddComponent<Blue::CameraComponent>();
 		camera->AddComponent<Blue::FirstPersonComponent>();
-		auto trans = camera->GetTransform();
-		trans.position = glm::vec3(0, 0, -10);
+		Blue::Transform trans = camera->GetTransform();
+		trans.position = glm::vec3(0, 0, 10);
+		trans.rotation = Blue::MathHelpers::QuatFromEuler(glm::vec3(0, 180, 0));
 		camera->SetTransform(trans);
 
 		Blue::Timer allocTimer;

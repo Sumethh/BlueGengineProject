@@ -78,16 +78,14 @@ namespace Blue
 		}
 
 	private:
-		bool mBuffersInit;
 		inline void ResetFlag(MeshFlags aFlag)
 		{
 			mMeshFlags &= ~aFlag;
 		}
-
-		void ReUploadMeshInfo();
-
+		void ReuploadMeshInfo();
 		void InitBuffers();
 
+		bool mBuffersInit;
 		GraphicsDeviceResourceID mVertexBufferId;
 		GraphicsDeviceResourceID mElementBufferId;
 		GraphicsDeviceResourceID mVertexArrayId;

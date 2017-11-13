@@ -37,9 +37,6 @@ namespace Blue
 	void CameraComponent::BeginPlay()
 	{
 		ActorComponent::BeginPlay();
-		auto t = GetOwner()->GetTransform();
-		t.rotation = glm::quat(1, 0, 0, 0);
-		GetOwner()->SetTransform(t);
 	}
 
 	glm::mat4 CameraComponent::GetProjectionMatrix()

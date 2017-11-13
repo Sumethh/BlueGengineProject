@@ -14,6 +14,7 @@ namespace Blue
 	class Mesh;
 	class Material;
 	class CameraComponent;
+	class Shader;
 	class GizmoRenderer
 	{
 	public:
@@ -26,6 +27,7 @@ namespace Blue
 			Count
 		};
 
+		void DrawMesh(Mesh* aMesh, glm::vec3 aColor);
 
 		void DrawSphere(glm::vec3 aPosition, glm::vec3 aScale, glm::vec3 aColor, EGizmoMode aMode);
 		void DrawCube(glm::vec3 aPosition, glm::vec3 aScale, glm::quat aRotation, glm::vec3 aColor, EGizmoMode aMode);
@@ -58,13 +60,13 @@ namespace Blue
 
 		void RenderLines();
 
-		struct LineRenderInfo
+		struct MappedRenderBufferInfo
 		{
 			uint32 lineCount;
 			GraphicsDeviceResourceID vaoID;
 			GraphicsDeviceResourceID vertexBufferID;
 		};
-		void CreateLineRenderGraphicsResources(LineRenderInfo& aInfo);
+		void CreateLineRenderGraphicsResources(MappedRenderBufferInfo& aInfo);
 
 		const float mAlpha = 0.7f;
 
@@ -74,8 +76,9 @@ namespace Blue
 		Mesh* mCapsuleMesh;
 		Material* mDebugMaterial;
 		Material* mDebugMaterialInstanced;
+		Shader* mGizmoMeshShader;
 
-		std::vector<LineRenderInfo> mLineRenderinfo;
+		std::vector<MappedRenderBufferInfo> mLineRenderinfo;
 
 		uint32 mColorUniformLoc;
 		uint32 mModelLoc;

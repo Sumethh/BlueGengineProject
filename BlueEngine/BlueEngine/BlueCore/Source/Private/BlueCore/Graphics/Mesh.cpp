@@ -11,8 +11,8 @@ namespace Blue
 
 	Mesh::~Mesh()
 	{
-		delete mVertices;
-		delete mIndices;
+		//delete mVertices;
+		//delete mIndices;
 		IGraphicsDevice* gd = IGraphicsDevice::GetCurrentGraphicsDevice();
 		gd->DeleteGraphicsResource(mVertexArrayId);
 		gd->DeleteGraphicsResource(mVertexBufferId);
@@ -38,7 +38,6 @@ namespace Blue
 		}
 
 		mVertices = aVerticies;
-
 	}
 
 	void Mesh::SetIndices(uint32* aIndices, uint32 aIndiceCount, bool aCleanUpOldIndicies)
@@ -63,7 +62,7 @@ namespace Blue
 			mBuffersInit = true;
 		}
 
-		ReUploadMeshInfo();
+		ReuploadMeshInfo();
 	}
 
 	void Mesh::PrepForDrawing()
@@ -76,7 +75,7 @@ namespace Blue
 		IGraphicsDevice::GetCurrentGraphicsDevice()->UnbindGraphicsResource(mVertexArrayId);
 	}
 
-	void Mesh::ReUploadMeshInfo()
+	void Mesh::ReuploadMeshInfo()
 	{
 		static std::string message = ("ReUploading mesh resources");
 		Log::Info(message);

@@ -14,7 +14,9 @@
 
 namespace Blue
 {
-	void GizmoRenderer::CreateLineRenderGraphicsResources(LineRenderInfo& aInfo)
+	glm::mat4 view;
+	glm::mat4 proj;
+	void GizmoRenderer::CreateLineRenderGraphicsResources(MappedRenderBufferInfo& aInfo)
 	{
 		static const uint32 lineDescriptorCount = 2;
 		static DataDescriptor lineDescriptors[lineDescriptorCount] =
@@ -41,13 +43,14 @@ namespace Blue
 
 		mDebugMaterial = MaterialManager::GI()->GetMaterial(MaterialManager::EDefaultMaterial::Debug);
 		mDebugMaterialInstanced = MaterialManager::GI()->GetMaterial(MaterialManager::EDefaultMaterial::DebugInstanced);
+		mGizmoMeshShader = ShaderManager::GI()->GetShader("GizmoMeshShader");
 
 		mColorUniformLoc = mDebugMaterial->GetShaderVariableLoc("objectColor");
 		mModelLoc = mDebugMaterial->GetShaderVariableLoc("model");
 		mViewLoc = mDebugMaterial->GetShaderVariableLoc("view");
 		mProjectionLoc = mDebugMaterial->GetShaderVariableLoc("projection");
 
-		LineRenderInfo info;
+		MappedRenderBufferInfo info;
 		info.lineCount = 0;
 		CreateLineRenderGraphicsResources(info);
 		mLineRenderinfo.push_back(info);
@@ -56,6 +59,22 @@ namespace Blue
 	GizmoRenderer::~GizmoRenderer()
 	{
 
+	}
+
+	void GizmoRenderer::DrawMesh(Mesh* aMesh, glm::vec3 aColor)
+	{
+		mGizmoMeshShader->Bind();
+		uint32 colorLoc = mGizmoMeshShader->GetShaderVariableLocation("objectColor");
+		uint32 projLoc = mGizmoMeshShader->GetShaderVariableLocation("projection");
+		uint32 viewLoc = mGizmoMeshShader->GetShaderVariableLocation("view");
+		mGizmoMeshShader->SetShaderVar(colorLoc, (void*)glm::value_ptr(glm::vec4(aColor, mAlpha)), EVarType::Vector4);
+		mGizmoMeshShader->SetShaderVar(projLoc, (void*)glm::value_ptr(proj), EVarType::Matrix4x4);
+		mGizmoMeshShader->SetShaderVar(viewLoc, (void*)glm::value_ptr(view), EVarType::Matrix4x4);
+
+		aMesh->PrepForDrawing();
+		IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, aMesh->GetIndiceCount());
+		aMesh->UnPrepForDrawing();
+		mDebugMaterial->Bind();
 	}
 
 	void GizmoRenderer::DrawSphere(glm::vec3 aPosition, glm::vec3 aScale, glm::vec3 aColor, EGizmoMode aMode)
@@ -111,7 +130,7 @@ namespace Blue
 
 		for (int i = 0; i < mLineRenderinfo.size(); ++i)
 		{
-			LineRenderInfo& info = mLineRenderinfo[i];
+			MappedRenderBufferInfo& info = mLineRenderinfo[i];
 
 			if (info.lineCount < MAX_LINE_COUNT)
 			{
@@ -123,7 +142,7 @@ namespace Blue
 
 		if (!lineAdded)
 		{
-			LineRenderInfo info = {};
+			MappedRenderBufferInfo info = {};
 			CreateLineRenderGraphicsResources(info);
 			gd->UpdateResourceData(info.vertexBufferID, info.lineCount * sizeof(LineData), &data, sizeof(LineData));
 			info.lineCount++;
@@ -163,16 +182,14 @@ namespace Blue
 		mCapsuleMesh->UnPrepForDrawing();
 	}
 
-	glm::mat4 view;
-	glm::mat4 proj;
 
 	void GizmoRenderer::Begin(CameraComponent* aActiveCamera)
 	{
 		mDebugMaterial->Bind();
-		view = aActiveCamera->GetViewMatrix();
+		view = glm::inverse(aActiveCamera->GetViewMatrix());
 		proj = aActiveCamera->GetProjectionMatrix();
 		Shader* shader = mDebugMaterial->GetShader();
-		shader->SetShaderVar(mViewLoc, (void*)glm::value_ptr(glm::inverse(view)), EVarType::Matrix4x4);
+		shader->SetShaderVar(mViewLoc, (void*)glm::value_ptr(view), EVarType::Matrix4x4);
 		shader->SetShaderVar(mProjectionLoc, (void*)glm::value_ptr(proj), EVarType::Matrix4x4);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -193,12 +210,12 @@ namespace Blue
 		Shader* shader = ShaderManager::GI()->GetShader("GizmoLineShader");
 		uint32 viewLoc = shader->GetShaderVariableLocation("view");
 		uint32 projLoc = shader->GetShaderVariableLocation("projection");
-		shader->SetShaderVar(viewLoc, (void*)glm::value_ptr(glm::inverse(view)), EVarType::Matrix4x4);
+		shader->SetShaderVar(viewLoc, (void*)glm::value_ptr(view), EVarType::Matrix4x4);
 		shader->SetShaderVar(projLoc, (void*)glm::value_ptr(proj), EVarType::Matrix4x4);
 
 		for (int i = 0; i < mLineRenderinfo.size(); ++i)
 		{
-			LineRenderInfo& info = mLineRenderinfo[i];
+			MappedRenderBufferInfo& info = mLineRenderinfo[i];
 
 			if (!info.lineCount)
 			{
