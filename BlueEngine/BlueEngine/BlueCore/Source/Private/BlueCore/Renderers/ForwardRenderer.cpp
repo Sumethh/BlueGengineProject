@@ -78,12 +78,16 @@ namespace Blue
 		mActiveProjectionMatrix = glm::mat4();
 		mActiveViewMatrix = glm::mat4();
 		mModelLocation = 0;
-		mActiveMaterial->UnBind();
-		mActiveMaterial = nullptr;
+
+		if (mActiveMaterial)
+		{
+			mActiveMaterial->UnBind();
+			mActiveMaterial = nullptr;
+		}
 		if (mCurrentMesh)
 		{
 			mCurrentMesh->UnPrepForDrawing();
+			mCurrentMesh = nullptr;
 		}
-		mCurrentMesh = nullptr;
 	}
 }

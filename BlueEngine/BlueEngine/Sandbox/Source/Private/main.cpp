@@ -14,16 +14,21 @@
 #include "BlueCore/Managers/DebugManager.h"
 #include "BlueCore/Input/Input.h"
 #include "BlueCore/Helpers/MathHelpers.h"
+#include "BlueCore/Renderers/GizmoRenderer.h"
+#include "BlueCore/graphics/mesh.h"
+#include "BlueCore/Managers/MeshManager.h"
 #include <iostream>
 #include <glm/glm.hpp>
 #include <string>
 #include <Imgui/imgui.h>
+
+#include "NavMesh/NavMeshGenerator.h"
+
 class TestApp : public Blue::Application
 {
 public:
 	bool Run() override
 	{
-
 		CreateWindow("SandBox", 1920, 1080);
 		mWindow->Swap();
 
@@ -39,20 +44,27 @@ public:
 		trans.rotation = Blue::MathHelpers::QuatFromEuler(glm::vec3(0, 180, 0));
 		camera->SetTransform(trans);
 
-		Blue::Timer allocTimer;
-		allocTimer.Start();
-		for (Blue::uint32 i = 0; i < 1; ++i)
-		{
-			Blue::Actor* actor = myWorld.CreateActor();
-			actor->AddComponent<Blue::DynamicMeshComponent>();
-			Blue::Transform t;
-			t.position.x = static_cast<float>((i % 100) * 2);
-			t.position.z = static_cast<float>((i / 100) * 2);
-			actor->SetTransform(t);
-		}
-		double ms = allocTimer.IntervalMS();
-		Blue::Log::Info("allocation took: " + std::to_string(ms) + "ms");
 		myWorld.BeginPlay();
+
+		// Create navmesh mesh
+		Blue::Mesh* navMesh = Blue::MeshManager::GI()->CreateMesh("NavMesh"); 
+
+		std::vector<Blue::Vertex> vertices = { { glm::vec3(0, 0, 0) },{ glm::vec3(0, 0, -10) },{ glm::vec3(-5, 0, -15) },{ glm::vec3(-10, 0, -10) },{ glm::vec3(-10, 0, 0) } };
+		std::vector<Blue::uint32> indeces;
+
+		Blue::NavMeshGenerator::TriangulateMesh(vertices, indeces);
+
+		Blue::Vertex* verts = new Blue::Vertex[vertices.size()];
+		for (int i = 0; i < vertices.size(); i++)
+			verts[i] = vertices[i];
+		Blue::uint32* idx = new Blue::uint32[indeces.size()];
+		for (int i = 0; i < indeces.size(); i++)
+			idx[i] = indeces[i];
+
+		navMesh->Init(verts, vertices.size(), idx, indeces.size());
+		navMesh->UpdateMeshResources();
+
+		// ImGui / timer variables
 		Blue::Timer dtTimer;
 		Blue::SceneRenderer sceneRenderer;
 		Blue::uint32 fps = 0;
@@ -85,6 +97,16 @@ public:
 
 			if (Blue::Input::GetKeyDown(Blue::Input::Key::ESCAPE))
 				mWindow->Close();
+
+			//myWorld.GetGizmoRenderer()->DrawMesh(navMesh, glm::vec3(1, 1, 0));
+			Blue::Vertex* navVerts = navMesh->GetVertices();
+			Blue::uint32* navIdx = navMesh->GetIndices();
+			for (Blue::uint32 i = 0; i < navMesh->GetIndiceCount(); i+=3)
+			{
+				myWorld.GetGizmoRenderer()->DrawLine(navVerts[navIdx[i]].position    , navVerts[navIdx[i + 1]].position, glm::vec3(1, 0, 0));
+				myWorld.GetGizmoRenderer()->DrawLine(navVerts[navIdx[i + 1]].position, navVerts[navIdx[i + 2]].position, glm::vec3(1, 0, 0));
+				myWorld.GetGizmoRenderer()->DrawLine(navVerts[navIdx[i + 2]].position, navVerts[navIdx[i]].position		 , glm::vec3(1, 0, 0));
+			}
 
 			ImGui::Text("World::Update: %f ms", (float)updateTimer.IntervalMS());
 
