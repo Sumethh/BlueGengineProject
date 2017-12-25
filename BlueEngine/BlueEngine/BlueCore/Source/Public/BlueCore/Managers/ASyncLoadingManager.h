@@ -7,10 +7,10 @@ namespace Blue
 	class AsyncLoadingManager : public UpdatableManager
 	{
 	public:
-		struct IAsyncLoadingTracker
+		struct AsyncLoadingTracker
 		{
-			IAsyncLoadingTracker(std::future<bool>&& aOther) : completedFuture(std::move(aOther)) {}
-			virtual ~IAsyncLoadingTracker() {};
+			AsyncLoadingTracker(std::future<bool>&& aOther) : completedFuture(std::move(aOther)) {}
+			virtual ~AsyncLoadingTracker() {};
 			virtual void Completed() = 0;
 
 			std::future<bool> completedFuture;
@@ -28,8 +28,7 @@ namespace Blue
 			return mInstance;
 		}
 
-		void AddNewTrackingLoadingTask(IAsyncLoadingTracker* aNewTask);
-
+		void AddNewTrackingLoadingTask(AsyncLoadingTracker* aNewTask);
 
 	private:
 		static AsyncLoadingManager* mInstance;

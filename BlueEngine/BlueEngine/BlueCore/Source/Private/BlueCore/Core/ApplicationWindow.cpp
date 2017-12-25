@@ -99,15 +99,11 @@ namespace Blue
 		{
 			mWindow = glfwCreateWindow(mWidth, mHeight, aTitle, nullptr, nullptr);
 			glfwMakeContextCurrent(mWindow);
-
 		}
 		else if (mCurrentRenderingAPI == EGraphicsDeviceType::Vulkan)
 		{
 			mWindow = glfwCreateWindow(mWidth, mHeight, aTitle, nullptr, nullptr);
 		}
-
-
-
 
 		ImGui_ImplGlfwGL3_Init(mWindow, true);
 		glfwSetKeyCallback(mWindow, KeyCallBack);
@@ -202,4 +198,14 @@ namespace Blue
 		uint8 bufferBit = static_cast<uint8>(EBufferBit::Color) | static_cast<uint8>(EBufferBit::DepthBit);
 		IGraphicsDevice::GetCurrentGraphicsDevice()->ClearBuffer(static_cast<EBufferBit>(bufferBit));
 	}
+
+	void ApplicationWindow::MakeContextCurrent()
+	{
+		BlueAssert(mWindow);
+
+		if(glfwGetCurrentContext() != mWindow)
+			glfwMakeContextCurrent(mWindow);
+
+	}
+
 }

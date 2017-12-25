@@ -1,6 +1,7 @@
 #include "BlueCore/Graphics/Shader.h"
 #include "BlueCore/Managers/ShaderManager.h"
 #include "BlueCore/Core/Log.h"
+#include "BlueCore/Graphics/RenderThread.h"
 #include <fstream>
 
 namespace Blue
@@ -114,7 +115,13 @@ namespace Blue
 
 			if (shaderPair.shaderCount == 2)
 			{
-				shader->LoadShader(shaderPair.shaders[Shader::EShaderType::VertexShader], shaderPair.shaders[Shader::EShaderType::FragmentShader]);
+				if(!RenderThread::IsOnRenderThread())
+					shader->SetShaderPaths(shaderPair.shaders[Shader::EShaderType::VertexShader], shaderPair.shaders[Shader::EShaderType::FragmentShader]);
+				else
+				{
+					shader->Create();
+					shader->LoadShader(shaderPair.shaders[Shader::EShaderType::VertexShader], shaderPair.shaders[Shader::EShaderType::FragmentShader]);
+				}
 			}
 			else
 			{

@@ -1,6 +1,5 @@
 #pragma once
-
-#include "BlueCore/BlueCore.h"
+#include "BlueCore/Core/Types.h"
 
 namespace Blue
 {
@@ -28,7 +27,10 @@ namespace Blue
 		{
 			return mNumAllocations;
 		}
-
+		virtual int32 GetLargestAllocationSize()
+		{
+			return 0;
+		}
 	protected:
 		sizeInt mNumAllocations;
 		sizeInt mUsedMemory;

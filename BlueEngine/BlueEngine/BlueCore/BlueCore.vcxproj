@@ -119,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Source\Public\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4251;</DisableSpecificWarnings>
-      <PreprocessorDefinitions>BLUECORE_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BLUECORE_EXPORT;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -160,7 +160,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Source\Public\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4251;</DisableSpecificWarnings>
-      <PreprocessorDefinitions>BLUECORE_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BLUECORE_EXPORT;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
@@ -200,6 +200,8 @@
     <ClCompile Include="Source\Private\BlueCore\Extern\imgui_demo.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Extern\imgui_draw.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Extern\imgui_impl_glfw_gl3.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Graphics\GraphicsResource.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Graphics\RenderThread.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\IMemoryAllocator.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\MemoryManager.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\ShaderManager.cpp" />
@@ -220,6 +222,7 @@
     <ClCompile Include="Source\Private\BlueCore\Managers\DebugManager.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Memory\BlockAllocator.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Memory\FixedBlockAllocator.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Platform\PlatformHelpers.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Renderers\DeferedRenderer.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Renderers\ForwardRenderer.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Renderers\SceneRenderer.cpp" />
@@ -241,6 +244,8 @@
     <ClInclude Include="Source\Public\BlueCore\Components\ComponentRegistery.h" />
     <ClInclude Include="Source\Public\BlueCore\Components\PrimitiveComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\BlueCore.h" />
+    <ClInclude Include="Source\Public\BlueCore\Containers\TLockedLinkedList.h" />
+    <ClInclude Include="Source\Public\BlueCore\Containers\TWaitQueue.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Actor.h" />
     <ClInclude Include="Source\Public\BlueCore\Collision\BoundingVolumes\AABB.h" />
     <ClInclude Include="Source\Public\BlueCore\Collision\BoundingVolumes\OBB.h" />
@@ -264,8 +269,11 @@
     <ClInclude Include="Source\Public\BlueCore\Core\IDelegate.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\IGameMode.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Scene.h" />
+    <ClInclude Include="Source\Public\BlueCore\Graphics\GraphicsAsset.h" />
+    <ClInclude Include="Source\Public\BlueCore\Graphics\GraphicsResource.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\RenderLayer.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\RenderQueue.h" />
+    <ClInclude Include="Source\Public\BlueCore\Graphics\RenderThread.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\ViewPort.h" />
     <ClInclude Include="Source\Public\BlueCore\Managers\AssetManager.h" />
     <ClInclude Include="Source\Public\BlueCore\Managers\MemoryManager.h" />
@@ -299,11 +307,11 @@
     <ClInclude Include="Source\Public\BlueCore\Helpers\MathHelpers.h" />
     <ClInclude Include="Source\Public\BlueCore\Helpers\StringHelpers.h" />
     <ClInclude Include="Source\Public\BlueCore\Input\Input.h" />
-    <ClInclude Include="Source\Public\BlueCore\Json\json.hpp" />
     <ClInclude Include="Source\Public\BlueCore\Managers\AsyncLoadingMeshTracker.h" />
     <ClInclude Include="Source\Public\BlueCore\Managers\DebugManager.h" />
     <ClInclude Include="Source\Public\BlueCore\Memory\IMemoryAllocator.h" />
     <ClInclude Include="Source\Public\BlueCore\Messaging\WindowResizeMessage.h" />
+    <ClInclude Include="Source\Public\BlueCore\Platform\PlatformHelpers.h" />
     <ClInclude Include="Source\Public\BlueCore\Renderers\DeferedRenderer.h" />
     <ClInclude Include="Source\Public\BlueCore\Renderers\ForwardRenderer.h" />
     <ClInclude Include="Source\Public\BlueCore\Renderers\GizmoRenderer.h" />
@@ -318,6 +326,9 @@
     <ClInclude Include="Source\Public\BlueCore\Systems\Console.h" />
     <ClInclude Include="Source\Public\BlueCore\Systems\StencilCreator.h" />
     <ClInclude Include="Source\Public\BlueCore\Systems\TaskSystem.h" />
+    <ClInclude Include="Source\Public\BlueCore\Tasks\RenderSceneTask.h" />
+    <ClInclude Include="Source\Public\BlueCore\Tasks\MakeContextCurrentTask.h" />
+    <ClInclude Include="Source\Public\BlueCore\Tasks\UpdateGraphicsResourceTask.h" />
     <ClInclude Include="Source\Public\BlueCore\Utility\Directory.h" />
     <ClInclude Include="Source\Public\BlueCore\Utility\File.h" />
     <ClInclude Include="Source\Public\BlueCore\Utility\Limits.h" />

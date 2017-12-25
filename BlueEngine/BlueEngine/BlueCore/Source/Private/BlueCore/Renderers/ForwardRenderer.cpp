@@ -34,12 +34,14 @@ namespace Blue
 	{
 		mCurrentShader->SetShaderVar(mModelLocation, (void*)&aTransform, EVarType::Matrix4x4);
 
-		if (mCurrentMesh != aMesh)
+		if (mCurrentMesh != aMesh && aMesh->IsValid())
 		{
 			mCurrentMesh = aMesh;
-			aMesh->PrepForDrawing();
+			aMesh->Bind();
 		}
-
+		if (!mCurrentMesh)
+			return;
+		
 		IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, mCurrentMesh->GetIndiceCount());
 	}
 
@@ -82,7 +84,7 @@ namespace Blue
 		mActiveMaterial = nullptr;
 		if (mCurrentMesh)
 		{
-			mCurrentMesh->UnPrepForDrawing();
+			mCurrentMesh->Unbind();
 		}
 		mCurrentMesh = nullptr;
 	}

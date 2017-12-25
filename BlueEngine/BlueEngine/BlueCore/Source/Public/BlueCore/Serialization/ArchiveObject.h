@@ -1,11 +1,11 @@
 #pragma once
 #include "BlueCore/Core/Types.h"
-#include "../Json/json.hpp"
 #include "BlueCore/Core/Defines.h"
 
 #include<glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
-
+#include <string>
+#include <vector>
 namespace Blue
 {
 	class ArchiveObject
@@ -25,28 +25,23 @@ namespace Blue
 		template<typename T>
 		T Restore(const std::string aValue)
 		{
-			return (T)mArchive[aValue];
-		}
-
-
-		nlohmann::json GetArc()
-		{
-			return mArchive;
+			BlueAssert(false);
 		}
 
 		void WriteToFile(char* aDir, const char* aFileName);
 		void ReadFromFile(const char* aFilePath);
+
 		std::string str()
 		{
-			return mArchive.dump(0);
+			BlueAssert(false);
 		}
+
 	private:
 
 		inline void AssertKeyIsUnique(const char* key) const
 		{
-			BlueAssert(mArchive.find(key) == mArchive.end());
+			
 		}
 		std::string mName;
-		nlohmann::json mArchive;
 	};
 }

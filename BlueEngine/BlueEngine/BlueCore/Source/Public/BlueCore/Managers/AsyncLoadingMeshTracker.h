@@ -5,43 +5,36 @@
 
 namespace Blue
 {
-	struct AsyncLoadingMeshTracker : public AsyncLoadingManager::IAsyncLoadingTracker
+	struct AsyncLoadingMeshTracker : public AsyncLoadingManager::AsyncLoadingTracker
 	{
 	public:
-		AsyncLoadingMeshTracker(std::future<bool>&& aFuture, Mesh* aMesh) : IAsyncLoadingTracker(std::move(aFuture)),
-			loadingMesh(aMesh)
+		AsyncLoadingMeshTracker(std::future<bool>&& aFuture, uint64 aMeshID) : AsyncLoadingTracker(std::move(aFuture)), meshID(aMeshID)
 		{
 			callbacks.reserve(10);
 		}
+
 		void AddCallback(std::function<void(Mesh*)> aNewCallback)
 		{
 			callbacks.push_back(aNewCallback);
 		}
 
-		void SetMeshResources()
-		{
-			loadingMesh->UpdateMeshResources();
-		}
-
 		virtual void Completed() override
 		{
-			SetMeshResources();
-
+			MeshManager::GI()->AsyncLoadComplete(this);
+			Mesh* completedMesh = MeshManager::GI()->GetMesh(GetMeshID());			
 			for (auto& func : callbacks)
 			{
-				func(loadingMesh);
+				func(completedMesh);
 			}
-
-			MeshManager::GI()->AsyncLoadComplete(this);
-
 		}
 
-		const Mesh* GetMesh()
+		virtual uint64 GetMeshID()
 		{
-			return loadingMesh;
+			return meshID;
 		}
+
 	private:
 		std::vector<std::function<void(Mesh*)>> callbacks;
-		Mesh* loadingMesh;
+		uint64 meshID;
 	};
 }

@@ -6,43 +6,45 @@ namespace Blue
 	const	uint32 Shader::MaxLightCount;
 	Shader::Shader() : mPointLightCountLoc(-1)
 	{
-		mShaderResourceID = IGraphicsDevice::GetCurrentGraphicsDevice()->CreateGraphicsResource(EGraphicsResourceType::Shader);
 	}
 
 	Shader::~Shader()
 	{
-		UnloadShader();
+	}
+
+	void Shader::Create()
+	{
+		IGraphicsDevice* device = IGraphicsDevice::GetCurrentGraphicsDevice();
+		mGraphicsResource = device->CreateGraphicsResource(EGraphicsResourceType::Shader);
+	}
+
+	void Shader::UpdateResource()
+	{
+		BlueAssert(IsValid());
+
+		LoadShader(m_shaderPaths[static_cast<int32>(EShaderType::VertexShader)], m_shaderPaths[static_cast<int32>(EShaderType::FragmentShader)]);
 	}
 
 	void Shader::LoadShader(const std::string& aVertexShader, const std::string& aFragmentShader)
 	{
 		IGraphicsDevice* gr = IGraphicsDevice::GetCurrentGraphicsDevice();
-		gr->UpdateResourceData(mShaderResourceID, aVertexShader, aFragmentShader);
+		gr->UpdateResourceData(mGraphicsResource, aVertexShader, aFragmentShader);
 		m_shaderPaths[EShaderType::VertexShader] = aVertexShader;
 		m_shaderPaths[EShaderType::FragmentShader] = aFragmentShader;
 		Bind();
 		CalcPointLightInfo();
-		UnBind();
+		Unbind();
 	}
 
-	void Shader::UnloadShader()
+	void Shader::SetShaderPaths(const std::string& aVertexShader, const std::string& aFragmentShader)
 	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->DeleteGraphicsResource(mShaderResourceID);
-	}
-
-	void Shader::Bind()
-	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mShaderResourceID);
-	}
-
-	void Shader::UnBind()
-	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->UnbindGraphicsResource(mShaderResourceID);
+		m_shaderPaths[EShaderType::VertexShader] = aVertexShader;
+		m_shaderPaths[EShaderType::FragmentShader] = aFragmentShader;
 	}
 
 	int32 Shader::GetShaderVariableLocation(const char* aVarName)
 	{
-		return IGraphicsDevice::GetCurrentGraphicsDevice()->GetShaderVariableLocation(mShaderResourceID, aVarName);
+		return IGraphicsDevice::GetCurrentGraphicsDevice()->GetShaderVariableLocation(mGraphicsResource, aVarName);
 	}
 
 	void Shader::SetShaderVar(uint32 aVarLoc, void* aVar, EVarType aType)

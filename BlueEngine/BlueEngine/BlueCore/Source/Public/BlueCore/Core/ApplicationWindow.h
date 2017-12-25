@@ -13,6 +13,7 @@ namespace Blue
 	{
 	public:
 		~ApplicationWindow();
+
 		static ApplicationWindow* Create(const char* aTitle, const uint32 a_width, const uint32 aHeight, EGraphicsDeviceType aRenderingAPI);
 		void Update();
 
@@ -41,6 +42,8 @@ namespace Blue
 		{
 			return mWindow;
 		}
+
+		void MakeContextCurrent();
 
 	private:
 		void UpdateMousePosition();

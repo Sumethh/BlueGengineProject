@@ -11,6 +11,7 @@
 #define BlueBit(n) 1 << n
 
 #define BlueAssert(condition) assert(condition);
+#define BlueEnsure(condition) assert(condition);
 
 #define BlueStaticAssert(condition) static_assert(condition, "");
 

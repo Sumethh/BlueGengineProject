@@ -4,14 +4,13 @@
 namespace Blue
 {
 	AsyncLoadingManager* AsyncLoadingManager::mInstance = nullptr;
-	static std::vector<AsyncLoadingManager::IAsyncLoadingTracker*> sCurrentLoadingTasks;
-
+	static std::vector<AsyncLoadingManager::AsyncLoadingTracker*> sCurrentLoadingTasks;
 
 	void AsyncLoadingManager::Update()
 	{
 		for (auto currentTask = sCurrentLoadingTasks.begin(); currentTask != sCurrentLoadingTasks.end();)
 		{
-			if ((*currentTask)->completedFuture._Is_ready())
+			if ((*currentTask)->completedFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
 			{
 				(*currentTask)->Completed();
 				delete (*currentTask);
@@ -24,7 +23,7 @@ namespace Blue
 		}
 	}
 
-	void AsyncLoadingManager::AddNewTrackingLoadingTask(IAsyncLoadingTracker* aNewTask)
+	void AsyncLoadingManager::AddNewTrackingLoadingTask(AsyncLoadingTracker* aNewTask)
 	{
 		sCurrentLoadingTasks.push_back(aNewTask);
 	}

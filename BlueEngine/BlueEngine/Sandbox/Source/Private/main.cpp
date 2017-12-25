@@ -9,25 +9,26 @@
 #include "BlueCore/Components/CameraComponent.h"
 #include "BlueCore/Components/FirstPersonComponent.h"
 #include "BlueCore/Components/PointLightComponent.h"
-#include "BlueCore/Renderers/SceneRenderer.h"
 #include "BlueCore/Managers/MemoryManager.h"
 #include "BlueCore/Managers/DebugManager.h"
 #include "BlueCore/Input/Input.h"
 #include "BlueCore/Helpers/MathHelpers.h"
+#include "BlueCore/Systems/TaskSystem.h"
 #include <iostream>
 #include <glm/glm.hpp>
 #include <string>
 #include <Imgui/imgui.h>
+
 class TestApp : public Blue::Application
 {
 public:
 	bool Run() override
 	{
-
 		CreateWindow("SandBox", 1920, 1080);
 		mWindow->Swap();
 
 		Blue::Application::Run();
+
 		Blue::World myWorld;
 		mWindow->SetClearColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
@@ -50,17 +51,19 @@ public:
 			t.position.z = static_cast<float>((i / 100) * 2);
 			actor->SetTransform(t);
 		}
+
 		double ms = allocTimer.IntervalMS();
 		Blue::Log::Info("allocation took: " + std::to_string(ms) + "ms");
 		myWorld.BeginPlay();
+
 		Blue::Timer dtTimer;
-		Blue::SceneRenderer sceneRenderer;
 		Blue::uint32 fps = 0;
 		Blue::uint32 lastFps = 0;
 		Blue::Timer fpsTimer;
 		Blue::DebugManager::GI();
-		glm::vec3 position;
-		glm::vec3 color;
+
+		glm::vec3 position(0.0f, 0.0f, 0.0f);
+		glm::vec3 color(0,0,0);
 		while (!mWindow->IsCloseRequested())
 		{
 			fps++;
@@ -96,7 +99,6 @@ public:
 			//ImGui::ShowTestWindow();
 			Blue::Timer scenePassTimer;
 			scenePassTimer.Start();
-			sceneRenderer.ConductScenePass(&myWorld);
 			ImGui::Text("Scene Pass: %f ms", (float)scenePassTimer.IntervalMS());
 			ImGui::End();
 			ImGui::Begin("Create Objects");

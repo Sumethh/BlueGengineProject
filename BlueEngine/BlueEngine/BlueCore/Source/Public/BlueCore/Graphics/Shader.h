@@ -3,12 +3,13 @@
 #include "BlueCore/Core/Defines.h"
 #include "BlueCore/Core/NonCopyable.h"
 #include "BlueCore/GraphicsDevice/IGraphicsDevice.h"
+#include "BlueCore/Graphics/GraphicsResource.h"
 #include <vector>
 #include <glm/glm.hpp>
 
 namespace Blue
 {
-	class Shader : NonCopyable
+	class Shader : public NonCopyable, public GraphicsResource
 	{
 	public:
 
@@ -29,11 +30,11 @@ namespace Blue
 		Shader();
 		~Shader();
 
-		void LoadShader(const std::string& aVertexShader, const std::string& aFragmentShader);
-		void UnloadShader();
+		virtual void Create() override;
+		virtual void UpdateResource() override;
 
-		void Bind();
-		void UnBind();
+		void LoadShader(const std::string& aVertexShader, const std::string& aFragmentShader);
+		void SetShaderPaths(const std::string& aVertexShader, const std::string& aFragmentShader);
 		int32 GetShaderVariableLocation(const char* aVarName);
 
 		void SetShaderVar(uint32 aVarLoc, void* aVar, EVarType aType);
@@ -54,6 +55,5 @@ namespace Blue
 		std::string m_shaderPaths[EShaderType::ShaderTypeCount];
 		int32 mPointLightCountLoc;
 		std::vector<CachedPointlightShaderInfo> mCachedPointLightInfo;
-		GraphicsDeviceResourceID mShaderResourceID;
 	};
 }

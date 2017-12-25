@@ -2,11 +2,13 @@
 #include "BlueCore/Core/Defines.h"
 #include "BlueCore/Core/Types.h"
 #include "BlueCore/Core/Log.h"
-
-#include <MoodyCamel/concurrentqueue.h>
+#include "BlueCore/Containers/TWaitQueue.h"
+#include "BlueCore/Core/Timer.h"
 
 #include <thread>
-#include <vector>
+#include <shared_mutex>
+
+#include <map>
 #include <string>
 #include <atomic>
 #define Job_Queue_Size 1000
@@ -16,14 +18,18 @@ namespace Blue
 {
 	namespace TaskSystem
 	{
-		moodycamel::ConcurrentQueue<ITask*> sJobList;
-
+		//moodycamel::ConcurrentQueue<ITask*> sJobList;
+		//TWaitQueue<Task*> sJobList;
 		std::vector<std::unique_ptr<std::thread>> sThreads;
 		std::atomic_bool sRunThreads;
 		std::atomic<int> sNumSyncJobs;
-		struct TrackedJobWrapper : public ITask
+
+		TWaitQueue<Task*> sThreadJobList[static_cast<int32>(EThreadType::Count)];
+
+
+		struct TrackedJobWrapper : public Task
 		{
-			TrackedJobWrapper(ITask* aJob) : ITask("TrackedJobWrapper"), job(aJob) {};
+			TrackedJobWrapper(Task* aJob) : Task("TrackedJobWrapper"), job(aJob) {};
 			~TrackedJobWrapper()
 			{
 				promise.set_value(true);
@@ -38,63 +44,36 @@ namespace Blue
 			{
 				return job->IsCompleted();
 			}
-			ITask* job;
+			Task* job;
 			std::promise<bool> promise;
 		};
 
 		struct StaticThreadInformation
 		{
-			uint32 threadID;
+			uint32 threadID = 0;
+			EThreadType threadType = EThreadType::WorkerThread;
+			std::string threadName = "Worker Thread";
 		};
 
 		struct ThreadDiagnosticInformation
 		{
-		};
 
+		};
 
 		void ThreadMain(StaticThreadInformation aInfo)
 		{
 			while (sRunThreads)
 			{
-				ITask* job = nullptr;
-
-				if (sJobList.try_dequeue(job))
-				{
-					BlueAssert(job);
-
-					if (!sRunThreads)
-					{
-						delete job;
-						break;
-					}
-
-					job->Run();
-
-					if (job->IsCompleted())
-					{
-						if (job->syncedJob)
-						{
-							sNumSyncJobs.fetch_sub(1);
-						}
-
-						delete job;
-					}
-					else
-					{
-						sJobList.enqueue(job);
-					}
-				}
-				else
-				{
-					std::this_thread::sleep_for(std::chrono::milliseconds(1));
-				}
+				ThreadRun(aInfo.threadType);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}
 		}
 
 
 		void Init()
 		{
-			uint32 coreCount = std::thread::hardware_concurrency();
+			uint32 coreCount = std::thread::hardware_concurrency() / 2;
+
 			std::string t = "Intializing task system with ";
 			t += std::to_string(coreCount);
 			t += " task threads";
@@ -108,7 +87,6 @@ namespace Blue
 				info.threadID = i;
 				sThreads.push_back(std::make_unique<std::thread>(ThreadMain, info));
 			}
-
 		}
 
 		void Sync()
@@ -128,20 +106,54 @@ namespace Blue
 				sThreads[i]->join();
 			}
 
-			ITask* remainingTasks = nullptr;
-			size_t c = sJobList.size_approx();
+			Task* remainingTask = nullptr;
 
-			while (sJobList.try_dequeue(remainingTasks))
+
+			for (int32 index = 0; index < static_cast<int32>(EThreadType::Count); ++index)
 			{
-				Log::Info(std::string("Dequeuing Task") + std::string(remainingTasks->name));
-				delete remainingTasks;
-				sJobList.try_dequeue(remainingTasks);
+				while (sThreadJobList[index].LockPop(remainingTask))
+				{
+					Log::Info(Logger("Deleting Task ") << remainingTask->name);
+					delete remainingTask;
+				}
 			}
-
-			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 
-		void SubmitTask(ITask* aTask)
+		void ThreadRun(EThreadType aCurrentThread, const int32 aMiliSecondsAlloted)
+		{
+			Timer timeRunning;
+			timeRunning.Start();
+
+			if (aCurrentThread >= EThreadType::Count)
+			{
+				Log::Error("Thread tried to run with incorrect thread type");
+				return;
+			}
+
+			while (timeRunning.IntervalMS() < aMiliSecondsAlloted)
+			{
+				Task* currentTask = nullptr;
+
+				if (!sThreadJobList[static_cast<int32>(aCurrentThread)].LockPop(currentTask))
+					break;
+				else
+					currentTask->Run();
+
+				if (currentTask->IsCompleted())
+				{
+					if (currentTask->syncedJob)
+						sNumSyncJobs.fetch_sub(1);
+
+					delete currentTask;
+				}
+				else
+				{
+					sThreadJobList[static_cast<int32>(aCurrentThread)].Push(currentTask);
+				}
+			}
+		}
+
+		void SubmitTask(Task* aTask)
 		{
 			BlueAssert(aTask);
 
@@ -150,10 +162,10 @@ namespace Blue
 				sNumSyncJobs.fetch_add(1);
 			}
 
-			sJobList.enqueue(aTask);
+			sThreadJobList[static_cast<int32>(aTask->threadType)].Push(aTask);
 		}
 
-		std::future<bool> SubmitTrackedTask(ITask* aTask)
+		std::future<bool> SubmitTrackedTask(Task* aTask)
 		{
 			BlueAssert(aTask);
 			TrackedJobWrapper* newJob = new TrackedJobWrapper(aTask);
@@ -164,7 +176,7 @@ namespace Blue
 				sNumSyncJobs.fetch_add(1);
 			}
 
-			sJobList.enqueue(newJob);
+			sThreadJobList[static_cast<int32>(aTask->threadType)].Push(newJob);
 			return future;
 		}
 	}

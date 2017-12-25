@@ -63,6 +63,8 @@ namespace Blue
 
 	void GizmoRenderer::DrawMesh(Mesh* aMesh, glm::vec3 aColor)
 	{
+		if (!aMesh->IsValid() || !mGizmoMeshShader->IsValid())
+			return;
 		mGizmoMeshShader->Bind();
 		uint32 colorLoc = mGizmoMeshShader->GetShaderVariableLocation("objectColor");
 		uint32 projLoc = mGizmoMeshShader->GetShaderVariableLocation("projection");
@@ -71,14 +73,16 @@ namespace Blue
 		mGizmoMeshShader->SetShaderVar(projLoc, (void*)glm::value_ptr(proj), EVarType::Matrix4x4);
 		mGizmoMeshShader->SetShaderVar(viewLoc, (void*)glm::value_ptr(view), EVarType::Matrix4x4);
 
-		aMesh->PrepForDrawing();
+		aMesh->Bind();
 		IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, aMesh->GetIndiceCount());
-		aMesh->UnPrepForDrawing();
+		aMesh->Unbind();
 		mDebugMaterial->Bind();
 	}
 
 	void GizmoRenderer::DrawSphere(glm::vec3 aPosition, glm::vec3 aScale, glm::vec3 aColor, EGizmoMode aMode)
 	{
+		if (!mSphereMesh->IsValid())
+			return;
 		Transform trans;
 		trans.position = aPosition;
 		trans.scale = aScale;
@@ -88,13 +92,15 @@ namespace Blue
 		glm::vec4 col(aColor, mAlpha);
 		shader->SetShaderVar(mColorUniformLoc, glm::value_ptr(col), EVarType::Vector4);
 		shader->SetShaderVar(mModelLoc, glm::value_ptr(modelMat), EVarType::Matrix4x4);
-		mSphereMesh->PrepForDrawing();
+		mSphereMesh->Bind();
 		IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, mSphereMesh->GetIndiceCount());
-		mSphereMesh->UnPrepForDrawing();
+		mSphereMesh->Unbind();
 	}
 
 	void GizmoRenderer::DrawCube(glm::vec3 aPosition, glm::vec3 aScale, glm::quat aRotation, glm::vec3 aColor, EGizmoMode aMode)
 	{
+		if (!mCubeMesh->IsValid())
+			return;
 		Transform trans;
 		trans.position = aPosition;
 		trans.scale = aScale;
@@ -104,9 +110,9 @@ namespace Blue
 		glm::vec4 color(aColor, mAlpha);
 		shader->SetShaderVar(mColorUniformLoc, glm::value_ptr(color), EVarType::Vector4);
 		shader->SetShaderVar(mModelLoc, glm::value_ptr(modelMat), EVarType::Matrix4x4);
-		mCubeMesh->PrepForDrawing();
+		mCubeMesh->Bind();
 		IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, mCubeMesh->GetIndiceCount());
-		mCubeMesh->UnPrepForDrawing();
+		mCubeMesh->Unbind();
 	}
 
 	struct LineData
@@ -152,6 +158,8 @@ namespace Blue
 
 	void GizmoRenderer::DrawPlane(glm::vec3 aPosition, glm::vec3 aScale, glm::quat aRotation, glm::vec3 aColor, EGizmoMode aMode)
 	{
+		if (!mPlaneMesh->IsValid())
+			return;
 		Transform trans;
 		trans.position = aPosition;
 		trans.scale = aScale;
@@ -161,13 +169,15 @@ namespace Blue
 		glm::vec4 col(aColor, mAlpha);
 		shader->SetShaderVar(mColorUniformLoc, glm::value_ptr(col), EVarType::Vector4);
 		shader->SetShaderVar(mModelLoc, glm::value_ptr(modelMat), EVarType::Matrix4x4);
-		mPlaneMesh->PrepForDrawing();
+		mPlaneMesh->Bind();
 		IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, mPlaneMesh->GetIndiceCount());
-		mPlaneMesh->UnPrepForDrawing();
+		mPlaneMesh->Unbind();
 	}
 
 	void GizmoRenderer::DrawCapsule(glm::vec3 aPosition, glm::vec3 aScale, glm::quat aRotation, glm::vec3 aColor, EGizmoMode aMode)
 	{
+		if (!mCapsuleMesh->IsValid())
+			return;
 		Transform trans;
 		trans.position = aPosition;
 		trans.scale = aScale;
@@ -177,9 +187,9 @@ namespace Blue
 		glm::vec4 col(aColor, mAlpha);
 		shader->SetShaderVar(mColorUniformLoc, glm::value_ptr(col), EVarType::Vector4);
 		shader->SetShaderVar(mModelLoc, glm::value_ptr(modelMat), EVarType::Matrix4x4);
-		mCapsuleMesh->PrepForDrawing();
+		mCapsuleMesh->Bind();
 		IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, mCapsuleMesh->GetIndiceCount());
-		mCapsuleMesh->UnPrepForDrawing();
+		mCapsuleMesh->Unbind();
 	}
 
 
@@ -208,6 +218,8 @@ namespace Blue
 		IGraphicsDevice* gd = IGraphicsDevice::GetCurrentGraphicsDevice();
 		mDebugMaterialInstanced->Bind();
 		Shader* shader = ShaderManager::GI()->GetShader("GizmoLineShader");
+		if (!shader->IsValid())
+			return;
 		uint32 viewLoc = shader->GetShaderVariableLocation("view");
 		uint32 projLoc = shader->GetShaderVariableLocation("projection");
 		shader->SetShaderVar(viewLoc, (void*)glm::value_ptr(view), EVarType::Matrix4x4);

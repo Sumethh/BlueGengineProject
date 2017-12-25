@@ -8,7 +8,7 @@ namespace Blue
 	struct Block;
 	struct Page;
 
-	class FixedBlockAllocator : public  IMemoryAllocator, public NonCopyable
+	class FixedBlockAllocator : public IMemoryAllocator, public NonCopyable
 	{
 	public:
 		FixedBlockAllocator(const int32 aPageSize, const int32* aBlockSizes, const int32 aBlockSizesCount);
@@ -16,6 +16,8 @@ namespace Blue
 
 		void* Allocate(size_t aSize, uint8 aAllignment) override;
 		void Deallocate(void* aData, size_t aSize) override;
+
+		int32 GetLargestAllocationSize() override { return mBlockSizes[mBlockSizesCount]; }
 	private:
 
 		float mMbUsed;

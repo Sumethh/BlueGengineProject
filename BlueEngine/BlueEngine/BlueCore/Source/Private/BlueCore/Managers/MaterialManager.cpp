@@ -15,6 +15,7 @@ namespace Blue
 		Shader* defaultShader = ShaderManager::GI()->GetShader("Forward_Shaded");
 
 		Texture2D* tex = new Texture2D();
+		tex->Create();
 		tex->LoadTexture("Assets/Textures/Debug.png", EImageFormat::RGB, EPrecisionType::RGB_8Bit);
 		defaultMaterial->SetShader(defaultShader);
 		defaultMaterial->SetTexture(tex);

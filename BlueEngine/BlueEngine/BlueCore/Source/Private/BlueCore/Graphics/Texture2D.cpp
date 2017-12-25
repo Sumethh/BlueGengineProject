@@ -1,13 +1,14 @@
 #include "BlueCore/Graphics/Texture2D.h"
 #include "BlueCore/Core/Log.h"
 #include "BlueCore/Core/Defines.h"
+#include "BlueCore/Tasks/UpdateGraphicsResourceTask.h"
 
 #include <FreeImage/FreeImage.h>
 #include <gl/glew.h>
 
 namespace Blue
 {
-	Texture2D::Texture2D() : mTextureId(0)
+	Texture2D::Texture2D()
 	{
 	}
 
@@ -15,16 +16,25 @@ namespace Blue
 	{
 	}
 
+	void Texture2D::Create()
+	{
+		IGraphicsDevice* device = IGraphicsDevice::GetCurrentGraphicsDevice();
+		mGraphicsResource = device->CreateGraphicsResource(EGraphicsResourceType::Texture2D);
+	}
+
+	void Texture2D::UpdateResource()
+	{
+		BlueAssert(mCurrentBitMap);
+		IGraphicsDevice* graphicsDevice = IGraphicsDevice::GetCurrentGraphicsDevice();
+		graphicsDevice->UpdateResourceData(mGraphicsResource, FreeImage_GetBits(mCurrentBitMap), mWidth, mHeight, mPrecision, mImageFormat, EDataType::UnsignedByte, mMipLevel);
+		FreeImage_Unload(mCurrentBitMap);
+		mCurrentBitMap = nullptr;
+	}
 
 	bool Texture2D::LoadTexture(const char* aFileName, EImageFormat aImageFormat, EPrecisionType aFormatToStore, uint32 aMipMapLvl)
 	{
-		IGraphicsDevice* gd = IGraphicsDevice::GetCurrentGraphicsDevice();
+		BlueAssert(IsValid());
 		mImageFormat = aImageFormat;
-
-		if (mTextureId == 0)
-		{
-			mTextureId = gd->CreateGraphicsResource(EGraphicsResourceType::Texture2D);
-		}
 
 		FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
 
@@ -60,25 +70,22 @@ namespace Blue
 		width = FreeImage_GetWidth(dib);
 		height = FreeImage_GetHeight(dib);
 
-		BlueAssert(bits != nullptr);
-		BlueAssert(width != 0);
-		BlueAssert(height != 0);
 
-		gd->UpdateResourceData(mTextureId, bits, width, height, aFormatToStore, aImageFormat, EDataType::UnsignedByte, aMipMapLvl);
-		FreeImage_Unload(dib);
-
+		mCurrentBitMap = dib;
 		mWidth = width;
 		mHeight = height;
+		mMipLevel = aMipMapLvl;
+		mPrecision = aFormatToStore;
+
+		UpdateGrapihcsResourceTask* updateResourceTask = new UpdateGrapihcsResourceTask();
+		updateResourceTask->graphicsResourceToUpdate = this;
+		TaskSystem::SubmitTask(updateResourceTask);
+
 		return true;
 	}
 
 	void Texture2D::Bind(ETextureID aId)
 	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mTextureId, aId);
-	}
-
-	void Texture2D::UnBind()
-	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->UnbindGraphicsResource(mTextureId);
+		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mGraphicsResource);
 	}
 }

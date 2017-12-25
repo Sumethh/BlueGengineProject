@@ -26,13 +26,13 @@ namespace Blue
 				delete sInstance;
 		}
 
-		FixedBlockAllocator& GetSmallBlockAllocator()
+		IMemoryAllocator* GetSmallBlockAllocator()
 		{
-			return mSmallBlockAllocator;
+			return &mSmallBlockAllocator;
 		}
-		FixedBlockAllocator& GetLargeBlockAllocator()
+		IMemoryAllocator* GetLargeBlockAllocator()
 		{
-			return mLargeBlockAllocator;
+			return &mLargeBlockAllocator;
 		}
 
 	private:
@@ -40,4 +40,22 @@ namespace Blue
 		FixedBlockAllocator mSmallBlockAllocator;
 		FixedBlockAllocator mLargeBlockAllocator;
 	};
+
+
+	template <typename T,typename... Args>
+	T* CreateNewObject(Args... aArgs) 
+	{
+		IMemoryAllocator* smallMemoryAllocator = MemoryManager::GI()->GetSmallBlockAllocator();
+		BlueAssert(smallMemoryAllocator && sizeof(T) < smallMemoryAllocator->GetLargestAllocationSize());
+		byte* memory = static_cast<byte*>(smallMemoryAllocator->Allocate(sizeof(T), 8));
+		return new(memory) T(aArgs...);
+	};
+
+	template<typename T>
+	void DeleteObject(T* aObjectToDelete)
+	{
+		IMemoryAllocator* smallMemoryAllocator = MemoryManager::GI()->GetSmallBlockAllocator();
+		smallMemoryAllocator->Deallocate(static_cast<void*>(aObjectToDelete), sizeof(T));
+	}
+
 }

@@ -566,8 +566,7 @@ namespace Blue
 
 	int32 OpenGlGraphicsDevice::GetShaderVariableLocation(uint32 aResourceID, char* aVarName)
 	{
-		BlueAssert(aResourceID);
-		BlueAssert(aResourceID < mResources.size());
+		BlueAssert(aResourceID && aResourceID < mResources.size());
 		OpenGLResource& r = mResources[aResourceID];
 		BlueAssert(r.resourceType == EGraphicsResourceType::Shader);
 		return glGetUniformLocation(r.lowLevelID, aVarName);
@@ -575,8 +574,7 @@ namespace Blue
 
 	int32 OpenGlGraphicsDevice::GetShaderVariableLocation(uint32 aResourceID, const char* aVarName)
 	{
-		BlueAssert(aResourceID);
-		BlueAssert(aResourceID < mResources.size());
+		BlueAssert(aResourceID && aResourceID < mResources.size());
 		OpenGLResource& r = mResources[aResourceID];
 		BlueAssert(r.resourceType == EGraphicsResourceType::Shader);
 		return glGetUniformLocation(r.lowLevelID, aVarName);

@@ -10,6 +10,10 @@ namespace Blue
 
 	SceneRenderer::SceneRenderer()
 	{
+	}
+
+	void SceneRenderer::Init()
+	{
 		mForwardRenderer.Init();
 		mDefferedRenderer.Init();
 	}

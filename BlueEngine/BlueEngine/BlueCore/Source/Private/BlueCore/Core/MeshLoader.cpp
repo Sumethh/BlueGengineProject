@@ -12,7 +12,7 @@ namespace Blue
 {
 	//TODO: Implement the ability to load multiple meshes from a single file
 
-	void LoadMesh(const aiScene& aScene, Mesh* aMesh, uint32 aMeshIndex)
+	void LoadMeshFromScene(const aiScene& aScene, Mesh* aMesh, uint32 aMeshIndex)
 	{
 		aiMesh* currentMesh = aScene.mMeshes[aMeshIndex];
 
@@ -119,13 +119,14 @@ namespace Blue
 			}
 
 			meshVertex[i] = newVert;
-
 		}
 
-		//TODO: clean up the model loader so that there are no unescesary allocs
+		//TODO: clean up the model loader so that there are no unnecessary allocs
 		//aMesh->Init(meshVertex, vertCount, indices, indiceCount);
-		aMesh->SetIndices(indices, indiceCount);
-		aMesh->SetVertices(meshVertex, vertCount);
+
+		aMesh->SetIndices(indices, indiceCount, false);
+		aMesh->SetVertices(meshVertex, vertCount, false);
+
 		delete tangent;
 		delete biTangent;
 		delete verts;
@@ -133,47 +134,22 @@ namespace Blue
 		delete normals;
 	}
 
-	Mesh* MeshLoader::LoadMeshFromFile(char* aFilePath, std::string aMeshName)
-	{
-		Assimp::Importer importer;
-		BlueAssert(aFilePath != nullptr);
-
-		const aiScene* scene = importer.ReadFile(aFilePath, aiProcessPreset_TargetRealtime_Fast);
-
-		if (scene == nullptr)
-		{
-			return nullptr;
-		}
-
-		if (scene->HasMeshes())
-		{
-			Mesh* newMesh = MeshManager::GI()->CreateMesh(aMeshName);
-			LoadMesh(*scene, newMesh, 0);
-			return newMesh;
-		}
-		else
-		{
-			return nullptr;
-		}
-	}
-
-	Mesh* MeshLoader::LoadMeshFromFile(std::string aFilePath, std::string aMeshName, Mesh* aMesh)
+	void MeshLoader::LoadMeshFromFile(std::string aFilePath, std::string aMeshName, Mesh* aOutMesh)
 	{
 		Assimp::Importer importer;
 		BlueAssert(aFilePath.size());
 
 		const aiScene* scene = importer.ReadFile(aFilePath, aiProcessPreset_TargetRealtime_Fast);
 
-		BlueAssert(scene != nullptr);
+		BlueAssert(scene);
 
 		if (scene->HasMeshes())
 		{
-			LoadMesh(*scene, aMesh, 0);
-			return aMesh;
+			LoadMeshFromScene(*scene, aOutMesh, 0);
 		}
 		else
 		{
-			return nullptr;
+			Log::Warning(Logger(aMeshName) << " did not have any meshes to load");
 		}
 	}
 }

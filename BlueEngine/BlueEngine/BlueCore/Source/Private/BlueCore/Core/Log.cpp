@@ -12,9 +12,9 @@ namespace Blue
 
 	moodycamel::ConcurrentQueue<std::string> sStringsToWriteToFile;
 
-	struct LogFileWritingTask : public TaskSystem::ITask
+	struct LogFileWritingTask : public TaskSystem::Task
 	{
-		LogFileWritingTask(char* aFileName) : TaskSystem::ITask("Log Writing Task", false)
+		LogFileWritingTask(char* aFileName) : TaskSystem::Task("Log Writing Task", false)
 		{
 			file.open(aFileName, std::ios::out | std::ios::app | std::ios::trunc);
 		}

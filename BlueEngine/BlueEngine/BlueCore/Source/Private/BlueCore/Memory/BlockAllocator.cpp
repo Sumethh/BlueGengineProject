@@ -1,4 +1,5 @@
 #include "BlueCore/Memory/BlockAllocator.h"
+#include "BlueCore/Core/Defines.h"
 
 namespace Blue
 {

@@ -16,13 +16,13 @@ namespace Blue
 
 	void Material::Bind(bool aBindShader)
 	{
-		if (aBindShader)
+		if (aBindShader && mShader->IsValid())
 		{
 			mShader->Bind();
 			mBound = true;
 		}
 
-		if (mTexture)
+		if (mTexture && mTexture->IsValid())
 		{
 			mTexture->Bind();
 		}
@@ -32,7 +32,7 @@ namespace Blue
 	{
 		Shader* shader = aShader ? aShader : mShader;
 
-		if (!aShader)
+		if (shader && shader->IsValid())
 		{
 			int32 matDiffuseLoc = shader->GetShaderVariableLocation("material.Diffuse");
 			int32 matSpecularLoc = shader->GetShaderVariableLocation("material.Specular");
@@ -43,20 +43,23 @@ namespace Blue
 
 	void Material::UnBind(bool aUnbindShader)
 	{
-		if (aUnbindShader)
+		if (aUnbindShader && mBound && mShader->IsValid())
 		{
-			mShader->UnBind();
+			mShader->Unbind();
 			mBound = false;
 		}
-		if (mTexture)
+		if (mTexture && mTexture->IsValid())
 		{
-			mTexture->UnBind();
+			mTexture->Unbind();
 		}
 	}
 
 	uint32 Material::GetShaderVariableLoc(const char* aVariable)
 	{
-		return mShader->GetShaderVariableLocation(aVariable);
+		if(mShader->IsValid())
+			return mShader->GetShaderVariableLocation(aVariable);
+		
+		return 0;
 	}
 
 	bool Material::HasAlpha() const

@@ -9,8 +9,7 @@ namespace Blue
 	{
 	public:
 
-		static Mesh* LoadMeshFromFile(char* aFilePath, std::string aMeshName);
-		static Mesh* LoadMeshFromFile(std::string aFilePath, std::string aMeshName, Mesh* aMesh);
+		static void LoadMeshFromFile(std::string aFilePath, std::string aMeshName, Mesh* aOutMesh);
 
 	private:
 		MeshLoader();

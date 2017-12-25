@@ -17,6 +17,8 @@ namespace Blue
 	{
 	public:
 		SceneRenderer();
+		void Init();
+		
 		void ConductScenePass(Scene* aScene);
 
 	private:

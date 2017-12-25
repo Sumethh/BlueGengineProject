@@ -127,8 +127,7 @@ namespace Blue
 					lastInput = string;
 				}
 
-				ImGui::SetNextWindowSize(ImVec2(800, 600));
-				ImGui::Begin("Console");
+				ImGui::Begin("Console", nullptr, ImVec2(800, 600), 1.0f);
 
 				ImGui::BeginChild("text", ImVec2(ImGui::GetWindowContentRegionWidth(), 540));
 				{

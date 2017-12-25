@@ -11,17 +11,25 @@ namespace Blue
 
 	Mesh::~Mesh()
 	{
-		//delete mVertices;
-		//delete mIndices;
-		IGraphicsDevice* gd = IGraphicsDevice::GetCurrentGraphicsDevice();
-		gd->DeleteGraphicsResource(mVertexArrayId);
-		gd->DeleteGraphicsResource(mVertexBufferId);
-		gd->DeleteGraphicsResource(mElementBufferId);
+		IGraphicsDevice* device = IGraphicsDevice::GetCurrentGraphicsDevice();
+		device->DeleteGraphicsResource(mVertexBufferId);
+		device->DeleteGraphicsResource(mElementBufferId);
+	}
 
+	void Mesh::Create()
+	{
+		InitBuffers();
+	}
+
+	void Mesh::UpdateResource()
+	{
+		UpdateMeshResources();
 	}
 
 	void Mesh::Init(Vertex* aVertexArray, uint32 aVertexCount, uint32* aIndicies, uint32 aIndiceCount)
 	{
+		if (!IsValid())
+			Create();
 		SetVertices(aVertexArray, aVertexCount, false);
 		SetIndices(aIndicies, aIndiceCount);
 	}
@@ -56,23 +64,8 @@ namespace Blue
 
 	void Mesh::UpdateMeshResources()
 	{
-		if (!mBuffersInit)
-		{
-			InitBuffers();
-			mBuffersInit = true;
-		}
-
+		BlueAssert(IsValid());
 		ReuploadMeshInfo();
-	}
-
-	void Mesh::PrepForDrawing()
-	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mVertexArrayId);
-	}
-
-	void Mesh::UnPrepForDrawing()
-	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->UnbindGraphicsResource(mVertexArrayId);
 	}
 
 	void Mesh::ReuploadMeshInfo()
@@ -99,12 +92,13 @@ namespace Blue
 	void Mesh::InitBuffers()
 	{
 		IGraphicsDevice* gd = IGraphicsDevice::GetCurrentGraphicsDevice();
-		mVertexArrayId = gd->CreateGraphicsResource(EGraphicsResourceType::VertexArrayBuffer);
+		mGraphicsResource = gd->CreateGraphicsResource(EGraphicsResourceType::VertexArrayBuffer);
 		mVertexBufferId = gd->CreateGraphicsResource(EGraphicsResourceType::VertexBuffer);
 		mElementBufferId = gd->CreateGraphicsResource(EGraphicsResourceType::ElementBuffer);
-		gd->BindGraphicsResource(mVertexArrayId);
+
+		Bind();
 		gd->BindGraphicsResource(mElementBufferId);
 		gd->UpdateResourceData(mVertexBufferId, 0, nullptr, 0, sVertexDescriptors, sVertexDescriptorCount);
-		gd->UnbindGraphicsResource(mVertexArrayId);
+		Unbind();
 	}
 }

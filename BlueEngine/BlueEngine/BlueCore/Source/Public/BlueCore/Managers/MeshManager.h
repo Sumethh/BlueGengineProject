@@ -30,6 +30,8 @@ namespace Blue
 		Mesh* CreateMesh(std::string meshName);
 		Mesh* GetMeshAsync(std::string aMeshName, std::function<void(Mesh*)> aCallback);
 		Mesh* GetMesh(std::string aMeshName);
+		Mesh* GetMesh(sizeInt aMeshId);
+
 		static inline MeshManager* GI()
 		{
 			if (!mInstance)
@@ -47,6 +49,6 @@ namespace Blue
 		~MeshManager();
 		void LoadDefaultMesh();
 		static MeshManager* mInstance;
-		std::map<size_t, StoredMeshData> mMeshList;
+		std::map<sizeInt, StoredMeshData> mMeshList;
 	};
 }

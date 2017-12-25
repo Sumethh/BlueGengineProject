@@ -6,6 +6,7 @@
 #include "BlueCore/Graphics/Mesh.h"
 #include "BlueCore/Graphics/Shader.h"
 #include "BlueCore/Graphics/Material.h"
+#include "BlueCore/Graphics/RenderThread.h"
 
 #include "BlueCore/Managers/DebugManager.h"
 
@@ -16,14 +17,14 @@
 #include "BlueCore/Components/ILightComponent.h"
 #include "BlueCore/Components/PointLightComponent.h"
 #include "BlueCore/Core/Transformable.h"
-
 #include "BlueCore/Managers/ShaderManager.h"
 
 #include <gl/glew.h>
 #include <Imgui/imgui.h>
 namespace Blue
 {
-	DeferedRenderer::DeferedRenderer() : mDeferedShader(nullptr), mLightingPassShader(nullptr), mCurrentMaterial(nullptr), mModelLocation(0)
+	DeferedRenderer::DeferedRenderer() : mDeferedShader(nullptr), mLightingPassShader(nullptr), mCurrentMaterial(nullptr), mModelLocation(0), mProjectionLocation(0), mViewLocation(0),
+		mLightPassViewPosition(0), mDirLightCountPosition(0), mPointLightCountPosition(0)
 	{
 	}
 
@@ -40,6 +41,9 @@ namespace Blue
 		ADD_DEBUG_TWEAKABLE(color);
 		ADD_DEBUG_TWEAKABLE(direction);
 		END_DEBUG_GROUP();
+		if (!RenderThread::IsOnRenderThread())
+			BlueAssert(false);
+
 		ShaderManager* shaderManager = ShaderManager::GI();
 
 		mDeferedShader = shaderManager->GetShader("gBuffer");
@@ -117,7 +121,7 @@ namespace Blue
 	void DeferedRenderer::End()
 	{
 		IGraphicsDevice* device = IGraphicsDevice::GetCurrentGraphicsDevice();
-		mCurrentMesh->UnPrepForDrawing();
+		mCurrentMesh->Unbind();
 		mCurrentMesh = nullptr;
 		device->BindGraphicsResource(0);
 
@@ -143,7 +147,7 @@ namespace Blue
 
 		uint32 counter = 0;
 		std::vector<Shader::CachedPointlightShaderInfo>& lightsLoc = mLightingPassShader->GetPointLightInfo();
-		int32 lightCount = lightsLoc.size();
+		sizeInt lightCount = lightsLoc.size();
 		mLightingPassShader->SetShaderVar(mLightingPassShader->GetPointLightCountLoc(), static_cast<void*>(&lightCount), EVarType::Int);
 		for (ILightComponent* light : mLighting->lights)
 		{
@@ -166,7 +170,7 @@ namespace Blue
 		device->DrawBuffers(EDrawMode::TriangleStrip, 0, 4);
 		device->UnbindGraphicsResource(mQuadVao);
 
-		mLightingPassShader->UnBind();
+		mLightingPassShader->Unbind();
 
 		IntRect rect;
 		rect.topLeft = glm::ivec2(0, 0);
@@ -180,7 +184,7 @@ namespace Blue
 		IGraphicsDevice* device = IGraphicsDevice::GetCurrentGraphicsDevice();
 		if (mCurrentMesh != aMesh)
 		{
-			aMesh->PrepForDrawing();
+			aMesh->Bind();
 			mCurrentMesh = aMesh;
 		}
 		mDeferedShader->SetShaderVar(mModelLocation, &aTransform, EVarType::Matrix4x4);

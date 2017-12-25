@@ -1,13 +1,17 @@
 #pragma once
-#include <vector>
-#include <glm/glm.hpp>
+
 #include "BlueCore/Core/Vertex.h"
 #include "BlueCore/Core/Types.h"
 #include "BlueCore/Core/Defines.h"
-#include "BlueCore/GraphicsDevice/IGraphicsDevice.h"
+
+#include "BlueCore/Graphics/GraphicsResource.h"
+
+#include <vector>
+#include <glm/glm.hpp>
+
 namespace Blue
 {
-	class Mesh
+	class Mesh : public GraphicsResource
 	{
 	private:
 		enum MeshFlags
@@ -17,10 +21,11 @@ namespace Blue
 		};
 	public:
 
-
 		Mesh(uint64 aId);
-		//Mesh(Vertex* aVertexArray, uint32 aVertexCount, uint32* aIndices, uint32 aIndicieCount);
 		~Mesh();
+
+		virtual void Create() override;
+		virtual void UpdateResource() override;
 
 		void Init(Vertex* aVertexArray, uint32 aVertexCount, uint32* aIndices, uint32 aIndiceCount);
 
@@ -41,8 +46,9 @@ namespace Blue
 		{
 			return mIndices;
 		}
-		void SetVertices(Vertex* aVertices, uint32 aVerticeCount, bool aCleanUpOldVertecies = false);
-		void SetIndices(uint32* aIndices, uint32 aIndiceCount, bool aCleanUpOldIndicies = false);
+
+		void SetVertices(Vertex* aVertices, uint32 aVerticeCount, bool aCleanUpOldVertecies = true);
+		void SetIndices(uint32* aIndices, uint32 aIndiceCount, bool aCleanUpOldIndicies = true);
 
 		inline void MarkVerticesForReUpload()
 		{
@@ -62,15 +68,7 @@ namespace Blue
 			return (mMeshFlags & MeshFlags::EReUploadVertices) > 0;
 		}
 
-		inline bool NeedToUpdateGpuResource() const
-		{
-			return mMeshFlags > 0;
-		}
-
 		void UpdateMeshResources();
-
-		void PrepForDrawing();
-		void UnPrepForDrawing();
 
 		uint64 GetID() const
 		{
@@ -86,18 +84,18 @@ namespace Blue
 		void InitBuffers();
 
 		bool mBuffersInit;
-		GraphicsDeviceResourceID mVertexBufferId;
-		GraphicsDeviceResourceID mElementBufferId;
-		GraphicsDeviceResourceID mVertexArrayId;
 
-		Vertex* mVertices;
-		uint32 mVerticeCount;
+		GraphicsDeviceResourceID mVertexBufferId = 0;
+		GraphicsDeviceResourceID mElementBufferId = 0;
 
-		uint32* mIndices;
-		uint32 mIndiceCount;
+		Vertex* mVertices = nullptr;
+		uint32 mVerticeCount = 0;
 
-		uint32 mMeshFlags;
+		uint32* mIndices = nullptr;
+		uint32 mIndiceCount = 0;
 
-		uint64 mMeshID;
+		uint32 mMeshFlags = 0;
+
+		uint64 mMeshID = 0;
 	};
 }

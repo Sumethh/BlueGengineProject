@@ -22,38 +22,39 @@ namespace Blue
 
 	void ArchiveObject::Archive(const char* aValName, const uint32 aValue)
 	{
-		AssertKeyIsUnique(aValName);
-		mArchive[aValName] = aValue;
+		BlueAssert(false); 
+		AssertKeyIsUnique(aValName);		
 	}
 
 	void ArchiveObject::Archive(const char* aValName, const glm::vec3& aValue)
 	{
 		AssertKeyIsUnique(aValName);
-		mArchive[aValName] = { { "x", aValue.x }, { "y", aValue.y }, { "z", aValue.z } };
+		BlueAssert(false);
 	}
 
 	void ArchiveObject::Archive(const char* aValName, const glm::quat& aValue)
 	{
-		AssertKeyIsUnique(aValName);
-		mArchive[aValName] = { { "x", aValue.x }, { "y", aValue.y }, { "z", aValue.z }, {"w", aValue.w} };
+		AssertKeyIsUnique(aValName);		
+		BlueAssert(false);
+
 	}
 
 	void ArchiveObject::Archive(const char* aValName, std::vector<uint32> aArray)
 	{
 		AssertKeyIsUnique(aValName);
-		mArchive[aValName] = aArray;
+		BlueAssert(false);
 	}
 
 	void ArchiveObject::Archive(ArchiveObject* aArchive)
 	{
 		AssertKeyIsUnique(aArchive->mName.c_str());
-		mArchive[aArchive->mName] = aArchive->mArchive;
+		BlueAssert(false);
 	}
 
 	void ArchiveObject::Archive(const char* aValName, std::string aValue)
 	{
 		AssertKeyIsUnique(aValName);
-		mArchive[aValName] = aValue;
+		BlueAssert(false);
 	}
 
 	void ArchiveObject::WriteToFile(char* aDir, const char* aFileName)
@@ -62,7 +63,7 @@ namespace Blue
 		path.append(aFileName);
 		std::ofstream stream;
 		stream.open(path, std::ios::out | std::ios::trunc);
-		stream << mArchive.dump(2);
+		BlueAssert(false);
 		stream.close();
 	}
 
@@ -78,7 +79,7 @@ namespace Blue
 		}
 		else
 		{
-			mArchive = mArchive.parse(stream);
+			BlueAssert(false);
 		}
 	}
 }
