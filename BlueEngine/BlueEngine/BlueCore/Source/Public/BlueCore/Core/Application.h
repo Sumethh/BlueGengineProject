@@ -16,10 +16,13 @@ namespace Blue
 		Application();
 		virtual ~Application();
 		virtual bool Run();
-		virtual void Update();
+		virtual void Update(float aDt);
 		virtual void EndUpdate();
 		virtual void ShutDown();
 
+
+		virtual void DisplayWindow();
+		virtual void UIPass();
 	protected:
 		void CreateWindow(const char* aTitle, const uint32 aWidth, const uint32 aHeight);
 		static Application* sCurrentApplication;

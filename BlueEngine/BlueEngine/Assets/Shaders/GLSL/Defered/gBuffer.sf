@@ -25,4 +25,6 @@ void main()
     gNormal = Normal;
     gColorSpec.rgb = texture(textureDiffuse, TexCoords).rgb;
     gColorSpec.a = spec;
+    //gColorSpec.rgb = vec3(0.0f, 1.0f, 0.0f);
+    //gColorSpec.a = 1.0f;
 }

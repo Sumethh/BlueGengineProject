@@ -18,7 +18,7 @@ namespace Blue
 		virtual void BeginPlay() override;
 
 		virtual void CalculateComponentBounds() override;
-		virtual void SubmitGeometry(IRenderer* aRenderer) override;
+		virtual void SubmitGeometry(CapturedPrimitiveData& aCapturedData) override;
 	private:
 		void SetMesh(Mesh* aMesh);
 		Mesh* mMesh;

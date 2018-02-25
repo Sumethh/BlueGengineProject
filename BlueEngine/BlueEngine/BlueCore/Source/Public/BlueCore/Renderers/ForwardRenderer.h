@@ -18,8 +18,8 @@ namespace Blue
 		ForwardRenderer();
 		~ForwardRenderer();
 
-		void SubmitGeometry(Mesh* aMesh, glm::mat4 aTransform) override;
-		void SetActiveCamera(CameraComponent* aCamera) override;
+		void SubmitGeometry(CapturedPrimitiveData& aPrimitiveData);
+		void SetActiveCamera(CapturedCameraData& aCamera) override;
 		void SetActiveLighting(SceneLighting* aLighting) override;
 		void SetActiveMaterial(Material* aMaterial) override;
 

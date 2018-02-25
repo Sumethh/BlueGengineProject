@@ -1,7 +1,6 @@
 #include "BlueCore/Core/Application.h"
 #include "BlueCore/Core/ApplicationWindow.h"
 
-#include <iostream>
 #include "BlueCore/Core/Timer.h"
 #include "BlueCore/Core/Game.h"
 #include "BlueCore/Input/Input.h"
@@ -9,20 +8,25 @@
 #include "BlueCore/Renderers/GizmoRenderer.h"
 #include "BlueCore/Graphics/MeshLoader.h"
 
+#include "BlueCore/Tasks/WindowSwapTask.h"
+#include "BlueCore/Tasks/ImguiRenderTask.h"
+
 #include "BlueCore/Graphics/Light.h"
 #include "BlueCore/Graphics/Mesh.h"
 #include "BlueCore/Core/Log.h"
 #include "BlueCore/Managers/MeshManager.h"
 #include "BlueCore/GraphicsDevice/GraphicsDeviceFactory.h"
-
+#include "BlueCore/Graphics/RenderThread.h"
 #include "BlueCore/Managers/UpdateableManager.h"
 
 #include "BlueCore/Systems/TaskSystem.h"
 #include "BlueCore/Managers/ASyncLoadingManager.h"
 #include "BlueCore/Managers/MemoryManager.h"
 #include "BlueCore/Systems/Console.h"
+#include <Imgui/imgui_impl_glfw_gl3.h>
 #include <gl/glew.h>
 #include <string>
+#include <Imgui/Imgui.h>
 
 namespace Blue
 {
@@ -74,45 +78,84 @@ namespace Blue
 	bool Application::Run()
 	{
 		TaskSystem::Init();
-		Console::Init();
+		Console::Init();		
 		Log::Init("BlueGengineLog.txt");
 		Console::AddCommand("DetailedTimings", std::bind(CommandShowDetailedTimings, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		if(mWindow)
+			RenderThread::Init(mWindow);
 
-		IGraphicsDevice* gd = GraphicsDeviceFactory::GI()->CreateGraphicsDevice(EGraphicsDeviceType::OpenGL);
-		gd->Init();
-
-		glClearColor(0.1f, 0.3f, 1.0f, 1.0f);
-		glm::mat4 proj = glm::perspective(45.0f, 1920.0f / 1080.0f, 0.1f, 100.0f);
-
-		glm::mat4 view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
-		view = glm::lookAt(glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, -9.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-
-		mWindow->Update();
-
+		mWindow->Update();		
 		Input::Reset();
-
+		
 
 		return true;
 	}
 
-	void Application::Update()
+	void Application::Update(float aDt)
 	{
+		ImGui_ImplGlfwGL3_NewFrame();
 		mWindow->Update();
 		UpdateManagers();
+		if (mGame)
+		{
+			mGame->Update(aDt);
+			mGame->LateUpdate(aDt);
+		}
+
 	}
 
 	void Application::EndUpdate()
 	{
-
-		//ImGui::Render();
-		mWindow->Swap();
+		ImGui::Render();
+		if (mGame)
+		{
+			mGame->SubmitRenderTasks();
+		}
+		UIPass();
+		DisplayWindow();
 	}
 
 	void Application::ShutDown()
 	{
-
+		RenderThread::ShutDown();
 		TaskSystem::Shutdown();
+	}
+
+	void Application::DisplayWindow()
+	{
+		if (mWindow)
+		{
+			WindowSwapTask* task = new WindowSwapTask();
+			task->window = mWindow;
+			TaskSystem::SubmitTask(task);
+		}		
+	}
+
+	void Application::UIPass()
+	{
+		ImGui::Render();
+		ImDrawData* drawData = ImGui::GetDrawData();
+		ImguiRenderTask* renderTask = new ImguiRenderTask();
+		renderTask->drawData.CmdLists = new ImDrawList*[drawData->CmdListsCount];
+		renderTask->drawData.CmdListsCount = drawData->CmdListsCount;
+		for (sizeInt i = 0; i < drawData->CmdListsCount; ++i)
+		{
+			ImDrawList* copyToDrawList = renderTask->drawData.CmdLists[i] = new ImDrawList();
+			ImDrawList* copyFromDrawList = drawData->CmdLists[i];
+			for (auto vtx : copyFromDrawList->VtxBuffer)
+			{
+				copyToDrawList->VtxBuffer.push_back(vtx);
+			}	
+			for (auto idx : copyFromDrawList->IdxBuffer)
+			{
+				copyToDrawList->IdxBuffer.push_back(idx);
+			}	
+			for (auto cmd : copyFromDrawList->CmdBuffer)
+			{
+				copyToDrawList->CmdBuffer.push_back(cmd);
+			}
+		}
+		TaskSystem::SubmitTask(renderTask);
 	}
 
 	void Application::CreateWindow(const char* aTitle, const uint32 aWidth, const uint32 aHeight)

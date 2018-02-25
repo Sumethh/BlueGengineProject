@@ -17,7 +17,7 @@ namespace Blue
 
 	ActorAllocator::ActorAllocator() : mActorPools(nullptr)
 	{
-		AllocateNewPool();
+		//AllocateNewPool();
 	}
 
 	ActorAllocator::~ActorAllocator()
@@ -75,13 +75,13 @@ namespace Blue
 		mFreeActors[index] = aActor;
 	}
 
-	Blue::ActorPool* ActorAllocator::AllocateNewPool()
+	ActorPool* ActorAllocator::AllocateNewPool()
 	{
 		IMemoryAllocator* largeAllocator = MemoryManager::GI()->GetLargeBlockAllocator();
 		ActorPool* newPool = nullptr;
 
-		void* memory = largeAllocator->Allocate(sizeof(ActorPool), 0);
-
+		//void* memory = largeAllocator->Allocate(sizeof(ActorPool), 0);
+		void* memory = malloc(sizeof(ActorPool));
 		newPool = reinterpret_cast<ActorPool*>(memory);
 
 		newPool->freeAllocationsLeft = MaxAllocationsPerPool;

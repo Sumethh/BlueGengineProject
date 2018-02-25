@@ -12,8 +12,10 @@ namespace Blue
 	Mesh::~Mesh()
 	{
 		IGraphicsDevice* device = IGraphicsDevice::GetCurrentGraphicsDevice();
-		device->DeleteGraphicsResource(mVertexBufferId);
-		device->DeleteGraphicsResource(mElementBufferId);
+		if(mVertexBufferId)
+			device->DeleteGraphicsResource(mVertexBufferId);
+		if(mElementBufferId)
+			device->DeleteGraphicsResource(mElementBufferId);
 	}
 
 	void Mesh::Create()
@@ -70,8 +72,8 @@ namespace Blue
 
 	void Mesh::ReuploadMeshInfo()
 	{
-		static std::string message = ("ReUploading mesh resources");
-		Log::Info(message);
+		static std::string message = ("ReUploading mesh resources ID: ");
+		Log::Info(Logger(message) << mGraphicsResource);
 
 		if (NeedToReuploadVertices())
 		{
@@ -100,5 +102,6 @@ namespace Blue
 		gd->BindGraphicsResource(mElementBufferId);
 		gd->UpdateResourceData(mVertexBufferId, 0, nullptr, 0, sVertexDescriptors, sVertexDescriptorCount);
 		Unbind();
+		mBuffersInit = true;
 	}
 }

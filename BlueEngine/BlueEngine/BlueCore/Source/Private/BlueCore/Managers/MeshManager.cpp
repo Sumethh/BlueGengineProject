@@ -18,7 +18,7 @@ namespace Blue
 
 	struct AsyncLoadMeshTask : public TaskSystem::Task
 	{
-		AsyncLoadMeshTask(Mesh* aMesh) : TaskSystem::Task("Async Mesh Load", false), loadedMesh(aMesh)
+		AsyncLoadMeshTask(Mesh* aMesh) : TaskSystem::Task("Async Mesh Load", EThreadType::WorkerThread, false), loadedMesh(aMesh)
 		{
 
 		}
@@ -62,7 +62,7 @@ namespace Blue
 		StoredMeshData& finishedAsync = mMeshList[id];
 		finishedAsync.loadingTracker = nullptr;
 
-		UpdateGrapihcsResourceTask* updateResourceTask = new UpdateGrapihcsResourceTask();
+		UpdateGraphicsResourceTask* updateResourceTask = new UpdateGraphicsResourceTask();
 		updateResourceTask->graphicsResourceToUpdate = mMeshList[id].mesh;
 		TaskSystem::SubmitTask(updateResourceTask);
 	}

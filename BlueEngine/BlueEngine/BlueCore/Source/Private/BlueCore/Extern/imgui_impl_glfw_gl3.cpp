@@ -34,7 +34,7 @@ static unsigned int g_VboHandle = 0, g_VaoHandle = 0, g_ElementsHandle = 0;
 // If text or lines are blurry when integrating ImGui in your engine:
 // - in your Render function, try translating your projection matrix by (0.5f,0.5f) or (0.375f,0.375f)
 void ImGui_ImplGlfwGL3_RenderDrawLists(ImDrawData* draw_data)
-{
+{	
 	// Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
 	ImGuiIO& io = ImGui::GetIO();
 	int fb_width = (int)(io.DisplaySize.x * io.DisplayFramebufferScale.x);
@@ -75,7 +75,7 @@ void ImGui_ImplGlfwGL3_RenderDrawLists(ImDrawData* draw_data)
 	GLboolean last_enable_blend = glIsEnabled(GL_BLEND);
 	GLboolean last_enable_cull_face = glIsEnabled(GL_CULL_FACE);
 	GLboolean last_enable_depth_test = glIsEnabled(GL_DEPTH_TEST);
-	GLboolean last_enable_scissor_test = glIsEnabled(GL_SCISSOR_TEST);
+	GLboolean last_enable_scissor_test = glIsEnabled(GL_SCISSOR_TEST);	
 
 	// Setup render state: alpha-blending enabled, no face culling, no depth testing, scissor enabled
 	glEnable(GL_BLEND);
@@ -107,7 +107,6 @@ void ImGui_ImplGlfwGL3_RenderDrawLists(ImDrawData* draw_data)
 
 		glBindBuffer(GL_ARRAY_BUFFER, g_VboHandle);
 		glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
-
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_ElementsHandle);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
 
@@ -129,7 +128,7 @@ void ImGui_ImplGlfwGL3_RenderDrawLists(ImDrawData* draw_data)
 			idx_buffer_offset += pcmd->ElemCount;
 		}
 	}
-
+	
 	// Restore modified GL state
 	glUseProgram(last_program);
 	glActiveTexture(last_active_texture);
@@ -256,6 +255,7 @@ bool ImGui_ImplGlfwGL3_CreateFontsTexture()
 
 	// Restore state
 	glBindTexture(GL_TEXTURE_2D, last_texture);
+	auto t = glGetError();
 
 	return true;
 }
@@ -333,6 +333,7 @@ bool ImGui_ImplGlfwGL3_CreateDeviceObjects()
 	glBindTexture(GL_TEXTURE_2D, last_texture);
 	glBindBuffer(GL_ARRAY_BUFFER, last_array_buffer);
 	glBindVertexArray(last_vertex_array);
+	auto t = glGetError();
 
 	return true;
 }
@@ -421,7 +422,7 @@ bool    ImGui_ImplGlfwGL3_Init(GLFWwindow* window, bool install_callbacks)
 	io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
 	io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
 
-	io.RenderDrawListsFn = ImGui_ImplGlfwGL3_RenderDrawLists;       // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
+	//io.RenderDrawListsFn = ImGui_ImplGlfwGL3_RenderDrawLists;       // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
 	io.SetClipboardTextFn = ImGui_ImplGlfwGL3_SetClipboardText;
 	io.GetClipboardTextFn = ImGui_ImplGlfwGL3_GetClipboardText;
 	io.ClipboardUserData = g_Window;
@@ -433,7 +434,7 @@ bool    ImGui_ImplGlfwGL3_Init(GLFWwindow* window, bool install_callbacks)
 	{
 		glfwSetCharCallback(window, ImGui_ImplGlfwGL3_CharCallback);
 	}
-
+	ImGui_ImplGlfwGL3_CreateDeviceObjects();
 	return true;
 }
 

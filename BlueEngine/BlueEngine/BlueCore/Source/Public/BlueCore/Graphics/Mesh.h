@@ -3,6 +3,7 @@
 #include "BlueCore/Core/Vertex.h"
 #include "BlueCore/Core/Types.h"
 #include "BlueCore/Core/Defines.h"
+#include "BlueCore/Core/CapturedPrimitiveData.h"
 
 #include "BlueCore/Graphics/GraphicsResource.h"
 
@@ -69,6 +70,13 @@ namespace Blue
 		}
 
 		void UpdateMeshResources();
+
+		inline void CaptureData(CapturedPrimitiveData& aCapturedData) const
+		{
+			aCapturedData.meshResourceToBind = mGraphicsResource;
+			aCapturedData.vertexCount = mVerticeCount;
+			aCapturedData.indexCount = mIndiceCount;
+		}
 
 		uint64 GetID() const
 		{

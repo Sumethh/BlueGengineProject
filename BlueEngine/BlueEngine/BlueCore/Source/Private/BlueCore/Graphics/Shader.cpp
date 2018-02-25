@@ -21,7 +21,6 @@ namespace Blue
 	void Shader::UpdateResource()
 	{
 		BlueAssert(IsValid());
-
 		LoadShader(m_shaderPaths[static_cast<int32>(EShaderType::VertexShader)], m_shaderPaths[static_cast<int32>(EShaderType::FragmentShader)]);
 	}
 

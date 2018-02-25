@@ -20,7 +20,7 @@ namespace Blue
 	{
 		struct Task
 		{
-			Task(char* aName, bool aSyncedJob = true) : syncedJob(aSyncedJob), name(aName), threadType(EThreadType::WorkerThread)
+			Task(char* aName, EThreadType aThreadType, bool aSyncedJob = true) : syncedJob(aSyncedJob), name(aName), threadType(aThreadType)
 			{
 
 			};

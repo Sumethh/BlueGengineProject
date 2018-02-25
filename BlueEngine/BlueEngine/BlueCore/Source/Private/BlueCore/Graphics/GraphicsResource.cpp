@@ -25,7 +25,7 @@ namespace Blue
 
 	void GraphicsResource::QueueResourceUpdate()
 	{
-		UpdateGrapihcsResourceTask* updateResourceTask = new UpdateGrapihcsResourceTask();
+		UpdateGraphicsResourceTask* updateResourceTask = new UpdateGraphicsResourceTask();
 		updateResourceTask->graphicsResourceToUpdate = this;
 		TaskSystem::SubmitTask(updateResourceTask);
 	}

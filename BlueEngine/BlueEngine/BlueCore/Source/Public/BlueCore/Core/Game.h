@@ -1,5 +1,5 @@
 #pragma once
-
+#include <future>
 namespace Blue
 {
 	class World;
@@ -13,8 +13,9 @@ namespace Blue
 		void BeginPlay();
 		void Update(float aDt);
 		void LateUpdate(float aDt);
+		void SubmitRenderTasks();
 	private:
 		World* mWorld;
-
+		std::future<bool> mSceneInfoGathered;
 	};
 }

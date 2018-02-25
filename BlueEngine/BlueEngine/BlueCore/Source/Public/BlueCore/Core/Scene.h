@@ -2,9 +2,10 @@
 #include "Defines.h"
 #include "BlueCore/Core/NonCopyable.h"
 #include "BlueCore/Core/Types.h"
-
+#include "BlueCore/Core/CapturedPrimitiveData.h"
 #include <vector>
-
+#include <map>
+#include <mutex>
 
 namespace Blue
 {
@@ -43,8 +44,11 @@ namespace Blue
 			return mLights;
 		}
 
-	protected:
+		void AquireSceneLock();
+		void ReleaseSceneLock();
 
+	protected:
+		std::mutex mSceneLock;
 		std::vector<PrimitiveComponent*> mPrimitives;
 		std::vector<ILightComponent*> mLights;
 		std::vector<CameraComponent*> mCameras;

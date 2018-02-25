@@ -712,7 +712,7 @@ namespace Blue
 
 				InvalidDefaultCase
 		}
-
+		ASSERT_NO_GRAPHICS_ERROR();
 	}
 
 	void OpenGlGraphicsDevice::BindResource(OpenGLResource& aResource)
@@ -933,6 +933,50 @@ namespace Blue
 
 	void OpenGlGraphicsDevice::Enable()
 	{
+
+	}
+
+	void OpenGlGraphicsDevice::NameResource(const GraphicsDeviceResourceID aResourceID, std::string aName)
+	{
+		BlueAssert(aResourceID && mResources.size() > aResourceID);
+		OpenGLResource& resource = mResources[aResourceID];
+
+		switch (resource.resourceType)
+		{
+			case EGraphicsResourceType::VertexArrayBuffer:
+				{
+					glObjectLabel(resource.lowLevelID, GL_VERTEX_ARRAY, aName.size(), aName.c_str());
+					break;
+				}
+			case EGraphicsResourceType::VertexBuffer:
+			case EGraphicsResourceType::ElementBuffer:
+				{
+					glObjectLabel(resource.lowLevelID, GL_BUFFER, aName.size(), aName.c_str());
+					break;
+				}
+			case EGraphicsResourceType::FrameBuffer:
+				{
+					glObjectLabel(resource.lowLevelID, GL_FRAMEBUFFER, aName.size(), aName.c_str());
+					break;
+				}
+			case EGraphicsResourceType::RenderBuffer:
+				{
+					glObjectLabel(resource.lowLevelID, GL_RENDERBUFFER, aName.size(), aName.c_str());
+					break;
+				}
+			case EGraphicsResourceType::Texture2D:
+				{
+					glObjectLabel(resource.lowLevelID, GL_TEXTURE, aName.size(), aName.c_str());
+					break;
+				}
+			case EGraphicsResourceType::Shader:
+				{
+					glObjectLabel(resource.lowLevelID, GL_PROGRAM, aName.size(), aName.c_str());
+					break;
+				}
+				InvalidDefaultCase;
+		}
+		ASSERT_NO_GRAPHICS_ERROR();
 
 	}
 

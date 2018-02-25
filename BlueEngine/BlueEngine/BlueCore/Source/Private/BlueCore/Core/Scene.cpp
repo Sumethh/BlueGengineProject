@@ -51,4 +51,14 @@ namespace Blue
 			mCameras.erase(foundCamera);
 		}
 	}
+
+	void Scene::AquireSceneLock()
+	{
+		mSceneLock.lock();
+	}
+
+	void Scene::ReleaseSceneLock()
+	{
+		mSceneLock.unlock();
+	}
 }

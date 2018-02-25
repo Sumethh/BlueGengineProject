@@ -1,10 +1,10 @@
 #include "BlueCore/Core/ApplicationWindow.h"
 #include "BlueCore/Input/input.h"
 #include "BlueCore/Messaging/WindowResizeMessage.h"
+#include "BlueCore/Tasks/ImguiInitTask.h"
 
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <Imgui/imgui_impl_glfw_gl3.h>
 
 namespace Blue
 {
@@ -76,7 +76,7 @@ namespace Blue
 		if (aRenderingType == EGraphicsDeviceType::OpenGL)
 		{
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		}
 		else if (aRenderingType == EGraphicsDeviceType::Vulkan)
@@ -89,7 +89,7 @@ namespace Blue
 		m_currentWindow = new ApplicationWindow(aTitle, a_width, aHeight, aRenderingType);
 		return m_currentWindow;
 	}
-
+	std::future<bool> imguiInitFuture;
 	ApplicationWindow::ApplicationWindow(const char* aTitle, const uint32 a_width, const uint32 aHeight, EGraphicsDeviceType aRenderingAPI) :
 		mWidth(a_width),
 		mHeight(aHeight),
@@ -97,15 +97,18 @@ namespace Blue
 	{
 		if (mCurrentRenderingAPI == EGraphicsDeviceType::OpenGL)
 		{
-			mWindow = glfwCreateWindow(mWidth, mHeight, aTitle, nullptr, nullptr);
-			glfwMakeContextCurrent(mWindow);
+			mWindow = glfwCreateWindow(mWidth, mHeight, aTitle, nullptr, nullptr);			
 		}
 		else if (mCurrentRenderingAPI == EGraphicsDeviceType::Vulkan)
 		{
 			mWindow = glfwCreateWindow(mWidth, mHeight, aTitle, nullptr, nullptr);
 		}
 
-		ImGui_ImplGlfwGL3_Init(mWindow, true);
+		/*ImGui_ImplGlfwGL3_Init(mWindow, true);*/
+		ImguiInitTask* initTask = new ImguiInitTask();
+		initTask->window = mWindow;
+		imguiInitFuture = TaskSystem::SubmitTrackedTask(initTask);
+
 		glfwSetKeyCallback(mWindow, KeyCallBack);
 		glfwSetMouseButtonCallback(mWindow, MouseButtonCallBack);
 		glfwSetScrollCallback(mWindow, MouseScrollCallBack);
@@ -120,8 +123,10 @@ namespace Blue
 	}
 	void ApplicationWindow::Update()
 	{
-		ImGui_ImplGlfwGL3_NewFrame();
-
+		if (imguiInitFuture.valid())
+		{
+			imguiInitFuture.wait();
+		}
 		if (glfwWindowShouldClose(mWindow))
 		{
 			mCloseRequested = true;
@@ -135,7 +140,7 @@ namespace Blue
 			UpdateMousePosition();
 			mMouseInputUpdate.Reset();
 		}
-
+		return;
 		int32 width, height;
 		glfwGetWindowSize(mWindow, &width, &height);
 
@@ -190,7 +195,7 @@ namespace Blue
 
 	void ApplicationWindow::SetClearColor(glm::vec4 aColor)
 	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->SetClearColor(aColor);
+		//IGraphicsDevice::GetCurrentGraphicsDevice()->SetClearColor(aColor);
 	}
 
 	void ApplicationWindow::ClearScreen()
@@ -205,7 +210,6 @@ namespace Blue
 
 		if(glfwGetCurrentContext() != mWindow)
 			glfwMakeContextCurrent(mWindow);
-
 	}
 
 }

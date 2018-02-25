@@ -16,7 +16,7 @@ bool SandboxApplication::Run()
 	return true;
 }
 
-void SandboxApplication::Update()
+void SandboxApplication::Update(float aDt)
 {
 
 }

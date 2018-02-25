@@ -42,6 +42,5 @@ namespace Blue
 		EPrecisionType mPrecision;
 		uint32 mMipLevel;
 		FIBITMAP* mCurrentBitMap;
-
 	};
 }

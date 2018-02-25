@@ -8,13 +8,13 @@
 
 namespace Blue
 {
-#define LOG_TO_STANDARD_CONSOLE  1
+#define LOG_TO_STANDARD_CONSOLE  0
 
 	moodycamel::ConcurrentQueue<std::string> sStringsToWriteToFile;
 
 	struct LogFileWritingTask : public TaskSystem::Task
 	{
-		LogFileWritingTask(char* aFileName) : TaskSystem::Task("Log Writing Task", false)
+		LogFileWritingTask(char* aFileName) : TaskSystem::Task("Log Writing Task", EThreadType::WorkerThread, false)
 		{
 			file.open(aFileName, std::ios::out | std::ios::app | std::ios::trunc);
 		}
@@ -43,8 +43,8 @@ namespace Blue
 
 	void Log::Init(char* aFileName)
 	{
-		LogFileWritingTask* task = new LogFileWritingTask(aFileName);
-		TaskSystem::SubmitTask(task);
+		//LogFileWritingTask* task = new LogFileWritingTask(aFileName);
+		//TaskSystem::SubmitTask(task);
 	}
 
 	void Log::Error(Logger aMessage)
@@ -75,7 +75,7 @@ namespace Blue
 		Console::AddLogString(message, Console::ELogType::Info);
 
 #if LOG_TO_STANDARD_CONSOLE
-		std::cout << message << "\n";
+		std::cout << message; << "\n";
 #endif
 	}
 	void Log::Flush()

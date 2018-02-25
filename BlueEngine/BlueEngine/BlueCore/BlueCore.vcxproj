@@ -258,6 +258,7 @@
     <ClInclude Include="Source\Public\BlueCore\Components\FirstPersonComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\Components\MaterialComponent.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\ActorAllocator.h" />
+    <ClInclude Include="Source\Public\BlueCore\Core\CapturedPrimitiveData.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Logger.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Transformable.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Application.h" />
@@ -326,9 +327,13 @@
     <ClInclude Include="Source\Public\BlueCore\Systems\Console.h" />
     <ClInclude Include="Source\Public\BlueCore\Systems\StencilCreator.h" />
     <ClInclude Include="Source\Public\BlueCore\Systems\TaskSystem.h" />
+    <ClInclude Include="Source\Public\BlueCore\Tasks\CreateGraphicsResourceTask.h" />
+    <ClInclude Include="Source\Public\BlueCore\Tasks\ImguiInitTask.h" />
+    <ClInclude Include="Source\Public\BlueCore\Tasks\ImguiRenderTask.h" />
     <ClInclude Include="Source\Public\BlueCore\Tasks\RenderSceneTask.h" />
     <ClInclude Include="Source\Public\BlueCore\Tasks\MakeContextCurrentTask.h" />
     <ClInclude Include="Source\Public\BlueCore\Tasks\UpdateGraphicsResourceTask.h" />
+    <ClInclude Include="Source\Public\BlueCore\Tasks\WindowSwapTask.h" />
     <ClInclude Include="Source\Public\BlueCore\Utility\Directory.h" />
     <ClInclude Include="Source\Public\BlueCore\Utility\File.h" />
     <ClInclude Include="Source\Public\BlueCore\Utility\Limits.h" />

@@ -2,6 +2,7 @@
 #include "BlueCore/Managers/ShaderManager.h"
 #include "BlueCore/Core/Log.h"
 #include "BlueCore/Graphics/RenderThread.h"
+#include "BlueCore/Tasks/UpdateGraphicsResourceTask.h"
 #include <fstream>
 
 namespace Blue
@@ -115,8 +116,13 @@ namespace Blue
 
 			if (shaderPair.shaderCount == 2)
 			{
-				if(!RenderThread::IsOnRenderThread())
+				if (!RenderThread::IsOnRenderThread())
+				{
 					shader->SetShaderPaths(shaderPair.shaders[Shader::EShaderType::VertexShader], shaderPair.shaders[Shader::EShaderType::FragmentShader]);
+					UpdateGraphicsResourceTask* updateTask = new UpdateGraphicsResourceTask();
+					updateTask->graphicsResourceToUpdate = shader;
+					TaskSystem::SubmitTask(updateTask);
+				}
 				else
 				{
 					shader->Create();

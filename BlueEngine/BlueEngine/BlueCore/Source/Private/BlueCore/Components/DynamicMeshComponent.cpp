@@ -1,6 +1,7 @@
 #include "BlueCore/Components/DynamicMeshComponent.h"
 #include "BlueCore/Core/Actor.h"
 #include "BlueCore/Components/MaterialComponent.h"
+#include "BlueCore/Graphics/Material.h"
 #include "BlueCore/Core/Transformable.h"
 #include "BlueCore/Renderers/IRenderer.h"
 #include "BlueCore/Managers/MeshManager.h"
@@ -87,10 +88,17 @@ namespace Blue
 		mComponentBounds.position = center;
 	}
 
-	void DynamicMeshComponent::SubmitGeometry(IRenderer* aRenderer)
+	void DynamicMeshComponent::SubmitGeometry(CapturedPrimitiveData& aCapturedData)
 	{
-		aRenderer->SetActiveMaterial(GetMaterial());
-		aRenderer->SubmitGeometry(mMesh, GetWorldMatrix());
+		if (!mMesh)
+		{
+			Log::Warning("Tried to submit geometry but do not have a mesh to submit");
+			return;
+		}
+
+		mMesh->CaptureData(aCapturedData);
+		aCapturedData.diffuseTexture = reinterpret_cast<GraphicsResource*>(mMaterialComponent->GetMaterial()->GetTexture());
+		aCapturedData.modelMatrix = GetWorldMatrix();
 	}
 
 	void DynamicMeshComponent::SetMesh(Mesh* aMesh)

@@ -12,6 +12,8 @@ bool        ImGui_ImplGlfwGL3_Init(GLFWwindow* window, bool install_callbacks);
 void        ImGui_ImplGlfwGL3_Shutdown();
 void        ImGui_ImplGlfwGL3_NewFrame();
 
+void		ImGui_ImplGlfwGL3_RenderDrawLists(struct ImDrawData* draw_data);
+
 // Use if you want to reset your rendering device without losing ImGui state.
 void        ImGui_ImplGlfwGL3_InvalidateDeviceObjects();
 bool        ImGui_ImplGlfwGL3_CreateDeviceObjects();

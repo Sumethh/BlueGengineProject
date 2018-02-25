@@ -18,18 +18,29 @@ namespace Blue
 	public:
 		SceneRenderer();
 		void Init();
+
+		void CaptureScene(Scene* aScene);
+
+		void ConductScenePass();
 		
-		void ConductScenePass(Scene* aScene);
+		static SceneRenderer* GI() {
+			if (!sInstance)
+				sInstance = new SceneRenderer();
+			return sInstance;
+		}
 
 	private:
 
-		void OpaquePass(Scene* aScene, std::vector<PrimitiveComponent*>& aOpaquePrimitives, CameraComponent* aActiveCamera);
+		static SceneRenderer* sInstance;
+
+		void OpaquePass(std::vector<CapturedPrimitiveData>& aOpaquePrimitives, CapturedCameraData& aActiveCamera);
 		void TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives, CameraComponent* aActiveCamera);
 
 		ForwardRenderer mForwardRenderer;
 		DeferedRenderer mDefferedRenderer;
-		std::vector<PrimitiveComponent*> mTranslucentPrimitives;
-		std::vector<PrimitiveComponent*> mOpaquePrimitives;
 		SceneLighting mLightingInfo;
+
+		std::vector<CapturedPrimitiveData> mCapturedPrimitiveData;
+		std::vector<CapturedCameraData> mCapturedCameraData;
 	};
 }

@@ -7,6 +7,7 @@
 #include <map>
 
 #include <Imgui/imgui.h>
+#include <mutex>
 
 namespace Blue
 {
@@ -26,9 +27,10 @@ namespace Blue
 		};
 
 		std::vector<StringEntry> entries;
-
-		void AddLogString(std::string aString, ELogType aLogType)
+		std::mutex mut;
+		void AddLogString(std::string& aString, ELogType aLogType)
 		{
+			mut.lock();
 			StringEntry entry = {};
 			entry.string = aString;
 			entry.type = aLogType;
@@ -42,7 +44,7 @@ namespace Blue
 			{
 				entries.emplace_back(std::move(entry));
 			}
-
+			mut.unlock();
 		}
 
 		void AddCommand(std::string commandBase, std::function<void(std::string, std::string*, const uint32)> aCallBack)
@@ -54,7 +56,7 @@ namespace Blue
 		{
 			for (auto& i : commandCallbackMap)
 			{
-				AddLogString(i.first, Info);
+				//AddLogString(i.first, Info);
 			}
 		}
 

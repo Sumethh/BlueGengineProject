@@ -1,0 +1,12 @@
+Bugs:
+☐ Find memory allocation problem that causes memory corruption in release
+
+Todo:
+    ☐ Implement Render Command Buffer
+    ☐ Implement Culling
+    ☐ Implement Sorting
+
+Feature List:
+    ☐ Implement Python Scripting
+    ☐ Implement Networking
+    ☐ Implement Collision/Physics

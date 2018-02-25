@@ -30,25 +30,17 @@ namespace Blue
 
 	}
 
-	void ForwardRenderer::SubmitGeometry(Mesh* aMesh, glm::mat4 aTransform)
+	void ForwardRenderer::SubmitGeometry(CapturedPrimitiveData& aPrimitiveData)
 	{
-		mCurrentShader->SetShaderVar(mModelLocation, (void*)&aTransform, EVarType::Matrix4x4);
+		mCurrentShader->SetShaderVar(mModelLocation, (void*)&aPrimitiveData.modelMatrix, EVarType::Matrix4x4);
 
-		if (mCurrentMesh != aMesh && aMesh->IsValid())
-		{
-			mCurrentMesh = aMesh;
-			aMesh->Bind();
-		}
-		if (!mCurrentMesh)
-			return;
-		
 		IGraphicsDevice::GetCurrentGraphicsDevice()->DrawBuffersElements(EDrawMode::Triangles, mCurrentMesh->GetIndiceCount());
 	}
 
-	void ForwardRenderer::SetActiveCamera(CameraComponent* aCamera)
+	void ForwardRenderer::SetActiveCamera(CapturedCameraData& aCamera)
 	{
-		mActiveViewMatrix = glm::inverse(aCamera->GetViewMatrix());
-		mActiveProjectionMatrix = aCamera->GetProjectionMatrix();
+		mActiveViewMatrix = glm::inverse(aCamera.viewMatrix);
+		mActiveProjectionMatrix = aCamera.projectionMatrix;
 	}
 
 	void ForwardRenderer::SetActiveLighting(SceneLighting* aLighting)

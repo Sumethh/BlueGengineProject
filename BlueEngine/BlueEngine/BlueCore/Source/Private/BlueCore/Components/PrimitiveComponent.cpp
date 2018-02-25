@@ -28,7 +28,7 @@ namespace Blue
 	void PrimitiveComponent::PreDestruction()
 	{
 		Actor* owner = GetOwner();
-		Scene* scene = (Scene*)owner->GetWorld();
+		Scene* scene = static_cast<Scene*>(owner->GetWorld());
 		scene->DeregisterPimitiveComponent(this);
 		mMaterialComponent = nullptr;
 	}

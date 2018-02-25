@@ -482,5 +482,20 @@
     <ClInclude Include="Source\Public\BlueCore\Tasks\UpdateGraphicsResourceTask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Core\CapturedPrimitiveData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Tasks\CreateGraphicsResourceTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Tasks\WindowSwapTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Tasks\ImguiInitTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Tasks\ImguiRenderTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

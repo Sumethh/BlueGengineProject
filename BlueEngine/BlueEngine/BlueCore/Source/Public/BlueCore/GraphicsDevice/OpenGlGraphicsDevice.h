@@ -43,6 +43,7 @@ namespace Blue
 
 		void Disable()override;
 		void Enable() override;
+		void NameResource(const GraphicsDeviceResourceID aResourceID, std::string aName) override;
 		void OnWindowResize(struct WindowResizeMessage* aMessage);
 
 	private:

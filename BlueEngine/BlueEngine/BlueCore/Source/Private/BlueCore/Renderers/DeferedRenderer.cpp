@@ -4,9 +4,11 @@
 #include "BlueCore/Renderers/SceneRenderer.h"
 
 #include "BlueCore/Graphics/Mesh.h"
-#include "BlueCore/Graphics/Shader.h"
 #include "BlueCore/Graphics/Material.h"
 #include "BlueCore/Graphics/RenderThread.h"
+#include "BlueCore/Graphics/Shader.h"
+#include "BlueCore/Graphics/Texture2D.h"
+
 
 #include "BlueCore/Managers/DebugManager.h"
 
@@ -21,9 +23,10 @@
 
 #include <gl/glew.h>
 #include <Imgui/imgui.h>
+#include <glm/gtc/type_ptr.hpp>
 namespace Blue
 {
-	DeferedRenderer::DeferedRenderer() : mDeferedShader(nullptr), mLightingPassShader(nullptr), mCurrentMaterial(nullptr), mModelLocation(0), mProjectionLocation(0), mViewLocation(0),
+	DeferedRenderer::DeferedRenderer() : mDeferedShader(nullptr), mLightingPassShader(nullptr), mModelLocation(0), mProjectionLocation(0), mViewLocation(0),
 		mLightPassViewPosition(0), mDirLightCountPosition(0), mPointLightCountPosition(0)
 	{
 	}
@@ -48,7 +51,6 @@ namespace Blue
 
 		mDeferedShader = shaderManager->GetShader("gBuffer");
 		mLightingPassShader = shaderManager->GetShader("LightPass");
-
 		mModelLocation = mDeferedShader->GetShaderVariableLocation("model");
 		mProjectionLocation = mDeferedShader->GetShaderVariableLocation("projection");
 		mViewLocation = mDeferedShader->GetShaderVariableLocation("view");
@@ -61,8 +63,12 @@ namespace Blue
 		mFramebufferID = device->CreateGraphicsResource(EGraphicsResourceType::FrameBuffer);
 
 		mPositionTextureID = device->CreateGraphicsResource(EGraphicsResourceType::Texture2D);
-		mColorSpecTextureID = device->CreateGraphicsResource(EGraphicsResourceType::Texture2D);
 		mNormalTextureID = device->CreateGraphicsResource(EGraphicsResourceType::Texture2D);
+		mColorSpecTextureID = device->CreateGraphicsResource(EGraphicsResourceType::Texture2D);
+
+		//device->NameResource(mPositionTextureID, "Deffered Position Texture");
+		//device->NameResource(mNormalTextureID, "Deffered Normal Texture");
+		//device->NameResource(mColorSpecTextureID, "Deffered ColorSpec Texture");
 
 		device->BindGraphicsResource(mFramebufferID);
 		ApplicationWindow* currentWindow = ApplicationWindow::GetCurrentWindow();
@@ -121,15 +127,11 @@ namespace Blue
 	void DeferedRenderer::End()
 	{
 		IGraphicsDevice* device = IGraphicsDevice::GetCurrentGraphicsDevice();
-		mCurrentMesh->Unbind();
-		mCurrentMesh = nullptr;
 		device->BindGraphicsResource(0);
 
 		mLightingPassShader->Bind();
-		Transformable* transformable = reinterpret_cast<Transformable*>(mCurrentCamera->GetOwner());
-		Transform trans = transformable->GetTransform();
 
-		mLightingPassShader->SetShaderVar(mLightPassViewPosition, static_cast<void*>(&trans.position), EVarType::Vector3);
+		mLightingPassShader->SetShaderVar(mLightPassViewPosition, static_cast<void*>(&mCurrentCameraData.cameraTransform.position), EVarType::Vector3);
 
 		device->BindGraphicsResource(mPositionTextureID, ETextureID::Texture0);
 		device->BindGraphicsResource(mNormalTextureID, ETextureID::Texture1);
@@ -149,23 +151,25 @@ namespace Blue
 		std::vector<Shader::CachedPointlightShaderInfo>& lightsLoc = mLightingPassShader->GetPointLightInfo();
 		sizeInt lightCount = lightsLoc.size();
 		mLightingPassShader->SetShaderVar(mLightingPassShader->GetPointLightCountLoc(), static_cast<void*>(&lightCount), EVarType::Int);
-		for (ILightComponent* light : mLighting->lights)
+		if (mLighting)
 		{
-			switch (light->GetLightType())
+			for (ILightComponent* light : mLighting->lights)
 			{
-				case ELightType::PointLight:
-					{
-						glm::vec3 pos = static_cast<PointLightComponent*>(light)->GetLightPosition();
-						glm::vec3 color = static_cast<PointLightComponent*>(light)->GetColor();
-						mLightingPassShader->SetShaderVar(lightsLoc[counter].pos, static_cast<void*>(&pos), EVarType::Vector3);
-						mLightingPassShader->SetShaderVar(lightsLoc[counter].color, static_cast<void*>(&color), EVarType::Vector3);
-						break;
-					}
-					InvalidDefaultCase;
+				switch (light->GetLightType())
+				{
+					case ELightType::PointLight:
+						{
+							glm::vec3 pos = static_cast<PointLightComponent*>(light)->GetLightPosition();
+							glm::vec3 color = static_cast<PointLightComponent*>(light)->GetColor();
+							mLightingPassShader->SetShaderVar(lightsLoc[counter].pos, static_cast<void*>(&pos), EVarType::Vector3);
+							mLightingPassShader->SetShaderVar(lightsLoc[counter].color, static_cast<void*>(&color), EVarType::Vector3);
+							break;
+						}
+						InvalidDefaultCase;
+				}
+				++counter;
 			}
-			++counter;
 		}
-
 		device->BindGraphicsResource(mQuadVao);
 		device->DrawBuffers(EDrawMode::TriangleStrip, 0, 4);
 		device->UnbindGraphicsResource(mQuadVao);
@@ -177,27 +181,35 @@ namespace Blue
 		rect.extents = glm::ivec2(ApplicationWindow::GetWindowWidth(), ApplicationWindow::GetWindowHeight());
 		device->BlitFramebuffers(mFramebufferID, 0, rect, rect, EBufferBit::DepthBit);
 		device->BindGraphicsResource(0);
+		mCurrentBoundGrapicsID = 0;
 	}
 
-	void DeferedRenderer::SubmitGeometry(Mesh* aMesh, glm::mat4 aTransform)
+	void DeferedRenderer::SubmitGeometry(CapturedPrimitiveData& aCapturedData)
 	{
 		IGraphicsDevice* device = IGraphicsDevice::GetCurrentGraphicsDevice();
-		if (mCurrentMesh != aMesh)
+		if (aCapturedData.meshResourceToBind != mCurrentBoundGrapicsID)
 		{
-			aMesh->Bind();
-			mCurrentMesh = aMesh;
+			if (mCurrentBoundGrapicsID)
+				device->UnbindGraphicsResource(mCurrentBoundGrapicsID);
+			mCurrentBoundGrapicsID = aCapturedData.meshResourceToBind;
+			device->BindGraphicsResource(mCurrentBoundGrapicsID);
 		}
-		mDeferedShader->SetShaderVar(mModelLocation, &aTransform, EVarType::Matrix4x4);
-		device->DrawBuffersElements(EDrawMode::Triangles, aMesh->GetIndiceCount());
+		Texture2D* tex = reinterpret_cast<Texture2D*>(aCapturedData.diffuseTexture);
+		tex->Bind(ETextureID::Texture0);
+		const uint32 indexCount = aCapturedData.indexCount;
+		const EDrawMode drawMode = aCapturedData.drawMode;
+		mDeferedShader->SetShaderVar(mModelLocation, &aCapturedData.modelMatrix, EVarType::Matrix4x4);
+		float a = 1.0f;
+		mDeferedShader->SetShaderVar(mDeferedShader->GetShaderVariableLocation("spec"), (void*)&a, EVarType::Float);
+		device->DrawBuffersElements(drawMode, indexCount);
 	}
 
-	void DeferedRenderer::SetActiveCamera(CameraComponent* aCamera)
+	void DeferedRenderer::SetActiveCamera(CapturedCameraData& aCamera)
 	{
-		mCurrentProjectionMatrix = aCamera->GetProjectionMatrix();
+		mCurrentProjectionMatrix = aCamera.projectionMatrix;
+		mCurrentCameraData = aCamera;
 		mDeferedShader->SetShaderVar(mProjectionLocation, &mCurrentProjectionMatrix, EVarType::Matrix4x4);
-		glm::mat4 view = glm::inverse(aCamera->GetViewMatrix());
-		mDeferedShader->SetShaderVar(mViewLocation, static_cast<void*>(&view), EVarType::Matrix4x4);
-		mCurrentCamera = aCamera;
+		mDeferedShader->SetShaderVar(mViewLocation, static_cast<void*>(&glm::inverse(mCurrentCameraData.viewMatrix)), EVarType::Matrix4x4);
 	}
 
 	void DeferedRenderer::SetActiveLighting(SceneLighting* aLighting)
@@ -209,6 +221,5 @@ namespace Blue
 	{
 		aMaterial->Bind(false);
 		aMaterial->SetDataForDrawing(mDeferedShader);
-		mCurrentMaterial = aMaterial;
 	}
 }

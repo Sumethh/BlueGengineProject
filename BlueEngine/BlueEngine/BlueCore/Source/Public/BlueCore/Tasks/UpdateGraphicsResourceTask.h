@@ -3,11 +3,10 @@
 
 namespace Blue
 {
-	struct UpdateGrapihcsResourceTask : public TaskSystem::Task
+	struct UpdateGraphicsResourceTask : public TaskSystem::Task
 	{
-		UpdateGrapihcsResourceTask() : TaskSystem::Task("Update Graphics Resource", false)
+		UpdateGraphicsResourceTask() : TaskSystem::Task("Update Graphics Resource", EThreadType::RenderThread, false)
 		{
-			threadType = EThreadType::RenderThread;
 		}
 
 		virtual void Run() override

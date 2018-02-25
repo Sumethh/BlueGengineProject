@@ -16,8 +16,8 @@ namespace Blue
 		void Begin();
 		void End() override;
 
-		void SubmitGeometry(Mesh* aMesh, glm::mat4 aTransform) override;
-		void SetActiveCamera(CameraComponent* aCamera) override;
+		void SubmitGeometry(CapturedPrimitiveData& aCapturedData) override;
+		void SetActiveCamera(CapturedCameraData& aCamera) override;
 		void SetActiveLighting(SceneLighting* aLighting) override;
 		void SetActiveMaterial(Material* aMaterial) override;
 
@@ -31,9 +31,7 @@ namespace Blue
 		uint32 mQuadVbo;
 		uint32 mQuadVao;
 
-
-		Material* mCurrentMaterial;
-		CameraComponent* mCurrentCamera;
+		CapturedCameraData mCurrentCameraData;
 		glm::mat4 mCurrentProjectionMatrix;
 		int32 mProjectionLocation;
 		int32 mViewLocation;
@@ -42,7 +40,7 @@ namespace Blue
 		int32 mPointLightCountPosition;
 
 		uint32 mModelLocation;
-		Mesh* mCurrentMesh;
+		GraphicsDeviceResourceID mCurrentBoundGrapicsID;
 		Shader* mDeferedShader;
 		Shader* mLightingPassShader;
 		SceneLighting* mLighting;

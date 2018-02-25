@@ -17,17 +17,20 @@ namespace Blue
 			mCondition.notify_one();
 		}
 
-		bool WaitAndPop(T& aOutItem)
+		bool WaitAndPop(T& aOutItem, const uint32 aMsToWait = 10)
 		{
 			std::unique_lock<std::mutex> lock(mMutex);
-			mCondition.wait(lock, [this]()
+			mCondition.wait_for(lock, std::chrono::milliseconds(aMsToWait), [this]()
 			{
 				return !mQueue.empty();
 			});
-
-			aOutItem = mQueue.front();
-			mQueue.pop();
-			return true;
+			if (mQueue.size())
+			{
+				aOutItem = mQueue.front();
+				mQueue.pop();
+				return true;
+			}
+			return false;
 		}
 
 		bool LockPop(T& aOutItem)
@@ -39,9 +42,15 @@ namespace Blue
 			mQueue.pop();
 			return true;
 		}
+
+		void NotifyAllWaiting()
+		{
+			mCondition.notify_all();
+		}
 	private:
 		std::mutex mMutex;
 		std::condition_variable mCondition;
 		std::queue<T> mQueue;
+		bool mCanWait;
 	};
 }

@@ -29,7 +29,7 @@ namespace Blue
 
 		struct TrackedJobWrapper : public Task
 		{
-			TrackedJobWrapper(Task* aJob) : Task("TrackedJobWrapper"), job(aJob) {};
+			TrackedJobWrapper(Task* aJob) : Task("TrackedJobWrapper", aJob->threadType), job(aJob) {};
 			~TrackedJobWrapper()
 			{
 				promise.set_value(true);
@@ -100,7 +100,11 @@ namespace Blue
 		void Shutdown()
 		{
 			sRunThreads.store(false);
-
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			for (uint32 i = 0; i < static_cast<uint32>(EThreadType::Count); ++i)
+			{
+				sThreadJobList[i].NotifyAllWaiting();
+			}
 			for (size_t i = 0; i < sThreads.size(); ++i)
 			{
 				sThreads[i]->join();
@@ -134,7 +138,7 @@ namespace Blue
 			{
 				Task* currentTask = nullptr;
 
-				if (!sThreadJobList[static_cast<int32>(aCurrentThread)].LockPop(currentTask))
+				if (!sThreadJobList[static_cast<int32>(aCurrentThread)].WaitAndPop(currentTask))
 					break;
 				else
 					currentTask->Run();

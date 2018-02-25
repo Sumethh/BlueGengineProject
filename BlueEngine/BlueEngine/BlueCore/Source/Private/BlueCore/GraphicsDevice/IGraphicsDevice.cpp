@@ -17,4 +17,5 @@ namespace Blue
 			mCurrentGraphicsDevice = this;
 		}
 	}
+
 }

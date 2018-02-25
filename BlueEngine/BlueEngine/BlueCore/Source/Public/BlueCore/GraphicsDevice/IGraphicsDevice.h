@@ -6,7 +6,7 @@
 
 #include <glm/vec4.hpp>
 #include <string>
-#define  ASSERT_GRAPHICS_ERROR 0
+#define  ASSERT_GRAPHICS_ERROR 1
 
 #if ASSERT_GRAPHICS_ERROR
 	#ifndef ASSERT_NO_GRAPHICS_ERROR
@@ -189,6 +189,7 @@ namespace Blue
 
 		virtual void Disable() = 0;
 		virtual void Enable() = 0;
+		virtual void NameResource(const GraphicsDeviceResourceID aResourceID, std::string aName) = 0;
 
 		inline static IGraphicsDevice* GetCurrentGraphicsDevice()
 		{

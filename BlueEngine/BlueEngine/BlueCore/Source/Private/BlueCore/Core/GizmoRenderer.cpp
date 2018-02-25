@@ -219,7 +219,9 @@ namespace Blue
 		mDebugMaterialInstanced->Bind();
 		Shader* shader = ShaderManager::GI()->GetShader("GizmoLineShader");
 		if (!shader->IsValid())
+		{
 			return;
+		}
 		uint32 viewLoc = shader->GetShaderVariableLocation("view");
 		uint32 projLoc = shader->GetShaderVariableLocation("projection");
 		shader->SetShaderVar(viewLoc, (void*)glm::value_ptr(view), EVarType::Matrix4x4);

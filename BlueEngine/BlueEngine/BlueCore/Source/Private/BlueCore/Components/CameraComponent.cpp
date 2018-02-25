@@ -49,6 +49,13 @@ namespace Blue
 		return GetOwner()->GetWorldMatrix();
 	}
 
+	void CameraComponent::CaptureData(CapturedCameraData& aData)
+	{
+		aData.cameraTransform = GetOwner()->GetTransform();
+		aData.projectionMatrix = GetProjectionMatrix();
+		aData.viewMatrix = GetViewMatrix();
+	}
+
 	void CameraComponent::OnWindowResize(WindowResizeMessage* aMessage)
 	{
 		mProjectionMatrix = glm::perspective(90.0f, static_cast<float>(aMessage->windowWidth) / static_cast<float>(aMessage->windowHeight), 0.1f, 1000.0f);

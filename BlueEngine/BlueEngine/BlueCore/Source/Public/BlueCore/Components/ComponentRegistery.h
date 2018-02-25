@@ -14,8 +14,9 @@ namespace Blue
 	template<typename T>
 	ActorComponent*  __ConstructComponent(Actor* aOwner)
 	{
-		IMemoryAllocator* smallAllocator = MemoryManager::GI()->GetSmallBlockAllocator();
-		return new (smallAllocator->Allocate(sizeof(T), 0)) T(aOwner);
+		//IMemoryAllocator* smallAllocator = MemoryManager::GI()->GetSmallBlockAllocator();
+		//return new (smallAllocator->Allocate(sizeof(T), 0)) T(aOwner);
+		return new T(aOwner);
 	}
 
 	struct RegisteredComponentInfo
@@ -49,10 +50,11 @@ namespace Blue
 			Blue::Log::Info("Registering Component with ID: " + std::to_string(info.componentHash) + " Size: " + std::to_string(sizeof(T)));
 
 			uint64 size(component->ComponentSize());
-			IMemoryAllocator* smallBlockAllocator = MemoryManager::GI()->GetSmallBlockAllocator();
-
-			component->~T();
-			smallBlockAllocator->Deallocate((void*)component, size);
+			//IMemoryAllocator* smallBlockAllocator = MemoryManager::GI()->GetSmallBlockAllocator();
+			//
+			//component->~T();
+			//smallBlockAllocator->Deallocate((void*)component, size);
+			delete component;
 			return info;
 		}
 

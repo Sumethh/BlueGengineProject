@@ -14,7 +14,7 @@ namespace Blue
 			Error,
 			Verbose
 		};
-		void AddLogString(std::string aString, ELogType aLogType);
+		void AddLogString(std::string& aString, ELogType aLogType);
 
 		void AddCommand(std::string commandBase, std::function<void(std::string, std::string*, const uint32)> aCallBack);
 

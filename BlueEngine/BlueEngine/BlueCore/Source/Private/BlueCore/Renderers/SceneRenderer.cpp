@@ -1,13 +1,15 @@
 #include "BlueCore/Renderers/SceneRenderer.h"
 #include "BlueCore/Core/Scene.h"
 #include "BlueCore/Components/PrimitiveComponent.h"
+#include "BlueCore/Components/CameraComponent.h"
 #include "BlueCore/GraphicsDevice/IGraphicsDevice.h"
+#include "BlueCore/Graphics/RenderThread.h"
 #include "BlueCore/Core/Timer.h"
 #include <Imgui/imgui.h>
 
 namespace Blue
 {
-
+	SceneRenderer* SceneRenderer::sInstance = nullptr;
 	SceneRenderer::SceneRenderer()
 	{
 	}
@@ -18,74 +20,56 @@ namespace Blue
 		mDefferedRenderer.Init();
 	}
 
-	void SceneRenderer::ConductScenePass(Scene* aScene)
+	void SceneRenderer::CaptureScene(Scene* aScene)
 	{
+		BlueAssert(aScene && RenderThread::IsOnRenderThread());
+
+		mCapturedPrimitiveData.clear();
+		mCapturedCameraData.clear();
 		IGraphicsDevice::GetCurrentGraphicsDevice()->ClearBuffer(EBufferBit::DepthBit);
 
+		aScene->AquireSceneLock();
 		const std::vector<PrimitiveComponent*>& primitives = aScene->GetAllPrimitives();
-		Timer initTimer;
-		initTimer.Start();
-		sizeInt primitiveCount = primitives.size();
-		ImGui::Text("Init Timer: %f ms", initTimer.IntervalMS());
-		Timer sortingTimer;
-		sortingTimer.Start();
+		const std::vector<CameraComponent*>& cameras = aScene->GetAllCameras();
+		const std::vector<ILightComponent*>& lights = aScene->GetAllLights();
+
+		mCapturedCameraData.reserve(primitives.size());
+
+		for (CameraComponent* camera : cameras)
+		{
+			camera->CaptureData(mCapturedCameraData.emplace_back(CapturedCameraData()));
+		}
 
 		for (PrimitiveComponent* primitive : primitives)
 		{
-			if (primitive->IsTranslucent())
-			{
-				mTranslucentPrimitives.push_back(primitive);
-			}
-			else
-			{
-				mOpaquePrimitives.push_back(primitive);
-			}
+			primitive->SubmitGeometry(mCapturedPrimitiveData.emplace_back(CapturedPrimitiveData()));
 		}
 
-		ImGui::Text("Sorting Timer: %f ms", sortingTimer.IntervalMS());
-
-		const std::vector<CameraComponent*>& cameras = aScene->GetAllCameras();
-
-		//For every active camera cull objects
-		//Run this over for each active camera? Should maybe also check for their viewport size
-		Timer renderTimer;
-		renderTimer.Start();
-		mLightingInfo.lights.clear();
-
-		for (ILightComponent* light : aScene->GetAllLights())
+		aScene->ReleaseSceneLock();
+	}
+	
+	void SceneRenderer::ConductScenePass()
+	{
+		BlueAssert(RenderThread::IsOnRenderThread());
+		
+		for (CapturedCameraData& cameraData : mCapturedCameraData)
 		{
-			mLightingInfo.lights.emplace_back(light);
+			OpaquePass(mCapturedPrimitiveData, cameraData);
 		}
-		for (CameraComponent* camera : cameras)
-		{
-			//OpaquePass(aScene, mOpaquePrimitives, camera);
-			TranslucentPass(aScene, mOpaquePrimitives, camera);
-		}
-		mOpaquePrimitives.clear();
-		mTranslucentPrimitives.clear();
-		ImGui::Text("Render Timer: %f ms", renderTimer.IntervalMS());
 	}
 
-	void SceneRenderer::OpaquePass(Scene* aScene, std::vector<PrimitiveComponent*>& aOpaquePrimitives, CameraComponent* aActiveCamera)
+	void SceneRenderer::OpaquePass(std::vector<CapturedPrimitiveData>& aOpaquePrimitives, CapturedCameraData& aActiveCamera)
 	{
 		mDefferedRenderer.Begin();
 		mDefferedRenderer.SetActiveCamera(aActiveCamera);
-		mDefferedRenderer.SetActiveLighting(&mLightingInfo);
-		for (PrimitiveComponent* primitive : aOpaquePrimitives)
+		for (CapturedPrimitiveData& capturedData : aOpaquePrimitives)
 		{
-			primitive->SubmitGeometry(&mDefferedRenderer);
+			mDefferedRenderer.SubmitGeometry(capturedData);
 		}
 		mDefferedRenderer.End();
 	}
 
 	void SceneRenderer::TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives, CameraComponent* aActiveCamera)
 	{
-		mForwardRenderer.SetActiveCamera(aActiveCamera);
-		//uses forward rendering
-		for (PrimitiveComponent* primitive : aTranslucentPrimitives)
-		{
-			primitive->SubmitGeometry(&mForwardRenderer);
-		}
-		mForwardRenderer.End();
 	}
 }

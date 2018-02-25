@@ -2,12 +2,12 @@
 #include "ActorComponent.h"
 #include "BlueCore/Graphics/RenderLayer.h"
 #include "BlueCore/Core/Transformable.h"
+#include "BlueCore/Core/CapturedPrimitiveData.h"
 
 namespace Blue
 {
 	class MaterialComponent;
 	class Material;
-	class IRenderer;
 
 	class PrimitiveComponent : public ActorComponent, public Transformable
 	{
@@ -23,9 +23,7 @@ namespace Blue
 		bool IsTranslucent();
 
 		uint64 GetRenderID(const Transform& aInverseCameraTransform);
-
-		virtual void SubmitGeometry(IRenderer* aRenderer) = 0;
-
+		virtual void SubmitGeometry(CapturedPrimitiveData& aCapturedData) = 0;
 		glm::mat4 GetWorldMatrix();
 
 	private:

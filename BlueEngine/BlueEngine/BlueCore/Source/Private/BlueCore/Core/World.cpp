@@ -21,7 +21,7 @@
 
 namespace Blue
 {
-	World::World() : mHasBeginPlayBeenCalled(false), mGizmoRenderer(new GizmoRenderer())
+	World::World() : mHasBeginPlayBeenCalled(false)
 	{
 		Log::Info("World Constructed");
 		Console::AddCommand("ReloadStencils", std::bind(&World::CommandReloadStencils, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
@@ -43,9 +43,6 @@ namespace Blue
 	void World::BeginPlay()
 	{
 		Log::Info("World BeginPlay");
-		TestMesh.Init(verts, 3, indicies, 3);
-		TestMesh.UpdateMeshResources();
-
 		for (auto actor : mActors)
 		{
 			actor->BeginPlay();
@@ -53,16 +50,10 @@ namespace Blue
 
 		mHasBeginPlayBeenCalled = true;
 	}
-	bool begun = false;
+
 	void World::Update(float aDt)
 	{
 		StencilCreator::GI()->Update();
-
-		if (mCameras.size())
-		{
-			begun = true;
-			mGizmoRenderer->Begin(mCameras[0]);
-		}
 
 		for (auto actor : mActors)
 		{
@@ -76,6 +67,7 @@ namespace Blue
 		{
 			actor->LateUpdate(aDt);
 		}
+		/*
 		mGizmoRenderer->DrawMesh(&TestMesh, glm::vec3(1, 0, 0));
 		mGizmoRenderer->DrawCube(glm::vec3(0, 0.0f, -2.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::quat(), glm::vec3(0.1f, 0.9f, 0.1f), GizmoRenderer::Solid);
 		mGizmoRenderer->DrawPlane(glm::vec3(2.0f, 0.0f, -2.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::quat(), glm::vec3(0.1f, 0.9f, 0.1f), GizmoRenderer::Solid);
@@ -87,6 +79,7 @@ namespace Blue
 		mGizmoRenderer->DrawLine(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
 		mGizmoRenderer->Flush();
+		*/
 	}
 
 	Actor* World::CreateActor(Stencil* aStencil)
@@ -105,24 +98,25 @@ namespace Blue
 
 	Actor* World::CreateActor()
 	{
-		Actor* actor = mActorAllocator.AllocateActor(this);
-		int32 index = actor->GetAllocationIndex();
-		if (mActors.size() > index)
-		{
-			int32 replacingIndex = mActors[index]->GetAllocationIndex();
-			assert(replacingIndex != index);
-			if (replacingIndex > index)
-			{
-				std::vector<Actor*>::iterator location = mActors.begin() + index;
-				mActors.insert(location, actor);
-			}
-			else
-			{
-				std::vector<Actor*>::iterator location = mActors.begin() + index + 1;
-				mActors.insert(location, actor);
-			}
-		}
-		else
+		//Actor* actor = mActorAllocator.AllocateActor(this);
+		//int32 index = actor->GetAllocationIndex();
+		//if (mActors.size() > index)
+		//{
+		//	int32 replacingIndex = mActors[index]->GetAllocationIndex();
+		//	assert(replacingIndex != index);
+		//	if (replacingIndex > index)
+		//	{
+		//		std::vector<Actor*>::iterator location = mActors.begin() + index;
+		//		mActors.insert(location, actor);
+		//	}
+		//	else
+		//	{
+		//		std::vector<Actor*>::iterator location = mActors.begin() + index + 1;
+		//		mActors.insert(location, actor);
+		//	}
+		//}
+		//else
+		Actor* actor = new Actor(this);
 			mActors.emplace_back(actor);
 		return actor;
 	}

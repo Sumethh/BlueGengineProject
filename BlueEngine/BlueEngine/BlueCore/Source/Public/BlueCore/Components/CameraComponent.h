@@ -1,6 +1,7 @@
 #pragma once
 #include "ActorComponent.h"
 #include "BlueCore/Graphics/ViewPort.h"
+#include "Bluecore/Core/CapturedPrimitiveData.h"
 #include <glm/glm.hpp>
 
 namespace Blue
@@ -25,6 +26,8 @@ namespace Blue
 
 		glm::mat4 GetProjectionMatrix();
 		glm::mat4 GetViewMatrix();
+
+		void CaptureData(CapturedCameraData& aData);
 
 	private:
 		void OnWindowResize(WindowResizeMessage* aMessage);

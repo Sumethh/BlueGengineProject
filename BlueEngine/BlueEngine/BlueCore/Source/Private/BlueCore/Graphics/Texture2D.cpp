@@ -32,8 +32,7 @@ namespace Blue
 	}
 
 	bool Texture2D::LoadTexture(const char* aFileName, EImageFormat aImageFormat, EPrecisionType aFormatToStore, uint32 aMipMapLvl)
-	{
-		BlueAssert(IsValid());
+	{		
 		mImageFormat = aImageFormat;
 
 		FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
@@ -77,7 +76,7 @@ namespace Blue
 		mMipLevel = aMipMapLvl;
 		mPrecision = aFormatToStore;
 
-		UpdateGrapihcsResourceTask* updateResourceTask = new UpdateGrapihcsResourceTask();
+		UpdateGraphicsResourceTask* updateResourceTask = new UpdateGraphicsResourceTask();
 		updateResourceTask->graphicsResourceToUpdate = this;
 		TaskSystem::SubmitTask(updateResourceTask);
 
@@ -86,6 +85,6 @@ namespace Blue
 
 	void Texture2D::Bind(ETextureID aId)
 	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mGraphicsResource);
+		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mGraphicsResource, ETextureID::Texture0);
 	}
 }

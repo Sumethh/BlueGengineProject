@@ -9,7 +9,7 @@ public:
 	~SandboxApplication();
 
 	bool Run() override;
-	void Update() override;
+	void Update(float aDt) override;
 	void EndUpdate() override;
 	void ShutDown() override;
 

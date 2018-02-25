@@ -20,37 +20,29 @@ namespace Blue
 		~Material();
 
 		void Bind(bool aBindShader = true);
+
 		void SetDataForDrawing(Shader* aShader = nullptr);
+
 		void UnBind(bool aUnbindShader = true);
-		inline void SetDiffuseColor(glm::vec4 aColor)
-		{
-			mDiffuseColor = aColor;
-		}
-		inline void SetAmbientColor(glm::vec4 aColor)
-		{
-			mAmbientColor = aColor;
-		}
-		inline void SetSpecularPower(float aSpec)
-		{
-			mSpecular = aSpec;
-		}
-		inline void SetShader(Shader* aShader)
-		{
-			mShader = aShader;
-		}
-		inline Shader* GetShader()
-		{
-			return mShader;
-		}
-		inline void SetTexture(Texture2D* aTexture)
-		{
-			mTexture = aTexture;
-		}
-		uint32 GetID() const
-		{
-			return mId;
-		}
+
+		inline void SetDiffuseColor(glm::vec4 aColor){mDiffuseColor = aColor;}
+
+		inline void SetAmbientColor(glm::vec4 aColor) { mAmbientColor = aColor; }
+
+		inline void SetSpecularPower(float aSpec) { mSpecular = aSpec; }
+
+		inline void SetShader(Shader* aShader) { mShader = aShader; }
+
+		inline Shader* GetShader() { return mShader; }
+
+		inline void SetTexture(Texture2D* aTexture) { mTexture = aTexture; }
+
+		inline Texture2D* GetTexture() { return mTexture; }
+
+		uint32 GetID() const { return mId; }
+
 		uint32 GetShaderVariableLoc(const char* aVariable);
+
 		bool HasAlpha()const;
 
 		bool IsBound()const;
