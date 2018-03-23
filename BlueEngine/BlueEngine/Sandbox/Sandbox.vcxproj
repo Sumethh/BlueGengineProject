@@ -82,14 +82,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(ProjectDir)..\BlueCore\Source\Public;$(ProjectDir)..\..\extern\Include;$(ProjectDir)\Source\Public\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\extern\lib\$(Platform);$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)\Source\Private;$(SourcePath)</SourcePath>
+    <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(ProjectDir)..\BlueCore\Source\Public;$(ProjectDir)..\..\extern\Include;$(ProjectDir)\Source\Public\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\extern\lib\$(Platform);$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)\Source\Private;$(SourcePath)</SourcePath>
@@ -118,6 +119,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalDependencies>assimp.lib;FreeImage.lib;glew32.lib;glfw3.lib;opengl32.lib;BlueCoreD.lib;%(AdditionalDependencies)</AdditionalDependencies>

@@ -88,7 +88,7 @@
     <LibraryPath>$(ProjectDir)../../extern/lib/x64/;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)\Source\Private;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)\extern\lib\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(ProjectName)\$(Configurtion)</IntDir>
+    <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -96,7 +96,7 @@
     <LibraryPath>$(ProjectDir)..\..\extern\lib\x64\;$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)\Source\Private;$(SourcePath)</SourcePath>
     <OutDir>$(SolutionDir)\extern\lib\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(ProjectName)\$(Configurtion)</IntDir>
+    <IntDir>$(SolutionDir)\Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,7 +114,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)Source\Public\</AdditionalIncludeDirectories>
@@ -201,10 +201,13 @@
     <ClCompile Include="Source\Private\BlueCore\Extern\imgui_draw.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Extern\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Graphics\GraphicsResource.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Graphics\RenderCommands.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Graphics\RenderThread.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\IMemoryAllocator.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\MemoryManager.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\ShaderManager.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Memory\TaggedBlockAllocator.cpp" />
+    <ClCompile Include="Source\Private\BlueCore\Memory\TaggedPageAllocator.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Managers\UpdateableManager.cpp" />
     <ClCompile Include="Source\Private\BlueCore\Core\World.cpp" />
     <ClCompile Include="Source\Private\BlueCore\GraphicsDevice\GraphicsDeviceFactory.cpp" />
@@ -264,7 +267,6 @@
     <ClInclude Include="Source\Public\BlueCore\Core\Application.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\ApplicationWindow.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Defines.h" />
-    <ClInclude Include="Source\Public\BlueCore\Core\Delegate.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Game.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\GlmTransformationInclude.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\IDelegate.h" />
@@ -272,6 +274,9 @@
     <ClInclude Include="Source\Public\BlueCore\Core\Scene.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\GraphicsAsset.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\GraphicsResource.h" />
+    <ClInclude Include="Source\Public\BlueCore\Graphics\RenderCommandBuffer.h" />
+    <ClInclude Include="Source\Public\BlueCore\Graphics\RenderCommands.h" />
+    <ClInclude Include="Source\Public\BlueCore\Graphics\RenderContext.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\RenderLayer.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\RenderQueue.h" />
     <ClInclude Include="Source\Public\BlueCore\Graphics\RenderThread.h" />
@@ -282,6 +287,8 @@
     <ClInclude Include="Source\Public\BlueCore\Memory\BlockAllocator.h" />
     <ClInclude Include="Source\Public\BlueCore\Memory\FixedBlockAllocator.h" />
     <ClInclude Include="Source\Public\BlueCore\Memory\SmallBlockAllocator.h" />
+    <ClInclude Include="Source\Public\BlueCore\Memory\TaggedBlockAllocator.h" />
+    <ClInclude Include="Source\Public\BlueCore\Memory\TaggedPageAllocator.h" />
     <ClInclude Include="Source\Public\BlueCore\Messaging\IMessage.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\ResourceList.h" />
     <ClInclude Include="Source\Public\BlueCore\Core\Timer.h" />

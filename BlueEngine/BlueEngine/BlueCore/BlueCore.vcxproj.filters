@@ -198,6 +198,15 @@
     <ClCompile Include="Source\Private\BlueCore\Platform\PlatformHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Private\BlueCore\Graphics\RenderCommands.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\BlueCore\Memory\TaggedPageAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\BlueCore\Memory\TaggedBlockAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Public\BlueCore\Collision\BoundingVolumes\AABB.h">
@@ -246,9 +255,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\BlueCore\Core\Defines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Public\BlueCore\Core\Delegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\BlueCore\Core\Game.h">
@@ -495,6 +501,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\BlueCore\Tasks\ImguiRenderTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Graphics\RenderCommandBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Graphics\RenderCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Memory\TaggedPageAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Memory\TaggedBlockAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\BlueCore\Graphics\RenderContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
