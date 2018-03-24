@@ -75,7 +75,7 @@ namespace Blue
 			}
 		}
 
-		if (index == mBlockSizesCount)
+		if (index == static_cast<uint32>(mBlockSizesCount))
 		{
 			Log::Error("Could not allocate size as there is no valid block size. Tried to allocate Size: " + std::to_string(aSize));
 			return nullptr;
@@ -148,7 +148,7 @@ namespace Blue
 		mMbUsed -= static_cast<float>(blockSize) / static_cast<float>(1000 * 1000);;
 		mUsedMemory -= blockSize;
 
-		if (index == mBlockSizesCount)
+		if (index == static_cast<uint32>(mBlockSizesCount))
 		{
 			Log::Error("Could not deallocate size as there is no valid block size. Tried to allocate Size: " + std::to_string(aSize));
 			return;

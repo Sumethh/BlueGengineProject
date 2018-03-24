@@ -1,6 +1,7 @@
 #pragma once
 #include "ForwardRenderer.h"
 #include "DeferedRenderer.h"
+#include "BlueCore/Graphics/RenderCommandBuffer.h"
 
 namespace Blue
 {
@@ -42,5 +43,9 @@ namespace Blue
 
 		std::vector<CapturedPrimitiveData> mCapturedPrimitiveData;
 		std::vector<CapturedCameraData> mCapturedCameraData;
+
+		RenderCommandBuffer<uint64> DefferedCommandBuffer;
+		RenderCommandBuffer<uint64> ForwardCommandBuffer;
+
 	};
 }

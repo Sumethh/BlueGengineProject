@@ -42,6 +42,7 @@ namespace Blue
 		{
 			CalculateComponentBounds();
 		}
+		SetParent(GetOwner());
 	}
 
 	void DynamicMeshComponent::CalculateComponentBounds()

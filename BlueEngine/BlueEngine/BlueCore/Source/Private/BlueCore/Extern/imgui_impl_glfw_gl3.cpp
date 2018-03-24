@@ -255,7 +255,7 @@ bool ImGui_ImplGlfwGL3_CreateFontsTexture()
 
 	// Restore state
 	glBindTexture(GL_TEXTURE_2D, last_texture);
-	auto t = glGetError();
+	BlueAssert(glGetError() == 0);
 
 	return true;
 }
@@ -333,8 +333,7 @@ bool ImGui_ImplGlfwGL3_CreateDeviceObjects()
 	glBindTexture(GL_TEXTURE_2D, last_texture);
 	glBindBuffer(GL_ARRAY_BUFFER, last_array_buffer);
 	glBindVertexArray(last_vertex_array);
-	auto t = glGetError();
-
+	BlueAssert(glGetError() == 0);
 	return true;
 }
 

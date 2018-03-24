@@ -107,7 +107,7 @@ namespace Blue
 
 	void Actor::OnDeserialize(ArchiveObject* const aArchiveObject)
 	{
-
+		(void)aArchiveObject;
 	}
 
 	ActorComponent* Actor::GetComponent(uint64 aID)
@@ -157,7 +157,6 @@ namespace Blue
 	ActorComponent* Actor::AddComponent(uint64 aID)
 	{
 		const std::vector<uint64>& requiredComponents = ActorComponent::GetRequiredComponents(aID);
-		ComponentRegistery* componentRegistery = ComponentRegistery::GI();
 
 		for (const uint64& compHash : requiredComponents)
 		{

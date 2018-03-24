@@ -181,8 +181,8 @@ namespace Blue
 				value = static_cast<T>((*aVariable) * -1);
 				value *= -1;
 			}
-			auto t = std::numeric_limits<T>::digits;
-			if (std::numeric_limits<T>::digits <= 32)
+
+			if constexpr(std::numeric_limits<T>::digits <= 32)
 			{
 				if (std::numeric_limits<T>::is_signed)
 					ImGui::Text("%d", value);
@@ -223,6 +223,7 @@ namespace Blue
 	template<>
 	void DrawDebugOption<double, double>(char* aName, double* aVariable, bool aTweakable)
 	{
+		(void)aTweakable;
 		ImGui::Text(aName);
 		ImGui::SameLine();
 		double value = *aVariable;

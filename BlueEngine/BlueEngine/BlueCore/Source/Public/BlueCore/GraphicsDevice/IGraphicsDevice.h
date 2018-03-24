@@ -70,7 +70,7 @@ namespace Blue
 		Count
 	};
 
-	enum class EPrecisionType : uint8
+	enum class EColorPrecisionType : uint8
 	{
 		RGB_F_16Bit,
 		RGB_F_32Bit,
@@ -86,10 +86,7 @@ namespace Blue
 		RGBA_8Bit,
 		RGBA_12Bit,
 		RGBA_16Bit,
-
 	};
-
-
 
 	enum class EImageFormat : uint8
 	{
@@ -100,7 +97,7 @@ namespace Blue
 
 	enum EBufferAttachment : uint8
 	{
-		ColorAttachment0,
+		ColorAttachment0 = 0,
 		ColorAttachment1,
 		ColorAttachment2,
 		ColorAttachment3,
@@ -121,7 +118,7 @@ namespace Blue
 
 	enum ETextureID : uint8
 	{
-		Texture0,
+		Texture0 = 0,
 		Texture1,
 		Texture2,
 		Texture3,
@@ -134,19 +131,18 @@ namespace Blue
 	};
 	enum EDataType
 	{
-		UnsignedByte,
+		UnsignedByte =0 ,
 		Float,
-
 	};
 
 	enum ETextureParameter : uint8
 	{
-		MinFilter,
+		MinFilter = 0,
 		MagFilter,
 		Nearest
 	};
 
-	typedef uint32 GraphicsDeviceResourceID;
+	using GraphicsDeviceResourceID = uint32;
 
 	struct DataDescriptor;
 	class IGraphicsDevice : public NonCopyable
@@ -169,8 +165,8 @@ namespace Blue
 		virtual void SetShaderVariable(uint32 aVarLoc, void* aVar, EVarType aVarType) = 0;
 
 		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, size_t aOffset, void* aData, uint64 aDataSize, DataDescriptor* aDescriptors = nullptr, uint32 aDescriptorCount = 0) = 0;
-		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, ubyte* aPixels, const uint32 aWidth, const uint32 aHeight, EPrecisionType aTexturePrecision, EImageFormat aPixelFormat, EDataType aTextureDataType, uint32 aMipMapLevel) = 0;
-		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const uint32 aWidth, const uint32 aHeight, EPrecisionType aType) = 0;
+		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, ubyte* aPixels, const uint32 aWidth, const uint32 aHeight, EColorPrecisionType aTexturePrecision, EImageFormat aPixelFormat, EDataType aTextureDataType, uint32 aMipMapLevel) = 0;
+		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const uint32 aWidth, const uint32 aHeight, EColorPrecisionType aType) = 0;
 		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const ETextureParameter aParameter, const ETextureParameter aValue) = 0;
 		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const std::string& aVertexShaderPath, const std::string& aFragmentShaderPath) = 0;
 		virtual void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, EBufferAttachment aAttachments) = 0;

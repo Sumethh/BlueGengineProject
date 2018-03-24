@@ -26,6 +26,8 @@ namespace Blue
 
 	void* BlockAllocator::Allocate(size_t aSize, uint8 aAllignment)
 	{
+		(void)aAllignment;
+		BlueAssert(false); //WARNING: Deallocate has not been implemented!
 		BlueAssert(aSize < sPageSize);
 
 		Block* foundBlock = FindAndRemoveFreeBlock(aSize);
@@ -39,15 +41,17 @@ namespace Blue
 		foundBlock = reinterpret_cast<Block*>(foundPage->start + foundPage->bytesUsed);
 		foundBlock->size = static_cast<uint32>(aSize);
 
-		foundPage->bytesUsed += sizeof(Block) + aSize;
-		foundPage->bytesFree -= sizeof(Block) + aSize;
+		foundPage->bytesUsed += static_cast<uint32>(sizeof(Block) + aSize);
+		foundPage->bytesFree -= static_cast<uint32>(sizeof(Block) + aSize);
 
 		return (void*)(foundBlock + 1);
 	}
 
 	void BlockAllocator::Deallocate(void* aData, size_t aSize)
 	{
-
+		(void)aData;
+		(void)aSize;
+		BlueAssert(false);
 	}
 
 	void BlockAllocator::Defragment()

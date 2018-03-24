@@ -43,6 +43,7 @@ namespace Blue
 
 	void Log::Init(char* aFileName)
 	{
+		(void)aFileName;		
 		//LogFileWritingTask* task = new LogFileWritingTask(aFileName);
 		//TaskSystem::SubmitTask(task);
 	}

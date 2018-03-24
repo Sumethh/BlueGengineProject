@@ -17,7 +17,6 @@ namespace Blue
 		std::atomic<bool> renderThreadRun;
 		std::thread renderThread;
 
-		SceneRenderer sceneRenderer;
 		ApplicationWindow* window;
 		std::condition_variable initVar;
 		std::mutex renderThreadMutex;

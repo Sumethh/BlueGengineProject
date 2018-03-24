@@ -2,6 +2,7 @@
 #include "UpdateableManager.h"
 
 #include "BlueCore/Memory/FixedBlockAllocator.h"
+#include "BlueCore/Memory/TaggedBlockAllocator.h"
 
 namespace Blue
 {
@@ -35,10 +36,24 @@ namespace Blue
 			return &mLargeBlockAllocator;
 		}
 
+		TaggedPageAllocator* GetTaggedPageAllocator()
+		{
+			return &mTaggedPageAllocator;
+		}
+
+		TaggedBlockAllocator* GetRenderingAllocator()
+		{
+			return &mRenderingAllocator;
+		}
+
 	private:
 		static MemoryManager* sInstance;
 		FixedBlockAllocator mSmallBlockAllocator;
 		FixedBlockAllocator mLargeBlockAllocator;
+
+		TaggedPageAllocator mTaggedPageAllocator;
+
+		TaggedBlockAllocator mRenderingAllocator;
 	};
 
 

@@ -14,12 +14,12 @@ namespace Blue
 
 	void PointLightComponent::LateUpdate(float aDt)
 	{
+		(void)aDt;
 		mPosition = GetOwner()->GetTransform().position;
 	}
 
 	void PointLightComponent::RegisterPointLight()
-	{
-		Scene* scene = reinterpret_cast<Scene*>(GetOwner()->GetWorld());
+	{		
 
 	}
 

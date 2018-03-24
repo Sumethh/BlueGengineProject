@@ -17,7 +17,7 @@ namespace Blue
 		virtual void Create() override;
 		virtual void UpdateResource() override;
 
-		bool LoadTexture(const char* aFileName, EImageFormat aImageFormat, EPrecisionType FormatToStore, uint32 aMipMapLevel = 0);
+		bool LoadTexture(const char* aFileName, EImageFormat aImageFormat, EColorPrecisionType FormatToStore, uint32 aMipMapLevel = 0);
 
 		inline uint32 GetWidth() const
 		{
@@ -39,7 +39,7 @@ namespace Blue
 		uint32 mWidth;
 		uint32 mHeight;
 		EImageFormat mImageFormat;
-		EPrecisionType mPrecision;
+		EColorPrecisionType mPrecision;
 		uint32 mMipLevel;
 		FIBITMAP* mCurrentBitMap;
 	};

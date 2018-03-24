@@ -45,7 +45,7 @@ namespace Blue
 
 	void ForwardRenderer::SetActiveLighting(SceneLighting* aLighting)
 	{
-
+		(void)aLighting;
 	}
 
 	void ForwardRenderer::SetActiveMaterial(Material* aMaterial)

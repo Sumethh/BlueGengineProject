@@ -55,13 +55,9 @@ namespace Blue
 
 	uint64 PrimitiveComponent::GetRenderID(const Transform& aInverseCameraTransform)
 	{
+		(void)aInverseCameraTransform;
 		uint64 mReturningID = 0;
 
 		return mReturningID;
-	}
-
-	glm::mat4 PrimitiveComponent::GetWorldMatrix()
-	{
-		return GetOwner()->GetWorldMatrix();
 	}
 }

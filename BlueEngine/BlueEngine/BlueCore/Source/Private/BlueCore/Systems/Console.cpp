@@ -47,24 +47,26 @@ namespace Blue
 			mut.unlock();
 		}
 
-		void AddCommand(std::string commandBase, std::function<void(std::string, std::string*, const uint32)> aCallBack)
-		{
-			commandCallbackMap[commandBase].push_back(aCallBack);
-		}
+		//void AddCommand(std::string commandBase, std::function<void(std::string, std::string*, const uint32)> aCallBack)
+		//{
+		//	commandCallbackMap[commandBase].push_back(aCallBack);
+		//}
 
 		void List(std::string command, std::string* args, const uint32 argCount)
 		{
-			for (auto& i : commandCallbackMap)
-			{
-				//AddLogString(i.first, Info);
-			}
+			(void)args;
+			(void)argCount;
+			//for (auto& i : commandCallbackMap)
+			//{
+			//	AddLogString(i.first, Info);
+			//}
 		}
 
 		void Init()
 		{
 			entries.reserve(maxLineCount);
 			std::memset(buffer, 0, sizeof(buffer));
-			AddCommand("ListCommands", std::bind(List, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+			//AddCommand("ListCommands", std::bind(List, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
 
 		static ImColor white(255, 255, 255, 255);

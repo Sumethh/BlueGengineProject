@@ -34,21 +34,22 @@ namespace Blue
 
 	void ActorComponent::Update(float aDt)
 	{
-
+		(float)aDt;
 	}
 
 	void ActorComponent::LateUpdate(float aDt)
 	{
-
+		(void)aDt;
 	}
 
 	void ActorComponent::OnSerialize(ArchiveObject* const aArchiveObject) const
 	{
+		(void)aArchiveObject;
 	}
 
 	void ActorComponent::OnDeserialize(ArchiveObject* const aArchiveObject)
 	{
-
+		(void)aArchiveObject;
 	}
 
 	AABB ActorComponent::GetComponentBounds()

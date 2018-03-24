@@ -91,7 +91,7 @@ namespace Blue
 
 	template < typename T>
 	void DebugManager::RegisterDebugVariable(T* aVariable, char* aName, bool aTweakable)
-	{
+	{		
 		BlueAssert(mCurrentGroup);
 		DebugOptionDefenition variableDef;
 		variableDef.debugName = aName;

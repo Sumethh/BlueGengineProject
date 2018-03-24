@@ -11,12 +11,12 @@ namespace Blue
 
 	Stencil::Stencil(const Stencil& aOther)
 	{
-
+		(void)aOther;
 	}
 
 	Stencil::Stencil(const Stencil&& aOther)
 	{
-
+		(void)aOther;
 	}
 
 	Stencil::~Stencil()
@@ -26,11 +26,13 @@ namespace Blue
 
 	void Stencil::OnSerialize(ArchiveObject* const aArchive) const
 	{
+		(void)aArchive;
 		BlueAssert(false);
 	}
 
 	void Stencil::OnDeserialize(ArchiveObject* const aArchive)
 	{
+		(void)aArchive;
 		BlueAssert(false);
 	}
 
@@ -41,6 +43,8 @@ namespace Blue
 
 	bool Stencil::RemoveComponent(const EComponentType aComponentType)
 	{
+		(void)aComponentType;
+		BlueAssert(false);
 		return true;
 	}
 

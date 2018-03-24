@@ -76,17 +76,17 @@ namespace Blue
 
 		device->UpdateResourceData(mDepthBufferID, ERenderBufferType::DepthComponent, EBufferAttachment::DepthAttachmemt, currentWindow->GetWindowWidth(), currentWindow->GetWindowHeight());
 
-		device->UpdateResourceData(mPositionTextureID, nullptr, currentWindow->GetWindowWidth(), currentWindow->GetWindowHeight(), EPrecisionType::RGB_F_16Bit, EImageFormat::RGB, EDataType::Float, 0);
+		device->UpdateResourceData(mPositionTextureID, nullptr, currentWindow->GetWindowWidth(), currentWindow->GetWindowHeight(), EColorPrecisionType::RGB_F_16Bit, EImageFormat::RGB, EDataType::Float, 0);
 		device->UpdateResourceData(mPositionTextureID, ETextureParameter::MinFilter, ETextureParameter::Nearest);
 		device->UpdateResourceData(mPositionTextureID, ETextureParameter::MagFilter, ETextureParameter::Nearest);
 		device->UpdateResourceData(mPositionTextureID, EBufferAttachment::ColorAttachment0);
 
-		device->UpdateResourceData(mNormalTextureID, nullptr, currentWindow->GetWindowWidth(), currentWindow->GetWindowHeight(), EPrecisionType::RGB_F_16Bit, EImageFormat::RGB, EDataType::Float, 0);
+		device->UpdateResourceData(mNormalTextureID, nullptr, currentWindow->GetWindowWidth(), currentWindow->GetWindowHeight(), EColorPrecisionType::RGB_F_16Bit, EImageFormat::RGB, EDataType::Float, 0);
 		device->UpdateResourceData(mNormalTextureID, ETextureParameter::MinFilter, ETextureParameter::Nearest);
 		device->UpdateResourceData(mNormalTextureID, ETextureParameter::MagFilter, ETextureParameter::Nearest);
 		device->UpdateResourceData(mNormalTextureID, EBufferAttachment::ColorAttachment1);
 
-		device->UpdateResourceData(mColorSpecTextureID, nullptr, currentWindow->GetWindowWidth(), currentWindow->GetWindowHeight(), EPrecisionType::RGBA_8Bit, EImageFormat::RGB, EDataType::UnsignedByte, 0);
+		device->UpdateResourceData(mColorSpecTextureID, nullptr, currentWindow->GetWindowWidth(), currentWindow->GetWindowHeight(), EColorPrecisionType::RGBA_8Bit, EImageFormat::RGB, EDataType::UnsignedByte, 0);
 		device->UpdateResourceData(mColorSpecTextureID, ETextureParameter::MinFilter, ETextureParameter::Nearest);
 		device->UpdateResourceData(mColorSpecTextureID, ETextureParameter::MagFilter, ETextureParameter::Nearest);
 		device->UpdateResourceData(mColorSpecTextureID, EBufferAttachment::ColorAttachment2);
@@ -160,9 +160,9 @@ namespace Blue
 					case ELightType::PointLight:
 						{
 							glm::vec3 pos = static_cast<PointLightComponent*>(light)->GetLightPosition();
-							glm::vec3 color = static_cast<PointLightComponent*>(light)->GetColor();
+							glm::vec3 lightColor = static_cast<PointLightComponent*>(light)->GetColor();
 							mLightingPassShader->SetShaderVar(lightsLoc[counter].pos, static_cast<void*>(&pos), EVarType::Vector3);
-							mLightingPassShader->SetShaderVar(lightsLoc[counter].color, static_cast<void*>(&color), EVarType::Vector3);
+							mLightingPassShader->SetShaderVar(lightsLoc[counter].color, static_cast<void*>(&lightColor), EVarType::Vector3);
 							break;
 						}
 						InvalidDefaultCase;
@@ -209,7 +209,8 @@ namespace Blue
 		mCurrentProjectionMatrix = aCamera.projectionMatrix;
 		mCurrentCameraData = aCamera;
 		mDeferedShader->SetShaderVar(mProjectionLocation, &mCurrentProjectionMatrix, EVarType::Matrix4x4);
-		mDeferedShader->SetShaderVar(mViewLocation, static_cast<void*>(&glm::inverse(mCurrentCameraData.viewMatrix)), EVarType::Matrix4x4);
+		glm::mat4 inverseView = glm::inverse(mCurrentCameraData.viewMatrix);
+		mDeferedShader->SetShaderVar(mViewLocation, static_cast<void*>(&inverseView), EVarType::Matrix4x4);
 	}
 
 	void DeferedRenderer::SetActiveLighting(SceneLighting* aLighting)

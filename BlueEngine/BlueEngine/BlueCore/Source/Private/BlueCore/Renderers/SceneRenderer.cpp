@@ -5,8 +5,7 @@
 #include "BlueCore/GraphicsDevice/IGraphicsDevice.h"
 #include "BlueCore/Graphics/RenderThread.h"
 #include "BlueCore/Core/Timer.h"
-#include <Imgui/imgui.h>
-
+#include "BlueCore/Graphics/RenderCommands.h"
 namespace Blue
 {
 	SceneRenderer* SceneRenderer::sInstance = nullptr;
@@ -31,7 +30,7 @@ namespace Blue
 		aScene->AquireSceneLock();
 		const std::vector<PrimitiveComponent*>& primitives = aScene->GetAllPrimitives();
 		const std::vector<CameraComponent*>& cameras = aScene->GetAllCameras();
-		const std::vector<ILightComponent*>& lights = aScene->GetAllLights();
+		//const std::vector<ILightComponent*>& lights = aScene->GetAllLights();
 
 		mCapturedCameraData.reserve(primitives.size());
 
@@ -71,5 +70,9 @@ namespace Blue
 
 	void SceneRenderer::TranslucentPass(Scene* aScene, std::vector<PrimitiveComponent*>& aTranslucentPrimitives, CameraComponent* aActiveCamera)
 	{
+		(void)aScene;
+		(void)aTranslucentPrimitives;
+		(void)aActiveCamera;
+
 	}
 }

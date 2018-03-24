@@ -1,5 +1,5 @@
 #include "BlueCore/Managers/MemoryManager.h"
-
+#include "BlueCore/Hashing/CompileTimeHashing.h"
 namespace Blue
 {
 	MemoryManager* MemoryManager::sInstance;
@@ -56,7 +56,8 @@ namespace Blue
 	const int32 LargeBlockAllocatorPageSize = 20000000;
 
 	MemoryManager::MemoryManager() : mSmallBlockAllocator(SmallBlockAllocatorPageSize, SmallBlockAllocatorSizes, SmallBlockAllocatorSizesCount),
-		mLargeBlockAllocator(LargeBlockAllocatorPageSize, LargeBlockAllocatorSizes, LargeBlockAllocatorSizesCount)
+		mLargeBlockAllocator(LargeBlockAllocatorPageSize, LargeBlockAllocatorSizes, LargeBlockAllocatorSizesCount), 
+		mRenderingAllocator(StaticHash("Rendering"))
 	{
 
 	}

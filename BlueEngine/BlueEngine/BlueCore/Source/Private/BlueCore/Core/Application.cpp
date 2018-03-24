@@ -80,7 +80,7 @@ namespace Blue
 		TaskSystem::Init();
 		Console::Init();		
 		Log::Init("BlueGengineLog.txt");
-		Console::AddCommand("DetailedTimings", std::bind(CommandShowDetailedTimings, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		//Console::AddCommand("DetailedTimings", std::bind(CommandShowDetailedTimings, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		if(mWindow)
 			RenderThread::Init(mWindow);
 

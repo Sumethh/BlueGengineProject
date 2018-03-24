@@ -27,9 +27,7 @@ namespace Blue
 	bool _FindFilesInDirectory(std::string aDirectory, std::vector<FileInfo>& aOutFileNames, EFileFlags aFlags)
 	{
 		WIN32_FIND_DATA findData;
-		LARGE_INTEGER fileSize;
 		HANDLE foundResult = INVALID_HANDLE_VALUE;
-		DWORD error = 0;
 		std::string searchingDir(aDirectory + "\\*");
 		std::replace(searchingDir.begin(), searchingDir.end(), '/', '\\');
 		if (searchingDir.size() > MAX_PATH - 3)

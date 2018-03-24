@@ -37,11 +37,7 @@ namespace Blue
 		}
 
 	private:
-
-		inline void AssertKeyIsUnique(const char* key) const
-		{
-			
-		}
+		void AssertKeyIsUnique(const char* aKey) const;
 		std::string mName;
 	};
 }

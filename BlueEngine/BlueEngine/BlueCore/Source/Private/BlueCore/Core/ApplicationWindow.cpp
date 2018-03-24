@@ -37,6 +37,7 @@ namespace Blue
 
 	void MousePositionCallback(GLFWwindow* a_window, double a_xpos, double aYPos)
 	{
+		(void)a_window;
 		float x, y;
 		Input::GetMousePosition(x, y);
 		Input::SetMousePosition((float)a_xpos, (float)aYPos);
@@ -45,6 +46,8 @@ namespace Blue
 
 	void MouseButtonCallBack(GLFWwindow* a_window, int aButton, int aAction, int aMods)
 	{
+		(void)a_window;
+		(void)aMods;
 		if (aAction == GLFW_PRESS)
 		{
 			Input::OnMouseButtonDown(aButton);
@@ -144,7 +147,7 @@ namespace Blue
 		int32 width, height;
 		glfwGetWindowSize(mWindow, &width, &height);
 
-		if (width != mWidth || height != mHeight)
+		if (static_cast<uint32>(width) != mWidth || static_cast<uint32>(height) != mHeight)
 		{
 			mWidth = width;
 			mHeight = height;
@@ -195,7 +198,7 @@ namespace Blue
 
 	void ApplicationWindow::SetClearColor(glm::vec4 aColor)
 	{
-		//IGraphicsDevice::GetCurrentGraphicsDevice()->SetClearColor(aColor);
+		IGraphicsDevice::GetCurrentGraphicsDevice()->SetClearColor(aColor);
 	}
 
 	void ApplicationWindow::ClearScreen()

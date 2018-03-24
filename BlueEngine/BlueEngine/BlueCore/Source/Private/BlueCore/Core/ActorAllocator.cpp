@@ -77,7 +77,7 @@ namespace Blue
 
 	ActorPool* ActorAllocator::AllocateNewPool()
 	{
-		IMemoryAllocator* largeAllocator = MemoryManager::GI()->GetLargeBlockAllocator();
+		//IMemoryAllocator* largeAllocator = MemoryManager::GI()->GetLargeBlockAllocator();
 		ActorPool* newPool = nullptr;
 
 		//void* memory = largeAllocator->Allocate(sizeof(ActorPool), 0);

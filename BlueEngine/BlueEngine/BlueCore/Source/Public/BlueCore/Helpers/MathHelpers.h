@@ -44,7 +44,7 @@ namespace Blue
 										  asin(2 * aQuat.x * aQuat.y + 2 * aQuat.z * aQuat.w)));
 		}
 
-		inline glm::mat4 ConvertToLocalSpace(glm::mat4& aMatToConvert, glm::mat4& aRelativeTo)
+		inline glm::mat4 ConvertToLocalSpace(const glm::mat4& aMatToConvert, const glm::mat4& aRelativeTo)
 		{
 			return glm::inverse(aRelativeTo) * aMatToConvert;
 		}

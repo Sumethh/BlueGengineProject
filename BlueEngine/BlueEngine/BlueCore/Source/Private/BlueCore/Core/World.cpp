@@ -24,7 +24,7 @@ namespace Blue
 	World::World() : mHasBeginPlayBeenCalled(false)
 	{
 		Log::Info("World Constructed");
-		Console::AddCommand("ReloadStencils", std::bind(&World::CommandReloadStencils, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+		//Console::AddCommand("ReloadStencils", std::bind(&World::CommandReloadStencils, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		Log::Info(std::to_string(sizeof(Actor)));
 		Log::Info(std::to_string(sizeof(glm::mat4)));
 		Log::Info(std::to_string(sizeof(std::vector<int*>)));
@@ -142,5 +142,8 @@ namespace Blue
 
 	void World::CommandReloadStencils(std::string aCommand, std::string* aArg, uint32 aArgCount)
 	{
+		(void)aCommand;
+		(void)aArg;
+		(void)aArgCount;
 	}
 }

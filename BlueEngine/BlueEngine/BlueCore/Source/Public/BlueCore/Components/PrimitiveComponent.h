@@ -24,7 +24,6 @@ namespace Blue
 
 		uint64 GetRenderID(const Transform& aInverseCameraTransform);
 		virtual void SubmitGeometry(CapturedPrimitiveData& aCapturedData) = 0;
-		glm::mat4 GetWorldMatrix();
 
 	private:
 

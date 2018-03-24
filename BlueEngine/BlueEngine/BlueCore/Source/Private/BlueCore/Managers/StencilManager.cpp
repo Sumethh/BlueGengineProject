@@ -6,30 +6,11 @@
 
 namespace Blue
 {
-	std::vector<std::string> FindFileNamesInDir(char* dir)
-	{
-		std::vector<std::string> foundFileNames;
-		//Windows::HANDLE hFind;
-		//Windows::WIN32_FIND_DATA data = {};
-		//hFind = FindFirstFile(dir, &data);
-
-		//while (hFind != INVALID_HANDLE_VALUE)
-		//{
-		//	foundFileNames.push_back(data.cFileName);
-
-		//	if (!FindNextFile(hFind, &data))
-		//	{
-		//		break;
-		//	}
-		//}
-
-		return foundFileNames;
-	}
-
+	
 	void StencilManager::Init()
 	{
 		mStencils.clear();
-		std::vector <std::string> fileNames = FindFileNamesInDir("Assets/Stencils/*");
+		std::vector <std::string> fileNames;
 
 		for (auto t = fileNames.begin(); t != fileNames.end();)
 		{

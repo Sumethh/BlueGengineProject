@@ -26,7 +26,7 @@ namespace Blue
 
 	void Transformable::OnDeserialize(ArchiveObject* const aArchiveObject)
 	{
-
+		(void)aArchiveObject;
 	}
 
 	Transform Transformable::GetWorldSpaceTransform()
@@ -44,7 +44,9 @@ namespace Blue
 		if (aComp)
 		{
 			//Need to calculate new localMatrix
-			mLocalMatrix = MathHelpers::ConvertToLocalSpace(GetWorldMatrix(), aComp->GetWorldMatrix());
+			const glm::mat4 worldMatrix = GetWorldMatrix();
+			const glm::mat4 parentMatrix = aComp->GetWorldMatrix();
+			mLocalMatrix = MathHelpers::ConvertToLocalSpace(worldMatrix, parentMatrix);
 			mParent = aComp;
 			aComp->mChildren.push_back(this);
 		}

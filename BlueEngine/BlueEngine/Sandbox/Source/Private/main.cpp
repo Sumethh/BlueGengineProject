@@ -19,6 +19,8 @@
 #include <string>
 #include <Imgui/imgui.h>
 
+#include <shared_mutex>
+
 class TestApp : public Blue::Application
 {
 public:
@@ -38,8 +40,7 @@ public:
 		glm::vec3 color(0,0,0);
 		while (!mWindow->IsCloseRequested())
 		{
-			float dt = static_cast<float>(dtTimer.IntervalS());
-			float ms = static_cast<float>(dtTimer.IntervalMS());
+			float dt = static_cast<float>(dtTimer.IntervalS());			
 			dtTimer.Reset();
 			Blue::Timer logTimer;
 
@@ -65,13 +66,12 @@ public:
 	}
 };
 
-
 int main(int aArgc, char** aArgv)
 {
 	(void)aArgv;
-	(void)aArgc;
+	(void)aArgc;	
 	Blue::Log::Info(Blue::Logger("Application Starting Up.") << aArgc << "Arguments passed");
-	TestApp myApp;
-	myApp.Run();
+	TestApp* myApp = new TestApp;
+	myApp->Run();
 	return 0;
 }

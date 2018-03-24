@@ -31,7 +31,7 @@ namespace Blue
 		mCurrentBitMap = nullptr;
 	}
 
-	bool Texture2D::LoadTexture(const char* aFileName, EImageFormat aImageFormat, EPrecisionType aFormatToStore, uint32 aMipMapLvl)
+	bool Texture2D::LoadTexture(const char* aFileName, EImageFormat aImageFormat, EColorPrecisionType aFormatToStore, uint32 aMipMapLvl)
 	{		
 		mImageFormat = aImageFormat;
 
@@ -85,6 +85,6 @@ namespace Blue
 
 	void Texture2D::Bind(ETextureID aId)
 	{
-		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mGraphicsResource, ETextureID::Texture0);
+		IGraphicsDevice::GetCurrentGraphicsDevice()->BindGraphicsResource(mGraphicsResource, aId);
 	}
 }

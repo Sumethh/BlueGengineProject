@@ -12,35 +12,38 @@ namespace Blue
 
 	ArchiveObject::ArchiveObject(const ArchiveObject& aArchive)
 	{
-
+		(void)aArchive;
 	}
 
 	ArchiveObject::ArchiveObject(const ArchiveObject&& aArchive)
 	{
-
+		(void)aArchive;
 	}
 
 	void ArchiveObject::Archive(const char* aValName, const uint32 aValue)
 	{
+		(void)aValue;
 		BlueAssert(false); 
 		AssertKeyIsUnique(aValName);		
 	}
 
 	void ArchiveObject::Archive(const char* aValName, const glm::vec3& aValue)
 	{
+		(void)aValue;
 		AssertKeyIsUnique(aValName);
 		BlueAssert(false);
 	}
 
 	void ArchiveObject::Archive(const char* aValName, const glm::quat& aValue)
 	{
+		(void)aValue;
 		AssertKeyIsUnique(aValName);		
 		BlueAssert(false);
-
 	}
 
 	void ArchiveObject::Archive(const char* aValName, std::vector<uint32> aArray)
 	{
+		(void)aArray;
 		AssertKeyIsUnique(aValName);
 		BlueAssert(false);
 	}
@@ -70,8 +73,7 @@ namespace Blue
 	void ArchiveObject::ReadFromFile(const char* aFilePath)
 	{
 		std::ifstream stream;
-		stream.open(aFilePath, std::ios::in);
-		bool t = stream.is_open();
+		stream.open(aFilePath, std::ios::in);		
 
 		if (!stream.is_open() || stream.bad())
 		{
@@ -82,4 +84,10 @@ namespace Blue
 			BlueAssert(false);
 		}
 	}
+
+	void ArchiveObject::AssertKeyIsUnique(const char* aKey) const
+	{
+		(void)aKey;
+	}
+
 }

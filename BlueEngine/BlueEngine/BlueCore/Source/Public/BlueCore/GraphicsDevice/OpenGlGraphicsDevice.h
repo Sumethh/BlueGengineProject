@@ -23,8 +23,8 @@ namespace Blue
 		void SetShaderVariable(uint32 aVarLoc, void* aVar, EVarType aVarType) override;
 
 		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, size_t aOffset, void* aData, uint64 aDataSize, DataDescriptor* aDescriptors = nullptr, uint32 aDescriptorCount = 0) override;
-		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, ubyte* aPixels, const uint32 aWidth, const uint32 aHeight, EPrecisionType aTexturePrecision, EImageFormat aPixelFormat, EDataType aTextureDataType, uint32 aMipMapLevel) override;
-		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const uint32 aWidth, const uint32 aHeight, EPrecisionType aType) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, ubyte* aPixels, const uint32 aWidth, const uint32 aHeight, EColorPrecisionType aTexturePrecision, EImageFormat aPixelFormat, EDataType aTextureDataType, uint32 aMipMapLevel) override;
+		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const uint32 aWidth, const uint32 aHeight, EColorPrecisionType aType) override;
 		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const ETextureParameter aParameter, const ETextureParameter aValue) override;
 		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, const std::string& aVertexShaderPath, const std::string& aFragmentShaderPath) override;
 		void UpdateResourceData(const GraphicsDeviceResourceID aResourceID, EBufferAttachment aAttachment) override;

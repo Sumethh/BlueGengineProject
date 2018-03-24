@@ -18,7 +18,7 @@ bool SandboxApplication::Run()
 
 void SandboxApplication::Update(float aDt)
 {
-
+	(void)aDt;
 }
 
 void SandboxApplication::EndUpdate()

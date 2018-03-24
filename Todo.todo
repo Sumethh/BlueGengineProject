@@ -3,6 +3,16 @@ Bugs:
 
 Todo:
     ☐ Implement Render Command Buffer
+        ☐ Key determines which shaders and textures to bind
+        ☐ Allocation of submitted buffers
+        ☐ Keys being stored seperatly from data
+            ☐ Sort based on Keys
+            ☐ When sorting based on keys data* need to be swapped aswell
+            ☐ Allow Chaining of commands
+                ☐ Only need to sort on first key of chain
+        ☐ Keeps track of its own blocks of memory for the commands
+
+    ☐ Have gizmo rendering work with new rendering system
     ☐ Implement Culling
     ☐ Implement Sorting
 
